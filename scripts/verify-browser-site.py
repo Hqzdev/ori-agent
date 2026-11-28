@@ -5,7 +5,7 @@ import pathlib
 import sys
 import time
 
-PAGE = b'''<!doctype html><html><head><meta charset="utf-8"><title>Blot browser verification</title></head>
+PAGE = b'''<!doctype html><html><head><meta charset="utf-8"><title>Ori browser verification</title></head>
 <body><h1>Local test page</h1><label>Note<input id="note" type="text"></label>
 <label>Password<input id="password" type="password" value="never-expose-this"></label>
 <textarea aria-label="Verification code">private-code-never-expose</textarea>
@@ -21,7 +21,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
         if self.path.startswith('/slow'):
             time.sleep(5)
         if self.path.startswith('/download'):
-            data = b'Blot browser download verified\n'
+            data = b'Ori browser download verified\n'
             mime = 'application/octet-stream'
         elif self.path.startswith('/second'):
             data = b'<!doctype html><title>Second page</title><h1>Second page</h1><a href="/page">Back to form</a>'

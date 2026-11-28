@@ -1,6 +1,6 @@
-import BlotAppleIntegrations
-import BlotDesign
-import BlotDomain
+import OriAppleIntegrations
+import OriDesign
+import OriDomain
 import SwiftUI
 import UniformTypeIdentifiers
 
@@ -24,7 +24,7 @@ struct ApplePluginConnectionView: View {
     @State private var shortcutName = ""
     @State private var failure: String?
 
-    private var connection: BlotV3.Connection? {
+    private var connection: OriV3.Connection? {
         store.snapshot.connections.first {
             $0.pluginId == plugin.rawValue && $0.deviceId == store.snapshot.localDeviceID && $0.state == .connected
         }
@@ -97,7 +97,7 @@ struct ApplePluginConnectionView: View {
                 }
             }
             Button("Отмена", role: .cancel) {}
-        } message: { Text("Агенты потеряют доступ к этому приложению в Blot.") }
+        } message: { Text("Агенты потеряют доступ к этому приложению в Ori.") }
         .confirmationDialog("Подключить команду «\(shortcutName)»?", isPresented: $confirmingShortcut, titleVisibility: .visible) {
             Button("Запустить и подключить") { working = true; _Concurrency.Task { await connect() } }
             Button("Отмена", role: .cancel) {}

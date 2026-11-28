@@ -1,10 +1,10 @@
-import BlotDomain
-import BlotWorkspace
+import OriDomain
+import OriWorkspace
 import SwiftUI
 
 private struct SkillSelection: Identifiable {
     let id = UUID()
-    let skill: BlotV3.Skill?
+    let skill: OriV3.Skill?
 }
 
 struct WorkspaceSkillsView: View {
@@ -14,7 +14,7 @@ struct WorkspaceSkillsView: View {
     @State private var editor: SkillSelection?
     @State private var runner: SkillSelection?
     private var ru: Bool { store.language == "ru" }
-    private var skills: [BlotV3.Skill] {
+    private var skills: [OriV3.Skill] {
         (store.snapshot.skills ?? []).filter { $0.archived == archived && (search.isEmpty || $0.name.localizedCaseInsensitiveContains(search)) }
             .sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
     }
@@ -50,7 +50,7 @@ struct WorkspaceSkillsView: View {
 }
 
 struct WorkspaceSkillEditor: View {
-    let skill: BlotV3.Skill?
+    let skill: OriV3.Skill?
     @Environment(WorkspaceStore.self) private var store
     @Environment(\.dismiss) private var dismiss
     @State private var name = ""
@@ -60,7 +60,7 @@ struct WorkspaceSkillEditor: View {
     @State private var busy = false
     @State private var failure: String?
     private var ru: Bool { store.language == "ru" }
-    private var revisions: [BlotV3.SkillRevision] {
+    private var revisions: [OriV3.SkillRevision] {
         (store.snapshot.skillRevisions ?? []).filter { $0.skillId == skill?.metadata.id }.sorted { $0.metadata.createdAt > $1.metadata.createdAt }
     }
     private var availableTools: [String] {

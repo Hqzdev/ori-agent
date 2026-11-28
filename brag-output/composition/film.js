@@ -206,7 +206,7 @@ class FilmDirector {
     const playhead={seconds:0};
     this.timeline.to(playhead,{seconds:30,duration:30,ease:'none',onUpdate:()=>this.mascot.draw(playhead.seconds)},0);
     this.mascot.draw(0);
-    window.__timelines['blot-launch']=this.timeline;
+    window.__timelines['ori-launch']=this.timeline;
     return this.timeline;
   }
 }

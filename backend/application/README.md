@@ -1,10 +1,10 @@
 # Application module
 
-`BlotApplicationService` is the application boundary for project, run, specification revision, and task use cases. It accepts typed command records and returns `ApplicationResult<T>` with either a value or a typed `ApplicationError`. It depends on `core` and Java standard-library types only; HTTP request/response DTOs belong in `api`.
+`OriApplicationService` is the application boundary for project, run, specification revision, and task use cases. It accepts typed command records and returns `ApplicationResult<T>` with either a value or a typed `ApplicationError`. It depends on `core` and Java standard-library types only; HTTP request/response DTOs belong in `api`.
 
 ## Transaction and event contract
 
-Each use case runs inside `BlotUnitOfWork.transact`. An implementation must provide isolation that prevents lost run updates and duplicate specification revision numbers. Repository changes and `appendEvent` must commit atomically. Events are durable outbox records; dispatch to clients happens after commit. If the operation throws, implementations must roll back all entity and outbox writes.
+Each use case runs inside `OriUnitOfWork.transact`. An implementation must provide isolation that prevents lost run updates and duplicate specification revision numbers. Repository changes and `appendEvent` must commit atomically. Events are durable outbox records; dispatch to clients happens after commit. If the operation throws, implementations must roll back all entity and outbox writes.
 
 The application writes schema-versioned event drafts. The infrastructure adapter assigns the monotonic `seq` when persisting the draft, then maps it to the envelope in `contracts/project-event.schema.json`. `runId` is null for project-level events. The API layer maps its transport commands to the application command records and translates `ApplicationError` into the documented HTTP response.
 

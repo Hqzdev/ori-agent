@@ -1,4 +1,4 @@
-import BlotWorkspace
+import OriWorkspace
 import CoreImage
 import SwiftUI
 import UIKit
@@ -44,7 +44,7 @@ final class WorkspaceDevicePairingTests: XCTestCase {
         await fixture.mac.host(using: fixture.macCommands)
         XCTAssertLessThanOrEqual(fixture.mac.qrCode.utf8.count, 160)
         let bundle = Bundle(for: Self.self)
-        XCTAssertNotNil(UIImage(named: "BlotPairingMark", in: bundle, compatibleWith: nil))
+        XCTAssertNotNil(UIImage(named: "OriPairingMark", in: bundle, compatibleWith: nil))
         let renderer = ImageRenderer(content: WorkspacePairingQRCode(value: fixture.mac.qrCode, resourceBundle: bundle))
         renderer.scale = 2
         let image = try XCTUnwrap(renderer.cgImage)
@@ -56,7 +56,7 @@ final class WorkspaceDevicePairingTests: XCTestCase {
         let link = try WorkspacePairingLink.decode(decoded)
         XCTAssertThrowsError(try WorkspacePairingLink.decode(decoded, now: link.expiresAt.addingTimeInterval(1)))
         XCTAssertThrowsError(try WorkspacePairingLink.decode("https://example.com"))
-        await fixture.phone.join("not-a-blot-code", using: fixture.phoneCommands)
+        await fixture.phone.join("not-a-ori-code", using: fixture.phoneCommands)
         XCTAssertEqual(fixture.phone.phase, .failed)
         XCTAssertEqual(fixture.phone.failure, .invalidQR)
         try await fixture.close()

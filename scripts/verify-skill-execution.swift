@@ -1,5 +1,5 @@
-import BlotDomain
-import BlotWorkspace
+import OriDomain
+import OriWorkspace
 import Foundation
 
 private actor ServiceSkillModel: ChatModel {
@@ -55,7 +55,7 @@ private actor ServiceSkillModel: ChatModel {
 
         let chat = state.tasks!.first!.conversationId
         let sourceID = try await WorkspaceChatService(repository: repository, identity: identity).sendMessage(commandID: UUID(), conversationID: chat, content: "Run the Brief skill for Sales")
-        let source = try await repository.record(BlotV3.Message.self, id: sourceID, workspaceID: identity.workspaceID)!
+        let source = try await repository.record(OriV3.Message.self, id: sourceID, workspaceID: identity.workspaceID)!
         for try await _ in try await service.responses(to: source) {}
         try await wait { try await service.currentSnapshot().tasks?.filter { $0.state == .completed }.count == 2 }
         let after = try await service.currentSnapshot()

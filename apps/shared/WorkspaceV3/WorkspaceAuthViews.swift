@@ -1,5 +1,5 @@
-import BlotDesign
-import BlotDomain
+import OriDesign
+import OriDomain
 import SwiftUI
 
 struct WorkspaceAuthView: View {
@@ -83,7 +83,7 @@ struct WorkspaceAuthView: View {
     private var verification: some View {
         @Bindable var store = store
         return VStack(alignment: .leading, spacing: 24) {
-            BlotIcon(symbol: "envelope", size: 36).font(.largeTitle)
+            OriIcon(symbol: "envelope", size: 36).font(.largeTitle)
             WorkspaceHeading(title: "Check your email", subtitle: "Enter the 6-digit code from your email.")
             WorkspaceField(title: "Verification code", text: $store.form.account.code)
                 .textContentType(.oneTimeCode)
@@ -117,20 +117,20 @@ struct WorkspaceAuthView: View {
     private var setup: some View {
         @Bindable var store = store
         return VStack(alignment: .leading, spacing: 30) {
-            WorkspaceHeading(title: "Set up your workspace", subtitle: "Blot runs tasks on this computer. You decide what it can access.")
+            WorkspaceHeading(title: "Set up your workspace", subtitle: "Ori runs tasks on this computer. You decide what it can access.")
             WorkspaceCard {
-                BlotLabel("Blot Workspace", symbol: "folder").font(.title2)
-                Text("~/Documents/Blot Workspace").font(.system(.callout, design: .monospaced))
+                OriLabel("Ori Workspace", symbol: "folder").font(.title2)
+                Text("~/Documents/Ori Workspace").font(.system(.callout, design: .monospaced))
                 Text(store.t("Agents only touch files inside the selected folder.")).foregroundStyle(WorkspaceStyle.secondary)
                 WorkspaceV3ActionButton(title: "Choose folder", action: .saveSetting, kind: .secondary)
             }
             WorkspaceCard {
-                BlotLabel(store.t("Ask first"), symbol: "checkmark.circle").font(.title2)
-                Text(store.t("Blot shows changes and asks before anything significant.")).foregroundStyle(WorkspaceStyle.secondary)
+                OriLabel(store.t("Ask first"), symbol: "checkmark.circle").font(.title2)
+                Text(store.t("Ori shows changes and asks before anything significant.")).foregroundStyle(WorkspaceStyle.secondary)
             }
             Toggle(store.t("Keep working after the window closes"), isOn: $store.form.preferences.backgroundWork)
             WorkspaceFeedback()
-            WorkspaceV3ActionButton(title: "Open Blot", action: .saveSetting, next: .home)
+            WorkspaceV3ActionButton(title: "Open Ori", action: .saveSetting, next: .home)
         }
     }
 }

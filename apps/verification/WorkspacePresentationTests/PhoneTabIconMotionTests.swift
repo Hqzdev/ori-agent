@@ -1,4 +1,4 @@
-import BlotDesign
+import OriDesign
 import Observation
 import SwiftUI
 import UIKit
@@ -104,6 +104,6 @@ private struct PhoneIconMotionFixture: View {
         PhoneTabIcon(kind: kind, activation: probe.activation).scaleEffect(4)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .foregroundStyle(.black).background(.white)
-            .environment(\.blotReduceMotion, appReduceMotion)
+            .environment(\.oriReduceMotion, appReduceMotion)
     }
 }

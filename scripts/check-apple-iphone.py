@@ -14,7 +14,7 @@ BUILD = ROOT / ".build"
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--device-udid", help="Required only if several paired physical iPhones are available")
-    parser.add_argument("--team", help="Defaults to the existing BlotIOS signing team")
+    parser.add_argument("--team", help="Defaults to the existing OriIOS signing team")
     args = parser.parse_args()
     BUILD.mkdir(exist_ok=True)
     inventory = BUILD / "apple-v1-iphone-inventory.json"
@@ -31,14 +31,14 @@ def main():
     device = available[0]
     team = args.team
     if not team:
-        settings = subprocess.check_output(["xcodebuild", "-project", "apps/Blot.xcodeproj", "-scheme", "BlotIOS", "-showBuildSettings", "-json"], cwd=ROOT, text=True, stderr=subprocess.DEVNULL)
+        settings = subprocess.check_output(["xcodebuild", "-project", "apps/Ori.xcodeproj", "-scheme", "OriIOS", "-showBuildSettings", "-json"], cwd=ROOT, text=True, stderr=subprocess.DEVNULL)
         team = json.loads(settings)[0]["buildSettings"].get("DEVELOPMENT_TEAM")
     if not team:
         parser.error("Укажите --team с вашей действующей Apple Development team")
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     result_path = BUILD / ("apple-v1-iphone-" + stamp + ".xcresult")
     log_path = BUILD / "apple-v1-iphone-tests.log"
-    command = ["xcodebuild", "-project", "apps/verification/BlotWorkspaceVerification.xcodeproj", "-scheme", "BlotWorkspaceVerification",
+    command = ["xcodebuild", "-project", "apps/verification/OriWorkspaceVerification.xcodeproj", "-scheme", "OriWorkspaceVerification",
                "-destination", "platform=iOS,id=" + device["hardwareProperties"]["udid"], "-derivedDataPath", str(BUILD / "apple-v1-iphone"),
                "-resultBundlePath", str(result_path), "-allowProvisioningUpdates", "DEVELOPMENT_TEAM=" + team, "CODE_SIGN_STYLE=Automatic", "test"]
     print("Running isolated shared-core and Keychain checks on physical iPhone.", flush=True)

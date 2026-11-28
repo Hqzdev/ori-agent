@@ -1,5 +1,5 @@
-import BlotDesign
-import BlotDomain
+import OriDesign
+import OriDomain
 import SwiftUI
 
 struct WorkspaceGroupEditor: View {
@@ -14,18 +14,18 @@ struct WorkspaceGroupEditor: View {
     @Environment(\.macSheetSize) private var sheetSize
     #endif
 
-    init(conversation: BlotV3.Conversation? = nil, participants: [BlotV3.ConversationParticipant] = []) {
+    init(conversation: OriV3.Conversation? = nil, participants: [OriV3.ConversationParticipant] = []) {
         conversationID = conversation?.metadata.id
         let members = participants.filter { $0.conversationId == conversation?.metadata.id && $0.kind == .agent && !$0.removed }
         _draft = State(initialValue: WorkspaceGroupDraft(title: conversation?.title ?? "", selectedIDs: members.map(\.participantId),
             coordinatorID: conversation?.agentId, expectedVersion: conversation?.metadata.version))
     }
 
-    private var agents: [BlotV3.AgentProfile] { store.snapshot.agents }
-    private var selected: [BlotV3.AgentProfile] {
+    private var agents: [OriV3.AgentProfile] { store.snapshot.agents }
+    private var selected: [OriV3.AgentProfile] {
         draft.selectedIDs.compactMap { id in agents.first { $0.metadata.id == id } }
     }
-    private var filtered: [BlotV3.AgentProfile] {
+    private var filtered: [OriV3.AgentProfile] {
         let text = query.trimmingCharacters(in: .whitespacesAndNewlines)
         return agents.filter { text.isEmpty || $0.name.localizedStandardContains(text) || $0.instructions.localizedStandardContains(text) }
     }
@@ -217,7 +217,7 @@ struct WorkspaceGroupEditor: View {
         }.padding(16).background(WorkspaceStyle.surface.opacity(0.65), in: RoundedRectangle(cornerRadius: 18))
     }
 
-    private func selectedRow(_ agent: BlotV3.AgentProfile) -> some View {
+    private func selectedRow(_ agent: OriV3.AgentProfile) -> some View {
         HStack(spacing: 9) {
             WorkspaceAvatarView(agent: agent, size: 30)
             VStack(alignment: .leading, spacing: 3) {

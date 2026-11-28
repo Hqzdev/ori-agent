@@ -1,4 +1,4 @@
-# Документация Blot
+# Документация Ori
 
 Это путеводитель по документам. Он отвечает на три вопроса: с чего начать, где что лежит и чему можно верить.
 
@@ -6,8 +6,8 @@
 
 Трёх документов достаточно, чтобы понять проект:
 
-1. [Техническое задание](product/blot-technical-specification.md) — что продукт должен уметь и как мы проверим, что он готов. Это главный документ.
-2. [План разработки](product/blot-product-plan.md) — в каком порядке строим, к какому сроку и сколько кода ждать.
+1. [Техническое задание](product/ori-technical-specification.md) — что продукт должен уметь и как мы проверим, что он готов. Это главный документ.
+2. [План разработки](product/ori-product-plan.md) — в каком порядке строим, к какому сроку и сколько кода ждать.
 3. [Карта модулей](architecture/module-map.md) — какая часть кода за что отвечает. Её удобно давать ИИ вместе с задачей.
 
 **Если документы спорят друг с другом, верно то, что написано в ТЗ от 1 ноября 2026.** Всё, что написано в октябре, описывает первую версию продукта (только Mac и iPhone) и могло устареть.
@@ -34,7 +34,7 @@
 ## Простыми словами
 
 - **Ядро** — программа на компьютере, которая делает работу: читает файлы, запускает команды, пишет код.
-- **Клиент** — приложение, через которое вы общаетесь с Blot: Mac, iPhone, Android или Windows.
+- **Клиент** — приложение, через которое вы общаетесь с Ori: Mac, iPhone, Android или Windows.
 - **Облако** — наш сервер. Он хранит только аккаунты и помогает телефону найти компьютер. Чаты и файлы там не лежат.
 - **CEO** — главный агент. Вы говорите с ним, он раздаёт работу остальным и собирает результат.
 - **Агент** — помощник с именем, ролью и памятью: дизайнер, исследователь, разработчик.
@@ -47,11 +47,11 @@
 
 | Вопрос | Куда смотреть |
 | --- | --- |
-| Что должно работать к 1 декабря? | [ТЗ](product/blot-technical-specification.md), разделы «Матрица приёмки» и «Показ учителю» |
-| Какие экраны нужны? | [ТЗ](product/blot-technical-specification.md), раздел «Интерфейс и дизайн», и папка `screens/` |
+| Что должно работать к 1 декабря? | [ТЗ](product/ori-technical-specification.md), разделы «Матрица приёмки» и «Показ учителю» |
+| Какие экраны нужны? | [ТЗ](product/ori-technical-specification.md), раздел «Интерфейс и дизайн», и папка `screens/` |
 | Кто за что отвечает в коде? | [Карта модулей](architecture/module-map.md) |
 | Какие бывают сущности и состояния задачи? | [Сущности и состояния](architecture/domain-model.md) |
-| Когда Blot спрашивает разрешение? | [Разрешения](rules/permission-policy.md) и раздел «Режимы и разрешения» в ТЗ |
+| Когда Ori спрашивает разрешение? | [Разрешения](rules/permission-policy.md) и раздел «Режимы и разрешения» в ТЗ |
 | Как агенты передают работу друг другу? | [Оркестратор](agents/orchestrator.md) |
 | Как подключить свой MCP-сервер? | [Руководство по MCP](integrations/mcp-developer-guide.md) |
 | Как хранятся и удаляются данные? | [Данные](rules/data-lifecycle.md) |
@@ -63,7 +63,7 @@
 
 | Было | Стало |
 | --- | --- |
-| `blot-technical-specification.md`, `blot-product-plan.md` | `product/` |
+| `ori-technical-specification.md`, `ori-product-plan.md` | `product/` |
 | `chat-to-run.md`, `roles-and-gates.md`, `permission-policy.md`, `tool-boundaries.md`, `data-lifecycle.md`, `domain-glossary.md`, `platform-matrix.md`, `supported-projects.md`, `optimization.md` | `rules/` |
 | `backend-implementation-progress.md`, `installation-environment.md`, `documentation-review.md`, `verification/` | `status/` |
 | `product-scope.md`, `acceptance-matrix.md`, `implementation-plan.md` | `archive/` |

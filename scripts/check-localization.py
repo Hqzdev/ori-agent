@@ -25,13 +25,13 @@ for path in sorted((ROOT / 'apps/shared/Resources').glob('*.xcstrings')):
         assert placeholders(english) == placeholders(russian), (path, key, 'format arguments differ')
     print(f'{path.name}: {len(catalog["strings"])} bilingual entries validated')
 
-with tempfile.TemporaryDirectory(prefix='blot-localization-') as temporary:
+with tempfile.TemporaryDirectory(prefix='ori-localization-') as temporary:
     directory = Path(temporary)
     bundle = directory / 'LocalizationCheck.app' / 'Contents'
     (bundle / 'MacOS').mkdir(parents=True)
     (bundle / 'Resources').mkdir()
     (bundle / 'Info.plist').write_bytes(plistlib.dumps({
-        'CFBundleExecutable': 'verify', 'CFBundleIdentifier': 'dev.blot.localization.check',
+        'CFBundleExecutable': 'verify', 'CFBundleIdentifier': 'dev.ori.localization.check',
         'CFBundlePackageType': 'APPL', 'CFBundleDevelopmentRegion': 'en',
     }))
     subprocess.run(['xcrun', 'xcstringstool', 'compile',

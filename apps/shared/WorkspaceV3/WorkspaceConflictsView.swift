@@ -1,11 +1,11 @@
-import BlotDesign
-import BlotDomain
+import OriDesign
+import OriDomain
 import SwiftUI
 
 struct WorkspaceConflictsView: View {
     @Environment(WorkspaceStore.self) private var store
     @Environment(\.dismiss) private var dismiss
-    private var groups: [[BlotV3.ConflictingRevision]] {
+    private var groups: [[OriV3.ConflictingRevision]] {
         Dictionary(grouping: store.unresolvedConflicts, by: { $0.recordKind + $0.recordId.uuidString })
             .sorted { $0.key < $1.key }.map { $0.value.sorted { $0.metadata.id.uuidString < $1.metadata.id.uuidString } }
     }
@@ -42,14 +42,14 @@ struct WorkspaceConflictsView: View {
         .frame(minWidth: 560, idealWidth: 680, minHeight: 440)
         #endif
     }
-    private func details(_ version: BlotV3.ConflictingRevision) -> String {
+    private func details(_ version: OriV3.ConflictingRevision) -> String {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
         let data = Data(version.payloadJSON.utf8)
-        if version.recordKind == "AgentProfile", let agent = try? decoder.decode(BlotV3.AgentProfile.self, from: data) {
+        if version.recordKind == "AgentProfile", let agent = try? decoder.decode(OriV3.AgentProfile.self, from: data) {
             return agent.name + "\n" + agent.modelId + "\n\n" + agent.instructions
         }
-        if let schedule = try? decoder.decode(BlotV3.Automation.self, from: data) {
+        if let schedule = try? decoder.decode(OriV3.Automation.self, from: data) {
             return schedule.name + "\n" + schedule.localTime + " · " + schedule.timezone + "\n\n" + schedule.goal
         }
         return store.t("This version cannot be displayed")

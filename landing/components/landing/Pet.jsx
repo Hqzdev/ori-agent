@@ -23,14 +23,14 @@ export function Pet({ size = 56, color = "currentColor", animated = true, classN
   });
 
   return (
-    <svg ref={svg} className={`blot-pet ${className}`} width={size} height={size} viewBox="16 16 60 60" aria-hidden="true" style={{ color }}>
-      {frames[0].paths.map((d, i) => <path key={i} ref={(node) => { paths.current[i] = node; }} d={d} fill={outline ? "none" : i === 0 ? "currentColor" : "var(--blot-paper, #fff)"} stroke={outline ? "currentColor" : undefined} strokeWidth={outline ? 0.12 : undefined} fillRule="evenodd" />)}
+    <svg ref={svg} className={`ori-pet ${className}`} width={size} height={size} viewBox="16 16 60 60" aria-hidden="true" style={{ color }}>
+      {frames[0].paths.map((d, i) => <path key={i} ref={(node) => { paths.current[i] = node; }} d={d} fill={outline ? "none" : i === 0 ? "currentColor" : "var(--ori-paper, #fff)"} stroke={outline ? "currentColor" : undefined} strokeWidth={outline ? 0.12 : undefined} fillRule="evenodd" />)}
     </svg>
   );
 }
 
 export function Avatar({ name, size = 32, className = "" }) {
   const roleIndex = roles.findIndex(role => name === `role-${role.id}`);
-  if (roleIndex !== -1) return <Pet size={size} color={roles[roleIndex].color} className={`blot-avatar ${className}`} timeOffset={roleIndex * 713} />;
-  return <img className={`blot-avatar ${className}`} src={`/blot/pets/${name}.svg`} width={size} height={size} alt="" draggable="false" />;
+  if (roleIndex !== -1) return <Pet size={size} color={roles[roleIndex].color} className={`ori-avatar ${className}`} timeOffset={roleIndex * 713} />;
+  return <img className={`ori-avatar ${className}`} src={`/ori/pets/${name}.svg`} width={size} height={size} alt="" draggable="false" />;
 }

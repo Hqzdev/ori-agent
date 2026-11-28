@@ -1,8 +1,8 @@
-import BlotDomain
+import OriDomain
 import SwiftUI
 
 struct WorkspaceSchedulePolicyLabel: View {
-    let policy: BlotV3.MissedRunPolicy
+    let policy: OriV3.MissedRunPolicy
     @Environment(WorkspaceStore.self) private var store
     var body: some View { Text(title) }
     private var title: String {

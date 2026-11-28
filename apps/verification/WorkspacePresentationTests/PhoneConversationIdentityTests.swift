@@ -1,4 +1,4 @@
-import BlotDomain
+import OriDomain
 import Foundation
 import XCTest
 
@@ -62,23 +62,23 @@ final class PhoneConversationIdentityTests: XCTestCase {
         XCTAssertEqual(identity.title, "Group")
     }
 
-    private func metadata() throws -> BlotV3.RecordMetadata {
+    private func metadata() throws -> OriV3.RecordMetadata {
         try .init(id: UUID(), ownerId: UUID(), version: 1, createdAt: Date(), updatedAt: Date())
     }
-    private func agent(_ name: String) throws -> BlotV3.AgentProfile {
+    private func agent(_ name: String) throws -> OriV3.AgentProfile {
         try .init(metadata: metadata(), name: name, roleId: "assistant", avatarShape: "cloud", avatarColor: "purple",
                   instructions: "Help", modelId: "gigachat", accessMode: .ask_first)
     }
-    private func conversation(title: String, coordinator: BlotV3.AgentProfile, group: Bool) throws -> BlotV3.Conversation {
+    private func conversation(title: String, coordinator: OriV3.AgentProfile, group: Bool) throws -> OriV3.Conversation {
         try .init(metadata: metadata(), agentId: coordinator.metadata.id, title: title, mobileOwned: true, pinned: false,
                   archived: false, kind: group ? .group : .direct)
     }
-    private func participant(_ id: UUID, in chat: BlotV3.Conversation, removed: Bool = false,
-                             kind: BlotV3.ParticipantKind = .agent) throws -> BlotV3.ConversationParticipant {
+    private func participant(_ id: UUID, in chat: OriV3.Conversation, removed: Bool = false,
+                             kind: OriV3.ParticipantKind = .agent) throws -> OriV3.ConversationParticipant {
         try .init(metadata: metadata(), conversationId: chat.metadata.id, participantId: id, kind: kind, removed: removed)
     }
-    private func message(in chat: BlotV3.Conversation, author: UUID? = nil,
-                         role: BlotV3.MessageRole = .assistant) throws -> BlotV3.Message {
+    private func message(in chat: OriV3.Conversation, author: UUID? = nil,
+                         role: OriV3.MessageRole = .assistant) throws -> OriV3.Message {
         try .init(metadata: metadata(), conversationId: chat.metadata.id, role: role, content: "Reply", delivery: .completed,
                   commandId: UUID(), artifactIds: [], authorAgentId: author)
     }

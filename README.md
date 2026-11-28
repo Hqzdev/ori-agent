@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/readme/hero.svg" width="100%" alt="Blot — ИИ-помощник с командой агентов для Mac и iPhone">
+  <img src="assets/readme/hero.svg" width="100%" alt="Ori — ИИ-помощник с командой агентов для Mac и iPhone">
 </p>
 
 <p align="center">
@@ -10,14 +10,14 @@
   <a href="docs/README.md">Документация</a>
 </p>
 
-# Blot
+# Ori
 
 **Одна задача. Команда агентов. Результат в вашем рабочем пространстве.**
 
-Blot — разрабатываемый ИИ-помощник с нативными приложениями для Mac и iPhone. Идея продукта: вы ставите задачу в чате, координатор подключает агентов с нужными ролями, а планы, файлы и действия собираются в одном месте. Здесь находятся исходники приложений, локальных сервисов, сайта и контрактов.
+Ori — разрабатываемый ИИ-помощник с нативными приложениями для Mac и iPhone. Идея продукта: вы ставите задачу в чате, координатор подключает агентов с нужными ролями, а планы, файлы и действия собираются в одном месте. Здесь находятся исходники приложений, локальных сервисов, сайта и контрактов.
 
 <p align="center">
-  <img src="docs/status/verification/mac-team-demo/workspace.jpg" width="100%" alt="Blot на macOS: команда обсуждает счета и готовит черновик письма; справа открыты участники, расписания и подключения">
+  <img src="docs/status/verification/mac-team-demo/workspace.jpg" width="100%" alt="Ori на macOS: команда обсуждает счета и готовит черновик письма; справа открыты участники, расписания и подключения">
 </p>
 
 <p align="center"><sub>Командный чат на macOS. Снимок локального демо: внешние сервисы и действия воспроизводятся на тестовых данных.</sub></p>
@@ -40,7 +40,7 @@ Blot — разрабатываемый ИИ-помощник с нативны�
 ### iPhone · задача, команда, расписание
 
 <p align="center">
-  <img src="docs/status/verification/apple-v3/ios/10-chat-with-ceo-light.png" width="30%" alt="iPhone: обсуждение задачи с Blot CEO и план работы">
+  <img src="docs/status/verification/apple-v3/ios/10-chat-with-ceo-light.png" width="30%" alt="iPhone: обсуждение задачи с Ori CEO и план работы">
   <img src="docs/status/verification/apple-v3/ios/15-my-agents-light.png" width="30%" alt="iPhone: каталог агентов с ролями и персональными аватарами">
   <img src="docs/status/verification/apple-v3/ios/17-schedules-light.png" width="30%" alt="iPhone: расписания утреннего обзора и недельного меню">
 </p>
@@ -56,11 +56,11 @@ Blot — разрабатываемый ИИ-помощник с нативны�
 
 ### macOS · настройки в тёмной теме
 
-<img src="docs/status/verification/mac-settings-page/general-dark.jpg" width="100%" alt="macOS: страница общих настроек Blot в тёмной теме">
+<img src="docs/status/verification/mac-settings-page/general-dark.jpg" width="100%" alt="macOS: страница общих настроек Ori в тёмной теме">
 
-### Веб · лендинг Blot
+### Веб · лендинг Ori
 
-<img src="landing/design-evidence/implementation-desktop-hero.png" width="100%" alt="Первый экран сайта Blot: описание помощника, навигация и демонстрация продукта">
+<img src="landing/design-evidence/implementation-desktop-hero.png" width="100%" alt="Первый экран сайта Ori: описание помощника, навигация и демонстрация продукта">
 
 </details>
 
@@ -79,7 +79,7 @@ Blot — разрабатываемый ИИ-помощник с нативны�
 | **Android и Windows** | Целевые платформы в ТЗ и макетах; нативных приложений в этом репозитории пока нет. |
 | **Выпуск** | Инструкции ниже предназначены для разработки из исходников; готовность релиза оценивается по матрице приёмки. |
 
-Готовность экранов, успешная сборка и тесты компонентов проверяют разные части продукта. Полный сценарий с реальной моделью, почтой, подключениями и физическим iPhone требует отдельной проверки. Основные требования и BLOT-01…30 описаны в [ТЗ от 1 ноября 2026](docs/product/blot-technical-specification.md); история проверок — в [`docs/status/`](docs/status/).
+Готовность экранов, успешная сборка и тесты компонентов проверяют разные части продукта. Полный сценарий с реальной моделью, почтой, подключениями и физическим iPhone требует отдельной проверки. Основные требования и BLOT-01…30 описаны в [ТЗ от 1 ноября 2026](docs/product/ori-technical-specification.md); история проверок — в [`docs/status/`](docs/status/).
 
 ## Быстрый старт
 
@@ -115,13 +115,13 @@ npm run dev
 
 ### Mac
 
-Откройте [`apps/Blot.xcodeproj`](apps/Blot.xcodeproj), выберите схему **BlotMac** и запустите приложение. Либо из корня репозитория:
+Откройте [`apps/Ori.xcodeproj`](apps/Ori.xcodeproj), выберите схему **OriMac** и запустите приложение. Либо из корня репозитория:
 
 ```bash
 ./script/build_and_run.sh
 ```
 
-Скрипт собирает приложение, проверяет наличие встроенного Java backend и запускает Blot. Доступны отдельные режимы:
+Скрипт собирает приложение, проверяет наличие встроенного Java backend и запускает Ori. Доступны отдельные режимы:
 
 ```bash
 # Собрать без запуска
@@ -133,7 +133,7 @@ npm run dev
 
 ### iPhone и симулятор
 
-В том же Xcode-проекте выберите схему **BlotIOS** и доступный симулятор iOS 26+. Для физического iPhone настройте команду подписи в Xcode.
+В том же Xcode-проекте выберите схему **OriIOS** и доступный симулятор iOS 26+. Для физического iPhone настройте команду подписи в Xcode.
 
 Каталог экранов доступен в Debug. Для открытия конкретного экрана v3 добавьте в **Scheme → Run → Arguments**:
 
@@ -170,7 +170,7 @@ npm run dev
 | **Контракты** | OpenAPI, JSON Schema и общие проверочные данные. | [`contracts/`](contracts/), [`fixtures/`](fixtures/) |
 | **Веб** | Next.js, React, сайт продукта и публикация документации. | [`landing/`](landing/) |
 
-Java backend разделён на `core`, `application`, `infrastructure`, `api` и `cloud`. Общие Swift-пакеты: `BlotDomain`, `BlotAPI`, `BlotDesign`, `BlotGraph`, `BlotWorkspace`.
+Java backend разделён на `core`, `application`, `infrastructure`, `api` и `cloud`. Общие Swift-пакеты: `OriDomain`, `OriAPI`, `OriDesign`, `OriGraph`, `OriWorkspace`.
 
 Код следует принципам единственной ответственности, инкапсуляции и композиции. Распределение обязанностей и целевая архитектура описаны в [карте модулей](docs/architecture/module-map.md); версии сущностей и API — в [`contracts/v3/`](contracts/v3/).
 
@@ -207,16 +207,16 @@ npm run build
 <summary><strong>Swift: домен, рабочее пространство и дизайн</strong></summary>
 
 ```bash
-swift test --package-path packages/BlotDomain
-swift test --package-path packages/BlotWorkspace
-swift test --package-path packages/BlotDesign
-swift test --package-path packages/BlotGraph
+swift test --package-path packages/OriDomain
+swift test --package-path packages/OriWorkspace
+swift test --package-path packages/OriDesign
+swift test --package-path packages/OriGraph
 ```
 
-`BlotAPI` использует HTTP-фикстуры из Java-проверок:
+`OriAPI` использует HTTP-фикстуры из Java-проверок:
 
 ```bash
-BLOT_HTTP_FIXTURES="$PWD/.build/http-fixtures" swift test --package-path packages/BlotAPI
+BLOT_HTTP_FIXTURES="$PWD/.build/http-fixtures" swift test --package-path packages/OriAPI
 ```
 
 </details>
@@ -228,7 +228,7 @@ BLOT_HTTP_FIXTURES="$PWD/.build/http-fixtures" swift test --package-path package
 ./backend/gradlew --no-daemon -p backend --dependency-verification=strict spotlessCheck check :api:bootJar
 ```
 
-Java HTTP-тесты сохраняют данные для `BlotAPI` в `.build/http-fixtures`.
+Java HTTP-тесты сохраняют данные для `OriAPI` в `.build/http-fixtures`.
 
 </details>
 
@@ -251,8 +251,8 @@ CI настроен в [`.github/workflows/ci.yml`](.github/workflows/ci.yml): �
 | Начать с… | Для чего |
 | --- | --- |
 | [Путеводитель](docs/README.md) | Найти актуальный документ и отличить его от архивного. |
-| [Техническое задание](docs/product/blot-technical-specification.md) | Возможности продукта и матрица приёмки BLOT-01…30. |
-| [План разработки](docs/product/blot-product-plan.md) | Этапы и зависимости реализации. |
+| [Техническое задание](docs/product/ori-technical-specification.md) | Возможности продукта и матрица приёмки BLOT-01…30. |
+| [План разработки](docs/product/ori-product-plan.md) | Этапы и зависимости реализации. |
 | [Карта модулей](docs/architecture/module-map.md) | Обязанности компонентов и границы задач. |
 | [Модель данных](docs/architecture/domain-model.md) | Сущности, состояния и версии. |
 | [Контракты v3](contracts/v3/README.md) | Схемы команд, событий и публичных данных. |
@@ -261,3 +261,7 @@ CI настроен в [`.github/workflows/ci.yml`](.github/workflows/ci.yml): �
 | [Материалы проверок](docs/status/) | Команды, результаты, скриншоты и ограничения. |
 
 При расхождениях с октябрьскими документами приоритет у ТЗ от **1 ноября 2026**. Проектные вопросы и ошибки можно описать в [GitHub Issues](https://github.com/Hqzdev/kiln-agent/issues), указав компонент, шаги воспроизведения и вывод команды без секретов.
+
+## Совместимость с предыдущими версиями
+
+Ori использует прежние идентификаторы приложений и виджетов, адреса возврата из браузера и форматы на диске, чтобы установленные приложения сохраняли данные и настройки. Для существующих развёртываний действуют ключи `BLOT_` и прежние адреса входа и загрузки.

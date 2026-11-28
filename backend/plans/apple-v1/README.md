@@ -13,8 +13,8 @@
 
 - На Mac и iPhone собственная SQLite-база v3, локальные вложения и очередь исходящих изменений. Устройства выполняют переносимые задачи самостоятельно; модели и Google требуют интернет.
 - Workspace — общее пространство данных аккаунта, device — конкретная установка. Workspace не является владельцем выполнения. `Task.execution.executorDeviceId` выбирается явно; lease ограничивает одного активного исполнителя и имеет монотонное поколение. История другого устройства не даёт право исполнять его задачу.
-- `packages/BlotWorkspace` — общий Swift-пакет без SwiftUI. Отдельные SRP-компоненты хранения, команд, записи потока, репликации, разрешений, оркестрации и адаптеров. Зависимости передаются через инициализаторы; композиция вместо наследования.
-- `BlotDomain` содержит генерируемые wire-модели. SwiftUI наблюдает модели представления; общий адаптер приложения переводит команды/изменения в snapshot. Keychain, уведомления, жизненный цикл и разрешённые файлы остаются платформенными адаптерами.
+- `packages/OriWorkspace` — общий Swift-пакет без SwiftUI. Отдельные SRP-компоненты хранения, команд, записи потока, репликации, разрешений, оркестрации и адаптеров. Зависимости передаются через инициализаторы; композиция вместо наследования.
+- `OriDomain` содержит генерируемые wire-модели. SwiftUI наблюдает модели представления; общий адаптер приложения переводит команды/изменения в snapshot. Keychain, уведомления, жизненный цикл и разрешённые файлы остаются платформенными адаптерами.
 - Java/Spring остаётся сервером аккаунтов, сессий, доверия, encrypted relay, GigaChat gateway/квот и lease. В iOS JVM не поставляется. Старый Java-цикл не получает новые Apple-задачи; отделение очередей обязательно до включения рабочего режима.
 - Сервер хранит только зашифрованные изменения/вложения, метаданные доставки и необходимые account/lease/quota данные. Неподтверждённые данные relay живут 30 дней. ACK принимается после локального commit; пропуск журнала требует согласованного snapshot от доверенного устройства.
 - Первые модели: встроенный GigaChat через серверный шлюз и OpenAI-совместимый API с личным ключом. Первые реальные сервисы: Gmail и Google Calendar. Google OAuth и токены отдельные на каждом устройстве; статус подключения указывает deviceID.
@@ -39,11 +39,11 @@
 7. Расписания, системные уведомления, реальные настройки.
 8. Восстановление, диагностика/backup, dev/release deployment и приёмка ≥70%.
 
-[contracts.md](contracts.md) фиксирует семантику; [implementation.md](implementation.md) — зависимости и задачи. Android/Windows не входят в знаменатель Apple. Исходные [BLOT-01…30](../../../docs/product/blot-technical-specification.md) и [октябрьская матрица](../../../docs/archive/acceptance-matrix.md) сохранены; сопоставление BLOT приведено в features.
+[contracts.md](contracts.md) фиксирует семантику; [implementation.md](implementation.md) — зависимости и задачи. Android/Windows не входят в знаменатель Apple. Исходные [BLOT-01…30](../../../docs/product/ori-technical-specification.md) и [октябрьская матрица](../../../docs/archive/acceptance-matrix.md) сохранены; сопоставление ORI приведено в features.
 
 ## Как открыть текущий локальный срез
 
-После сборки передать приложению `--workspace-local` в launch arguments (на Mac также `open -n .build/xcode/Build/Products/Debug/Blot.app --args --workspace-local`). Оба target используют одну библиотеку, но собственные файлы `Application Support/Blot/WorkspaceV3/workspace-v3.sqlite` в контейнере установки. Этот флаг не создаёт cloud account и не соединяет устройства; обычный старт остаётся demo.
+После сборки передать приложению `--workspace-local` в launch arguments (на Mac также `open -n .build/xcode/Build/Products/Debug/Ori.app --args --workspace-local`). Оба target используют одну библиотеку, но собственные файлы `Application Support/Blot/WorkspaceV3/workspace-v3.sqlite` в контейнере установки. Этот флаг не создаёт cloud account и не соединяет устройства; обычный старт остаётся demo.
 
 В Settings → AI models → Compatible API указать полный HTTPS endpoint Chat Completions, model ID и личный ключ. Настройки сохраняются в локальном Keychain с `ThisDeviceOnly`. Сохранение проверяет формат конфигурации, но не заявляет проверенную capability или успешную авторизацию. Первый настоящий запрос проверяет доступность сервиса. Текущий транспорт — текстовый stream, без tools/images/usage accounting; его формат соответствует [Chat Completions API](https://developers.openai.com/api/reference/resources/chat).
 

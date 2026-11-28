@@ -1,7 +1,7 @@
-import BlotAppleIntegrations
-import BlotDesign
-import BlotDomain
-import BlotWorkspace
+import OriAppleIntegrations
+import OriDesign
+import OriDomain
+import OriWorkspace
 import Foundation
 import SwiftUI
 import UniformTypeIdentifiers
@@ -102,7 +102,7 @@ struct WorkspaceNativeProjectsView: View {
             Button(text("Проверено: не выполнено", "Verified: not completed")) { resolve(false) }
         }
     }
-    private var nativeActions: [BlotV3.PreparedAction] { (store.snapshot.preparedActions ?? []).filter { $0.resource.hasPrefix("project:") }.sorted { $0.metadata.createdAt > $1.metadata.createdAt } }
+    private var nativeActions: [OriV3.PreparedAction] { (store.snapshot.preparedActions ?? []).filter { $0.resource.hasPrefix("project:") }.sorted { $0.metadata.createdAt > $1.metadata.createdAt } }
     private func reload() async {
         do {
             guard let service = try await store.nativeCommands?.nativeService() else { return }
@@ -173,7 +173,7 @@ private struct NativeProcessCard: View {
 
 private struct NativeProjectSetup: View {
     let folder: URL
-    let agents: [BlotV3.AgentProfile]
+    let agents: [OriV3.AgentProfile]
     let russian: Bool
     let commands: (any WorkspaceNativeProviding)?
     @Environment(\.dismiss) private var dismiss

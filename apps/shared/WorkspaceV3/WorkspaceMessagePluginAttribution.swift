@@ -1,10 +1,10 @@
-import BlotAppleIntegrations
-import BlotDomain
-import BlotWorkspace
+import OriAppleIntegrations
+import OriDomain
+import OriWorkspace
 import Foundation
 
 struct WorkspaceMessagePluginAttribution {
-    func references(for message: BlotV3.Message, steps: [BlotV3.ModelStep]) -> [WorkspacePluginReference] {
+    func references(for message: OriV3.Message, steps: [OriV3.ModelStep]) -> [WorkspacePluginReference] {
         guard message.role == .assistant else { return [] }
         var names: [String] = []
         for step in steps where step.responseMessageId == message.metadata.id {

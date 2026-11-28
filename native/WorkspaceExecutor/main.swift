@@ -1,4 +1,4 @@
-import BlotWorkspace
+import OriWorkspace
 import Foundation
 
 /// Each authenticated app connection owns its executor. Losing the app closes all its child processes.

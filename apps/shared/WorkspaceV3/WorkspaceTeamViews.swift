@@ -1,6 +1,6 @@
-import BlotDesign
-import BlotDomain
-import BlotWorkspace
+import OriDesign
+import OriDomain
+import OriWorkspace
 import SwiftUI
 
 struct WorkspaceTeamView: View {
@@ -16,7 +16,7 @@ struct WorkspaceTeamView: View {
         default: agents
         }
     }
-    private var visibleAgents: Array<BlotV3.AgentProfile> {
+    private var visibleAgents: Array<OriV3.AgentProfile> {
         #if os(macOS)
         store.snapshot.agents
         #else
@@ -86,7 +86,7 @@ struct WorkspaceTeamView: View {
     private var editor: some View {
         @Bindable var store = store
         return VStack(alignment: .leading, spacing: 24) {
-            WorkspaceHeading(title: "Who joins the team?", subtitle: "Describe the role — Blot keeps this agent’s instructions and context.")
+            WorkspaceHeading(title: "Who joins the team?", subtitle: "Describe the role — Ori keeps this agent’s instructions and context.")
             HStack(spacing: 20) {
                 WorkspaceAvatar(shape: .init(rawValue: store.form.agent.shape) ?? .round, color: WorkspaceAvatarView.color(store.form.agent.color), size: 80)
                 VStack(alignment: .leading, spacing: 12) {
@@ -125,7 +125,7 @@ struct WorkspaceTeamView: View {
             WorkspaceField(title: "Search by name", text: $store.form.search.query)
             ForEach(store.snapshot.artifacts.filter { store.form.search.query.isEmpty || $0.name.localizedCaseInsensitiveContains(store.form.search.query) }, id: \.metadata.id) { file in
                 Button { store.selectedRecordID = file.metadata.id; store.navigate(.file) } label: {
-                    HStack { BlotIcon(symbol: "doc"); Text(file.name); Spacer(); BlotIcon(symbol: "chevron.right") }
+                    HStack { OriIcon(symbol: "doc"); Text(file.name); Spacer(); OriIcon(symbol: "chevron.right") }
                 }.buttonStyle(WorkspaceRowButtonStyle())
                 Divider()
             }
@@ -151,7 +151,7 @@ struct WorkspaceTeamView: View {
                             Text(schedule.localTime + " · " + schedule.timezone).font(.caption).foregroundStyle(WorkspaceStyle.secondary)
                             if store.mode == .live { WorkspaceScheduleRunSummary(schedule: schedule) }
                             Text(store.t(schedule.goal)).foregroundStyle(WorkspaceStyle.secondary)
-                            BlotLabel(executorName(schedule), symbol: "laptopcomputer").font(.caption).foregroundStyle(WorkspaceStyle.secondary)
+                            OriLabel(executorName(schedule), symbol: "laptopcomputer").font(.caption).foregroundStyle(WorkspaceStyle.secondary)
                         }
                         Spacer(minLength: 0)
                         Toggle(store.t("Enabled"), isOn: Binding(get: { schedule.enabled }, set: { _ in
@@ -166,12 +166,12 @@ struct WorkspaceTeamView: View {
             if store.snapshot.schedules.isEmpty { WorkspaceDataState(state: .empty) }
             WorkspaceFeedback()
             if store.mode == .live {
-                Text(store.language == "ru" ? "На Mac расписания работают, пока Blot запущен, в том числе при свёрнутом окне. После сна или перезапуска применяется выбранная политика пропущенных запусков. На iPhone точное выполнение в фоне не гарантируется." : "On Mac, schedules run while Blot is running, including with its window minimized. Missed-run policy applies after sleep or restart. Exact background execution is not guaranteed on iPhone.")
+                Text(store.language == "ru" ? "На Mac расписания работают, пока Ori запущен, в том числе при свёрнутом окне. После сна или перезапуска применяется выбранная политика пропущенных запусков. На iPhone точное выполнение в фоне не гарантируется." : "On Mac, schedules run while Ori is running, including with its window minimized. Missed-run policy applies after sleep or restart. Exact background execution is not guaranteed on iPhone.")
                     .font(.footnote).foregroundStyle(.secondary)
             }
         }
     }
-    private func executorName(_ schedule: BlotV3.Automation) -> String {
+    private func executorName(_ schedule: OriV3.Automation) -> String {
         if schedule.executorDeviceId == store.snapshot.localDeviceID { return store.t("This device") }
         return store.snapshot.devices.first { $0.metadata.id == schedule.executorDeviceId }?.name ?? store.t("Selected computer")
     }
@@ -185,8 +185,8 @@ struct WorkspaceTeamView: View {
                     if i < 5 {
                         VStack(alignment: .leading, spacing: 8) { Text("08:30").font(.caption.monospaced()); Text(store.t("Morning digest")) }
                             .padding(12).frame(maxWidth: .infinity, alignment: .leading)
-                            .foregroundStyle(i == 0 ? BlotColor.onInverse : WorkspaceStyle.ink)
-                            .background(i == 0 ? BlotColor.inverse : WorkspaceStyle.canvas, in: RoundedRectangle(cornerRadius: 12))
+                            .foregroundStyle(i == 0 ? OriColor.onInverse : WorkspaceStyle.ink)
+                            .background(i == 0 ? OriColor.inverse : WorkspaceStyle.canvas, in: RoundedRectangle(cornerRadius: 12))
                     }
                     Spacer()
                 }.padding(12).frame(maxWidth: .infinity).frame(height: 290).background(WorkspaceStyle.surface, in: RoundedRectangle(cornerRadius: 18))
@@ -197,8 +197,8 @@ struct WorkspaceTeamView: View {
             ForEach(Array(["M", "T", "W", "T", "F", "S", "S"].enumerated()), id: \.offset) { i, day in
                 VStack(spacing: 10) { Text(day).font(.caption); Text("\(i + 2)").font(.title3) }
                     .frame(maxWidth: .infinity).padding(.vertical, 15)
-                    .foregroundStyle(i == 0 ? BlotColor.onInverse : WorkspaceStyle.ink)
-                    .background(i == 0 ? BlotColor.inverse : WorkspaceStyle.surface, in: Capsule())
+                    .foregroundStyle(i == 0 ? OriColor.onInverse : WorkspaceStyle.ink)
+                    .background(i == 0 ? OriColor.inverse : WorkspaceStyle.surface, in: Capsule())
             }
         }.accessibilityLabel(store.t("Week of November 2"))
         #endif
@@ -224,8 +224,8 @@ struct WorkspaceTeamView: View {
                             .foregroundStyle(WorkspaceStyle.ink)
                             .fontWeight(store.form.schedule.weekdays.contains(i+1) ? .bold : .regular)
                             #else
-                            .foregroundStyle(store.form.schedule.weekdays.contains(i+1) ? BlotColor.onInverse : WorkspaceStyle.ink)
-                            .background(store.form.schedule.weekdays.contains(i+1) ? BlotColor.inverse : WorkspaceStyle.surface, in: Circle())
+                            .foregroundStyle(store.form.schedule.weekdays.contains(i+1) ? OriColor.onInverse : WorkspaceStyle.ink)
+                            .background(store.form.schedule.weekdays.contains(i+1) ? OriColor.inverse : WorkspaceStyle.surface, in: Circle())
                             #endif
                     }.buttonStyle(WorkspaceRowButtonStyle(padding: 0)).accessibilityLabel(store.t("Weekday") + " \(i+1)").accessibilityValue(store.form.schedule.weekdays.contains(i+1) ? store.t("Selected") : store.t("Not selected"))
                 }
@@ -242,7 +242,7 @@ struct WorkspaceTeamView: View {
                     ForEach(store.snapshot.devices, id: \.metadata.id) { device in Text(device.name).tag(Optional(device.metadata.id)) }
                 }
                 Picker(store.t("Missed runs"), selection: $store.form.schedule.missedRunPolicy) {
-                    ForEach(BlotV3.MissedRunPolicy.allCases, id: \.self) { policy in WorkspaceSchedulePolicyLabel(policy: policy).tag(policy) }
+                    ForEach(OriV3.MissedRunPolicy.allCases, id: \.self) { policy in WorkspaceSchedulePolicyLabel(policy: policy).tag(policy) }
                 }
                 if store.form.schedule.missedRunPolicy == .catch_up {
                     Stepper(store.t("Maximum catch-up runs") + ": \(store.form.schedule.maximumCatchUpRuns)", value: $store.form.schedule.maximumCatchUpRuns, in: 1...100)

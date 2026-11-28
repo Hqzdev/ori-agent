@@ -30,11 +30,11 @@
 
 ## Компонентные проверки
 
-Прогон BlotWorkspace: **34 Swift Testing теста прошли на Mac**. Проверены SQLite transactional receipt/outbox/FTS, racing writers, response recovery/SSE framing/cancel, agent snapshots, groups/membership/mentions, reaction/read cursor, memory deletion/summary exclusion, skill parameter substitution, selected file limits/hash, PDF/CSV output, scheduler DST/missed policies, task tree/cancellation/shared budget. Два replicas с настоящим CryptoKit проверяют потерянный upload response/restart, причинность, field merge, concurrent config revisions, snapshot tombstones/conflicts и explicit conflict selection. Exact action preparation tests проверяют инвалидирование grant, повтор invocation без исполнения, UNKNOWN recovery и отказ смешанным параметрам со старым digest. PKCE tests проверяют state, duplicate parameters, redirect path/scheme и S256.
+Прогон OriWorkspace: **34 Swift Testing теста прошли на Mac**. Проверены SQLite transactional receipt/outbox/FTS, racing writers, response recovery/SSE framing/cancel, agent snapshots, groups/membership/mentions, reaction/read cursor, memory deletion/summary exclusion, skill parameter substitution, selected file limits/hash, PDF/CSV output, scheduler DST/missed policies, task tree/cancellation/shared budget. Два replicas с настоящим CryptoKit проверяют потерянный upload response/restart, причинность, field merge, concurrent config revisions, snapshot tombstones/conflicts и explicit conflict selection. Exact action preparation tests проверяют инвалидирование grant, повтор invocation без исполнения, UNKNOWN recovery и отказ смешанным параметрам со старым digest. PKCE tests проверяют state, duplicate parameters, redirect path/scheme и S256.
 
 Отдельный cloud module: **10 Java-сценариев прошли** на SQLite/Argon2id/JCE P256: account verify/reset/session refresh/device proof, pairing confirmation/replay, signed durable relay/TTL, process lease generations/UNKNOWN, signed revocation/key epoch и quota dedup/единственный старт провайдера, provider preflight, отмена зарезервированного вызова и закрытие сессии до старта. Capturing mailbox проверяет components, не SMTP-доставку.
 
-**Физический iPhone: 35 проверок PASS**, 0 failed/0 skipped, iOS 27.2. В отдельном подписанном `apps/verification/BlotWorkspaceVerification.xcodeproj` выполнены 34 теста общего ядра и настоящий Keychain write/read/remove. Bundle ID host отличается от приложения; пользовательская история и Google-токены не используются. Повторный прогон после разблокировки телефона — `.build/apple-v1-iphone-20261104T054242Z.xcresult`, краткие сведения — `.build/apple-v1-iphone-evidence.json`, сохранённый журнал — `.build/apple-v1-iphone-20261104T054242Z.log` (последний прогон также в `.build/apple-v1-iphone-tests.log`). Это запуск общего ядра на аппаратном iPhone, а не приёмка product UI.
+**Физический iPhone: 35 проверок PASS**, 0 failed/0 skipped, iOS 27.2. В отдельном подписанном `apps/verification/OriWorkspaceVerification.xcodeproj` выполнены 34 теста общего ядра и настоящий Keychain write/read/remove. Bundle ID host отличается от приложения; пользовательская история и Google-токены не используются. Повторный прогон после разблокировки телефона — `.build/apple-v1-iphone-20261104T054242Z.xcresult`, краткие сведения — `.build/apple-v1-iphone-evidence.json`, сохранённый журнал — `.build/apple-v1-iphone-20261104T054242Z.log` (последний прогон также в `.build/apple-v1-iphone-tests.log`). Это запуск общего ядра на аппаратном iPhone, а не приёмка product UI.
 
 Первый аппаратный прогон выявил удаление временных SQLite-каталогов до закрытия соединений. Добавлены explicit close и async test cleanup; повторный прогон прошёл без SQLite vnode/unlink warnings. Regression проверяет отказ обращений к закрытому repository и сохранность истории после нового открытия.
 
@@ -47,7 +47,7 @@ Harness засевает только verified account и три unbound session
 ```sh
 env CLANG_MODULE_CACHE_PATH="$PWD/.build/apple-module-cache" \
     SWIFTPM_MODULECACHE_OVERRIDE="$PWD/.build/apple-module-cache" \
-    swift test --disable-sandbox --package-path packages/BlotWorkspace \
+    swift test --disable-sandbox --package-path packages/OriWorkspace \
     --scratch-path .build/apple-v1-workspace
 ```
 
@@ -55,12 +55,12 @@ env CLANG_MODULE_CACHE_PATH="$PWD/.build/apple-module-cache" \
 
 | Проверка | Результат | Материал |
 | --- | --- | --- |
-| Swift BlotWorkspace | PASS: 34 теста | `.build/apple-v1-workspace-tests.log` |
+| Swift OriWorkspace | PASS: 34 теста | `.build/apple-v1-workspace-tests.log` |
 | Java cloud services | PASS: 10 сценариев | `.build/apple-v1-cloud-tests.log`, `.build/apple-v1-java-tests.log` |
 | Swift/Java encrypted HTTP relay | PASS: три SQLite copies, native trust/rotation/files и запущенный JAR | `.build/apple-v1-cloud-wire-evidence.json` |
 | Physical iPhone core + Keychain | PASS: 35 проверок, 0 failed/skipped | `.build/apple-v1-iphone-evidence.json`, `.build/apple-v1-iphone-summary.json` |
 | Docker Compose configuration | PASS: synthetic secrets, без запуска контейнеров | `.build/apple-v1-compose-check.log` |
-| Swift BlotDomain, включая новые DTO и rich Message | PASS: 5 тестов | `.build/apple-v1-domain-tests.log` |
+| Swift OriDomain, включая новые DTO и rich Message | PASS: 5 тестов | `.build/apple-v1-domain-tests.log` |
 | Java V3ContractTest на JDK 25 | PASS: 3 теста; 36 public records + rich Message, enum catalog, negative counters | `.build/apple-v1-java-tests.log` |
 | JSON Schema 2020-12 | PASS: 157 fixtures и secret-field boundaries | `.build/checks-venv/bin/python scripts/check-v3-schemas.py` |
 | Mac Xcode build | PASS через `./script/build_and_run.sh --build-only` | `.build/apple-v1-mac-build.log`, `.build/workspace-v3-check/build.log` |
@@ -71,10 +71,10 @@ env CLANG_MODULE_CACHE_PATH="$PWD/.build/apple-module-cache" \
 ```sh
 env JAVA_HOME="$PWD/.build/tools/jdk-25.0.4.1+1/Contents/Home" \
     GRADLE_USER_HOME="$PWD/.build/gradle-home" \
-    backend/gradlew --offline --no-daemon -p backend :api:test --tests dev.blot.api.V3ContractTest
+    backend/gradlew --offline --no-daemon -p backend :api:test --tests dev.ori.api.V3ContractTest
 ```
 
-Для iOS использован `xcodebuild -project apps/Blot.xcodeproj -scheme BlotIOS -destination 'generic/platform=iOS Simulator' -derivedDataPath .build/apple-v1-ios CODE_SIGNING_ALLOWED=NO build`. Продуктовое приложение в симуляторе не запускалось. Физический iPhone проверен отдельным signed host командой `python3 scripts/check-apple-iphone.py`; сборка product UI и запуск core tests — разные проверки.
+Для iOS использован `xcodebuild -project apps/Ori.xcodeproj -scheme OriIOS -destination 'generic/platform=iOS Simulator' -derivedDataPath .build/apple-v1-ios CODE_SIGNING_ALLOWED=NO build`. Продуктовое приложение в симуляторе не запускалось. Физический iPhone проверен отдельным signed host командой `python3 scripts/check-apple-iphone.py`; сборка product UI и запуск core tests — разные проверки.
 
 UI-adapter harness вызывается `./scripts/check-workspace-v3.sh --local-only`: временная SQLite DB, injected model, без Keychain/сети и пользовательской demo истории. Первый прогон PASS: команды UI сохраняются в SQLite, response stream проходит через recorder, явный retry не дублирует user message, reopen восстанавливает историю. Прогон отмены зависшего потока выявил, что AsyncStream при cancellation может вернуть конец итерации без исключения. Перед записью COMPLETED добавлена явная проверка cancellation; регрессия требует CANCELED и сохранённый частичный текст после reopen. Старый общий harness без этого аргумента здесь не запускался, поскольку он использует demo persistence. Логи без секретов остаются в `.build/`, краткие факты и команды — в этом документе. Генерация fixtures и сборка приложений отдельно от фактического запуска.
 
@@ -82,11 +82,11 @@ UI-adapter harness вызывается `./scripts/check-workspace-v3.sh --local
 
 ## Ограничения текущего результата
 
-Есть компонентное доказательство encrypted relay, lease/session/recovery services и Swift/Java HTTP interoperability. Нет продуктовой приёмки Mac+iPhone и account/QR UI, автоматической cloud-композиции в приложениях, реального SMTP/GigaChat/Google send/calendar, полного agent tool loop или iPhone background execution. **70% не достигнуты**: принято 0/98, знаменатель и BLOT matrix сохранены. Нельзя отправлять plaintext local outbox или запускать старый Java agent loop для Apple tasks.
+Есть компонентное доказательство encrypted relay, lease/session/recovery services и Swift/Java HTTP interoperability. Нет продуктовой приёмки Mac+iPhone и account/QR UI, автоматической cloud-композиции в приложениях, реального SMTP/GigaChat/Google send/calendar, полного agent tool loop или iPhone background execution. **70% не достигнуты**: принято 0/98, знаменатель и ORI matrix сохранены. Нельзя отправлять plaintext local outbox или запускать старый Java agent loop для Apple tasks.
 
 Пользователь подтвердил: Google OAuth clients ещё не зарегистрированы, требуется подготовить configuration/guide. Это выполнено в `google-oauth.md`, `apps/shared/Resources/GoogleOAuth.plist` и `scripts/configure-google-oauth.py`; реальный вход остаётся NOT RUN. `--check` сообщает о выключенном состоянии, а не об успешной внешней авторизации.
 
 
 Финальный UI-adapter прогон: **PASS**, `--local-only`, exit 0. Подтверждены create/send → durable stream → explicit retry → reopen, а также остановка зависшего потока, сохранение partial text и CANCELED после открытия базы заново; соединения закрываются до удаления временного каталога. Исправленная cancellation-регрессия воспроизведена тестом. Модель injected; это не проверка реального API или iPhone.
 
-Исходная revision и хеши компонентов сохранены в [verification-2026-11-04.json](verification-2026-11-04.json). Изменения остаются незакоммиченными. Полный manifest SHA-256 для 389 исходных файлов и команды — в `.build/apple-v1-evidence.json`. Ни одна исходная BLOT-строка не удалена; сверка plan-файлов подтвердила 98 уникальных A-ID, 76 сценариев этапа 1, 30 BLOT mappings и существование локальных ссылок.
+Исходная revision и хеши компонентов сохранены в [verification-2026-11-04.json](verification-2026-11-04.json). Изменения остаются незакоммиченными. Полный manifest SHA-256 для 389 исходных файлов и команды — в `.build/apple-v1-evidence.json`. Ни одна исходная ORI-строка не удалена; сверка plan-файлов подтвердила 98 уникальных A-ID, 76 сценариев этапа 1, 30 ORI mappings и существование локальных ссылок.

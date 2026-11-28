@@ -1,5 +1,5 @@
-import BlotDomain
-import BlotWorkspace
+import OriDomain
+import OriWorkspace
 import CryptoKit
 import Foundation
 import OSLog
@@ -23,7 +23,7 @@ final class WorkspaceAccountApplicationService: WorkspaceDevicePairingProviding,
     private let session: WorkspaceCloudSession
     private let credentials: WorkspaceKeychain
     private let directory: URL
-    private let authenticationLog = Logger(subsystem: "dev.blot.authentication", category: "AccountSession")
+    private let authenticationLog = Logger(subsystem: "dev.ori.authentication", category: "AccountSession")
     private var erasingAccount = false
     private var local: LocalWorkspaceService?
     private var localDirectory: URL?
@@ -49,7 +49,7 @@ final class WorkspaceAccountApplicationService: WorkspaceDevicePairingProviding,
     func load() async throws -> WorkspaceSnapshot? {
         if !defaultWorkspacePrepared {
             do { try await LocalWorkspaceService.prepareDefaultWorkspaceRoot(); defaultWorkspacePrepared = true }
-            catch { authenticationLog.error("Could not prepare the local Blot working folder") }
+            catch { authenticationLog.error("Could not prepare the local Ori working folder") }
         }
         try await WorkspaceAccountErasure(root: directory, credentials: credentials).resume { owner in
             try await MainActor.run { try WorkspaceModelCredentialStore.removeAccount(owner) }; await WorkspaceBrowserProfile.erase(self.directory.appendingPathComponent(owner.uuidString)); try await LocalWorkspaceService.eraseSessionFiles(ownerID: owner)

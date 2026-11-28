@@ -1,4 +1,4 @@
-import BlotWorkspace
+import OriWorkspace
 import SwiftUI
 import UniformTypeIdentifiers
 
@@ -34,7 +34,7 @@ struct MCPConfigurationFields: View {
                 #endif
                 SecureField(text("Переменные среды — JSON-объект", "Environment — JSON object"), text: $environment)
                 Toggle(text("Я доверяю этой программе", "I trust this executable"), isOn: $configuration.trustedLocalProcess)
-                Text(text("Программа получает только заданные переменные среды и доступ в рамках системной песочницы Blot. MCP сам по себе не изолирует программу.", "The executable receives only the specified environment and access allowed by Blot’s system sandbox. MCP itself does not isolate a process.")).font(.caption).foregroundStyle(.secondary)
+                Text(text("Программа получает только заданные переменные среды и доступ в рамках системной песочницы Ori. MCP сам по себе не изолирует программу.", "The executable receives only the specified environment and access allowed by Ori’s system sandbox. MCP itself does not isolate a process.")).font(.caption).foregroundStyle(.secondary)
             }
             Stepper(value: $configuration.timeout, in: 5...300, step: 5) { Text(text("Таймаут: ", "Timeout: ") + String(Int(configuration.timeout)) + text(" с", " s")) }
         }

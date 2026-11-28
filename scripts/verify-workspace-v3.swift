@@ -1,7 +1,7 @@
 import AppKit
-import BlotDesign
-import BlotDomain
-import BlotWorkspace
+import OriDesign
+import OriDomain
+import OriWorkspace
 import SwiftUI
 
 @MainActor
@@ -65,7 +65,7 @@ struct WorkspaceVerification {
         precondition(live.snapshot.agents.isEmpty && live.snapshot.messages.isEmpty)
         live.form.account.email = "invalid"; await live.perform(.signIn)
         precondition(live.error != nil && live.route == .signIn)
-        live.form.account.email = "user@blot.local"; live.form.account.password = "long-password"
+        live.form.account.email = "user@ori.local"; live.form.account.password = "long-password"
         await live.perform(.signIn, next: .chats)
         precondition(live.error != nil && live.route == .signIn && !live.busy)
         for action in [WorkspaceAction.signIn, .register, .oauth] {
@@ -186,7 +186,7 @@ struct WorkspaceVerification {
         let owner = UUID(), workspace = UUID(), now = Date()
         let messages = try ids.flatMap { conversation in
             try (0..<100).reversed().map { position in
-                try BlotV3.Message(metadata: .init(id: UUID(), ownerId: owner, workspaceId: workspace, version: 1,
+                try OriV3.Message(metadata: .init(id: UUID(), ownerId: owner, workspaceId: workspace, version: 1,
                     createdAt: now, updatedAt: now), conversationId: conversation, role: .assistant,
                     content: "Test", delivery: .completed, commandId: UUID(), artifactIds: [], position: position)
             }
@@ -313,15 +313,15 @@ struct WorkspaceVerification {
             let store = WorkspaceStore(mode: .preview, route: .chat)
             store.language = "ru"
             let metadata = store.snapshot.conversations[0].metadata
-            let group = try BlotV3.Conversation(metadata: metadata, agentId: store.snapshot.agents.first?.metadata.id,
+            let group = try OriV3.Conversation(metadata: metadata, agentId: store.snapshot.agents.first?.metadata.id,
                 title: "Запуск продукта", mobileOwned: false, pinned: false, archived: false, kind: .group)
             let participants = try store.snapshot.agents.prefix(3).map { agent in
-                try BlotV3.ConversationParticipant(metadata: .init(id: UUID(), ownerId: metadata.ownerId,
+                try OriV3.ConversationParticipant(metadata: .init(id: UUID(), ownerId: metadata.ownerId,
                     workspaceId: metadata.workspaceId, version: 1, createdAt: metadata.createdAt, updatedAt: metadata.updatedAt),
                     conversationId: metadata.id, participantId: agent.metadata.id, kind: .agent, removed: false)
             }
             let root = WorkspaceGroupEditor(conversation: editing ? group : nil, participants: participants)
-                .environment(store).blotTheme(dark ? .dark : .light).environment(\.colorScheme, dark ? .dark : .light)
+                .environment(store).oriTheme(dark ? .dark : .light).environment(\.colorScheme, dark ? .dark : .light)
             let host = NSHostingView(rootView: root)
             host.appearance = NSAppearance(named: dark ? .darkAqua : .aqua)
             let size = CGSize(width: 720, height: 650)
@@ -388,7 +388,7 @@ struct WorkspaceVerification {
             let store = WorkspaceStore(mode: .preview, route: .chat)
             store.language = "ru"
             let size = CGSize(width: width, height: 1000)
-            let root = MacLiveTeamWorkspace().environment(store).blotTheme(.light)
+            let root = MacLiveTeamWorkspace().environment(store).oriTheme(.light)
                 .environment(\.colorScheme, .light).frame(width: size.width, height: size.height)
             let host = NSHostingView(rootView: root)
             let window = NSWindow(contentRect: NSRect(origin: .zero, size: size), styleMask: [.borderless], backing: .buffered, defer: false)
@@ -416,7 +416,7 @@ struct WorkspaceVerification {
             let store = WorkspaceStore(mode: .preview, route: .chat)
             store.language = "ru"
             let size = CGSize(width: 1440, height: 900)
-            let root = MacLiveTeamSettings(route: route).environment(store).blotTheme(.light)
+            let root = MacLiveTeamSettings(route: route).environment(store).oriTheme(.light)
                 .environment(\.colorScheme, .light).frame(width: size.width, height: size.height)
             let host = NSHostingView(rootView: root)
             let window = NSWindow(contentRect: NSRect(origin: .zero, size: size), styleMask: [.borderless], backing: .buffered, defer: false)

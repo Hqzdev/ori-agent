@@ -1,6 +1,6 @@
-import BlotDomain
-import BlotAppleIntegrations
-import BlotWorkspace
+import OriDomain
+import OriAppleIntegrations
+import OriWorkspace
 import Foundation
 
 enum WorkspaceGroupResponseError: Error, Equatable { case membershipChanged, budgetExceeded, invalidPlan }
@@ -15,7 +15,7 @@ struct WorkspaceGroupResponder {
     let maximumOutputTokens: Int
     let budgetTokenLimit: Int
     let makeModel: @MainActor (String) throws -> any ChatModel
-    let context: @MainActor (BlotV3.Message, WorkspaceProjection, BlotV3.AgentConfigurationRevision?) async throws -> [ChatModelMessage]
+    let context: @MainActor (OriV3.Message, WorkspaceProjection, OriV3.AgentConfigurationRevision?) async throws -> [ChatModelMessage]
 
     private struct Work {
         let agentID: UUID
@@ -25,13 +25,13 @@ struct WorkspaceGroupResponder {
 
     private struct WorkResult {
         let work: Work
-        let replies: [BlotV3.Message]
+        let replies: [OriV3.Message]
         let completed: Bool
         let blocker: String?
     }
 
-    func respond(to source: BlotV3.Message, initialResponseID: UUID,
-                 emit: @escaping @Sendable (BlotV3.Message) -> Void) async throws {
+    func respond(to source: OriV3.Message, initialResponseID: UUID,
+                 emit: @escaping @Sendable (OriV3.Message) -> Void) async throws {
         let recorder = WorkspaceResponseRecorder(repository: repository, identity: identity)
         var activeID: UUID? = initialResponseID
         do {
@@ -216,9 +216,9 @@ struct WorkspaceGroupResponder {
             throw error
         }
     }
-    private func perform(_ work: Work, source: BlotV3.Message, baseline: WorkspaceProjection, revision: BlotV3.AgentConfigurationRevision,
-                         workerBudget: WorkspaceGroupBudget, members: [BlotV3.AgentProfile], memberIDs: Set<UUID>, coordinatorID: UUID,
-                         transcript: String, emit: @escaping @Sendable (BlotV3.Message) -> Void) async throws -> WorkResult {
+    private func perform(_ work: Work, source: OriV3.Message, baseline: WorkspaceProjection, revision: OriV3.AgentConfigurationRevision,
+                         workerBudget: WorkspaceGroupBudget, members: [OriV3.AgentProfile], memberIDs: Set<UUID>, coordinatorID: UUID,
+                         transcript: String, emit: @escaping @Sendable (OriV3.Message) -> Void) async throws -> WorkResult {
         let recorder = WorkspaceResponseRecorder(repository: repository, identity: identity)
         let runtime = WorkspaceModelRuntime(repository: repository, identity: identity, pool: pool, tools: tools)
         let name = members.first { $0.metadata.id == work.agentID }!.name
@@ -273,17 +273,17 @@ struct WorkspaceGroupResponder {
         if error is ChatModelError { return "The model response was interrupted; this step is not completed." }
         return "This step could not be completed within its available budget and permissions."
     }
-    private func configuration(_ id: UUID, in projection: WorkspaceProjection) throws -> BlotV3.AgentConfigurationRevision {
+    private func configuration(_ id: UUID, in projection: WorkspaceProjection) throws -> OriV3.AgentConfigurationRevision {
         guard let value = try WorkspaceAgentConfigurationResolver().resolve(agentID: id, projection: projection) else { throw WorkspaceStorageError.missingRecord }
         return value
     }
-    private func checkMembers(_ source: BlotV3.Message, memberIDs: Set<UUID>, coordinatorID: UUID) async throws {
+    private func checkMembers(_ source: OriV3.Message, memberIDs: Set<UUID>, coordinatorID: UUID) async throws {
         try _Concurrency.Task.checkCancellation()
         let projection = try await repository.projection(identity: identity)
         let current = Set(projection.participants.filter { $0.conversationId == source.conversationId && $0.kind == .agent && !$0.removed }.map(\.participantId))
         guard current == memberIDs, projection.conversations.contains(where: { $0.metadata.id == source.conversationId && $0.kind == .group && $0.agentId == coordinatorID }) else { throw WorkspaceGroupResponseError.membershipChanged }
     }
-    private func prepare(_ source: BlotV3.Message, responseID: UUID, configuration: BlotV3.AgentConfigurationRevision,
+    private func prepare(_ source: OriV3.Message, responseID: UUID, configuration: OriV3.AgentConfigurationRevision,
                          budget: WorkspaceGroupBudget, extra: String) async throws -> [ChatModelMessage] {
         let reserved = extra.utf8.count + 512
         let available = try await budget.remaining()

@@ -1,4 +1,4 @@
-import BlotDomain
+import OriDomain
 import Foundation
 
 struct WorkspaceAccountForm {
@@ -26,7 +26,7 @@ struct WorkspaceScheduleForm {
     var skillRevisionID: UUID?
     var timezone = TimeZone.current.identifier
     var oneTime = false
-    var missedRunPolicy: BlotV3.MissedRunPolicy = .coalesce
+    var missedRunPolicy: OriV3.MissedRunPolicy = .coalesce
     var maximumCatchUpRuns = 1
     var agentID: UUID?
     var deviceID: UUID?
@@ -66,7 +66,7 @@ nonisolated struct WorkspaceComposerForm: Codable, Sendable {
 struct WorkspaceSearchForm { var query = "" }
 struct WorkspacePreferencesForm {
     var backgroundWork = false
-    var accessMode: BlotV3.AccessMode = .ask_first
+    var accessMode: OriV3.AccessMode = .ask_first
 }
 
 /// Each feature owns its draft. Navigation never reuses another form's name, code or content.

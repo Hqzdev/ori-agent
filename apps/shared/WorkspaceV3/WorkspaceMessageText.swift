@@ -1,15 +1,15 @@
 import Foundation
-import BlotAppleIntegrations
-import BlotDomain
-import BlotDesign
-import BlotWorkspace
+import OriAppleIntegrations
+import OriDomain
+import OriDesign
+import OriWorkspace
 import SwiftUI
 
 struct WorkspaceMessageText: View {
     let text: String
     var markdown = true
-    var agents: [BlotV3.AgentProfile] = []
-    var skills: [BlotV3.Skill] = []
+    var agents: [OriV3.AgentProfile] = []
+    var skills: [OriV3.Skill] = []
     @Environment(\.colorScheme) private var scheme
     @Environment(\.displayScale) private var displayScale
     @ScaledMetric(relativeTo: .body) private var avatarSize = 14
@@ -99,7 +99,7 @@ private enum WorkspaceRenderedTextCache {
     private static let cache: NSCache<Key, Value> = {
         let cache = NSCache<Key, Value>(); cache.countLimit = 256; cache.totalCostLimit = 8 * 1024 * 1024; return cache
     }()
-    static func text(_ text: String, markdown: Bool, agents: [BlotV3.AgentProfile], skills: [BlotV3.Skill],
+    static func text(_ text: String, markdown: Bool, agents: [OriV3.AgentProfile], skills: [OriV3.Skill],
                      size: CGFloat, scale: CGFloat, scheme: ColorScheme, render: () -> Text) -> Text {
         let targets = agents.flatMap { [$0.metadata.id.uuidString, $0.name, $0.avatarShape, $0.avatarColor] }
             + skills.filter { !$0.archived }.flatMap { [$0.metadata.id.uuidString, $0.name] }
@@ -134,7 +134,7 @@ private enum WorkspaceMentionAvatar {
     private static let cache: NSCache<NSString, CGImage> = {
         let cache = NSCache<NSString, CGImage>(); cache.countLimit = 128; return cache
     }()
-    static func image(agent: BlotV3.AgentProfile, size: CGFloat, scale: CGFloat, scheme: ColorScheme) -> Image? {
+    static func image(agent: OriV3.AgentProfile, size: CGFloat, scale: CGFloat, scheme: ColorScheme) -> Image? {
         let key = "\(agent.avatarShape):\(agent.avatarColor):\(size):\(scale):\(scheme)" as NSString
         if let image = cache.object(forKey: key) { return Image(decorative: image, scale: scale) }
         let renderer = ImageRenderer(content: WorkspaceAvatar(shape: .init(rawValue: agent.avatarShape) ?? .round,
@@ -156,7 +156,7 @@ private enum WorkspaceMentionAvatar {
 }
 
 private enum WorkspaceInlineMention {
-    case agent(BlotV3.AgentProfile), skill(BlotV3.Skill), plugin(WorkspacePluginReference)
+    case agent(OriV3.AgentProfile), skill(OriV3.Skill), plugin(WorkspacePluginReference)
     var id: String { switch self { case .agent(let value): "agent:" + value.metadata.id.uuidString; case .skill(let value): "skill:" + value.metadata.id.uuidString; case .plugin(let value): "plugin:" + value.id } }
     var name: String { switch self { case .agent(let value): value.name; case .skill(let value): value.name; case .plugin(let value): value.name } }
     var displayName: String { if case .plugin = self { "@" + name } else { name } }

@@ -1,11 +1,11 @@
-import BlotDomain
-import BlotWorkspace
+import OriDomain
+import OriWorkspace
 import SwiftUI
 
 struct WorkspaceScheduleRunSummary: View {
-    let schedule: BlotV3.Automation
+    let schedule: OriV3.Automation
     @Environment(WorkspaceStore.self) private var store
-    private var latest: BlotV3.AutomationRun? {
+    private var latest: OriV3.AutomationRun? {
         (store.snapshot.automationRuns ?? []).filter { $0.automationId == schedule.metadata.id }
             .max { $0.metadata.createdAt < $1.metadata.createdAt }
     }

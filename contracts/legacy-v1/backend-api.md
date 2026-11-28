@@ -1,4 +1,4 @@
-# Initial Blot API (schemaVersion 1)
+# Initial Ori API (schemaVersion 1)
 
 Domain response fields are defined by `fixtures/contracts/domain-*.json`. UUIDs
 are case-insensitive strings. Dates use UTC ISO-8601 with Z and an optional
@@ -20,7 +20,7 @@ fractional part. Versions are nonnegative; specification revisions start at 1.
 
 Command envelope: schemaVersion=1, commandId, type, payload. Supported types:
 project.create, run.create, run.status.change, specification.revision.create,
-task.create. Their payloads are the public BlotAPI command types, except
+task.create. Their payloads are the public OriAPI command types, except
 run.create uses projectId at envelope level and goal in payload, preserving the
 original fixture. Legacy envelope expectedVersion is optional and ignored;
 status changes require expectedVersion in their payload.

@@ -1,7 +1,7 @@
-import BlotAppleIntegrations
-import BlotDesign
-import BlotDomain
-import BlotWorkspace
+import OriAppleIntegrations
+import OriDesign
+import OriDomain
+import OriWorkspace
 import Observation
 import SwiftUI
 import Synchronization
@@ -10,11 +10,11 @@ import Synchronization
 struct VerifyChatPerformance {
     static func main() throws {
         let owner = UUID(), workspace = UUID(), conversation = UUID(), now = Date()
-        func metadata(_ id: UUID = UUID()) throws -> BlotV3.RecordMetadata {
+        func metadata(_ id: UUID = UUID()) throws -> OriV3.RecordMetadata {
             try .init(id: id, ownerId: owner, workspaceId: workspace, version: 1, createdAt: now, updatedAt: now)
         }
-        let first = try BlotV3.AgentProfile(metadata: metadata(), name: "Architect", roleId: "custom", avatarShape: "round", avatarColor: "orange", instructions: "Help", modelId: "compatible", accessMode: .ask_first)
-        let second = try BlotV3.AgentProfile(metadata: metadata(), name: "Reviewer", roleId: "custom", avatarShape: "round", avatarColor: "blue", instructions: "Help", modelId: "compatible", accessMode: .ask_first)
+        let first = try OriV3.AgentProfile(metadata: metadata(), name: "Architect", roleId: "custom", avatarShape: "round", avatarColor: "orange", instructions: "Help", modelId: "compatible", accessMode: .ask_first)
+        let second = try OriV3.AgentProfile(metadata: metadata(), name: "Reviewer", roleId: "custom", avatarShape: "round", avatarColor: "blue", instructions: "Help", modelId: "compatible", accessMode: .ask_first)
         var snapshot = WorkspaceSnapshot()
         snapshot.ownerID = owner; snapshot.agents = [first, second]
         snapshot.conversations = [try .init(metadata: metadata(conversation), agentId: first.metadata.id, title: "Large history", mobileOwned: false, pinned: false, archived: false, kind: .group)]
@@ -41,7 +41,7 @@ struct VerifyChatPerformance {
             .init(agentID: first.metadata.id, name: first.name, task: "Implement"),
             .init(agentID: second.metadata.id, name: second.name, task: "Review")])
         let planID = UUID()
-        func planMessage(_ text: String) throws -> BlotV3.Message {
+        func planMessage(_ text: String) throws -> OriV3.Message {
             try .init(metadata: metadata(planID), conversationId: conversation, role: .assistant, content: text, delivery: .completed,
                       commandId: UUID(), artifactIds: [], authorAgentId: first.metadata.id)
         }
@@ -53,14 +53,14 @@ struct VerifyChatPerformance {
         let response = snapshot.messages[1]
         let mail = AppleToolCatalog.all.first { $0.plugin == .mail }!.definition.name
         let calendar = AppleToolCatalog.all.first { $0.plugin == .calendar }!.definition.name
-        func step(_ name: String) throws -> BlotV3.ModelStep {
+        func step(_ name: String) throws -> OriV3.ModelStep {
             let request = try JSONSerialization.data(withJSONObject: ["messages": [["role": "tool", "toolCallID": "call", "name": name, "content": String(repeating: "recorded output ", count: 1000)]]])
             return try .init(metadata: metadata(planID), conversationId: conversation, sourceMessageId: snapshot.messages[0].metadata.id,
                 responseMessageId: response.metadata.id, executorDeviceId: owner, originDeviceId: owner, executionMode: .local_owned,
                 stepIndex: 0, modelId: "compatible", budgetTokenLimit: 20000, requestJSON: String(decoding: request, as: UTF8.self), state: .completed)
         }
         // Use a response without an inline mention, so the durable tool badge remains visible.
-        let plain = try BlotV3.Message(metadata: response.metadata, conversationId: conversation, role: .assistant, content: "Completed", delivery: .completed, commandId: UUID(), artifactIds: [])
+        let plain = try OriV3.Message(metadata: response.metadata, conversationId: conversation, role: .assistant, content: "Completed", delivery: .completed, commandId: UUID(), artifactIds: [])
         var updated = snapshot; updated.modelSteps = [try step(mail)]
         content.update(updated, previous: snapshot)
         precondition(content.plugins(for: plain).first?.entry.appleID == .mail)
@@ -91,7 +91,7 @@ struct VerifyChatPerformance {
         let dense = ProcessInfo.processInfo.environment["BLOT_CHAT_DENSE"] == "1"
         let sample = try snapshot.messages.suffix(40).map { message in
             guard dense else { return message }
-            return try BlotV3.Message(metadata: message.metadata, conversationId: conversation, role: message.role,
+            return try OriV3.Message(metadata: message.metadata, conversationId: conversation, role: message.role,
                 content: String(repeating: "**Result** from @Architect and @Reviewer; use @Mail. Unicode 👋. ", count: 12),
                 delivery: message.delivery, commandId: message.commandId, artifactIds: [])
         }

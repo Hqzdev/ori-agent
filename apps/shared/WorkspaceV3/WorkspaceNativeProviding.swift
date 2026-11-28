@@ -1,6 +1,6 @@
-import BlotAppleIntegrations
-import BlotDomain
-import BlotWorkspace
+import OriAppleIntegrations
+import OriDomain
+import OriWorkspace
 import Foundation
 
 nonisolated struct WorkspaceUnavailableNativeExecutor: NativeExecuting {

@@ -1,5 +1,5 @@
-import BlotDesign
-import BlotDomain
+import OriDesign
+import OriDomain
 import SwiftUI
 
 struct WorkspaceReplyBubble: View {
@@ -7,7 +7,7 @@ struct WorkspaceReplyBubble: View {
     var compact = false
     @Environment(WorkspaceStore.self) private var store
 
-    private var agents: [BlotV3.AgentProfile] {
+    private var agents: [OriV3.AgentProfile] {
         guard store.currentConversation?.kind == .group else { return [] }
         return draft.agentIDs.compactMap { id in store.chatContent.agents.first { $0.metadata.id == id } }
     }

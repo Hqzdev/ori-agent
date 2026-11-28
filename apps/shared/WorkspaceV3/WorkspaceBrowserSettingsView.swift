@@ -1,6 +1,6 @@
-import BlotDomain
-import BlotAppleIntegrations
-import BlotWorkspace
+import OriDomain
+import OriAppleIntegrations
+import OriWorkspace
 import SwiftUI
 
 struct WorkspaceBrowserSettingsView: View {
@@ -15,7 +15,7 @@ struct WorkspaceBrowserSettingsView: View {
     var body: some View {
         if store.browserCommands?.automaticBrowserAccess == true {
             VStack(alignment: .leading, spacing: 16) {
-                Text(ru ? "Браузер Blot" : "Blot browser").font(.title2.bold())
+                Text(ru ? "Браузер Ori" : "Ori browser").font(.title2.bold())
                 Text(ru ? "Агенты могут сразу открывать сайты и читать открытые вами вкладки. Настраивать доступ для каждого сайта не нужно." : "Agents can open websites and read your open tabs immediately. No per-site access setup is needed.")
                 Text(ru ? "Пароли, коды входа и платёжные поля вводите вручную. Нажатия и ввод агента подтверждаются отдельно." : "Enter passwords, sign-in codes and payment details manually. Agent clicks and typing require separate confirmation.").foregroundStyle(.secondary)
                 Button(ru ? "Открыть браузер" : "Open browser") { store.showBrowser() }
@@ -38,7 +38,7 @@ struct WorkspaceBrowserSettingsView: View {
     }
     private var configuredSettings: some View {
         VStack(alignment: .leading, spacing: 18) {
-            Text(ru ? "Браузер Blot" : "Blot browser").font(.title2.bold())
+            Text(ru ? "Браузер Ori" : "Ori browser").font(.title2.bold())
             Text(ru ? "Сайты открываются внутри приложения. Разрешения ниже действуют только для агентов на этом устройстве. Нажатия и ввод подтверждаются отдельно." : "Websites open inside the app. These agent permissions apply only on this device. Clicks and typing require separate confirmation.").foregroundStyle(.secondary)
             Button(ru ? "Открыть браузер" : "Open browser") { store.showBrowser() }.disabled(store.browserCommands == nil)
             Text(ru ? "Разрешённые сайты — по одному HTTPS-адресу на строку" : "Allowed sites — one HTTPS address per line").font(.headline)
@@ -86,7 +86,7 @@ struct WorkspaceBrowserSettingsView: View {
             Button(ru ? "Не выполнено" : "Not completed") { resolve(false) }
         }
     }
-    private var unknownInvocations: [BlotV3.ToolInvocation] {
+    private var unknownInvocations: [OriV3.ToolInvocation] {
         let actions = Set((store.snapshot.preparedActions ?? []).filter { $0.toolId.hasPrefix("browser_") }.map(\.metadata.id))
         return (store.snapshot.toolInvocations ?? []).filter { $0.state == .unknown && $0.execution.executorDeviceId == store.snapshot.localDeviceID && actions.contains($0.preparedActionId) }
     }

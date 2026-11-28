@@ -1,23 +1,23 @@
-import BlotDomain
-import BlotWorkspace
+import OriDomain
+import OriWorkspace
 import Foundation
 import Observation
 
 /// Chat views observe only presentation inputs that changed, rather than every task/tool snapshot.
 @MainActor @Observable
 final class WorkspaceChatPresentation {
-    private(set) var agents: [BlotV3.AgentProfile] = []
-    private(set) var skills: [BlotV3.Skill] = []
-    private(set) var participants: [BlotV3.ConversationParticipant] = []
-    private(set) var conversations: [UUID: BlotV3.Conversation] = [:]
-    private(set) var artifacts: [UUID: BlotV3.Artifact] = [:]
-    private(set) var reactions: [UUID: [BlotV3.MessageReaction]] = [:]
-    private(set) var pinnedMessages: [UUID: [BlotV3.Message]] = [:]
+    private(set) var agents: [OriV3.AgentProfile] = []
+    private(set) var skills: [OriV3.Skill] = []
+    private(set) var participants: [OriV3.ConversationParticipant] = []
+    private(set) var conversations: [UUID: OriV3.Conversation] = [:]
+    private(set) var artifacts: [UUID: OriV3.Artifact] = [:]
+    private(set) var reactions: [UUID: [OriV3.MessageReaction]] = [:]
+    private(set) var pinnedMessages: [UUID: [OriV3.Message]] = [:]
     private(set) var messagePins: [UUID: Bool] = [:]
     private(set) var pinnedPlans: [UUID: UUID] = [:]
     private(set) var runningTaskConversationIDs: Set<UUID> = []
     private var toolRevision = 0
-    @ObservationIgnored private var steps: [UUID: [BlotV3.ModelStep]] = [:]
+    @ObservationIgnored private var steps: [UUID: [OriV3.ModelStep]] = [:]
     @ObservationIgnored private let plugins = NSCache<NSUUID, PluginResult>()
     @ObservationIgnored private let plans = NSCache<NSUUID, PlanResult>()
 
@@ -58,7 +58,7 @@ final class WorkspaceChatPresentation {
         }
     }
 
-    func plan(for message: BlotV3.Message) -> WorkspaceGroupPlanProgress? {
+    func plan(for message: OriV3.Message) -> WorkspaceGroupPlanProgress? {
         guard message.role == .assistant, let conversation = conversations[message.conversationId], conversation.kind == .group else { return nil }
         let key = message.metadata.id as NSUUID
         let legacy = message.authorAgentId == conversation.agentId
@@ -69,7 +69,7 @@ final class WorkspaceChatPresentation {
         return value
     }
 
-    func plugins(for message: BlotV3.Message) -> [WorkspacePluginReference] {
+    func plugins(for message: OriV3.Message) -> [WorkspacePluginReference] {
         guard message.role == .assistant else { return [] }
         _ = toolRevision
         let matching = steps[message.metadata.id] ?? []
@@ -83,9 +83,9 @@ final class WorkspaceChatPresentation {
 
     private final class PluginResult {
         let content: String
-        let steps: [BlotV3.ModelStep]
+        let steps: [OriV3.ModelStep]
         let value: [WorkspacePluginReference]
-        init(content: String, steps: [BlotV3.ModelStep], value: [WorkspacePluginReference]) { self.content = content; self.steps = steps; self.value = value }
+        init(content: String, steps: [OriV3.ModelStep], value: [WorkspacePluginReference]) { self.content = content; self.steps = steps; self.value = value }
     }
     private final class PlanResult {
         let content: String

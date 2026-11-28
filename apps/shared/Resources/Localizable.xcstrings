@@ -72,7 +72,7 @@
         }
       }
     },
-    "    <BlotAvatar />\n    <h1>Your AI team</h1>\n  );\n}" : {
+    "    <OriAvatar />\n    <h1>Your AI team</h1>\n  );\n}" : {
 
     },
     " · demo account available" : {
@@ -892,7 +892,7 @@
     "~/Blot создаётся автоматически. У каждого чата — своя папка с историей и рабочими файлами. Доступ к другим папкам агент запрашивает прямо из чата." : {
 
     },
-    "~/Documents/Blot Workspace" : {
+    "~/Documents/Ori Workspace" : {
 
     },
     "− <section className=\"hero old\">" : {
@@ -1685,19 +1685,19 @@
         }
       }
     },
-    "Add a project in Blot on your Mac to create a run." : {
+    "Add a project in Ori on your Mac to create a run." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Add a project in Blot on your Mac to create a run."
+            "value" : "Add a project in Ori on your Mac to create a run."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Чтобы создать запуск, добавьте проект в Blot на Mac."
+            "value" : "Чтобы создать запуск, добавьте проект в Ori на Mac."
           }
         }
       }
@@ -2099,19 +2099,19 @@
         }
       }
     },
-    "After scanning, compare the code on both devices and allow the connection in Blot on your computer." : {
+    "After scanning, compare the code on both devices and allow the connection in Ori on your computer." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "After scanning, compare the code on both devices and allow the connection in Blot on your computer."
+            "value" : "After scanning, compare the code on both devices and allow the connection in Ori on your computer."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "После сканирования сравните код на обоих устройствах и разрешите подключение в Blot на компьютере."
+            "value" : "После сканирования сравните код на обоих устройствах и разрешите подключение в Ori на компьютере."
           }
         }
       }
@@ -2493,19 +2493,19 @@
         }
       }
     },
-    "Agents will lose access to this app in Blot." : {
+    "Agents will lose access to this app in Ori." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Agents will lose access to this app in Blot."
+            "value" : "Agents will lose access to this app in Ori."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Агенты потеряют доступ к этому приложению в Blot."
+            "value" : "Агенты потеряют доступ к этому приложению в Ori."
           }
         }
       }
@@ -3681,19 +3681,19 @@
         }
       }
     },
-    "Ask Blot" : {
+    "Ask Ori" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ask Blot"
+            "value" : "Ask Ori"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Спросить Blot"
+            "value" : "Спросить Ori"
           }
         }
       }
@@ -3715,19 +3715,19 @@
         }
       }
     },
-    "Ask first · Access to Blot Workspace folder" : {
+    "Ask first · Access to Ori Workspace folder" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ask first · Access to Blot Workspace folder"
+            "value" : "Ask first · Access to Ori Workspace folder"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Спрашивать · Доступ к папке Blot Workspace"
+            "value" : "Спрашивать · Доступ к папке Ori Workspace"
           }
         }
       }
@@ -4109,408 +4109,408 @@
         }
       }
     },
-    "Blot" : {
+    "Ori" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot"
+            "value" : "Ori"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot"
+            "value" : "Ori"
           }
         }
       }
     },
-    "Blot · Demo on this Mac" : {
+    "Ori · Demo on this Mac" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot · Demo on this Mac"
+            "value" : "Ori · Demo on this Mac"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot · Демо на этом Mac"
+            "value" : "Ori · Демо на этом Mac"
           }
         }
       }
     },
-    "Blot · Version 3 preview" : {
+    "Ori · Version 3 preview" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot · Version 3 preview"
+            "value" : "Ori · Version 3 preview"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot · Интерфейс версии 3"
+            "value" : "Ori · Интерфейс версии 3"
           }
         }
       }
     },
-    "Blot · Демо на этом Mac" : {
+    "Ori · Демо на этом Mac" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot · Demo on this Mac"
+            "value" : "Ori · Demo on this Mac"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot · Демо на этом Mac"
+            "value" : "Ori · Демо на этом Mac"
           }
         }
       }
     },
-    "Blot · Интерфейс версии 3" : {
+    "Ori · Интерфейс версии 3" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot · Version 3 preview"
+            "value" : "Ori · Version 3 preview"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot · Интерфейс версии 3"
+            "value" : "Ori · Интерфейс версии 3"
           }
         }
       }
     },
-    "Blot %@" : {
+    "Ori %@" : {
 
     },
-    "Blot Agent" : {
+    "Ori Agent" : {
 
     },
-    "Blot browser" : {
+    "Ori browser" : {
 
     },
-    "Blot can use it in this project's chats." : {
+    "Ori can use it in this project's chats." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot can use it in this project's chats."
+            "value" : "Ori can use it in this project's chats."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot сможет использовать его в чатах этого проекта."
+            "value" : "Ori сможет использовать его в чатах этого проекта."
           }
         }
       }
     },
-    "Blot CEO" : {
+    "Ori CEO" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot CEO"
+            "value" : "Ori CEO"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot CEO"
+            "value" : "Ori CEO"
           }
         }
       }
     },
-    "Blot collection · " : {
+    "Ori collection · " : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot collection · "
+            "value" : "Ori collection · "
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Коллекция Blot · "
+            "value" : "Коллекция Ori · "
           }
         }
       }
     },
-    "Blot drafts a plan first. Work starts after you approve it, and an independent reviewer checks the result." : {
+    "Ori drafts a plan first. Work starts after you approve it, and an independent reviewer checks the result." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot drafts a plan first. Work starts after you approve it, and an independent reviewer checks the result."
+            "value" : "Ori drafts a plan first. Work starts after you approve it, and an independent reviewer checks the result."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Сначала Blot составляет план. Работа начинается после вашего подтверждения, а результат проверяет независимый рецензент."
+            "value" : "Сначала Ori составляет план. Работа начинается после вашего подтверждения, а результат проверяет независимый рецензент."
           }
         }
       }
     },
-    "Blot for Chrome" : {
+    "Ori for Chrome" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot for Chrome"
+            "value" : "Ori for Chrome"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot для Chrome"
+            "value" : "Ori для Chrome"
           }
         }
       }
     },
-    "Blot is writing…" : {
+    "Ori is writing…" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot is writing…"
+            "value" : "Ori is writing…"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot пишет…"
+            "value" : "Ori пишет…"
           }
         }
       }
     },
-    "Blot runs tasks on this computer. You decide what it can access." : {
+    "Ori runs tasks on this computer. You decide what it can access." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot runs tasks on this computer. You decide what it can access."
+            "value" : "Ori runs tasks on this computer. You decide what it can access."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot выполняет задачи на этом компьютере. Вы выбираете, к чему дать доступ."
+            "value" : "Ori выполняет задачи на этом компьютере. Вы выбираете, к чему дать доступ."
           }
         }
       }
     },
-    "Blot shows changes and asks before anything significant." : {
+    "Ori shows changes and asks before anything significant." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot shows changes and asks before anything significant."
+            "value" : "Ori shows changes and asks before anything significant."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot показывает изменения и спрашивает перед значимыми действиями."
+            "value" : "Ori показывает изменения и спрашивает перед значимыми действиями."
           }
         }
       }
     },
-    "Blot shows recipients and text before sending." : {
+    "Ori shows recipients and text before sending." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot shows recipients and text before sending."
+            "value" : "Ori shows recipients and text before sending."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot показывает получателей и текст перед отправкой."
+            "value" : "Ori показывает получателей и текст перед отправкой."
           }
         }
       }
     },
-    "Blot version" : {
+    "Ori version" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot version"
+            "value" : "Ori version"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Версия Blot"
+            "value" : "Версия Ori"
           }
         }
       }
     },
-    "Blot working folder" : {
+    "Ori working folder" : {
 
     },
-    "Blot Workspace" : {
+    "Ori Workspace" : {
 
     },
-    "Blot Workspace · This computer" : {
+    "Ori Workspace · This computer" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot Workspace · This computer"
+            "value" : "Ori Workspace · This computer"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot Workspace · Этот компьютер"
+            "value" : "Ori Workspace · Этот компьютер"
           }
         }
       }
     },
-    "Blot Workspace · Этот компьютер" : {
+    "Ori Workspace · Этот компьютер" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot Workspace · This computer"
+            "value" : "Ori Workspace · This computer"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot Workspace · Этот компьютер"
+            "value" : "Ori Workspace · Этот компьютер"
           }
         }
       }
     },
-    "Blot выполняет задачи на этом компьютере. Вы выбираете, к чему дать доступ." : {
+    "Ori выполняет задачи на этом компьютере. Вы выбираете, к чему дать доступ." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot runs tasks on this computer. You decide what it can access."
+            "value" : "Ori runs tasks on this computer. You decide what it can access."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot выполняет задачи на этом компьютере. Вы выбираете, к чему дать доступ."
+            "value" : "Ori выполняет задачи на этом компьютере. Вы выбираете, к чему дать доступ."
           }
         }
       }
     },
-    "Blot для Chrome" : {
+    "Ori для Chrome" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot for Chrome"
+            "value" : "Ori for Chrome"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot для Chrome"
+            "value" : "Ori для Chrome"
           }
         }
       }
     },
-    "Blot пишет…" : {
+    "Ori пишет…" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot is writing…"
+            "value" : "Ori is writing…"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot пишет…"
+            "value" : "Ori пишет…"
           }
         }
       }
     },
-    "Blot показывает изменения и спрашивает перед значимыми действиями." : {
+    "Ori показывает изменения и спрашивает перед значимыми действиями." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot shows changes and asks before anything significant."
+            "value" : "Ori shows changes and asks before anything significant."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot показывает изменения и спрашивает перед значимыми действиями."
+            "value" : "Ori показывает изменения и спрашивает перед значимыми действиями."
           }
         }
       }
     },
-    "Blot показывает получателей и текст перед отправкой." : {
+    "Ori показывает получателей и текст перед отправкой." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot shows recipients and text before sending."
+            "value" : "Ori shows recipients and text before sending."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot показывает получателей и текст перед отправкой."
+            "value" : "Ori показывает получателей и текст перед отправкой."
           }
         }
       }
     },
-    "Blot сможет использовать его в чатах этого проекта." : {
+    "Ori сможет использовать его в чатах этого проекта." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot can use it in this project's chats."
+            "value" : "Ori can use it in this project's chats."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot сможет использовать его в чатах этого проекта."
+            "value" : "Ori сможет использовать его в чатах этого проекта."
           }
         }
       }
@@ -6904,19 +6904,19 @@
         }
       }
     },
-    "Configure Blot Agent" : {
+    "Configure Ori Agent" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Configure Blot Agent"
+            "value" : "Configure Ori Agent"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Настроить Blot Agent"
+            "value" : "Настроить Ori Agent"
           }
         }
       }
@@ -7310,19 +7310,19 @@
         }
       }
     },
-    "Connecting this service is not available in this version of Blot yet." : {
+    "Connecting this service is not available in this version of Ori yet." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Connecting this service is not available in this version of Blot yet."
+            "value" : "Connecting this service is not available in this version of Ori yet."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Подключение этого сервиса пока недоступно в этой версии Blot."
+            "value" : "Подключение этого сервиса пока недоступно в этой версии Ori."
           }
         }
       }
@@ -7744,19 +7744,19 @@
         }
       }
     },
-    "Copy a message to share Blot with a friend." : {
+    "Copy a message to share Ori with a friend." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Copy a message to share Blot with a friend."
+            "value" : "Copy a message to share Ori with a friend."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Скопируйте сообщение, чтобы рассказать другу о Blot."
+            "value" : "Скопируйте сообщение, чтобы рассказать другу о Ori."
           }
         }
       }
@@ -8277,19 +8277,19 @@
         }
       }
     },
-    "Create a chat above to start working with Blot." : {
+    "Create a chat above to start working with Ori." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Create a chat above to start working with Blot."
+            "value" : "Create a chat above to start working with Ori."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Создайте чат выше, чтобы начать работу с Blot."
+            "value" : "Создайте чат выше, чтобы начать работу с Ori."
           }
         }
       }
@@ -9490,19 +9490,19 @@
         }
       }
     },
-    "Describe the role — Blot keeps this agent’s instructions and context." : {
+    "Describe the role — Ori keeps this agent’s instructions and context." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Describe the role — Blot keeps this agent’s instructions and context."
+            "value" : "Describe the role — Ori keeps this agent’s instructions and context."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Опишите роль — Blot сохранит инструкции и контекст агента."
+            "value" : "Опишите роль — Ori сохранит инструкции и контекст агента."
           }
         }
       }
@@ -11878,36 +11878,36 @@
         }
       }
     },
-    "Give Blot a task — it assembles the team and delivers the result." : {
+    "Give Ori a task — it assembles the team and delivers the result." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Give Blot a task — it assembles the team and delivers the result."
+            "value" : "Give Ori a task — it assembles the team and delivers the result."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Поручите задачу Blot — он соберёт команду и подготовит результат."
+            "value" : "Поручите задачу Ori — он соберёт команду и подготовит результат."
           }
         }
       }
     },
-    "Give Blot some context" : {
+    "Give Ori some context" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Give Blot some context"
+            "value" : "Give Ori some context"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Дайте Blot контекст"
+            "value" : "Дайте Ori контекст"
           }
         }
       }
@@ -12448,7 +12448,7 @@
     "HTTPS URL для Git-токена" : {
 
     },
-    "https://demo.blot/mcp" : {
+    "https://demo.ori/mcp" : {
 
     },
     "https://example.com" : {
@@ -12503,19 +12503,19 @@
     "ID устройства" : {
 
     },
-    "Idle = Blot lives on his own: beats by mood, reacts to the pointer, click him" : {
+    "Idle = Ori lives on his own: beats by mood, reacts to the pointer, click him" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Idle = Blot lives on his own: beats by mood, reacts to the pointer, click him"
+            "value" : "Idle = Ori lives on his own: beats by mood, reacts to the pointer, click him"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Покой: Blot двигается по настроению и реагирует на указатель и нажатия"
+            "value" : "Покой: Ori двигается по настроению и реагирует на указатель и нажатия"
           }
         }
       }
@@ -13036,19 +13036,19 @@
         }
       }
     },
-    "Keep Blot open on your Mac to receive updates and respond to decisions." : {
+    "Keep Ori open on your Mac to receive updates and respond to decisions." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Keep Blot open on your Mac to receive updates and respond to decisions."
+            "value" : "Keep Ori open on your Mac to receive updates and respond to decisions."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Оставьте Blot открытым на Mac, чтобы получать обновления и отвечать на запросы решений."
+            "value" : "Оставьте Ori открытым на Mac, чтобы получать обновления и отвечать на запросы решений."
           }
         }
       }
@@ -13277,19 +13277,19 @@
         }
       }
     },
-    "Launch Blot with macOS." : {
+    "Launch Ori with macOS." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Launch Blot with macOS."
+            "value" : "Launch Ori with macOS."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Запускать Blot вместе с macOS."
+            "value" : "Запускать Ori вместе с macOS."
           }
         }
       }
@@ -13810,19 +13810,19 @@
         }
       }
     },
-    "Main project is Blot" : {
+    "Main project is Ori" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Main project is Blot"
+            "value" : "Main project is Ori"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Основной проект — Blot"
+            "value" : "Основной проект — Ori"
           }
         }
       }
@@ -14425,53 +14425,53 @@
         }
       }
     },
-    "Message Blot" : {
+    "Message Ori" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Message Blot"
+            "value" : "Message Ori"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Написать Blot"
+            "value" : "Написать Ori"
           }
         }
       }
     },
-    "Message Blot below." : {
+    "Message Ori below." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Message Blot below."
+            "value" : "Message Ori below."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Напишите Blot в поле ниже."
+            "value" : "Напишите Ori в поле ниже."
           }
         }
       }
     },
-    "Message Blot…" : {
+    "Message Ori…" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Message Blot…"
+            "value" : "Message Ori…"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Напишите Blot…"
+            "value" : "Напишите Ori…"
           }
         }
       }
@@ -14811,7 +14811,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Учёт использования моделей в этом аккаунте Blot."
+            "value" : "Учёт использования моделей в этом аккаунте Ori."
           }
         }
       }
@@ -15037,19 +15037,19 @@
         }
       }
     },
-    "Motion from agent.pen · 18 · Blot" : {
+    "Motion from agent.pen · 18 · Ori" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Motion from agent.pen · 18 · Blot"
+            "value" : "Motion from agent.pen · 18 · Ori"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Анимация из agent.pen · 18 · Blot"
+            "value" : "Анимация из agent.pen · 18 · Ori"
           }
         }
       }
@@ -16726,7 +16726,7 @@
         }
       }
     },
-    "On Mac, schedules run while Blot is running, including with its window minimized. Missed-run policy applies after sleep or restart. Exact background execution is not guaranteed on iPhone." : {
+    "On Mac, schedules run while Ori is running, including with its window minimized. Missed-run policy applies after sleep or restart. Exact background execution is not guaranteed on iPhone." : {
 
     },
     "One account for phone and computer." : {
@@ -16865,19 +16865,19 @@
         }
       }
     },
-    "Open Apple apps in Blot" : {
+    "Open Apple apps in Ori" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open Apple apps in Blot"
+            "value" : "Open Apple apps in Ori"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Открыть приложения Apple в Blot"
+            "value" : "Открыть приложения Apple в Ori"
           }
         }
       }
@@ -16899,53 +16899,53 @@
         }
       }
     },
-    "Open Blot" : {
+    "Open Ori" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open Blot"
+            "value" : "Open Ori"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Открыть Blot"
+            "value" : "Открыть Ori"
           }
         }
       }
     },
-    "Open Blot on your computer: Settings → Devices → Add iPhone." : {
+    "Open Ori on your computer: Settings → Devices → Add iPhone." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open Blot on your computer: Settings → Devices → Add iPhone."
+            "value" : "Open Ori on your computer: Settings → Devices → Add iPhone."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Откройте Blot на компьютере: Настройки → Устройства → Добавить iPhone."
+            "value" : "Откройте Ori на компьютере: Настройки → Устройства → Добавить iPhone."
           }
         }
       }
     },
-    "Open Blot on your Mac, choose Devices → Connect iPhone, then scan the QR code." : {
+    "Open Ori on your Mac, choose Devices → Connect iPhone, then scan the QR code." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open Blot on your Mac, choose Devices → Connect iPhone, then scan the QR code."
+            "value" : "Open Ori on your Mac, choose Devices → Connect iPhone, then scan the QR code."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Откройте Blot на Mac, выберите «Устройства → Подключить iPhone» и отсканируйте QR-код."
+            "value" : "Откройте Ori на Mac, выберите «Устройства → Подключить iPhone» и отсканируйте QR-код."
           }
         }
       }
@@ -17021,7 +17021,7 @@
         }
       }
     },
-    "Open Devices in Blot on your computer and scan its QR code." : {
+    "Open Devices in Ori on your computer and scan its QR code." : {
 
     },
     "Open document" : {
@@ -17228,19 +17228,19 @@
         }
       }
     },
-    "Open Shortcuts and enter the exact name of an existing shortcut. Blot only runs selected shortcuts, with approval." : {
+    "Open Shortcuts and enter the exact name of an existing shortcut. Ori only runs selected shortcuts, with approval." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open Shortcuts and enter the exact name of an existing shortcut. Blot only runs selected shortcuts, with approval."
+            "value" : "Open Shortcuts and enter the exact name of an existing shortcut. Ori only runs selected shortcuts, with approval."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Откройте «Команды» и укажите точное название существующей команды. Blot запускает только выбранные команды, с подтверждением."
+            "value" : "Откройте «Команды» и укажите точное название существующей команды. Ori запускает только выбранные команды, с подтверждением."
           }
         }
       }
@@ -21777,7 +21777,7 @@
         }
       }
     },
-    "Scan this QR code in Blot on iPhone, then enter the code shown here on your phone." : {
+    "Scan this QR code in Ori on iPhone, then enter the code shown here on your phone." : {
 
     },
     "Scan your computer’s QR code" : {
@@ -22517,19 +22517,19 @@
         }
       }
     },
-    "Send a message to Blot using the field below." : {
+    "Send a message to Ori using the field below." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Send a message to Blot using the field below."
+            "value" : "Send a message to Ori using the field below."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Напишите Blot в поле ниже."
+            "value" : "Напишите Ori в поле ниже."
           }
         }
       }
@@ -22792,19 +22792,19 @@
         }
       }
     },
-    "Sends from your Gmail, can’t be unsent.\nMacBook Pro · requested by Blot CEO · expires in 10 min" : {
+    "Sends from your Gmail, can’t be unsent.\nMacBook Pro · requested by Ori CEO · expires in 10 min" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sends from your Gmail, can’t be unsent.\nMacBook Pro · requested by Blot CEO · expires in 10 min"
+            "value" : "Sends from your Gmail, can’t be unsent.\nMacBook Pro · requested by Ori CEO · expires in 10 min"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Отправка из вашей почты Gmail. Отменить отправку нельзя.\nMacBook Pro · запросил Blot CEO · срок 10 минут"
+            "value" : "Отправка из вашей почты Gmail. Отменить отправку нельзя.\nMacBook Pro · запросил Ori CEO · срок 10 минут"
           }
         }
       }
@@ -23455,19 +23455,19 @@
         }
       }
     },
-    "Show Blot in the menu bar" : {
+    "Show Ori in the menu bar" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Show Blot in the menu bar"
+            "value" : "Show Ori in the menu bar"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Показывать Blot в строке меню"
+            "value" : "Показывать Ori в строке меню"
           }
         }
       }
@@ -23608,36 +23608,36 @@
         }
       }
     },
-    "Sign in to Blot" : {
+    "Sign in to Ori" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in to Blot"
+            "value" : "Sign in to Ori"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Войдите в Blot"
+            "value" : "Войдите в Ori"
           }
         }
       }
     },
-    "Sign in to Blot Agent" : {
+    "Sign in to Ori Agent" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in to Blot Agent"
+            "value" : "Sign in to Ori Agent"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Войти в Blot Agent"
+            "value" : "Войти в Ori Agent"
           }
         }
       }
@@ -23710,19 +23710,19 @@
         }
       }
     },
-    "Sign out of Blot on this device." : {
+    "Sign out of Ori on this device." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign out of Blot on this device."
+            "value" : "Sign out of Ori on this device."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Выйти из Blot на этом устройстве."
+            "value" : "Выйти из Ori на этом устройстве."
           }
         }
       }
@@ -23812,19 +23812,19 @@
         }
       }
     },
-    "Signing in to Blot grants no service access. Each connection’s permissions can be changed or revoked." : {
+    "Signing in to Ori grants no service access. Each connection’s permissions can be changed or revoked." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Signing in to Blot grants no service access. Each connection’s permissions can be changed or revoked."
+            "value" : "Signing in to Ori grants no service access. Each connection’s permissions can be changed or revoked."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Вход в Blot не даёт доступа к сервисам. Разрешения каждого подключения можно изменить или отозвать."
+            "value" : "Вход в Ori не даёт доступа к сервисам. Разрешения каждого подключения можно изменить или отозвать."
           }
         }
       }
@@ -24161,19 +24161,19 @@
     "Spaghetti Aglio e Olio" : {
 
     },
-    "Specialists start once you approve. To change scope, refine the goal below — Blot drafts a new version." : {
+    "Specialists start once you approve. To change scope, refine the goal below — Ori drafts a new version." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Specialists start once you approve. To change scope, refine the goal below — Blot drafts a new version."
+            "value" : "Specialists start once you approve. To change scope, refine the goal below — Ori drafts a new version."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Специалисты начнут после вашего подтверждения. Чтобы изменить задачу, уточните цель ниже — Blot подготовит новый план."
+            "value" : "Специалисты начнут после вашего подтверждения. Чтобы изменить задачу, уточните цель ниже — Ori подготовит новый план."
           }
         }
       }
@@ -24805,19 +24805,19 @@
         }
       }
     },
-    "System follows your iPhone. Light and Dark apply to Blot on this iPhone only." : {
+    "System follows your iPhone. Light and Dark apply to Ori on this iPhone only." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "System follows your iPhone. Light and Dark apply to Blot on this iPhone only."
+            "value" : "System follows your iPhone. Light and Dark apply to Ori on this iPhone only."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Системная тема следует настройкам iPhone. Светлая и тёмная темы применяются только к Blot на этом iPhone."
+            "value" : "Системная тема следует настройкам iPhone. Светлая и тёмная темы применяются только к Ori на этом iPhone."
           }
         }
       }
@@ -25939,19 +25939,19 @@
         }
       }
     },
-    "The site asks to verify you’re human. Complete the check on your computer, then Blot continues." : {
+    "The site asks to verify you’re human. Complete the check on your computer, then Ori continues." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The site asks to verify you’re human. Complete the check on your computer, then Blot continues."
+            "value" : "The site asks to verify you’re human. Complete the check on your computer, then Ori continues."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Сайт просит подтвердить, что вы человек. Пройдите проверку на компьютере — Blot продолжит."
+            "value" : "Сайт просит подтвердить, что вы человек. Пройдите проверку на компьютере — Ori продолжит."
           }
         }
       }
@@ -26574,7 +26574,7 @@
         }
       }
     },
-    "To: team@blot.app\nFrom: preview@blot.local" : {
+    "To: team@ori.app\nFrom: preview@ori.local" : {
 
     },
     "Today" : {
@@ -27686,19 +27686,19 @@
         }
       }
     },
-    "Using Blot" : {
+    "Using Ori" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Using Blot"
+            "value" : "Using Ori"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Как пользоваться Blot"
+            "value" : "Как пользоваться Ori"
           }
         }
       }
@@ -28185,7 +28185,7 @@
         }
       }
     },
-    "Waiting for the selected Mac. Blot must be open there; results appear after sync." : {
+    "Waiting for the selected Mac. Ori must be open there; results appear after sync." : {
 
     },
     "Waiting for you: approve the prepared reply." : {
@@ -28585,19 +28585,19 @@
         }
       }
     },
-    "What should Blot do?" : {
+    "What should Ori do?" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "What should Blot do?"
+            "value" : "What should Ori do?"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Что должен сделать Blot?"
+            "value" : "Что должен сделать Ori?"
           }
         }
       }
@@ -30096,19 +30096,19 @@
         }
       }
     },
-    "Агенты потеряют доступ к этому приложению в Blot." : {
+    "Агенты потеряют доступ к этому приложению в Ori." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Agents will lose access to this app in Blot."
+            "value" : "Agents will lose access to this app in Ori."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Агенты потеряют доступ к этому приложению в Blot."
+            "value" : "Агенты потеряют доступ к этому приложению в Ori."
           }
         }
       }
@@ -30408,19 +30408,19 @@
         }
       }
     },
-    "Анимация из agent.pen · 18 · Blot" : {
+    "Анимация из agent.pen · 18 · Ori" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Motion from agent.pen · 18 · Blot"
+            "value" : "Motion from agent.pen · 18 · Ori"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Анимация из agent.pen · 18 · Blot"
+            "value" : "Анимация из agent.pen · 18 · Ori"
           }
         }
       }
@@ -30737,7 +30737,7 @@
         }
       }
     },
-    "Браузер Blot" : {
+    "Браузер Ori" : {
 
     },
     "Быстрый доступ к действиям с клавиатуры." : {
@@ -31752,19 +31752,19 @@
         }
       }
     },
-    "Версия Blot" : {
+    "Версия Ori" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot version"
+            "value" : "Ori version"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Версия Blot"
+            "value" : "Версия Ori"
           }
         }
       }
@@ -32007,19 +32007,19 @@
         }
       }
     },
-    "Войдите в Blot" : {
+    "Войдите в Ori" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in to Blot"
+            "value" : "Sign in to Ori"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Войдите в Blot"
+            "value" : "Войдите в Ori"
           }
         }
       }
@@ -32078,19 +32078,19 @@
         }
       }
     },
-    "Войти в Blot Agent" : {
+    "Войти в Ori Agent" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign in to Blot Agent"
+            "value" : "Sign in to Ori Agent"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Войти в Blot Agent"
+            "value" : "Войти в Ori Agent"
           }
         }
       }
@@ -32523,19 +32523,19 @@
         }
       }
     },
-    "Вход в Blot не даёт доступа к сервисам. Разрешения каждого подключения можно изменить или отозвать." : {
+    "Вход в Ori не даёт доступа к сервисам. Разрешения каждого подключения можно изменить или отозвать." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Signing in to Blot grants no service access. Each connection’s permissions can be changed or revoked."
+            "value" : "Signing in to Ori grants no service access. Each connection’s permissions can be changed or revoked."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Вход в Blot не даёт доступа к сервисам. Разрешения каждого подключения можно изменить или отозвать."
+            "value" : "Вход в Ori не даёт доступа к сервисам. Разрешения каждого подключения можно изменить или отозвать."
           }
         }
       }
@@ -33263,19 +33263,19 @@
         }
       }
     },
-    "Выйти из Blot на этом устройстве." : {
+    "Выйти из Ori на этом устройстве." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sign out of Blot on this device."
+            "value" : "Sign out of Ori on this device."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Выйти из Blot на этом устройстве."
+            "value" : "Выйти из Ori на этом устройстве."
           }
         }
       }
@@ -33861,19 +33861,19 @@
         }
       }
     },
-    "Дайте Blot контекст" : {
+    "Дайте Ori контекст" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Give Blot some context"
+            "value" : "Give Ori some context"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Дайте Blot контекст"
+            "value" : "Дайте Ori контекст"
           }
         }
       }
@@ -36370,19 +36370,19 @@
         }
       }
     },
-    "Запускать Blot вместе с macOS." : {
+    "Запускать Ori вместе с macOS." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Launch Blot with macOS."
+            "value" : "Launch Ori with macOS."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Запускать Blot вместе с macOS."
+            "value" : "Запускать Ori вместе с macOS."
           }
         }
       }
@@ -37808,19 +37808,19 @@
         }
       }
     },
-    "Как пользоваться Blot" : {
+    "Как пользоваться Ori" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Using Blot"
+            "value" : "Using Ori"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Как пользоваться Blot"
+            "value" : "Как пользоваться Ori"
           }
         }
       }
@@ -38375,19 +38375,19 @@
     "Код появится после сканирования" : {
 
     },
-    "Коллекция Blot · " : {
+    "Коллекция Ori · " : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot collection · "
+            "value" : "Ori collection · "
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Коллекция Blot · "
+            "value" : "Коллекция Ori · "
           }
         }
       }
@@ -39925,7 +39925,7 @@
         }
       }
     },
-    "На Mac расписания работают, пока Blot запущен, в том числе при свёрнутом окне. После сна или перезапуска применяется выбранная политика пропущенных запусков. На iPhone точное выполнение в фоне не гарантируется." : {
+    "На Mac расписания работают, пока Ori запущен, в том числе при свёрнутом окне. После сна или перезапуска применяется выбранная политика пропущенных запусков. На iPhone точное выполнение в фоне не гарантируется." : {
 
     },
     "На главную" : {
@@ -40427,19 +40427,19 @@
         }
       }
     },
-    "Написать Blot" : {
+    "Написать Ori" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Message Blot"
+            "value" : "Message Ori"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Написать Blot"
+            "value" : "Написать Ori"
           }
         }
       }
@@ -40461,36 +40461,36 @@
         }
       }
     },
-    "Напишите Blot в поле ниже." : {
+    "Напишите Ori в поле ниже." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Send a message to Blot using the field below."
+            "value" : "Send a message to Ori using the field below."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Напишите Blot в поле ниже."
+            "value" : "Напишите Ori в поле ниже."
           }
         }
       }
     },
-    "Напишите Blot…" : {
+    "Напишите Ori…" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Message Blot…"
+            "value" : "Message Ori…"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Напишите Blot…"
+            "value" : "Напишите Ori…"
           }
         }
       }
@@ -40631,19 +40631,19 @@
         }
       }
     },
-    "Настроить Blot Agent" : {
+    "Настроить Ori Agent" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Configure Blot Agent"
+            "value" : "Configure Ori Agent"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Настроить Blot Agent"
+            "value" : "Настроить Ori Agent"
           }
         }
       }
@@ -43100,7 +43100,7 @@
         }
       }
     },
-    "Ожидает выбранный Mac. Blot на Mac должен быть открыт; результат появится после синхронизации." : {
+    "Ожидает выбранный Mac. Ori на Mac должен быть открыт; результат появится после синхронизации." : {
 
     },
     "Ожидает подтверждения" : {
@@ -43273,19 +43273,19 @@
         }
       }
     },
-    "Опишите роль — Blot сохранит инструкции и контекст агента." : {
+    "Опишите роль — Ori сохранит инструкции и контекст агента." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Describe the role — Blot keeps this agent’s instructions and context."
+            "value" : "Describe the role — Ori keeps this agent’s instructions and context."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Опишите роль — Blot сохранит инструкции и контекст агента."
+            "value" : "Опишите роль — Ori сохранит инструкции и контекст агента."
           }
         }
       }
@@ -43341,19 +43341,19 @@
         }
       }
     },
-    "Основной проект — Blot" : {
+    "Основной проект — Ori" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Main project is Blot"
+            "value" : "Main project is Ori"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Основной проект — Blot"
+            "value" : "Основной проект — Ori"
           }
         }
       }
@@ -43375,19 +43375,19 @@
         }
       }
     },
-    "Оставьте Blot открытым на Mac, чтобы получать обновления и отвечать на запросы решений." : {
+    "Оставьте Ori открытым на Mac, чтобы получать обновления и отвечать на запросы решений." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Keep Blot open on your Mac to receive updates and respond to decisions."
+            "value" : "Keep Ori open on your Mac to receive updates and respond to decisions."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Оставьте Blot открытым на Mac, чтобы получать обновления и отвечать на запросы решений."
+            "value" : "Оставьте Ori открытым на Mac, чтобы получать обновления и отвечать на запросы решений."
           }
         }
       }
@@ -44024,56 +44024,56 @@
         }
       }
     },
-    "Откройте «Команды» и укажите точное название существующей команды. Blot запускает только выбранные команды, с подтверждением." : {
+    "Откройте «Команды» и укажите точное название существующей команды. Ori запускает только выбранные команды, с подтверждением." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open Shortcuts and enter the exact name of an existing shortcut. Blot only runs selected shortcuts, with approval."
+            "value" : "Open Shortcuts and enter the exact name of an existing shortcut. Ori only runs selected shortcuts, with approval."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Откройте «Команды» и укажите точное название существующей команды. Blot запускает только выбранные команды, с подтверждением."
+            "value" : "Откройте «Команды» и укажите точное название существующей команды. Ori запускает только выбранные команды, с подтверждением."
           }
         }
       }
     },
-    "Откройте «Устройства» в Blot на компьютере и отсканируйте QR-код." : {
+    "Откройте «Устройства» в Ori на компьютере и отсканируйте QR-код." : {
 
     },
-    "Откройте Blot на Mac, выберите «Устройства → Подключить iPhone» и отсканируйте QR-код." : {
+    "Откройте Ori на Mac, выберите «Устройства → Подключить iPhone» и отсканируйте QR-код." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open Blot on your Mac, choose Devices → Connect iPhone, then scan the QR code."
+            "value" : "Open Ori on your Mac, choose Devices → Connect iPhone, then scan the QR code."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Откройте Blot на Mac, выберите «Устройства → Подключить iPhone» и отсканируйте QR-код."
+            "value" : "Откройте Ori на Mac, выберите «Устройства → Подключить iPhone» и отсканируйте QR-код."
           }
         }
       }
     },
-    "Откройте Blot на компьютере: Настройки → Устройства → Добавить iPhone." : {
+    "Откройте Ori на компьютере: Настройки → Устройства → Добавить iPhone." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open Blot on your computer: Settings → Devices → Add iPhone."
+            "value" : "Open Ori on your computer: Settings → Devices → Add iPhone."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Откройте Blot на компьютере: Настройки → Устройства → Добавить iPhone."
+            "value" : "Откройте Ori на компьютере: Настройки → Устройства → Добавить iPhone."
           }
         }
       }
@@ -44231,19 +44231,19 @@
         }
       }
     },
-    "Открыть Blot" : {
+    "Открыть Ori" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open Blot"
+            "value" : "Open Ori"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Открыть Blot"
+            "value" : "Открыть Ori"
           }
         }
       }
@@ -44469,19 +44469,19 @@
         }
       }
     },
-    "Открыть приложения Apple в Blot" : {
+    "Открыть приложения Apple в Ori" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open Apple apps in Blot"
+            "value" : "Open Apple apps in Ori"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Открыть приложения Apple в Blot"
+            "value" : "Открыть приложения Apple в Ori"
           }
         }
       }
@@ -44923,19 +44923,19 @@
         }
       }
     },
-    "Отправка из вашей почты Gmail. Отменить отправку нельзя.\nMacBook Pro · запросил Blot CEO · срок 10 минут" : {
+    "Отправка из вашей почты Gmail. Отменить отправку нельзя.\nMacBook Pro · запросил Ori CEO · срок 10 минут" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sends from your Gmail, can’t be unsent.\nMacBook Pro · requested by Blot CEO · expires in 10 min"
+            "value" : "Sends from your Gmail, can’t be unsent.\nMacBook Pro · requested by Ori CEO · expires in 10 min"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Отправка из вашей почты Gmail. Отменить отправку нельзя.\nMacBook Pro · запросил Blot CEO · срок 10 минут"
+            "value" : "Отправка из вашей почты Gmail. Отменить отправку нельзя.\nMacBook Pro · запросил Ori CEO · срок 10 минут"
           }
         }
       }
@@ -45059,7 +45059,7 @@
         }
       }
     },
-    "Отсканируйте QR-код в Blot на iPhone, затем введите на телефоне код с этого экрана." : {
+    "Отсканируйте QR-код в Ori на iPhone, затем введите на телефоне код с этого экрана." : {
 
     },
     "Оформить демо-заказ" : {
@@ -46556,19 +46556,19 @@
         }
       }
     },
-    "Подключение этого сервиса пока недоступно в этой версии Blot." : {
+    "Подключение этого сервиса пока недоступно в этой версии Ori." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Connecting this service is not available in this version of Blot yet."
+            "value" : "Connecting this service is not available in this version of Ori yet."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Подключение этого сервиса пока недоступно в этой версии Blot."
+            "value" : "Подключение этого сервиса пока недоступно в этой версии Ori."
           }
         }
       }
@@ -47798,19 +47798,19 @@
         }
       }
     },
-    "Показывать Blot в строке меню" : {
+    "Показывать Ori в строке меню" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Show Blot in the menu bar"
+            "value" : "Show Ori in the menu bar"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Показывать Blot в строке меню"
+            "value" : "Показывать Ori в строке меню"
           }
         }
       }
@@ -47849,19 +47849,19 @@
         }
       }
     },
-    "Покой: Blot двигается по настроению и реагирует на указатель и нажатия" : {
+    "Покой: Ori двигается по настроению и реагирует на указатель и нажатия" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Idle = Blot lives on his own: beats by mood, reacts to the pointer, click him"
+            "value" : "Idle = Ori lives on his own: beats by mood, reacts to the pointer, click him"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Покой: Blot двигается по настроению и реагирует на указатель и нажатия"
+            "value" : "Покой: Ori двигается по настроению и реагирует на указатель и нажатия"
           }
         }
       }
@@ -48073,19 +48073,19 @@
     "Попробуйте другую категорию или измените запрос." : {
 
     },
-    "Поручите задачу Blot — он соберёт команду и подготовит результат." : {
+    "Поручите задачу Ori — он соберёт команду и подготовит результат." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Give Blot a task — it assembles the team and delivers the result."
+            "value" : "Give Ori a task — it assembles the team and delivers the result."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Поручите задачу Blot — он соберёт команду и подготовит результат."
+            "value" : "Поручите задачу Ori — он соберёт команду и подготовит результат."
           }
         }
       }
@@ -48093,19 +48093,19 @@
     "После выбора нажмите «Сохранить доступ». Агент сможет прочитать выбранную вкладку этого сайта; значения полей не передаются." : {
 
     },
-    "После сканирования сравните код на обоих устройствах и разрешите подключение в Blot на компьютере." : {
+    "После сканирования сравните код на обоих устройствах и разрешите подключение в Ori на компьютере." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "After scanning, compare the code on both devices and allow the connection in Blot on your computer."
+            "value" : "After scanning, compare the code on both devices and allow the connection in Ori on your computer."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "После сканирования сравните код на обоих устройствах и разрешите подключение в Blot на компьютере."
+            "value" : "После сканирования сравните код на обоих устройствах и разрешите подключение в Ori на компьютере."
           }
         }
       }
@@ -50179,7 +50179,7 @@
         }
       }
     },
-    "Рабочая папка Blot" : {
+    "Рабочая папка Ori" : {
 
     },
     "Рабочее пространство уже открыто другим процессом или действие не разрешено." : {
@@ -51310,19 +51310,19 @@
         }
       }
     },
-    "Сайт просит подтвердить, что вы человек. Пройдите проверку на компьютере — Blot продолжит." : {
+    "Сайт просит подтвердить, что вы человек. Пройдите проверку на компьютере — Ori продолжит." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The site asks to verify you’re human. Complete the check on your computer, then Blot continues."
+            "value" : "The site asks to verify you’re human. Complete the check on your computer, then Ori continues."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Сайт просит подтвердить, что вы человек. Пройдите проверку на компьютере — Blot продолжит."
+            "value" : "Сайт просит подтвердить, что вы человек. Пройдите проверку на компьютере — Ori продолжит."
           }
         }
       }
@@ -51659,19 +51659,19 @@
         }
       }
     },
-    "Системная тема следует настройкам iPhone. Светлая и тёмная темы применяются только к Blot на этом iPhone." : {
+    "Системная тема следует настройкам iPhone. Светлая и тёмная темы применяются только к Ori на этом iPhone." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "System follows your iPhone. Light and Dark apply to Blot on this iPhone only."
+            "value" : "System follows your iPhone. Light and Dark apply to Ori on this iPhone only."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Системная тема следует настройкам iPhone. Светлая и тёмная темы применяются только к Blot на этом iPhone."
+            "value" : "Системная тема следует настройкам iPhone. Светлая и тёмная темы применяются только к Ori на этом iPhone."
           }
         }
       }
@@ -51781,19 +51781,19 @@
         }
       }
     },
-    "Скопируйте сообщение, чтобы рассказать другу о Blot." : {
+    "Скопируйте сообщение, чтобы рассказать другу о Ori." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Copy a message to share Blot with a friend."
+            "value" : "Copy a message to share Ori with a friend."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Скопируйте сообщение, чтобы рассказать другу о Blot."
+            "value" : "Скопируйте сообщение, чтобы рассказать другу о Ori."
           }
         }
       }
@@ -51971,19 +51971,19 @@
         }
       }
     },
-    "Сначала Blot составляет план. Работа начинается после вашего подтверждения, а результат проверяет независимый рецензент." : {
+    "Сначала Ori составляет план. Работа начинается после вашего подтверждения, а результат проверяет независимый рецензент." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blot drafts a plan first. Work starts after you approve it, and an independent reviewer checks the result."
+            "value" : "Ori drafts a plan first. Work starts after you approve it, and an independent reviewer checks the result."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Сначала Blot составляет план. Работа начинается после вашего подтверждения, а результат проверяет независимый рецензент."
+            "value" : "Сначала Ori составляет план. Работа начинается после вашего подтверждения, а результат проверяет независимый рецензент."
           }
         }
       }
@@ -52382,19 +52382,19 @@
         }
       }
     },
-    "Создайте чат выше, чтобы начать работу с Blot." : {
+    "Создайте чат выше, чтобы начать работу с Ori." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Create a chat above to start working with Blot."
+            "value" : "Create a chat above to start working with Ori."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Создайте чат выше, чтобы начать работу с Blot."
+            "value" : "Создайте чат выше, чтобы начать работу с Ori."
           }
         }
       }
@@ -53241,19 +53241,19 @@
         }
       }
     },
-    "Специалисты начнут после вашего подтверждения. Чтобы изменить задачу, уточните цель ниже — Blot подготовит новый план." : {
+    "Специалисты начнут после вашего подтверждения. Чтобы изменить задачу, уточните цель ниже — Ori подготовит новый план." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Specialists start once you approve. To change scope, refine the goal below — Blot drafts a new version."
+            "value" : "Specialists start once you approve. To change scope, refine the goal below — Ori drafts a new version."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Специалисты начнут после вашего подтверждения. Чтобы изменить задачу, уточните цель ниже — Blot подготовит новый план."
+            "value" : "Специалисты начнут после вашего подтверждения. Чтобы изменить задачу, уточните цель ниже — Ori подготовит новый план."
           }
         }
       }
@@ -53343,19 +53343,19 @@
         }
       }
     },
-    "Спрашивать · Доступ к папке Blot Workspace" : {
+    "Спрашивать · Доступ к папке Ori Workspace" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ask first · Access to Blot Workspace folder"
+            "value" : "Ask first · Access to Ori Workspace folder"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Спрашивать · Доступ к папке Blot Workspace"
+            "value" : "Спрашивать · Доступ к папке Ori Workspace"
           }
         }
       }
@@ -53411,19 +53411,19 @@
         }
       }
     },
-    "Спросить Blot" : {
+    "Спросить Ori" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ask Blot"
+            "value" : "Ask Ori"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Спросить Blot"
+            "value" : "Спросить Ori"
           }
         }
       }
@@ -55305,7 +55305,7 @@
         }
       }
     },
-    "Учёт использования моделей в этом аккаунте Blot." : {
+    "Учёт использования моделей в этом аккаунте Ori." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -55317,7 +55317,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Учёт использования моделей в этом аккаунте Blot."
+            "value" : "Учёт использования моделей в этом аккаунте Ori."
           }
         }
       }
@@ -56175,19 +56175,19 @@
         }
       }
     },
-    "Что должен сделать Blot?" : {
+    "Что должен сделать Ori?" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "What should Blot do?"
+            "value" : "What should Ori do?"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Что должен сделать Blot?"
+            "value" : "Что должен сделать Ori?"
           }
         }
       }
@@ -56280,19 +56280,19 @@
         }
       }
     },
-    "Чтобы создать запуск, добавьте проект в Blot на Mac." : {
+    "Чтобы создать запуск, добавьте проект в Ori на Mac." : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Add a project in Blot on your Mac to create a run."
+            "value" : "Add a project in Ori on your Mac to create a run."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Чтобы создать запуск, добавьте проект в Blot на Mac."
+            "value" : "Чтобы создать запуск, добавьте проект в Ori на Mac."
           }
         }
       }

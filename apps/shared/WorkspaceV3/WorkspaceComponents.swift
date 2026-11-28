@@ -1,5 +1,5 @@
-import BlotDesign
-import BlotDomain
+import OriDesign
+import OriDomain
 import SwiftUI
 
 struct WorkspaceCard<Content: View>: View {
@@ -67,7 +67,7 @@ struct WorkspaceV3ActionButton: View {
     var body: some View {
         Button { _Concurrency.Task { await store.perform(action, next: next) } } label: {
             HStack {
-                if store.busy { ProgressView().controlSize(.small).tint(kind == .primary ? BlotColor.onInverse : WorkspaceStyle.ink) }
+                if store.busy { ProgressView().controlSize(.small).tint(kind == .primary ? OriColor.onInverse : WorkspaceStyle.ink) }
                 Text(store.t(title)).frame(maxWidth: .infinity)
             }
         }.buttonStyle(WorkspaceButtonStyle(kind)).disabled(store.busy)
@@ -84,7 +84,7 @@ struct WorkspaceLink: View {
             HStack(spacing: 14) {
                 Text(store.t(title)).multilineTextAlignment(.leading)
                 Spacer(minLength: 4)
-                BlotIcon(symbol: symbol).foregroundStyle(WorkspaceStyle.secondary)
+                OriIcon(symbol: symbol).foregroundStyle(WorkspaceStyle.secondary)
             }
             #if os(macOS)
             .frame(minHeight: 32)
@@ -119,7 +119,7 @@ struct WorkspaceField: View {
 }
 
 struct WorkspaceAvatarView: View {
-    let agent: BlotV3.AgentProfile
+    let agent: OriV3.AgentProfile
     var size: CGFloat = 48
     var animated = false
     var body: some View {
@@ -136,7 +136,7 @@ struct WorkspaceFeedback: View {
     @Environment(WorkspaceStore.self) private var store
     var body: some View {
         if let error = store.error {
-            BlotLabel(store.t(error), symbol: "exclamationmark.triangle")
+            OriLabel(store.t(error), symbol: "exclamationmark.triangle")
                 .font(.callout).foregroundStyle(.red).padding(12).frame(maxWidth: .infinity, alignment: .leading)
                 .background(WorkspaceStyle.surface, in: RoundedRectangle(cornerRadius: WorkspaceStyle.radius, style: .continuous))
                 .accessibilityIdentifier("workspace.error")
@@ -165,7 +165,7 @@ struct WorkspaceDataState: View {
     var body: some View {
         WorkspaceCard {
             VStack(alignment: .leading, spacing: 18) {
-                if state == .loading { ProgressView() } else { BlotIcon(symbol: symbol, size: 40).font(.largeTitle) }
+                if state == .loading { ProgressView() } else { OriIcon(symbol: symbol, size: 40).font(.largeTitle) }
                 Text(store.t(title)).font(.title2)
                 Text(store.t(state == .unknown ? "The result has not been confirmed. Check before retrying." :
                     state == .empty ? "Start a conversation or add an item to continue." : "Your input is saved. You can continue when the service is available."))

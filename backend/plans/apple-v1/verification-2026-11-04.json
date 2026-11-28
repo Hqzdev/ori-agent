@@ -6,15 +6,15 @@
   "sourceManifestSHA256": "d3f5414c944ed2a89ed2f22bbb08d5651f088a6bcd96b18f65b605c27f954928",
   "sourceFiles": 389,
   "scopes": {
-    "packages/BlotWorkspace": {
+    "packages/OriWorkspace": {
       "files": 64,
       "sha256": "335f8df0799c069d107ba36aa316bc5ec4d1befb0c3db4749a44d79674bb497e"
     },
-    "packages/BlotDomain/Sources/BlotDomain/V3": {
+    "packages/OriDomain/Sources/OriDomain/V3": {
       "files": 1,
       "sha256": "84213ed44c4790926cc01755e521086c1d4aa1629840f40c7f326a613a772966"
     },
-    "packages/BlotDomain/Tests/BlotDomainTests/V3ContractTests.swift": {
+    "packages/OriDomain/Tests/OriDomainTests/V3ContractTests.swift": {
       "files": 1,
       "sha256": "c3e7508df11b296e9a3da9f1ecbf5b5255c4616ded9a9814e04a4528737fdcc8"
     },
@@ -22,11 +22,11 @@
       "files": 42,
       "sha256": "710d3e5f3f310b22b896bf194593fb8d0b0220886c0ef7826627ca511d1c56a5"
     },
-    "backend/core/src/main/java/dev/blot/core/v3": {
+    "backend/core/src/main/java/dev/ori/core/v3": {
       "files": 63,
       "sha256": "1dbde1d76f5f6280dfbf75857aaac20e94c0f194b151146da6b130234eec0bb7"
     },
-    "backend/api/src/test/java/dev/blot/api/V3ContractTest.java": {
+    "backend/api/src/test/java/dev/ori/api/V3ContractTest.java": {
       "files": 1,
       "sha256": "ddb162950cdfd35802a6a4655e5f39dc1d0d779cb447bb9efac339b58b5c6e10"
     },
@@ -50,15 +50,15 @@
       "files": 4,
       "sha256": "65ba5df6863f4aa69de7093ddf425b5fdc64ef0ea2d5bc58c8552a7df66b0d4b"
     },
-    "apps/Blot.xcodeproj/project.pbxproj": {
+    "apps/Ori.xcodeproj/project.pbxproj": {
       "files": 1,
       "sha256": "8a4fe61f509ea4e08fe411a00224dc8f71f7b823334344e51eec8cd3e9df0f38"
     },
-    "apps/ios/BlotIOS/Features/Chat/PhoneConversationView.swift": {
+    "apps/ios/OriIOS/Features/Chat/PhoneConversationView.swift": {
       "files": 1,
       "sha256": "1532cd64707a5a872eda8a637352c82b9f219ce702c6cb86de80947e9451b0ed"
     },
-    "apps/macos/BlotMac/Features/Chat/MacWorkspaceChatPage.swift": {
+    "apps/macos/OriMac/Features/Chat/MacWorkspaceChatPage.swift": {
       "files": 1,
       "sha256": "445953d305a6c935e431d7129d76799e362ffa00359312ba5a66067d09624885"
     },
@@ -163,14 +163,14 @@
     "composeConfig": "PASS; container not started"
   },
   "commands": [
-    "swift test --disable-sandbox --package-path packages/BlotWorkspace --scratch-path .build/apple-v1-workspace",
-    "swift test --disable-sandbox --package-path packages/BlotDomain --scratch-path .build/apple-v1-domain",
-    "backend/gradlew --offline --no-daemon -p backend :cloud:test :cloud:spotlessCheck :cloud:bootJar :api:test --tests dev.blot.api.V3ContractTest",
+    "swift test --disable-sandbox --package-path packages/OriWorkspace --scratch-path .build/apple-v1-workspace",
+    "swift test --disable-sandbox --package-path packages/OriDomain --scratch-path .build/apple-v1-domain",
+    "backend/gradlew --offline --no-daemon -p backend :cloud:test :cloud:spotlessCheck :cloud:bootJar :api:test --tests dev.ori.api.V3ContractTest",
     ".build/checks-venv/bin/python scripts/check-v3-schemas.py",
     "./scripts/check-workspace-v3.sh --local-only",
     "python3 scripts/check-apple-cloud-wire.py",
     "python3 scripts/check-apple-iphone.py",
-    "xcodebuild -project apps/Blot.xcodeproj -scheme BlotIOS -destination 'generic/platform=iOS Simulator' -derivedDataPath .build/apple-v1-ios CODE_SIGNING_ALLOWED=NO build"
+    "xcodebuild -project apps/Ori.xcodeproj -scheme OriIOS -destination 'generic/platform=iOS Simulator' -derivedDataPath .build/apple-v1-ios CODE_SIGNING_ALLOWED=NO build"
   ],
   "productAcceptance": {
     "accepted": 0,

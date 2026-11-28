@@ -1,5 +1,5 @@
 import AppKit
-import BlotDesign
+import OriDesign
 import SwiftUI
 
 /// Standalone checks compiled against the app sources by check-macos-shell.sh.
@@ -101,7 +101,7 @@ struct VerifyMacOSShell {
 
     @MainActor private static func checkModels() async throws {
         let app = AppState()
-        app.currentUser = AuthUser(email: "preview@blot.local", name: "Preview")
+        app.currentUser = AuthUser(email: "preview@ori.local", name: "Preview")
         app.shell.sidebarWidth = 304
         app.openTask(projectID: "tradr", taskID: "pnl")
         precondition(app.shellPanelVisible)
@@ -147,7 +147,7 @@ struct VerifyMacOSShell {
         precondition(app.shell.attachedSources["other"] == nil)
         app.openHome()
         app.approve(projectID: "tradr", taskID: "pnl")
-        precondition(app.blotStimulus.context == .task("tradr:pnl") && app.activeBlotContext == .home)
+        precondition(app.oriStimulus.context == .task("tradr:pnl") && app.activeOriContext == .home)
         app.switchProduct(.work)
         app.openNewItem()
         precondition(app.workRoute == .home && app.shellSection == .chats)
@@ -165,7 +165,7 @@ struct VerifyMacOSShell {
         app.sendWorkChatMessage()
         let chat = app.currentWorkChat!
         precondition(chat.messages.count == 2 && chat.projectID == "java-cart" && app.workSessions.count == teamCount)
-        precondition(app.activeBlotContext == .workChat(chat.id))
+        precondition(app.activeOriContext == .workChat(chat.id))
         app.workChatDraft = "Keep this draft"
         app.switchProduct(.code)
         app.switchProduct(.work)
@@ -179,7 +179,7 @@ struct VerifyMacOSShell {
         precondition(app.currentWorkChat?.id == chat.id && app.workChatDraft == "Keep this draft" && app.workChat.selectedProjectID == "java-cart")
         app.openSection(.skills)
         precondition(app.shellSection == .skills && !app.shellSupportsProjectPanel)
-        app.openBlotChat()
+        app.openOriChat()
         precondition(app.currentWorkChat?.id == chat.id && app.shellSection == .chats)
         app.openWorkRun("receipt")
         precondition(app.product == .code && app.shellSection == .motes)
@@ -195,7 +195,7 @@ struct VerifyMacOSShell {
         app.newRun.goal = "Verify local run"
         app.createLocalRun()
         let id = app.selectedRunID
-        precondition(app.blotStimulus.context == .run(id))
+        precondition(app.oriStimulus.context == .run(id))
         app.workDraft = "Preserve me"
         let manager = app.team.first { $0.role == .projectManager }!
         app.toggleAgent(.projectManager)
@@ -203,7 +203,7 @@ struct VerifyMacOSShell {
         app.toggleAgent(.projectManager)
         precondition(app.team.first { $0.role == .projectManager }?.state == manager.state)
         app.pauseOrResumeRun()
-        precondition(app.currentWorkSession?.status == .paused && app.activeBlotState == .idle)
+        precondition(app.currentWorkSession?.status == .paused && app.activeOriState == .idle)
         app.pauseOrResumeRun()
         precondition(app.team.first { $0.role == .projectManager }?.state == manager.state)
         app.paletteVisible = true
@@ -221,12 +221,12 @@ struct VerifyMacOSShell {
         precondition(!graph.nodes.contains { $0.role == .qa || $0.role == .integrator })
         precondition(graph.labels.allSatisfy { label in graph.edges.contains { $0.id == label.edgeID } })
         let runtime = TestRuntime()
-        let director = BlotDirector(now: { runtime.date }, random: { runtime.random($0) })
-        var previous = BlotState.idle
+        let director = OriDirector(now: { runtime.date }, random: { runtime.random($0) })
+        var previous = OriState.idle
         var lastBig: Date?
         var bigBeats = 0
-        var lastExpression: BlotState?
-        var firstScene: [BlotState] = []
+        var lastExpression: OriState?
+        var firstScene: [OriState] = []
         var idleStarted: Date?
         for _ in 0..<2400 {
             runtime.date.addTimeInterval(0.1)
@@ -252,9 +252,9 @@ struct VerifyMacOSShell {
         precondition(bigBeats >= 26)
         // Different random seeds must preserve the authored pacing and scene order.
         let secondClock = TestRuntime()
-        let second = BlotDirector(now: { secondClock.date }, random: { $0.upperBound })
-        var secondScene: [BlotState] = []
-        var secondPrevious = BlotState.idle
+        let second = OriDirector(now: { secondClock.date }, random: { $0.upperBound })
+        var secondScene: [OriState] = []
+        var secondPrevious = OriState.idle
         for _ in 0..<100 {
             secondClock.date.addTimeInterval(0.1); second.tick(.lively)
             if second.act != secondPrevious && second.act != .idle { secondScene.append(second.act) }
@@ -276,7 +276,7 @@ struct VerifyMacOSShell {
         precondition(director.act == .error)
         runtime.date.addTimeInterval(1); director.tick(.lively)
         precondition(director.act == .listening)
-        let cancelled = BlotDirector(wait: { _ in try await Task.sleep(for: .milliseconds(5)) })
+        let cancelled = OriDirector(wait: { _ in try await Task.sleep(for: .milliseconds(5)) })
         let scheduler = Task { await cancelled.run(.lively, intro: false) }
         try await Task.sleep(for: .milliseconds(20))
         scheduler.cancel()
@@ -288,17 +288,17 @@ struct VerifyMacOSShell {
     }
 
     @MainActor private static func checkWorkspaceLibrary() async throws {
-        let suite = "blot.workspace.check." + UUID().uuidString
+        let suite = "ori.workspace.check." + UUID().uuidString
         let defaults = UserDefaults(suiteName: suite)!
         defer { defaults.removePersistentDomain(forName: suite) }
         let usage = AccountPluginUsage(defaults: defaults)
         let first = AccountPlugin(id: "one", name: "One", icon: "puzzle", launchURL: URL(string: "https://example.com/one")!)
         let second = AccountPlugin(id: "two", name: "Two", icon: "puzzle", launchURL: URL(string: "https://example.com/two")!, usageCount: 2)
-        var user = AuthUser(email: "first@blot.local", name: "First", installedPlugins: [first, second])
+        var user = AuthUser(email: "first@ori.local", name: "First", installedPlugins: [first, second])
         precondition(usage.mostUsed(for: user).map(\.id) == ["two", "one"])
         for _ in 0..<3 { usage.recordOpening(first.id, for: user) }
         precondition(usage.mostUsed(for: user).map(\.id) == ["one", "two"])
-        let other = AuthUser(email: "second@blot.local", name: "Second", installedPlugins: [first, second])
+        let other = AuthUser(email: "second@ori.local", name: "Second", installedPlugins: [first, second])
         precondition(usage.mostUsed(for: other).map(\.id) == ["two", "one"])
         user.installedPlugins = [second]
         precondition(usage.mostUsed(for: user).map(\.id) == ["two"])
@@ -418,14 +418,14 @@ struct VerifyMacOSShell {
                 }
                 for scenario in scenarios {
                     let state = AppState()
-                    state.currentUser = AuthUser(email: "preview@blot.local", name: "Yaroslav")
+                    state.currentUser = AuthUser(email: "preview@ori.local", name: "Yaroslav")
                     state.theme = light ? .light : .dark
                     state.settings.reduceMotion = true
                     scenario.configure(state)
                     let login: LoginViewModel?
                     if let screen = scenario.auth {
                         state.currentUser = nil
-                        let model = LoginViewModel(lastEmail: "preview@blot.local")
+                        let model = LoginViewModel(lastEmail: "preview@ori.local")
                         model.screen = screen
                         login = model
                     } else { login = nil }

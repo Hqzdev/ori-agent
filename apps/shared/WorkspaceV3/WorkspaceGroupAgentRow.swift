@@ -1,9 +1,9 @@
-import BlotDesign
-import BlotDomain
+import OriDesign
+import OriDomain
 import SwiftUI
 
 struct WorkspaceGroupAgentRow: View {
-    let agent: BlotV3.AgentProfile
+    let agent: OriV3.AgentProfile
     let selected: Bool
     let toggle: () -> Void
     @Environment(WorkspaceStore.self) private var store

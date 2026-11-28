@@ -9,7 +9,7 @@ import { useTheme } from "./useTheme";
 export function SiteShell({ children }) {
   const { theme, changeTheme } = useTheme();
   return <LocaleProvider><MotionConfig reducedMotion="user">
-    <div className="blot-landing">
+    <div className="ori-landing">
       <a className="skip-link" href="#main-content"><SiteText>Skip to content</SiteText></a>
       <Navigation />
       {children}

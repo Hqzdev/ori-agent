@@ -1,5 +1,5 @@
 <configuration>
-  <springProperty scope="context" name="dataDir" source="blot.data-directory" defaultValue=".build/blot-data"/>
+  <springProperty scope="context" name="dataDir" source="blot.data-directory" defaultValue=".build/ori-data"/>
   <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <file>${dataDir}/logs/backend.log</file>
     <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">

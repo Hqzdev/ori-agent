@@ -1,12 +1,12 @@
-import BlotDesign
-import BlotDomain
-import BlotWorkspace
+import OriDesign
+import OriDomain
+import OriWorkspace
 import SwiftUI
 
 struct WorkspaceGroupPlanCard: View {
     let plan: WorkspaceGroupPlanProgress
-    let agents: [BlotV3.AgentProfile]
-    var skills: [BlotV3.Skill] = []
+    let agents: [OriV3.AgentProfile]
+    var skills: [OriV3.Skill] = []
     var russian = false
 
     var body: some View {

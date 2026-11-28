@@ -1,6 +1,6 @@
-import BlotDesign
-import BlotDomain
-import BlotWorkspace
+import OriDesign
+import OriDomain
+import OriWorkspace
 import Foundation
 import QuickLook
 import SwiftUI

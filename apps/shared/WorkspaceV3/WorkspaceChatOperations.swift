@@ -1,9 +1,9 @@
-import BlotDomain
+import OriDomain
 import Foundation
 
 @MainActor
 enum WorkspaceChatOperations {
-    static func updating(_ chat: BlotV3.Conversation, pinned: Bool? = nil, archived: Bool? = nil, title: String? = nil) throws -> BlotV3.Conversation {
+    static func updating(_ chat: OriV3.Conversation, pinned: Bool? = nil, archived: Bool? = nil, title: String? = nil) throws -> OriV3.Conversation {
         try .init(metadata: chat.metadata, agentId: chat.agentId, title: title ?? chat.title, mobileOwned: chat.mobileOwned,
                   pinned: pinned ?? chat.pinned, archived: archived ?? chat.archived)
     }
@@ -15,7 +15,7 @@ enum WorkspaceChatOperations {
                 .max(by: { result.conversations[$0].metadata.updatedAt < result.conversations[$1].metadata.updatedAt }) {
                 result.conversations[index] = try updating(result.conversations[index], pinned: true)
             } else if !result.conversations.contains(where: { $0.agentId == agent.metadata.id }) {
-                let metadata = try BlotV3.RecordMetadata(id: UUID(), ownerId: agent.metadata.ownerId,
+                let metadata = try OriV3.RecordMetadata(id: UUID(), ownerId: agent.metadata.ownerId,
                     workspaceId: agent.metadata.workspaceId, version: 1, createdAt: Date(), updatedAt: Date())
                 result.conversations.append(try .init(metadata: metadata, agentId: agent.metadata.id,
                     title: agent.name, mobileOwned: false, pinned: true, archived: false))

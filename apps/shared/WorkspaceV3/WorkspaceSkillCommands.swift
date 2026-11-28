@@ -1,12 +1,12 @@
-import BlotDomain
-import BlotWorkspace
+import OriDomain
+import OriWorkspace
 import Foundation
 
 @MainActor
 protocol WorkspaceSkillCommands: WorkspaceObservationService {
     func saveSkill(id: UUID?, version: Int, name: String, instructions: String, parameters: [SkillParameter], tools: [String]) async throws -> UUID
-    func archiveSkill(_ skill: BlotV3.Skill, archived: Bool) async throws
-    func activateSkill(_ skill: BlotV3.Skill, revisionID: UUID) async throws
+    func archiveSkill(_ skill: OriV3.Skill, archived: Bool) async throws
+    func activateSkill(_ skill: OriV3.Skill, revisionID: UUID) async throws
     func assignSkill(_ skillID: UUID, agentID: UUID, assigned: Bool, version: Int) async throws
     func runSkill(_ skillID: UUID, revisionID: UUID, agentID: UUID, values: [String: String], conversationID: UUID?) async throws -> UUID
     func renderSkill(_ revisionID: UUID, values: [String: String]) async throws -> String

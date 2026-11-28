@@ -9,10 +9,10 @@ const definitions = [
   ["P0.6", "rules/supported-projects.md", "Поддерживаемые проекты", "Выбраны Java/Swift control projects и проверяемые дефекты с до/после."],
   ["P0.7", "rules/platform-matrix.md", "Матрица платформ", "Пользователь утвердил минимальные версии: macOS 26 и iOS 26. Проверки приложения на устройствах предстоят."],
   ["P0.8", "rules/tool-boundaries.md", "Границы инструментов", "Определены read, patch, process, Git, сеть и допуск native runner."],
-  ["P0.9", "rules/data-lifecycle.md", "Жизненный цикл данных", "Прослежены storage, archive, export, restore и удаление данных Blot."],
+  ["P0.9", "rules/data-lifecycle.md", "Жизненный цикл данных", "Прослежены storage, archive, export, restore и удаление данных Ori."],
   ["P0.10", "archive/acceptance-matrix.md", "Матрица приёмки", "18 требований и 24 блока связаны с экранами, API, задачами и evidence."],
   ["A2.1", "architecture/repo-policy.md", "Репозиторий и Git", "Git, .gitignore и .gitattributes проверены. Main защищена на GitHub: обязательный PR, запрет force push и удаления."],
-  ["A2.2", "architecture/apple-targets.md", "Targets macOS и iOS", "Созданы BlotMac и BlotIOS, общие схемы, минимум ОС 26. Проверены сборки приложений; пользовательский экран сохранён."],
+  ["A2.2", "architecture/apple-targets.md", "Targets macOS и iOS", "Созданы OriMac и OriIOS, общие схемы, минимум ОС 26. Проверены сборки приложений; пользовательский экран сохранён."],
   ["A2.3", "architecture/swift-packages.md", "Общие Swift packages", "Подготовлены Package.swift и папки четырёх пакетов. Исходники и тесты пишет пользователь."],
   ["A2.4", "architecture/java-modules.md", "Java-модули", "Настроены четыре модуля Gradle, Wrapper, зависимости и папки. Java-код удалён."],
   ["A2.5", "architecture/composition-root.md", "Composition root", "Описаны интерфейсы, зависимости и сроки жизни. CompositionRoot предстоит написать пользователю."],
@@ -31,7 +31,7 @@ function document(id, relativePath, title, summary, taskId = id) {
 
 export const architectureDocuments = Object.freeze(definitions.map((entry) => document(...entry)));
 export const documentationReview = document("documentation-review", "status/documentation-review.md", "Протокол проверки документов", "Сценарная и структурная проверка документальных результатов.", null);
-export const documentationIndex = document("architecture-overview", "README.md", "Архитектура Blot", "Общий индекс решений, границ и открытых работ.", null);
+export const documentationIndex = document("architecture-overview", "README.md", "Архитектура Ori", "Общий индекс решений, границ и открытых работ.", null);
 export const implementationPlan = document("implementation-plan", "archive/implementation-plan.md", "Порядок реализации", "Все задачи в порядке зависимостей и список доступных работ.", null);
 export const agentDocuments = Object.freeze([
   ["orchestrator", "Оркестратор"],
@@ -40,19 +40,19 @@ export const agentDocuments = Object.freeze([
   ["agent-system-prompts", "Системные инструкции агентов"],
   ["agent-capabilities", "Возможности агентов"],
   ["motes", "Motes: малые специализированные агенты"],
-].map(([id, title]) => document(id, `agents/${id}.md`, title, "Документация агентов Blot.", null)));
+].map(([id, title]) => document(id, `agents/${id}.md`, title, "Документация агентов Ori.", null)));
 export const futureDocuments = Object.freeze([
-  document("optimization", "rules/optimization.md", "Оптимизация работы Blot", "Целевые правила расходов, скорости и качества.", null),
+  document("optimization", "rules/optimization.md", "Оптимизация работы Ori", "Целевые правила расходов, скорости и качества.", null),
   document("google-workspace", "integrations/google-workspace.md", "Будущая интеграция Google Workspace", "План Gmail, Calendar и Drive; статус за пределами первой поставки.", null),
 ]);
 export const currentProductDocuments = Object.freeze([
   document("apple-apps", "integrations/apple-apps.md", "Системные приложения Apple", "Подключение, разрешения, инструменты и ограничения нативных интеграций.", null),
   document("apple-v3-implementation", "status/apple-v3-implementation.md", "Интерфейс Apple v3", "Сверка сущностей, каталог экранов и границы проверки серверных функций.", null),
-  document("module-map", "architecture/module-map.md", "Карта модулей Blot", "Кто за что отвечает: 16 блоков ядра, клиенты, облако и приёмка.", null),
+  document("module-map", "architecture/module-map.md", "Карта модулей Ori", "Кто за что отвечает: 16 блоков ядра, клиенты, облако и приёмка.", null),
   document("domain-model", "architecture/domain-model.md", "Сущности и состояния", "25 сущностей ТЗ, состояния задачи и расхождения с кодом.", null),
-  document("grok-bot-character-catalog", "design/grok-bot-character-catalog.md", "Персонажи роли и движения", "Сохранённые варианты Grok Bot, наблюдаемая анимация и требования к компоненту Blot.", null),
-  document("blot-product-plan", "product/blot-product-plan.md", "План Blot для четырёх платформ", "Требования от 1 ноября: блоки, архитектура, инфраструктура, сроки и оценка кода.", null),
-  document("blot-technical-specification", "product/blot-technical-specification.md", "Техническое задание Blot", "Четыре платформы, CEO и агенты, локальные данные, инструменты, интеграции и приёмка.", null),
+  document("grok-bot-character-catalog", "design/grok-bot-character-catalog.md", "Персонажи роли и движения", "Сохранённые варианты Grok Bot, наблюдаемая анимация и требования к компоненту Ori.", null),
+  document("ori-product-plan", "product/ori-product-plan.md", "План Ori для четырёх платформ", "Требования от 1 ноября: блоки, архитектура, инфраструктура, сроки и оценка кода.", null),
+  document("ori-technical-specification", "product/ori-technical-specification.md", "Техническое задание Ori", "Четыре платформы, CEO и агенты, локальные данные, инструменты, интеграции и приёмка.", null),
   document("mcp-developer-guide", "integrations/mcp-developer-guide.md", "Подключение MCP серверов", "Целевой контракт внешних инструментов: transports, авторизация, разрешения и проверка совместимости.", null),
   document("native-terminal-git", "status/native-terminal-git.md", "Нативный терминал и Git", "Архитектура исполнителя на Mac, границы доступа и результаты проверки.", null),
 ]);

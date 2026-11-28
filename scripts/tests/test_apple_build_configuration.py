@@ -67,13 +67,13 @@ class AppleConfigurationTests(unittest.TestCase):
             source = Path(directory) / 'input.env'
             info = Path(directory) / 'Info.plist'
             source.write_text('\n'.join(key + '=' + value for key, value in env.items()))
-            info.write_bytes(plistlib.dumps({'CFBundleIdentifier': 'dev.blot.test'}))
+            info.write_bytes(plistlib.dumps({'CFBundleIdentifier': 'dev.ori.test'}))
             result = subprocess.run([sys.executable, str(config.ROOT / 'scripts/apple_build_configuration.py'),
                                      '--info-plist', str(info)],
                                     env={'BLOT_ENV_FILE': str(source)}, capture_output=True, text=True)
             self.assertEqual(result.returncode, 0, result.stderr)
             value = plistlib.loads(info.read_bytes())
-            self.assertEqual(value['CFBundleIdentifier'], 'dev.blot.test')
+            self.assertEqual(value['CFBundleIdentifier'], 'dev.ori.test')
             ats = value['NSAppTransportSecurity']
             self.assertEqual(set(ats), {'NSExceptionDomains'})
             self.assertEqual(set(ats['NSExceptionDomains']), {'api.example.com', 'oauth.example.com'})

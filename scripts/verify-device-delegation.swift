@@ -1,5 +1,5 @@
-import BlotDomain
-import BlotWorkspace
+import OriDomain
+import OriWorkspace
 import Foundation
 
 private actor DeviceCredentials: WorkspaceCredentialStore {
@@ -86,7 +86,7 @@ private actor MacTaskModel: ChatModel {
         try await macService.revokePairedDevice(phoneID.deviceID)
         let blocked = try await phoneService.delegateTask(conversationID: chat, agentID: agent, deviceID: macID.deviceID, goal: "This must not execute")
         try await phoneBackup.synchronize(); try await macBackup.synchronize()
-        let record = try await mac.record(BlotV3.Task.self, id: blocked, workspaceID: macID.workspaceID)!
+        let record = try await mac.record(OriV3.Task.self, id: blocked, workspaceID: macID.workspaceID)!
         do {
             try await WorkspaceTaskDelegation(repository: mac, identity: macID, authority: macTrust).authorize(record)
             preconditionFailure("Revoked device was authorized")

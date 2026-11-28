@@ -1,6 +1,6 @@
-import BlotDesign
-import BlotDomain
-import BlotWorkspace
+import OriDesign
+import OriDomain
+import OriWorkspace
 import SwiftUI
 
 struct WorkspaceTaskExecutionView: View {
@@ -8,7 +8,7 @@ struct WorkspaceTaskExecutionView: View {
     @State private var goal = ""
     @State private var executorID: UUID?
     @State private var projectID: UUID?
-    private var tasks: [BlotV3.Task] {
+    private var tasks: [OriV3.Task] {
         let tasks = (store.snapshot.tasks ?? []).filter { $0.conversationId == store.selectedConversationID }
             .sorted { $0.metadata.createdAt > $1.metadata.createdAt }
         #if os(iOS)
@@ -54,7 +54,7 @@ struct WorkspaceTaskExecutionView: View {
                     WorkspaceTaskStateLabel(state: task.state).font(.callout).foregroundStyle(.secondary)
                     let local = task.execution.executorDeviceId == store.snapshot.localDeviceID && (task.executionMode == .local_owned || task.executionMode == .delegated)
                     if !local, task.executionMode == .delegated {
-                        Text(store.language == "ru" ? "Ожидает выбранный Mac. Blot на Mac должен быть открыт; результат появится после синхронизации." : "Waiting for the selected Mac. Blot must be open there; results appear after sync.").font(.caption).foregroundStyle(.secondary)
+                        Text(store.language == "ru" ? "Ожидает выбранный Mac. Ori на Mac должен быть открыт; результат появится после синхронизации." : "Waiting for the selected Mac. Ori must be open there; results appear after sync.").font(.caption).foregroundStyle(.secondary)
                     }
                     if !local, task.execution.originDeviceId == store.snapshot.localDeviceID, ![.completed, .failed, .canceled].contains(task.state) {
                         Button(store.t("Stop task"), role: .destructive) { control(.stop, task: task) }.disabled(store.busy)
@@ -78,7 +78,7 @@ struct WorkspaceTaskExecutionView: View {
             WorkspaceFeedback()
         }.frame(maxWidth: 780, alignment: .leading).frame(maxWidth: .infinity)
     }
-    private func control(_ action: WorkspaceAction, task: BlotV3.Task) {
+    private func control(_ action: WorkspaceAction, task: OriV3.Task) {
         store.selectedRecordID = task.metadata.id
         _Concurrency.Task { await store.perform(action) }
     }

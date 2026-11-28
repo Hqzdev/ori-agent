@@ -1,6 +1,6 @@
-import BlotAppleIntegrations
-import BlotDomain
-import BlotWorkspace
+import OriAppleIntegrations
+import OriDomain
+import OriWorkspace
 import Foundation
 
 private actor MCPVerificationCredentials: WorkspaceCredentialStore {
@@ -71,7 +71,7 @@ for line in sys.stdin:
         let connectionID = try await mcp.save(inspection, selectedTools: ["echo"], agentIDs: [agent])
         require(try await service.currentSnapshot().mcpConnections.count == 1)
         let sourceID = try await WorkspaceChatService(repository: repository, identity: identity).sendMessage(commandID: UUID(), conversationID: conversation, content: "Use MCP")
-        let source = try await repository.record(BlotV3.Message.self, id: sourceID, workspaceID: identity.workspaceID)!
+        let source = try await repository.record(OriV3.Message.self, id: sourceID, workspaceID: identity.workspaceID)!
         let response = _Concurrency.Task { @MainActor in for try await _ in try await service.responses(to: source) {} }
         try await approve(service); try await response.value
         require(try await service.currentSnapshot().toolInvocations?.filter { $0.state == .succeeded }.count == 1)

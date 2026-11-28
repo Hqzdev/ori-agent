@@ -72,7 +72,7 @@
   ],
   "artifacts": [
     {
-      "file": "/Users/yaroslavfairfieldd/Documents/klin-agent/.build/artifacts/Blot-Mac-personal-dev.zip",
+      "file": "/Users/yaroslavfairfieldd/Documents/klin-agent/.build/artifacts/Ori-Mac-personal-dev.zip",
       "bytes": 83026560,
       "sha256": "c6473961216ec2d726d9af652803681d9ba977d3ac50031bd693cd9ff0a03a20",
       "profile": "personal-dev Debug",
@@ -80,7 +80,7 @@
       "buildVersion": "2"
     },
     {
-      "file": "/Users/yaroslavfairfieldd/Documents/klin-agent/.build/artifacts/Blot-iPhone-personal-dev.ipa",
+      "file": "/Users/yaroslavfairfieldd/Documents/klin-agent/.build/artifacts/Ori-iPhone-personal-dev.ipa",
       "bytes": 12320173,
       "sha256": "b9028eb3fd25bd810031e9229518caa8a123b8da7e378da9edbf07e9ae7c1389",
       "profile": "personal-dev Debug",

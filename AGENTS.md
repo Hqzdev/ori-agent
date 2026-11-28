@@ -59,11 +59,11 @@ Branches and computers do not synchronize automatically. Transfer shared core ch
 
 Keep the receiving platform base on its previous working version until its adaptation is validated. If a core change cannot remain compatible with older clients, coordinate its rollout and versioning before replacing a shared deployed service.
 
-Distinguish shared Java backend/contracts from the Apple-local Swift core in `packages/BlotWorkspace`. Git transfers Swift source, but does not make it executable in the Java Android/Windows applications. Implement the corresponding behavior in Java or expose it through an agreed API; use common contracts and fixtures to verify parity.
+Distinguish shared Java backend/contracts from the Apple-local Swift core in `packages/OriWorkspace`. Git transfers Swift source, but does not make it executable in the Java Android/Windows applications. Implement the corresponding behavior in Java or expose it through an agreed API; use common contracts and fixtures to verify parity.
 
 ## Shared code and compatibility
 
-- `backend/`, `contracts/`, `fixtures/`, `landing/`, `scripts/`, CI, and this file affect more than one platform. `apps/shared/`, `packages/`, and `apps/Blot.xcodeproj` are shared by the Apple clients. Inspect their consumers before changing them.
+- `backend/`, `contracts/`, `fixtures/`, `landing/`, `scripts/`, CI, and this file affect more than one platform. `apps/shared/`, `packages/`, and `apps/Ori.xcodeproj` are shared by the Apple clients. Inspect their consumers before changing them.
 - Isolate shared backend/contract changes in a focused commit or pull request under the owning platform prefix. Check affected consumers, integrate through `main`, then update dependent platform bases. Shared backend code must not import platform UI or system APIs; use interfaces and platform adapters.
 - `contracts/v3/model.json` is the source for generated v3 models. Modify it and run `python3 scripts/generate-v3-contracts.py`, then `python3 scripts/format-v3-java.py`. Do not hand-edit generated Java/Swift DTOs or schemas. Commit the source and all affected generated outputs together.
 - Preserve compatibility with other platform branches. Breaking API, schema, or sync changes require a coordinated version/migration change and validation of affected clients. A clean Git merge does not prove compatibility.

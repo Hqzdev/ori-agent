@@ -1,6 +1,6 @@
 # Системные приложения Apple
 
-Blot выполняет интеграции локально на macOS/iOS 26+. Реализация находится в `packages/BlotAppleIntegrations`; рабочий `LocalWorkspaceService` добавляет `AppleToolProvider` в тот же `WorkspaceToolRegistry`, который вызывает модель. Демо использует общий каталог, но не подключает настоящие аккаунты.
+Ori выполняет интеграции локально на macOS/iOS 26+. Реализация находится в `packages/OriAppleIntegrations`; рабочий `LocalWorkspaceService` добавляет `AppleToolProvider` в тот же `WorkspaceToolRegistry`, который вызывает модель. Демо использует общий каталог, но не подключает настоящие аккаунты.
 
 ## Подключение
 
@@ -39,17 +39,17 @@ AppleScript не принимается от модели: фиксирован�
 
 На Mac иконки извлекаются во время отображения через `NSWorkspace`. Для iOS включены оригинальные иконки из публичных метаданных Apple App Store; ссылки и владелец записаны в файле `docs/integrations/apple-app-icon-sources.json` репозитория. Эти метаданные сами по себе не предоставляют лицензию на распространение графики: перед публичным выпуском владелец продукта должен подтвердить допустимость её использования по [условиям Apple](https://www.apple.com/legal/intellectual-property/guidelinesfor3rdparties.html). SF Symbols и private API не используются как замена оригинальных иконок приложений.
 
-App Intent «Открыть приложения Apple в Blot» открывает маркет из Siri/«Команд». App Intents не предоставляют общий доступ к данным других приложений.
+App Intent «Открыть приложения Apple в Ori» открывает маркет из Siri/«Команд». App Intents не предоставляют общий доступ к данным других приложений.
 
 ## Проверка
 
 Автоматически проверяются разрешённые ресурсы и агенты, отзыв доступа, отключение во время подтверждения, одноразовое исполнение записи, изменённые аргументы повторного вызова, неизвестный исход, отказ пользователя, границы папок и символические ссылки, компиляция фиксированных AppleScript и чтение старого Connection.
 
 ```sh
-swift test --disable-sandbox --package-path packages/BlotAppleIntegrations
-swift test --package-path packages/BlotWorkspace
+swift test --disable-sandbox --package-path packages/OriAppleIntegrations
+swift test --package-path packages/OriWorkspace
 ./script/build_and_run.sh --build-only
-xcodebuild -project apps/Blot.xcodeproj -scheme BlotIOS -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build
+xcodebuild -project apps/Ori.xcodeproj -scheme OriIOS -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build
 python3 scripts/check-v3-schemas.py
 ```
 

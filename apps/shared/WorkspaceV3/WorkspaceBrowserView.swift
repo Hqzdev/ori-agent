@@ -1,6 +1,6 @@
-import BlotAppleIntegrations
-import BlotDesign
-import BlotWorkspace
+import OriAppleIntegrations
+import OriDesign
+import OriWorkspace
 import SwiftUI
 import WebKit
 import QuickLook
@@ -41,7 +41,7 @@ struct WorkspaceBrowserView: View {
                 if let error = tab.error { Text(error).font(.caption).foregroundStyle(.secondary).padding(8).frame(maxWidth: .infinity, alignment: .leading) }
                 if tab.authenticationURL != nil {
                     VStack(alignment: .leading, spacing: 6) {
-                        Text(text("Этот провайдер запрещает встроенный вход. Системный браузер использует отдельную сессию; вход не переносится в Blot автоматически.", "This provider blocks embedded sign-in. The system browser uses a separate session; sign-in does not automatically transfer to Blot.")).font(.caption)
+                        Text(text("Этот провайдер запрещает встроенный вход. Системный браузер использует отдельную сессию; вход не переносится в Ori автоматически.", "This provider blocks embedded sign-in. The system browser uses a separate session; sign-in does not automatically transfer to Ori.")).font(.caption)
                         Button(text("Выбрать системный браузер…", "Use system browser…")) { systemAuthentication = true }
                     }.padding(10)
                 }
@@ -68,7 +68,7 @@ struct WorkspaceBrowserView: View {
         .alert(text("Системный вход", "System sign-in"), isPresented: $systemAuthentication) {
             Button(text("Открыть внешний браузер", "Open external browser")) { openSystemAuthentication() }
             Button(text("Отмена", "Cancel"), role: .cancel) {}
-        } message: { Text(text("Будет открыт браузер macOS/iOS только для этого входа. Его cookies не копируются в Blot.", "The system browser will open for this sign-in. Its cookies are not copied into Blot.")) }
+        } message: { Text(text("Будет открыт браузер macOS/iOS только для этого входа. Его cookies не копируются в Ori.", "The system browser will open for this sign-in. Its cookies are not copied into Ori.")) }
         .alert(controller.dialog?.origin ?? "", isPresented: Binding(get: { controller.dialog != nil }, set: { if !$0 { controller.dialog?.finish(accepted: false) } })) {
             if let dialog = controller.dialog {
                 if dialog.kind == .prompt { TextField(text("Ответ", "Response"), text: Binding(get: { dialog.input }, set: { dialog.input = $0 })) }
@@ -112,7 +112,7 @@ struct WorkspaceBrowserView: View {
         }.scrollIndicators(.hidden)
     }
     private var empty: some View {
-        ContentUnavailableView(text("Браузер Blot", "Blot browser"), systemImage: "globe", description: Text(text("Введите адрес сайта. Страница откроется внутри приложения.", "Enter a website address to open it inside the app.")))
+        ContentUnavailableView(text("Браузер Ori", "Ori browser"), systemImage: "globe", description: Text(text("Введите адрес сайта. Страница откроется внутри приложения.", "Enter a website address to open it inside the app.")))
             .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     private var downloads: some View {

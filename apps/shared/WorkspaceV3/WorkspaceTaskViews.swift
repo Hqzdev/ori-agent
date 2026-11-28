@@ -1,5 +1,5 @@
-import BlotDesign
-import BlotDomain
+import OriDesign
+import OriDomain
 import SwiftUI
 
 struct WorkspaceTaskView: View {
@@ -29,10 +29,10 @@ struct WorkspaceTaskView: View {
             Spacer(minLength: 30)
             WorkspaceAvatar(size: 100)
             WorkspaceWelcomeGreeting().font(.system(size: 34)).multilineTextAlignment(.center)
-            Text(store.t("Give Blot a task — it assembles the team and delivers the result."))
+            Text(store.t("Give Ori a task — it assembles the team and delivers the result."))
                 .foregroundStyle(WorkspaceStyle.secondary).multilineTextAlignment(.center)
             WorkspaceComposer().padding(.top, 10)
-            Text(store.t("Ask first · Access to Blot Workspace folder")).font(.caption).foregroundStyle(WorkspaceStyle.secondary)
+            Text(store.t("Ask first · Access to Ori Workspace folder")).font(.caption).foregroundStyle(WorkspaceStyle.secondary)
             HStack(alignment: .top, spacing: 16) {
                 suggestion("Research", detail: "Compare services and summarize", symbol: "magnifyingglass")
                 suggestion("Create", detail: "Draft a mockup or document", symbol: "rectangle.split.2x1")
@@ -45,11 +45,11 @@ struct WorkspaceTaskView: View {
     private func suggestion(_ title: String, detail: String, symbol: String) -> some View {
         Button { store.form.composer.draft = store.t(detail) } label: {
             VStack(alignment: .leading, spacing: 12) {
-                BlotIcon(symbol: symbol).font(.title2)
+                OriIcon(symbol: symbol).font(.title2)
                 Text(store.t(title)).font(.headline)
                 Text(store.t(detail)).foregroundStyle(WorkspaceStyle.secondary).fixedSize(horizontal: false, vertical: true)
             }.frame(maxWidth: .infinity, minHeight: 100, alignment: .topLeading).padding(18)
-                .overlay(RoundedRectangle(cornerRadius: 18).strokeBorder(BlotColor.edge))
+                .overlay(RoundedRectangle(cornerRadius: 18).strokeBorder(OriColor.edge))
         }.buttonStyle(WorkspaceRowButtonStyle())
     }
     private var chats: some View {
@@ -74,7 +74,7 @@ struct WorkspaceTaskView: View {
     private var search: some View {
         @Bindable var store = store
         return VStack(alignment: .leading, spacing: 22) {
-            HStack { BlotIcon(symbol: "magnifyingglass"); TextField(store.t("Search chats, files and agents"), text: $store.form.search.query).textFieldStyle(.plain) }
+            HStack { OriIcon(symbol: "magnifyingglass"); TextField(store.t("Search chats, files and agents"), text: $store.form.search.query).textFieldStyle(.plain) }
                 .padding(14)
                 #if os(iOS)
                 .workspaceInputSurface(cornerRadius: 28)
@@ -101,7 +101,7 @@ struct WorkspaceTaskView: View {
                     HStack(spacing: 16) {
                         WorkspaceAvatarView(agent: agent)
                         VStack(alignment: .leading, spacing: 8) { Text(agent.name).font(.headline); Text(store.t(agent.instructions)).font(.callout).foregroundStyle(WorkspaceStyle.secondary) }
-                        Spacer(); BlotIcon(symbol: "chevron.right")
+                        Spacer(); OriIcon(symbol: "chevron.right")
                     }.frame(minHeight: 64).contentShape(Rectangle())
                 }.buttonStyle(WorkspaceRowButtonStyle())
             }
@@ -133,7 +133,7 @@ struct WorkspaceTaskView: View {
         #if os(macOS)
         HStack(alignment: .top, spacing: 28) {
             runningOverview
-            WorkspaceCard { Text(store.t("Plan")).font(.title2); steps; Spacer(minLength: 100); Text(store.t("Blot Workspace · This computer")).font(.caption).foregroundStyle(WorkspaceStyle.secondary) }.frame(width: 260)
+            WorkspaceCard { Text(store.t("Plan")).font(.title2); steps; Spacer(minLength: 100); Text(store.t("Ori Workspace · This computer")).font(.caption).foregroundStyle(WorkspaceStyle.secondary) }.frame(width: 260)
         }
         #else
         runningOverview
@@ -145,11 +145,11 @@ struct WorkspaceTaskView: View {
             WorkspaceHeading(title: "Team at work", subtitle: "Sources are being checked and merged into one report.")
             #endif
             VStack(alignment: .leading, spacing: 18) {
-                BlotLabel(store.t(store.taskPaused ? "Paused" : "Comparing services"), symbol: store.taskPaused ? "pause" : "arrow.clockwise").font(.title3)
+                OriLabel(store.t(store.taskPaused ? "Paused" : "Comparing services"), symbol: store.taskPaused ? "pause" : "arrow.clockwise").font(.title3)
                 Text(store.t("6 of 8 checked · about 2 min")).font(.caption).opacity(0.7)
-                ProgressView(value: 0.75).tint(BlotColor.onInverse)
-            }.padding(24).frame(maxWidth: .infinity, alignment: .leading).foregroundStyle(BlotColor.onInverse)
-                .background(BlotColor.inverse, in: RoundedRectangle(cornerRadius: 20))
+                ProgressView(value: 0.75).tint(OriColor.onInverse)
+            }.padding(24).frame(maxWidth: .infinity, alignment: .leading).foregroundStyle(OriColor.onInverse)
+                .background(OriColor.inverse, in: RoundedRectangle(cornerRadius: 20))
             Text(store.t("TEAM AT WORK")).font(.caption.monospaced()).foregroundStyle(WorkspaceStyle.secondary)
             ForEach(store.snapshot.agents.prefix(3), id: \.metadata.id) { agent in
                 HStack(spacing: 16) { WorkspaceAvatarView(agent: agent, size: 38); VStack(alignment: .leading, spacing: 5) { Text(agent.name); Text(store.t(agent.instructions)).font(.caption).foregroundStyle(WorkspaceStyle.secondary) }; Spacer(); Text(store.t("Working")).font(.caption) }
@@ -173,7 +173,7 @@ struct WorkspaceTaskView: View {
     private var steps: some View {
         VStack(alignment: .leading, spacing: 18) {
             ForEach(Array(["Comparison criteria set", "Pricing and limits collected", "Checking integrations", "Drafting team email"].enumerated()), id: \.offset) { i, s in
-                BlotLabel(store.t(s), symbol: i < 2 ? "checkmark" : i == 2 ? "arrow.clockwise" : "circle").foregroundStyle(WorkspaceStyle.secondary)
+                OriLabel(store.t(s), symbol: i < 2 ? "checkmark" : i == 2 ? "arrow.clockwise" : "circle").foregroundStyle(WorkspaceStyle.secondary)
             }
         }.padding(.top, 16)
     }
@@ -182,19 +182,19 @@ struct WorkspaceTaskView: View {
             WorkspaceHeading(title: "Email ready", subtitle: "Review it before sending.")
             WorkspaceCard {
                 VStack(alignment: .leading, spacing: 16) {
-                    BlotLabel(store.t("Send email"), symbol: "paperplane").font(.title2.weight(.medium))
-                    Text("To: team@blot.app\nFrom: preview@blot.local").foregroundStyle(WorkspaceStyle.secondary)
+                    OriLabel(store.t("Send email"), symbol: "paperplane").font(.title2.weight(.medium))
+                    Text("To: team@ori.app\nFrom: preview@ori.local").foregroundStyle(WorkspaceStyle.secondary)
                     VStack(alignment: .leading, spacing: 18) {
                         Text(store.t("Email platform: MailerLite")).font(.headline)
                         Text(store.t("Team, I compared 8 services.\n\nI suggest MailerLite: the automations and integrations we need are on the base plan. Comparison table attached."))
                     }.padding(20).frame(maxWidth: .infinity, alignment: .leading).background(WorkspaceStyle.canvas, in: RoundedRectangle(cornerRadius: 22))
-                    BlotLabel("email-platforms.pdf · 248 KB", symbol: "doc").foregroundStyle(WorkspaceStyle.secondary)
+                    OriLabel("email-platforms.pdf · 248 KB", symbol: "doc").foregroundStyle(WorkspaceStyle.secondary)
                 }
             }
             WorkspaceV3ActionButton(title: "Yes", action: .approve, next: .result)
             WorkspaceV3ActionButton(title: "No", action: .deny, next: .chat, kind: .quiet)
             WorkspaceV3ActionButton(title: "Yes, don’t ask again", action: .grantRule, next: .permissionRules, kind: .quiet)
-            Text(store.t("Sends from your Gmail, can’t be unsent.\nMacBook Pro · requested by Blot CEO · expires in 10 min"))
+            Text(store.t("Sends from your Gmail, can’t be unsent.\nMacBook Pro · requested by Ori CEO · expires in 10 min"))
                 .font(.footnote).foregroundStyle(WorkspaceStyle.secondary).multilineTextAlignment(.center).frame(maxWidth: .infinity)
             WorkspaceFeedback()
         }.frame(maxWidth: 820).frame(maxWidth: .infinity)
@@ -245,7 +245,7 @@ struct WorkspaceTaskView: View {
     }
     private var document: some View {
         VStack(alignment: .leading, spacing: 22) {
-            BlotLabel("Meal planner · 3.1 KB", symbol: "doc").font(.caption).foregroundStyle(WorkspaceStyle.secondary)
+            OriLabel("Meal planner · 3.1 KB", symbol: "doc").font(.caption).foregroundStyle(WorkspaceStyle.secondary)
             WorkspaceCard {
                 VStack(alignment: .leading, spacing: 22) {
                     Text(store.t("PLAN FOR NOV 2–6")).font(.caption.monospaced()).foregroundStyle(WorkspaceStyle.secondary)
@@ -270,12 +270,12 @@ struct WorkspaceTaskView: View {
                     Text("export function Hero() {\n  return (").padding(12)
                     Text("− <section className=\"hero old\">").padding(12).frame(maxWidth: .infinity, alignment: .leading).background(Color.red.opacity(0.09))
                     Text("+ <section className=\"hero responsive\">").padding(12).frame(maxWidth: .infinity, alignment: .leading).background(Color.green.opacity(0.09))
-                    Text("    <BlotAvatar />\n    <h1>Your AI team</h1>\n  );\n}").padding(12)
+                    Text("    <OriAvatar />\n    <h1>Your AI team</h1>\n  );\n}").padding(12)
                 }.font(.system(.callout, design: .monospaced)).textSelection(.enabled)
-            }.padding(16).overlay(RoundedRectangle(cornerRadius: 14).strokeBorder(BlotColor.edge))
+            }.padding(16).overlay(RoundedRectangle(cornerRadius: 14).strokeBorder(OriColor.edge))
             WorkspaceCard {
-                BlotLabel(store.t("6 files changed"), symbol: "checkmark")
-                BlotLabel(store.t("Tests and build passed"), symbol: "checkmark")
+                OriLabel(store.t("6 files changed"), symbol: "checkmark")
+                OriLabel(store.t("Tests and build passed"), symbol: "checkmark")
                 Text(store.t("Applying moves the checked changes into the project.")).foregroundStyle(WorkspaceStyle.secondary)
             }
             WorkspaceV3ActionButton(title: "Apply changes", action: .applyChanges)
@@ -286,7 +286,7 @@ struct WorkspaceTaskView: View {
         VStack(alignment: .leading, spacing: 24) {
             WorkspaceHeading(title: "Task blocked", subtitle: "A computer cannot give work to another computer.")
             WorkspaceCard {
-                BlotLabel(store.t("This computer can only run its own tasks."), symbol: "exclamationmark.shield").font(.headline)
+                OriLabel(store.t("This computer can only run its own tasks."), symbol: "exclamationmark.shield").font(.headline)
                 Text(store.t("Use the phone to choose another computer. Running work stays on its original executor.")).foregroundStyle(WorkspaceStyle.secondary)
                 WorkspaceLink(title: "Open on this computer", route: .chat)
             }
@@ -295,7 +295,7 @@ struct WorkspaceTaskView: View {
     }
     private var offline: some View {
         VStack(alignment: .leading, spacing: 24) {
-            BlotLabel(store.t("MacBook Pro · offline"), symbol: "laptopcomputer").foregroundStyle(WorkspaceStyle.secondary)
+            OriLabel(store.t("MacBook Pro · offline"), symbol: "laptopcomputer").foregroundStyle(WorkspaceStyle.secondary)
             WorkspaceDataState(state: .offline)
             WorkspaceLink(title: "Use another computer", route: .devices)
             WorkspaceLink(title: "Chat without tools", route: .newChat)

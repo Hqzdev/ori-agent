@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: Blot local API
+  title: Ori local API
   version: 1.0.0
   description: Contract draft only. All routes require user implementation.
 servers:

@@ -1,5 +1,5 @@
-import BlotDomain
-import BlotWorkspace
+import OriDomain
+import OriWorkspace
 import Foundation
 
 private actor ScriptedGroupModel: ChatModel {
@@ -77,7 +77,7 @@ private actor ScriptedGroupModel: ChatModel {
         let group = try await WorkspaceGroupService(repository: repository, identity: identity).create(commandID: UUID(), title: "Team", agentIDs: ids)
         if scenario == "greeting" {
             let oldID = try await WorkspaceChatService(repository: repository, identity: identity).sendMessage(commandID: UUID(), conversationID: group, content: "OLD_CALENDAR_TASK")
-            let oldSource = try await repository.record(BlotV3.Message.self, id: oldID, workspaceID: identity.workspaceID)!
+            let oldSource = try await repository.record(OriV3.Message.self, id: oldID, workspaceID: identity.workspaceID)!
             let recorder = WorkspaceResponseRecorder(repository: repository, identity: identity)
             let oldReply = try await recorder.begin(id: UUID(), replyingTo: oldSource, agentID: ids[0])
             _ = try await recorder.finish(oldReply.metadata.id, delivery: .completed, content: "[CEO] OLD_CALENDAR_TASK created successfully")
@@ -86,7 +86,7 @@ private actor ScriptedGroupModel: ChatModel {
             content: scenario == "greeting" ? "Привет" : scenario == "social-routing" ? "Как настроение у команды?"
                 : scenario == "specialist" ? "Проанализируй данные" : scenario == "malformed" ? "Кратко объясни, что такое выручка"
                 : scenario == "addressed" ? "Analyst — Analyze the data. Manager — Create a Markdown table using Analyst's results." : "Проанализируй данные и подготовь таблицу")
-        let source = try await repository.record(BlotV3.Message.self, id: sourceID, workspaceID: identity.workspaceID)!
+        let source = try await repository.record(OriV3.Message.self, id: sourceID, workspaceID: identity.workspaceID)!
         let model = ScriptedGroupModel(scenario, ids: ids)
         let service = try LocalWorkspaceService(databaseURL: directory.appendingPathComponent("db.sqlite"), repository: repository,
             identity: identity, makeModel: { _ in model })
@@ -98,7 +98,7 @@ private actor ScriptedGroupModel: ChatModel {
             for try await _ in stream {
                 if let id = try await repository.pinnedGroupPlans()[group] {
                     sawPlan = true
-                    if let saved = try await repository.record(BlotV3.Message.self, id: id, workspaceID: identity.workspaceID),
+                    if let saved = try await repository.record(OriV3.Message.self, id: id, workspaceID: identity.workspaceID),
                        let plan = WorkspaceGroupPlanProgress.decode(saved.content), plan.completedCount > 0 && !plan.allCompleted { sawPartialPlan = true }
                 }
             }

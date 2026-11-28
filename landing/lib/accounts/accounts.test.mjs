@@ -148,7 +148,7 @@ test("workspace backup commits complete data atomically and isolates accounts", 
 
 test("Yandex browser login creates a persistent account and completes iPhone/Mac PKCE handoff", async context => {
   process.env.BLOT_WEB_SESSION_SECRET = randomToken();
-  const config = { clientID: "blot-yandex", clientSecret: randomToken(), redirectURI: "https://blot.example/auth/yandex/callback" };
+  const config = { clientID: "ori-yandex", clientSecret: randomToken(), redirectURI: "https://ori.example/auth/yandex/callback" };
   const email = `${randomUUID()}@yandex.ru`, subject = randomUUID();
   let tokenRequests = 0, profileRequests = 0;
   const exchangedCodes = new Set();
@@ -174,10 +174,10 @@ test("Yandex browser login creates a persistent account and completes iPhone/Mac
     const codeVerifier = randomToken(), state = randomToken();
     const query = new URLSearchParams({ response_type: "code", client_id: `blot-${platform}`, redirect_uri: `blot-agent-${platform}:/oauth/account`,
       state, code_challenge: createHash("sha256").update(codeVerifier).digest("base64url"), code_challenge_method: "S256", intent: "login" });
-    const started = signIn.start(new NextRequest("https://blot.example/auth/yandex/start?" + query));
+    const started = signIn.start(new NextRequest("https://ori.example/auth/yandex/start?" + query));
     const attemptCookie = started.cookies.get(YANDEX_COOKIE).value;
     const providerState = new URL(started.headers.get("location")).searchParams.get("state");
-    const callbackRequest = new NextRequest(`https://blot.example/auth/yandex/callback?state=${providerState}&code=test-code-${platform}`, {
+    const callbackRequest = new NextRequest(`https://ori.example/auth/yandex/callback?state=${providerState}&code=test-code-${platform}`, {
       headers: { cookie: `${YANDEX_COOKIE}=${attemptCookie}` },
     });
     const callback = await signIn.callback(callbackRequest);
@@ -234,17 +234,17 @@ test("provider sign-in never links matching emails; repeat subjects keep their a
 test("Yandex cancellation and account email collision issue no browser session", async context => {
   process.env.BLOT_WEB_SESSION_SECRET = randomToken();
   const { email } = await registered();
-  const config = { clientID: "blot-yandex", clientSecret: randomToken(), redirectURI: "https://blot.example/auth/yandex/callback" };
+  const config = { clientID: "ori-yandex", clientSecret: randomToken(), redirectURI: "https://ori.example/auth/yandex/callback" };
   context.mock.method(globalThis, "fetch", async url => url === "https://oauth.yandex.ru/token"
     ? Response.json({ access_token: "private-yandex-token", token_type: "bearer" })
     : Response.json({ id: randomUUID(), client_id: config.clientID, default_email: email }));
   const accounts = new AccountService({ database, email: {}, challengeSecret: randomToken(), yandexIdentity: new YandexAccountIdentity(config.clientID) });
   const signIn = new YandexSignIn({ configuration: () => config, accounts: (path, options) => accounts.request(path, options) });
   for (const outcome of ["error=access_denied", "code=code"]) {
-    const start = signIn.start(new NextRequest("https://blot.example/auth/yandex/start"));
+    const start = signIn.start(new NextRequest("https://ori.example/auth/yandex/start"));
     const cookie = start.cookies.get(YANDEX_COOKIE).value;
     const state = new URL(start.headers.get("location")).searchParams.get("state");
-    const callback = await signIn.callback(new NextRequest(`https://blot.example/auth/yandex/callback?state=${state}&${outcome}`, {
+    const callback = await signIn.callback(new NextRequest(`https://ori.example/auth/yandex/callback?state=${state}&${outcome}`, {
       headers: { cookie: `${YANDEX_COOKIE}=${cookie}` },
     }));
     assert.equal(new URL(callback.headers.get("location")).searchParams.get("auth_error"), outcome.startsWith("error=") ? "yandex_access_denied" : "yandex_link_required");
