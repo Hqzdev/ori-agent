@@ -3,6 +3,7 @@
 </p>
 
 <p align="center">
+  <a href="https://ori-agent.vercel.app">Сайт</a> ·
   <a href="#скриншоты">Интерфейс</a> ·
   <a href="#быстрый-старт">Быстрый старт</a> ·
   <a href="#архитектура">Архитектура</a> ·
@@ -86,8 +87,8 @@ Ori — разрабатываемый ИИ-помощник с нативным
 ### Получить исходники
 
 ```bash
-git clone https://github.com/Hqzdev/kiln-agent.git
-cd kiln-agent
+git clone https://github.com/Hqzdev/ori-agent.git
+cd ori-agent
 ```
 
 ### Окружение
@@ -244,7 +245,7 @@ python3 -m venv .build/schema-venv
 
 </details>
 
-CI настроен в [`.github/workflows/ci.yml`](.github/workflows/ci.yml): сайт, Java, общие Swift-пакеты и Apple-сборки. Для задачи Apple нужен настроенный self-hosted runner. Результаты конкретного запуска доступны на вкладке [Actions](https://github.com/Hqzdev/kiln-agent/actions).
+CI настроен в [`.github/workflows/ci.yml`](.github/workflows/ci.yml): сайт, Java, общие Swift-пакеты и Apple-сборки. Для задачи Apple нужен настроенный self-hosted runner. Результаты конкретного запуска доступны на вкладке [Actions](https://github.com/Hqzdev/ori-agent/actions).
 
 ## Документация
 
@@ -260,7 +261,7 @@ CI настроен в [`.github/workflows/ci.yml`](.github/workflows/ci.yml): �
 | [Руководство MCP](docs/integrations/mcp-developer-guide.md) | Контракт подключаемых инструментов. |
 | [Материалы проверок](docs/status/) | Команды, результаты, скриншоты и ограничения. |
 
-При расхождениях с октябрьскими документами приоритет у ТЗ от **1 ноября 2026**. Проектные вопросы и ошибки можно описать в [GitHub Issues](https://github.com/Hqzdev/kiln-agent/issues), указав компонент, шаги воспроизведения и вывод команды без секретов.
+При расхождениях с октябрьскими документами приоритет у ТЗ от **1 ноября 2026**. Проектные вопросы и ошибки можно описать в [GitHub Issues](https://github.com/Hqzdev/ori-agent/issues), указав компонент, шаги воспроизведения и вывод команды без секретов.
 
 ## Совместимость с предыдущими версиями
 
