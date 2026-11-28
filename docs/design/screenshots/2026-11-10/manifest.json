@@ -5,21 +5,21 @@
   "workingTreeIncludesUncommittedChanges": true,
   "macos": {
     "source": "fresh build from current project; live UI on physical Mac",
-    "buildPath": ".build/xcode/Build/Products/Debug/Blot.app",
+    "buildPath": ".build/xcode/Build/Products/Debug/Ori.app",
     "sourcePaths": [
-      "apps/macos/BlotMac",
+      "apps/macos/OriMac",
       "apps/shared/WorkspaceV3",
-      "packages/BlotDesign"
+      "packages/OriDesign"
     ],
     "theme": "dark",
     "legacyPreviewIncluded": false
   },
   "iphone": {
-    "source": "installed Blot 1.0 (2); workspace-preview on physical iPhone 13 Pro Max",
+    "source": "installed Ori 1.0 (2); workspace-preview on physical iPhone 13 Pro Max",
     "sourcePaths": [
-      "apps/ios/BlotIOS",
+      "apps/ios/OriIOS",
       "apps/shared/WorkspaceV3",
-      "packages/BlotDesign"
+      "packages/OriDesign"
     ],
     "language": "ru",
     "theme": "light",

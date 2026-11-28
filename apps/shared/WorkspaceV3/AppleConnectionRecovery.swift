@@ -1,5 +1,5 @@
-import BlotAppleIntegrations
-import BlotDomain
+import OriAppleIntegrations
+import OriDomain
 import SwiftUI
 
 /// Interrupted operations are reconciled separately from the connection's single action.

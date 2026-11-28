@@ -1,37 +1,37 @@
-import BlotDomain
-import BlotWorkspace
+import OriDomain
+import OriWorkspace
 import Foundation
 import Observation
 
 /// Chat views observe only presentation inputs that changed, rather than every task/tool snapshot.
 @MainActor @Observable
 final class WorkspaceChatPresentation {
-    private(set) var cards: [UUID: [BlotV3.ConversationCard]] = [:]
-    private(set) var agents: [BlotV3.AgentProfile] = []
-    private(set) var skills: [BlotV3.Skill] = []
-    private(set) var participants: [BlotV3.ConversationParticipant] = []
-    private(set) var conversations: [UUID: BlotV3.Conversation] = [:]
-    private(set) var artifacts: [UUID: BlotV3.Artifact] = [:]
+    private(set) var cards: [UUID: [OriV3.ConversationCard]] = [:]
+    private(set) var agents: [OriV3.AgentProfile] = []
+    private(set) var skills: [OriV3.Skill] = []
+    private(set) var participants: [OriV3.ConversationParticipant] = []
+    private(set) var conversations: [UUID: OriV3.Conversation] = [:]
+    private(set) var artifacts: [UUID: OriV3.Artifact] = [:]
     private(set) var documentRevisions: [UUID: [UUID]] = [:]
-    private(set) var reactions: [UUID: [BlotV3.MessageReaction]] = [:]
-    private(set) var pinnedMessages: [UUID: [BlotV3.Message]] = [:]
+    private(set) var reactions: [UUID: [OriV3.MessageReaction]] = [:]
+    private(set) var pinnedMessages: [UUID: [OriV3.Message]] = [:]
     private(set) var messagePins: [UUID: Bool] = [:]
     private(set) var pinnedPlans: [UUID: UUID] = [:]
     private(set) var runningTaskConversationIDs: Set<UUID> = []
     private var toolRevision = 0
     private var pendingQuestionIDs: Set<UUID> = []
     private(set) var activityMessageIDs: Set<UUID> = []
-    func hasVisibleContent(_ message: BlotV3.Message) -> Bool {
+    func hasVisibleContent(_ message: OriV3.Message) -> Bool {
         !message.content.isEmpty || !message.artifactIds.isEmpty || activityMessageIDs.contains(message.metadata.id)
             || !(cards[message.metadata.id]?.isEmpty ?? true)
     }
-    @ObservationIgnored private var actionRecords: [UUID: BlotV3.PreparedAction] = [:]
-    @ObservationIgnored private var invocationRecords: [UUID: BlotV3.ToolInvocation] = [:]
-    @ObservationIgnored private var mcpConnections: [BlotV3.McpConnection] = []
+    @ObservationIgnored private var actionRecords: [UUID: OriV3.PreparedAction] = [:]
+    @ObservationIgnored private var invocationRecords: [UUID: OriV3.ToolInvocation] = [:]
+    @ObservationIgnored private var mcpConnections: [OriV3.McpConnection] = []
     @ObservationIgnored private var callPresence: [UUID: (raw: String, present: Bool)] = [:]
     @ObservationIgnored private let activityCache = NSCache<NSUUID, ActivityResult>()
-    @ObservationIgnored private var steps: [UUID: [BlotV3.ModelStep]] = [:]
-    @ObservationIgnored private var runMessages: [BlotV3.Message] = []
+    @ObservationIgnored private var steps: [UUID: [OriV3.ModelStep]] = [:]
+    @ObservationIgnored private var runMessages: [OriV3.Message] = []
     @ObservationIgnored private var runRevision = -1
     @ObservationIgnored private var runResponding = false
     @ObservationIgnored private var runs: [UUID: WorkspaceWorkRun] = [:]
@@ -115,7 +115,7 @@ final class WorkspaceChatPresentation {
         }
     }
 
-    func plan(for message: BlotV3.Message) -> WorkspaceGroupPlanProgress? {
+    func plan(for message: OriV3.Message) -> WorkspaceGroupPlanProgress? {
         guard message.role == .assistant, let conversation = conversations[message.conversationId], conversation.kind == .group else { return nil }
         let key = message.metadata.id as NSUUID
         let legacy = message.authorAgentId == conversation.agentId
@@ -126,7 +126,7 @@ final class WorkspaceChatPresentation {
         return value
     }
 
-    func plugins(for message: BlotV3.Message) -> [WorkspacePluginReference] {
+    func plugins(for message: OriV3.Message) -> [WorkspacePluginReference] {
         guard message.role == .assistant else { return [] }
         _ = toolRevision
         let matching = steps[message.metadata.id] ?? []
@@ -138,7 +138,7 @@ final class WorkspaceChatPresentation {
         return value
     }
 
-    func workRuns(messages: [BlotV3.Message], responding: Bool) -> [UUID: WorkspaceWorkRun] {
+    func workRuns(messages: [OriV3.Message], responding: Bool) -> [UUID: WorkspaceWorkRun] {
         if runRevision != toolRevision || runMessages != messages || runResponding != responding {
             runs = WorkspaceWorkRun.groups(messages: messages, steps: messages.flatMap { steps[$0.metadata.id] ?? [] }, responding: responding)
             runMessages = messages; runRevision = toolRevision; runResponding = responding
@@ -146,7 +146,7 @@ final class WorkspaceChatPresentation {
         return runs
     }
 
-    func activities(for message: BlotV3.Message) -> [WorkspaceToolActivity] {
+    func activities(for message: OriV3.Message) -> [WorkspaceToolActivity] {
         guard message.role == .assistant else { return [] }
         _ = toolRevision
         let pendingQuestions = pendingQuestionIDs
@@ -163,14 +163,14 @@ final class WorkspaceChatPresentation {
         return result.rows
     }
     private final class ActivityResult {
-        let steps: [BlotV3.ModelStep]
+        let steps: [OriV3.ModelStep]
         let rows: [WorkspaceToolActivity]
         let dependencies: Set<UUID>
-        let actions: [UUID: BlotV3.PreparedAction]
-        let invocations: [UUID: BlotV3.ToolInvocation]
-        let connections: [BlotV3.McpConnection]
-        init(steps: [BlotV3.ModelStep], result: WorkspaceToolActivityBuilder.Result, actions: [UUID: BlotV3.PreparedAction],
-             invocations: [UUID: BlotV3.ToolInvocation], connections: [BlotV3.McpConnection]) {
+        let actions: [UUID: OriV3.PreparedAction]
+        let invocations: [UUID: OriV3.ToolInvocation]
+        let connections: [OriV3.McpConnection]
+        init(steps: [OriV3.ModelStep], result: WorkspaceToolActivityBuilder.Result, actions: [UUID: OriV3.PreparedAction],
+             invocations: [UUID: OriV3.ToolInvocation], connections: [OriV3.McpConnection]) {
             self.steps = steps; self.rows = result.rows; self.dependencies = result.dependencies
             self.actions = actions.filter { result.dependencies.contains($0.key) }
             self.invocations = invocations.filter { result.dependencies.contains($0.key) }; self.connections = connections
@@ -179,9 +179,9 @@ final class WorkspaceChatPresentation {
 
     private final class PluginResult {
         let content: String
-        let steps: [BlotV3.ModelStep]
+        let steps: [OriV3.ModelStep]
         let value: [WorkspacePluginReference]
-        init(content: String, steps: [BlotV3.ModelStep], value: [WorkspacePluginReference]) { self.content = content; self.steps = steps; self.value = value }
+        init(content: String, steps: [OriV3.ModelStep], value: [WorkspacePluginReference]) { self.content = content; self.steps = steps; self.value = value }
     }
     private final class PlanResult {
         let content: String

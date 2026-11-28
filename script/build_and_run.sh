@@ -11,7 +11,7 @@ if [[ -z "${BLOT_ENV_FILE:-}" && -f "$PWD/.env" ]]; then
 fi
 stop_running_app() {
     local pids pid state attempt
-    pids=$(pgrep -u "$(id -u)" -x "Ori|Blot" || true)
+    pids=$(pgrep -u "$(id -u)" -x "Ori|Ori" || true)
     for pid in $pids; do
         state=$(ps -o stat= -p "$pid") || continue
         if [[ "$state" == *T* || "$state" == *X* ]]; then
@@ -39,11 +39,11 @@ python3 scripts/apple_build_configuration.py
 
 if [[ "$mode" != --build-only && "$mode" != --verify-keychain ]]; then stop_running_app; fi
 export BLOT_SIGNING_IDENTITY="${BLOT_SIGNING_IDENTITY:--}"
-xcodebuild -quiet -project apps/Blot.xcodeproj -scheme BlotMac -configuration Debug \
+xcodebuild -quiet -project apps/Ori.xcodeproj -scheme OriMac -configuration Debug \
     -destination "platform=macOS,arch=$(uname -m)" -derivedDataPath .build/xcode CODE_SIGNING_ALLOWED="${BLOT_CODE_SIGNING_ALLOWED:-YES}" build
 app_bundle="$PWD/.build/xcode/Build/Products/Debug/Ori.app"
-# Backend входит в build phase BlotMac; не запускаем приложение с неполными ресурсами.
-[[ -s "$app_bundle/Contents/Resources/Backend/blot-backend.jar" && -x "$app_bundle/Contents/Resources/Backend/runtime/Contents/Home/bin/java" ]] || {
+# Backend входит в build phase OriMac; не запускаем приложение с неполными ресурсами.
+[[ -s "$app_bundle/Contents/Resources/Backend/ori-backend.jar" && -x "$app_bundle/Contents/Resources/Backend/runtime/Contents/Home/bin/java" ]] || {
     echo 'Backend is missing from the built app. Check the Embed Java backend build phase.' >&2
     exit 1
 }

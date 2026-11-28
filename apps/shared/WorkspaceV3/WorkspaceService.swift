@@ -1,4 +1,4 @@
-import BlotDomain
+import OriDomain
 import Foundation
 
 enum WorkspaceAction: String {
@@ -49,18 +49,18 @@ struct PreviewWorkspaceService: WorkspaceService {
     func execute(_ request: WorkspaceRequest, snapshot: WorkspaceSnapshot) async throws -> WorkspaceSnapshot {
         var result = snapshot
         let owner = UUID(uuidString: "00000000-0000-4000-8000-000000000001")!
-        let metadata = try BlotV3.RecordMetadata(id: UUID(), ownerId: owner, workspaceId: owner,
+        let metadata = try OriV3.RecordMetadata(id: UUID(), ownerId: owner, workspaceId: owner,
                                                version: 1, createdAt: Date(), updatedAt: Date())
         switch request.action {
         case .createAgent:
-            result.agents.append(try BlotV3.AgentProfile(metadata: metadata, name: request.form.agent.name,
+            result.agents.append(try OriV3.AgentProfile(metadata: metadata, name: request.form.agent.name,
                 roleId: "custom", avatarShape: request.form.agent.shape, avatarColor: request.form.agent.color,
                 instructions: request.form.agent.instructions, modelId: "gigachat", accessMode: .ask_first))
         case .saveAgent:
             if let i = result.agents.firstIndex(where: { $0.metadata.id == request.selectedAgentID }) {
                 let agent = result.agents[i]
-                let updated = try BlotV3.RecordMetadata(id: agent.metadata.id, ownerId: agent.metadata.ownerId, workspaceId: agent.metadata.workspaceId, version: agent.metadata.version + 1, createdAt: agent.metadata.createdAt, updatedAt: Date())
-                result.agents[i] = try BlotV3.AgentProfile(metadata: updated, name: request.form.agent.name,
+                let updated = try OriV3.RecordMetadata(id: agent.metadata.id, ownerId: agent.metadata.ownerId, workspaceId: agent.metadata.workspaceId, version: agent.metadata.version + 1, createdAt: agent.metadata.createdAt, updatedAt: Date())
+                result.agents[i] = try OriV3.AgentProfile(metadata: updated, name: request.form.agent.name,
                     roleId: agent.roleId, avatarShape: request.form.agent.shape, avatarColor: request.form.agent.color,
                     instructions: request.form.agent.instructions, modelId: agent.modelId, accessMode: agent.accessMode)
             }
@@ -70,7 +70,7 @@ struct PreviewWorkspaceService: WorkspaceService {
             #else
             let scheduledAgentID = request.form.schedule.agentID ?? request.selectedAgentID
             #endif
-            result.schedules.append(try BlotV3.Automation(metadata: metadata, kind: .task,
+            result.schedules.append(try OriV3.Automation(metadata: metadata, kind: .task,
                 executorDeviceId: request.form.schedule.deviceID ?? result.devices.first { $0.kind == .desktop }?.metadata.id,
                 agentId: scheduledAgentID,
                 name: request.form.schedule.name, goal: request.form.schedule.goal, timezone: TimeZone.current.identifier,
@@ -79,7 +79,7 @@ struct PreviewWorkspaceService: WorkspaceService {
         case .updateSchedule:
             if let i = result.schedules.firstIndex(where: { $0.metadata.id == request.selectedRecordID }) {
                 let a = result.schedules[i]
-                result.schedules[i] = try BlotV3.Automation(metadata: a.metadata, kind: a.kind,
+                result.schedules[i] = try OriV3.Automation(metadata: a.metadata, kind: a.kind,
                     executorDeviceId: a.executorDeviceId, agentId: a.agentId, name: a.name, goal: a.goal,
                     timezone: a.timezone, localTime: a.localTime, weekdays: a.weekdays,
                     missedRunPolicy: a.missedRunPolicy, enabled: !a.enabled)
@@ -87,19 +87,19 @@ struct PreviewWorkspaceService: WorkspaceService {
         case .createConversation:
             if result.conversations.contains(where: { $0.kind != .group && $0.agentId == request.selectedAgentID }) { return result }
             let title = result.agents.first(where: { $0.metadata.id == request.selectedAgentID })?.name ?? "Chat with AI"
-            result.conversations.append(try BlotV3.Conversation(metadata: metadata, agentId: request.selectedAgentID, title: title, mobileOwned: request.selectedAgentID == nil, pinned: false, archived: false))
+            result.conversations.append(try OriV3.Conversation(metadata: metadata, agentId: request.selectedAgentID, title: title, mobileOwned: request.selectedAgentID == nil, pinned: false, archived: false))
         case .send:
             let conversationID = request.selectedConversationID ?? result.conversations.first?.metadata.id ?? owner
             let content = ([request.form.composer.draft] + request.form.composer.attachments.map { "[\($0.lastPathComponent)]" })
                 .filter { !$0.isEmpty }.joined(separator: "\n")
-            result.messages.append(try BlotV3.Message(metadata: metadata, conversationId: conversationID,
+            result.messages.append(try OriV3.Message(metadata: metadata, conversationId: conversationID,
                 role: .user, content: content, delivery: .saved, commandId: request.commandID, artifactIds: []))
         case .addMcp:
-            result.mcpConnections.append(try BlotV3.McpConnection(metadata: metadata, name: request.form.mcp.name, transport: request.form.mcp.transport, endpoint: request.form.mcp.endpoint, toolIds: [], state: .disconnected))
+            result.mcpConnections.append(try OriV3.McpConnection(metadata: metadata, name: request.form.mcp.name, transport: request.form.mcp.transport, endpoint: request.form.mcp.endpoint, toolIds: [], state: .disconnected))
         case .saveMemory:
             if let i = result.memories.firstIndex(where: { $0.metadata.id == request.selectedRecordID }) {
                 let m = result.memories[i]
-                result.memories[i] = try BlotV3.MemoryEntry(metadata: m.metadata, scope: m.scope, scopeId: m.scopeId, content: request.form.memory.content, sourceId: m.sourceId, state: m.state)
+                result.memories[i] = try OriV3.MemoryEntry(metadata: m.metadata, scope: m.scope, scopeId: m.scopeId, content: request.form.memory.content, sourceId: m.sourceId, state: m.state)
             }
         case .revokeDevice: result.devices.removeAll { $0.metadata.id == request.selectedRecordID }
         case .addConnection:

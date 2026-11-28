@@ -1,13 +1,13 @@
-import BlotDesign
-import BlotDomain
-import BlotWorkspace
+import OriDesign
+import OriDomain
+import OriWorkspace
 import SwiftUI
 
 struct WorkspaceTeamBotsButton: View {
     @Environment(WorkspaceStore.self) private var store
     @State private var showing = false
     var body: some View {
-        Button { showing = true } label: { BlotLabel("Team Bots Manage", symbol: "person.3") }
+        Button { showing = true } label: { OriLabel("Team Bots Manage", symbol: "person.3") }
             .disabled(store.collaborationCommands == nil)
             .workspacePanelSheet(isPresented: $showing) { WorkspaceTeamBotsView().environment(store) }
     }

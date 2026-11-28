@@ -1,6 +1,6 @@
-import BlotAppleIntegrations
-import BlotDomain
-import BlotWorkspace
+import OriAppleIntegrations
+import OriDomain
+import OriWorkspace
 import Foundation
 import WebKit
 
@@ -51,7 +51,7 @@ enum BrowserModelVerification {
         service.workspaceBrowser.activateSession(.agent(agent))
         if !automatic { try await service.browserService().configure(agents: [agent], origins: [origin]) }
         let sourceID = try await WorkspaceChatService(repository: repository, identity: identity).sendMessage(commandID: UUID(), conversationID: conversation, content: "Open the approved test page and click Change status after confirmation")
-        let source = try await repository.record(BlotV3.Message.self, id: sourceID, workspaceID: identity.workspaceID)!
+        let source = try await repository.record(OriV3.Message.self, id: sourceID, workspaceID: identity.workspaceID)!
         let approvals = _Concurrency.Task { @MainActor in
             while !_Concurrency.Task.isCancelled {
                 if let pending = service.appleIntegrations.interactions.pending {
@@ -99,19 +99,19 @@ enum BrowserModelVerification {
         }
         func ask() async throws {
             let id = try await WorkspaceChatService(repository: repository, identity: identity).sendMessage(commandID: UUID(), conversationID: chat, content: "Посмотри, я открыл сайт, ты его видишь?")
-            let source = try await repository.record(BlotV3.Message.self, id: id, workspaceID: identity.workspaceID)!
+            let source = try await repository.record(OriV3.Message.self, id: id, workspaceID: identity.workspaceID)!
             for try await _ in try await service.responses(to: source) {}
         }
         try await ask()
         let deniedSnapshot = try await service.currentSnapshot()
         if automatic {
-            precondition(deniedSnapshot.messages.contains { $0.role == .assistant && $0.content == "I see the Local test page inside Blot." })
+            precondition(deniedSnapshot.messages.contains { $0.role == .assistant && $0.content == "I see the Local test page inside Ori." })
         } else {
             precondition(deniedSnapshot.messages.contains { $0.role == .assistant && $0.content == "Enable agent access to the current site." })
             try await service.browserService().configure(agents: [agent], origins: [origin]); try await ask()
         }
         let result = try await service.currentSnapshot()
-        precondition(result.messages.contains { $0.role == .assistant && $0.content == "I see the Local test page inside Blot." })
+        precondition(result.messages.contains { $0.role == .assistant && $0.content == "I see the Local test page inside Ori." })
         precondition(service.workspaceBrowser.tabs.count == 1)
         try await service.close()
         print("PASS: \(group ? "group conversation" : "direct chat") → manual tab; \(automatic ? "works immediately without site/agent setup" : "legacy grants remain enforced")")
@@ -128,9 +128,9 @@ private struct SelectedBrowserVerificationModel: ChatModel {
             } else if let result = request.messages.last(where: { $0.role == "tool" && $0.name == "browser_snapshot" }) {
                 precondition(result.content.contains("Local test page") && result.content.contains("read_only_user_tab"))
                 precondition(!result.content.contains("never-expose"))
-                continuation.yield(.text("I see the Local test page inside Blot.")); continuation.yield(.finished(.stop))
+                continuation.yield(.text("I see the Local test page inside Ori.")); continuation.yield(.finished(.stop))
             } else {
-                precondition(systems.contains("A website tab is open in Blot") || systems.contains("Blot has a built-in browser"))
+                precondition(systems.contains("A website tab is open in Ori") || systems.contains("Ori has a built-in browser"))
                 if request.tools.contains(where: { $0.name == "browser_snapshot" }) {
                     if systems.contains("ordinary group conversation") { precondition(request.tools.contains { $0.name == "browser_tabs" }) }
                     continuation.yield(.toolCall(.init(id: "selected", name: "browser_snapshot", arguments: .object([:])))); continuation.yield(.finished(.toolCalls))

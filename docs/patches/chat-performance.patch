@@ -1,13 +1,13 @@
-diff --git a/apps/ios/BlotIOS/Features/Chat/PhoneConversationView.swift b/apps/ios/BlotIOS/Features/Chat/PhoneConversationView.swift
---- a/apps/ios/BlotIOS/Features/Chat/PhoneConversationView.swift
-+++ b/apps/ios/BlotIOS/Features/Chat/PhoneConversationView.swift
+diff --git a/apps/ios/oriIOS/Features/Chat/PhoneConversationView.swift b/apps/ios/oriIOS/Features/Chat/PhoneConversationView.swift
+--- a/apps/ios/oriIOS/Features/Chat/PhoneConversationView.swift
++++ b/apps/ios/oriIOS/Features/Chat/PhoneConversationView.swift
 @@ -10,6 +10,7 @@
      @State private var showsPinnedMessages = false
      @State private var followsLatest = true
      @State private var visibleConversationID: UUID?
 +    @State private var history = WorkspaceTranscriptWindow()
      @Environment(\.scenePhase) private var scenePhase
-     @Environment(\.blotReduceMotion) private var reduceMotion
+     @Environment(\.oriReduceMotion) private var reduceMotion
  
 @@ -18,17 +19,25 @@
      }
@@ -16,7 +16,7 @@ diff --git a/apps/ios/BlotIOS/Features/Chat/PhoneConversationView.swift b/apps/i
 -        .init(conversation: store.currentConversation, agents: store.snapshot.agents, participants: store.snapshot.participants ?? [])
 +        .init(conversation: store.currentConversation, agents: store.chatContent.agents, participants: store.chatContent.participants)
      }
-     private var agent: BlotV3.AgentProfile? { identity.agent }
+     private var agent: oriV3.AgentProfile? { identity.agent }
  
      var body: some View {
 -        let rows = PhoneMessageTimeline.rows(in: store.currentMessages)
@@ -99,7 +99,7 @@ diff --git a/apps/ios/BlotIOS/Features/Chat/PhoneConversationView.swift b/apps/i
                      store.navigate(.file)
 @@ -221,7 +233,7 @@
      private var metadata: WorkspaceMessageMetadata? { store.chatInteractions.messages[message.metadata.id] }
-     private var quoted: BlotV3.Message? {
+     private var quoted: oriV3.Message? {
          guard let id = metadata?.replyToMessageID ?? message.replyToMessageId else { return nil }
 -        guard let value = store.currentMessages.first(where: { $0.metadata.id == id }), store.groupPlan(for: value) == nil else { return nil }
 +        guard let value = store.message(id), store.groupPlan(for: value) == nil else { return nil }
@@ -115,9 +115,9 @@ diff --git a/apps/ios/BlotIOS/Features/Chat/PhoneConversationView.swift b/apps/i
                          .fixedSize(horizontal: false, vertical: true)
                      WorkspaceMessagePlugins(message: message)
                  }
-diff --git a/apps/ios/BlotIOS/Features/Chat/PhoneGroupMessageAuthor.swift b/apps/ios/BlotIOS/Features/Chat/PhoneGroupMessageAuthor.swift
---- a/apps/ios/BlotIOS/Features/Chat/PhoneGroupMessageAuthor.swift
-+++ b/apps/ios/BlotIOS/Features/Chat/PhoneGroupMessageAuthor.swift
+diff --git a/apps/ios/oriIOS/Features/Chat/PhoneGroupMessageAuthor.swift b/apps/ios/oriIOS/Features/Chat/PhoneGroupMessageAuthor.swift
+--- a/apps/ios/oriIOS/Features/Chat/PhoneGroupMessageAuthor.swift
++++ b/apps/ios/oriIOS/Features/Chat/PhoneGroupMessageAuthor.swift
 @@ -7,7 +7,7 @@
      @Environment(WorkspaceStore.self) private var store
      var body: some View {
@@ -127,12 +127,12 @@ diff --git a/apps/ios/BlotIOS/Features/Chat/PhoneGroupMessageAuthor.swift b/apps
          let author = identity.author(of: message)
          HStack(spacing: 7) {
              if let author { WorkspaceAvatarView(agent: author, size: 22) }
-diff --git a/apps/ios/BlotIOS/Features/Widgets/PhoneWidgetPublisher.swift b/apps/ios/BlotIOS/Features/Widgets/PhoneWidgetPublisher.swift
---- a/apps/ios/BlotIOS/Features/Widgets/PhoneWidgetPublisher.swift
-+++ b/apps/ios/BlotIOS/Features/Widgets/PhoneWidgetPublisher.swift
+diff --git a/apps/ios/oriIOS/Features/Widgets/PhoneWidgetPublisher.swift b/apps/ios/oriIOS/Features/Widgets/PhoneWidgetPublisher.swift
+--- a/apps/ios/oriIOS/Features/Widgets/PhoneWidgetPublisher.swift
++++ b/apps/ios/oriIOS/Features/Widgets/PhoneWidgetPublisher.swift
 @@ -10,6 +10,7 @@
      private let storage = WidgetSnapshotStore()
-     private let log = Logger(subsystem: "dev.blot.widgets", category: "Snapshot")
+     private let log = Logger(subsystem: "dev.ori.widgets", category: "Snapshot")
      private var pending: _Concurrency.Task<Void, Never>?
 +    private var rendering: _Concurrency.Task<Void, Never>?
  
@@ -170,13 +170,13 @@ diff --git a/apps/ios/BlotIOS/Features/Widgets/PhoneWidgetPublisher.swift b/apps
      }
  
      private func write(_ value: WidgetSnapshot) {
-diff --git a/apps/macos/BlotMac/Features/Chat/MacMessageBubble.swift b/apps/macos/BlotMac/Features/Chat/MacMessageBubble.swift
---- a/apps/macos/BlotMac/Features/Chat/MacMessageBubble.swift
-+++ b/apps/macos/BlotMac/Features/Chat/MacMessageBubble.swift
+diff --git a/apps/macos/oriMac/Features/Chat/MacMessageBubble.swift b/apps/macos/oriMac/Features/Chat/MacMessageBubble.swift
+--- a/apps/macos/oriMac/Features/Chat/MacMessageBubble.swift
++++ b/apps/macos/oriMac/Features/Chat/MacMessageBubble.swift
 @@ -9,7 +9,7 @@
      private var isUser: Bool { message.role == .user }
      private var metadata: WorkspaceMessageMetadata? { store.chatInteractions.messages[message.metadata.id] }
-     private var quoted: BlotV3.Message? {
+     private var quoted: oriV3.Message? {
 -        (metadata?.replyToMessageID ?? message.replyToMessageId).flatMap { id in store.currentMessages.first { $0.metadata.id == id } }
 +        (metadata?.replyToMessageID ?? message.replyToMessageId).flatMap { id in store.message(id) }
      }
@@ -190,20 +190,20 @@ diff --git a/apps/macos/BlotMac/Features/Chat/MacMessageBubble.swift b/apps/maco
 +                    agents: store.chatContent.agents, skills: store.chatContent.skills)
                      .font(.system(size: 14)).lineSpacing(3)
                      .padding(.horizontal, 12).padding(.vertical, 10)
-                     .foregroundStyle(isUser ? BlotColor.onInverse : WorkspaceStyle.ink)
-diff --git a/apps/macos/BlotMac/Features/Chat/MacWorkspaceChatPage.swift b/apps/macos/BlotMac/Features/Chat/MacWorkspaceChatPage.swift
---- a/apps/macos/BlotMac/Features/Chat/MacWorkspaceChatPage.swift
-+++ b/apps/macos/BlotMac/Features/Chat/MacWorkspaceChatPage.swift
+                     .foregroundStyle(isUser ? oriColor.onInverse : WorkspaceStyle.ink)
+diff --git a/apps/macos/oriMac/Features/Chat/MacWorkspaceChatPage.swift b/apps/macos/oriMac/Features/Chat/MacWorkspaceChatPage.swift
+--- a/apps/macos/oriMac/Features/Chat/MacWorkspaceChatPage.swift
++++ b/apps/macos/oriMac/Features/Chat/MacWorkspaceChatPage.swift
 @@ -9,10 +9,11 @@
-     @Environment(\.blotReduceMotion) private var reduceMotion
+     @Environment(\.oriReduceMotion) private var reduceMotion
      @State private var followsLatest = false
      @State private var visibleConversationID: UUID?
 +    @State private var history = WorkspaceTranscriptWindow()
      private var activeDraft: WorkspaceChatActivity.Draft? {
          store.currentReplyDraft
      }
--    private var messages: [BlotV3.Message] { store.currentMessages.filter(WorkspaceMessagePresentation.isVisible) }
-+    private var messages: [BlotV3.Message] { Array(history.messages(in: store.currentVisibleMessages)) }
+-    private var messages: [oriV3.Message] { store.currentMessages.filter(WorkspaceMessagePresentation.isVisible) }
++    private var messages: [oriV3.Message] { Array(history.messages(in: store.currentVisibleMessages)) }
      private var isHome: Bool { route == .home || route == .newChat }
  
      var body: some View {
@@ -273,16 +273,16 @@ diff --git a/apps/macos/BlotMac/Features/Chat/MacWorkspaceChatPage.swift b/apps/
          }
      }
  
-diff --git a/apps/macos/BlotMac/Features/Workspace/MacLiveTeamConversation.swift b/apps/macos/BlotMac/Features/Workspace/MacLiveTeamConversation.swift
---- a/apps/macos/BlotMac/Features/Workspace/MacLiveTeamConversation.swift
-+++ b/apps/macos/BlotMac/Features/Workspace/MacLiveTeamConversation.swift
+diff --git a/apps/macos/oriMac/Features/Workspace/MacLiveTeamConversation.swift b/apps/macos/oriMac/Features/Workspace/MacLiveTeamConversation.swift
+--- a/apps/macos/oriMac/Features/Workspace/MacLiveTeamConversation.swift
++++ b/apps/macos/oriMac/Features/Workspace/MacLiveTeamConversation.swift
 @@ -12,9 +12,10 @@
      @State private var nearBottom = true
      @State private var inputFrame: CGRect?
      @State private var sendInputFrame: CGRect?
 +    @State private var history = WorkspaceTranscriptWindow()
  
-     init(messages: [BlotV3.Message]) {
+     init(messages: [oriV3.Message]) {
 -        _timeline = State(initialValue: MacTeamMessageTimeline(items: messages.filter(WorkspaceMessagePresentation.isVisible).map {
 +        _timeline = State(initialValue: MacTeamMessageTimeline(items: messages.suffix(WorkspaceTranscriptWindow.pageSize).filter(WorkspaceMessagePresentation.isVisible).map {
              .init(id: $0.metadata.id.uuidString, isUser: $0.role == .user)
@@ -292,15 +292,15 @@ diff --git a/apps/macos/BlotMac/Features/Workspace/MacLiveTeamConversation.swift
          let ids: [UUID]
          let reduced: Bool
      }
--    private var messages: [BlotV3.Message] { store.currentMessages.filter(WorkspaceMessagePresentation.isVisible) }
-+    private var messages: [BlotV3.Message] { Array(history.messages(in: store.currentVisibleMessages)) }
+-    private var messages: [oriV3.Message] { store.currentMessages.filter(WorkspaceMessagePresentation.isVisible) }
++    private var messages: [oriV3.Message] { Array(history.messages(in: store.currentVisibleMessages)) }
      private var reduced: Bool { reduceMotion || systemReduceMotion }
-     private var agent: BlotV3.AgentProfile? {
+     private var agent: oriV3.AgentProfile? {
 -        store.snapshot.agents.first { $0.metadata.id == (store.currentConversation?.agentId ?? store.selectedAgentID) }
 +        store.chatContent.agents.first { $0.metadata.id == (store.currentConversation?.agentId ?? store.selectedAgentID) }
      }
  
-     private var groupMembers: [BlotV3.AgentProfile] {
+     private var groupMembers: [oriV3.AgentProfile] {
 -        let ids = Set((store.snapshot.participants ?? []).filter {
 +        let ids = Set((store.chatContent.participants).filter {
              $0.conversationId == store.selectedConversationID && $0.kind == .agent && !$0.removed
@@ -378,11 +378,11 @@ diff --git a/apps/macos/BlotMac/Features/Workspace/MacLiveTeamConversation.swift
 @@ -151,10 +163,10 @@
      @Environment(WorkspaceStore.self) private var store
      private var isUser: Bool { message.role == .user }
-     private var agent: BlotV3.AgentProfile? {
+     private var agent: oriV3.AgentProfile? {
 -        store.snapshot.agents.first { $0.metadata.id == (message.authorAgentId ?? store.currentConversation?.agentId) }
 +        store.chatContent.agents.first { $0.metadata.id == (message.authorAgentId ?? store.currentConversation?.agentId) }
      }
-     private var reactions: [BlotV3.MessageReaction] {
+     private var reactions: [oriV3.MessageReaction] {
 -        (store.snapshot.reactions ?? []).filter { $0.messageId == message.metadata.id && !$0.removed }
 +        store.chatContent.reactions[message.metadata.id] ?? []
      }
@@ -449,7 +449,7 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceGroupPlanLookup.swift b/apps/share
 @@ -3,10 +3,6 @@
  
  extension WorkspaceStore {
-     func groupPlan(for message: BlotV3.Message) -> WorkspaceGroupPlanProgress? {
+     func groupPlan(for message: oriV3.Message) -> WorkspaceGroupPlanProgress? {
 -        guard message.role == .assistant,
 -              let conversation = snapshot.conversations.first(where: { $0.metadata.id == message.conversationId }), conversation.kind == .group else { return nil }
 -        if let plan = WorkspaceGroupPlanProgress.decode(message.content, agents: snapshot.agents) { return plan }
@@ -464,14 +464,14 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceMessageIndex.swift b/apps/shared/W
 @@ -5,13 +5,34 @@
  /// Message ordering is computed once per snapshot, rather than for every view read.
  struct WorkspaceMessageIndex {
-     private let conversations: [UUID: [BlotV3.Message]]
-+    private let visible: [UUID: [BlotV3.Message]]
-+    private let byID: [UUID: BlotV3.Message]
+     private let conversations: [UUID: [oriV3.Message]]
++    private let visible: [UUID: [oriV3.Message]]
++    private let byID: [UUID: oriV3.Message]
 +    private let orderedIDs: [UUID: [UUID]]
-+    private let lastUsers: [UUID: BlotV3.Message]
-+    private let runningResponses: [UUID: [BlotV3.Message]]
++    private let lastUsers: [UUID: oriV3.Message]
++    private let runningResponses: [UUID: [oriV3.Message]]
  
-     init(_ messages: [BlotV3.Message] = []) {
+     init(_ messages: [oriV3.Message] = []) {
          conversations = Dictionary(grouping: messages, by: \.conversationId).mapValues(WorkspaceMessageOrder.ordered)
 +        visible = conversations.mapValues { $0.filter(WorkspaceMessagePresentation.isVisible) }
 +        byID = Dictionary(messages.map { ($0.metadata.id, $0) }, uniquingKeysWith: { _, latest in latest })
@@ -483,18 +483,18 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceMessageIndex.swift b/apps/shared/W
 +        }
      }
  
-     func messages(in conversationID: UUID?) -> [BlotV3.Message] {
+     func messages(in conversationID: UUID?) -> [oriV3.Message] {
          guard let conversationID else { return [] }
          return conversations[conversationID] ?? []
      }
-+    func visibleMessages(in conversationID: UUID?) -> [BlotV3.Message] {
++    func visibleMessages(in conversationID: UUID?) -> [oriV3.Message] {
 +        guard let conversationID else { return [] }
 +        return visible[conversationID] ?? []
 +    }
-+    func message(_ id: UUID) -> BlotV3.Message? { byID[id] }
++    func message(_ id: UUID) -> oriV3.Message? { byID[id] }
 +    func ids(in conversationID: UUID?) -> [UUID] { conversationID.flatMap { orderedIDs[$0] } ?? [] }
-+    func lastUser(in conversationID: UUID) -> BlotV3.Message? { lastUsers[conversationID] }
-+    func activeResponses(in conversationID: UUID) -> [BlotV3.Message] { runningResponses[conversationID] ?? [] }
++    func lastUser(in conversationID: UUID) -> oriV3.Message? { lastUsers[conversationID] }
++    func activeResponses(in conversationID: UUID) -> [oriV3.Message] { runningResponses[conversationID] ?? [] }
  }
 diff --git a/apps/shared/WorkspaceV3/WorkspaceMessagePlugins.swift b/apps/shared/WorkspaceV3/WorkspaceMessagePlugins.swift
 --- a/apps/shared/WorkspaceV3/WorkspaceMessagePlugins.swift
@@ -513,7 +513,7 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceMessagePlugins.swift b/apps/shared
  }
  
 -private struct WorkspaceMessagePluginAttribution {
--    func references(for message: BlotV3.Message, steps: [BlotV3.ModelStep]) -> [WorkspacePluginReference] {
+-    func references(for message: oriV3.Message, steps: [oriV3.ModelStep]) -> [WorkspacePluginReference] {
 -        guard message.role == .assistant else { return [] }
 -        var names: [String] = []
 -        for step in steps where step.responseMessageId == message.metadata.id {
@@ -585,7 +585,7 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceMessageText.swift b/apps/shared/Wo
 +    private static let cache: NSCache<Key, Value> = {
 +        let cache = NSCache<Key, Value>(); cache.countLimit = 256; cache.totalCostLimit = 8 * 1024 * 1024; return cache
 +    }()
-+    static func text(_ text: String, markdown: Bool, agents: [BlotV3.AgentProfile], skills: [BlotV3.Skill],
++    static func text(_ text: String, markdown: Bool, agents: [oriV3.AgentProfile], skills: [oriV3.Skill],
 +                     size: CGFloat, scale: CGFloat, scheme: ColorScheme, render: () -> Text) -> Text {
 +        let targets = agents.flatMap { [$0.metadata.id.uuidString, $0.name, $0.avatarShape, $0.avatarColor] }
 +            + skills.filter { !$0.archived }.flatMap { [$0.metadata.id.uuidString, $0.name] }
@@ -631,7 +631,7 @@ diff --git a/apps/shared/WorkspaceV3/WorkspacePinnedGroupPlan.swift b/apps/share
 +           let plan = store.message(id) {
              Button { store.messageNavigationTarget = id } label: {
                  HStack(spacing: 10) {
-                     BlotIcon(.pin, size: 18)
+                     oriIcon(.pin, size: 18)
 diff --git a/apps/shared/WorkspaceV3/WorkspacePluginReference.swift b/apps/shared/WorkspaceV3/WorkspacePluginReference.swift
 --- a/apps/shared/WorkspaceV3/WorkspacePluginReference.swift
 +++ b/apps/shared/WorkspaceV3/WorkspacePluginReference.swift
@@ -650,7 +650,7 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceReplyBubble.swift b/apps/shared/Wo
 +++ b/apps/shared/WorkspaceV3/WorkspaceReplyBubble.swift
 @@ -9,7 +9,7 @@
  
-     private var agents: [BlotV3.AgentProfile] {
+     private var agents: [oriV3.AgentProfile] {
          guard store.currentConversation?.kind == .group else { return [] }
 -        return draft.agentIDs.compactMap { id in store.snapshot.agents.first { $0.metadata.id == id } }
 +        return draft.agentIDs.compactMap { id in store.chatContent.agents.first { $0.metadata.id == id } }
@@ -661,19 +661,19 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceSnapshot.swift b/apps/shared/Works
 --- a/apps/shared/WorkspaceV3/WorkspaceSnapshot.swift
 +++ b/apps/shared/WorkspaceV3/WorkspaceSnapshot.swift
 @@ -2,7 +2,7 @@
- import BlotWorkspace
+ import oriWorkspace
  import Foundation
  
 -struct WorkspaceSnapshot: Codable, Equatable {
 +struct WorkspaceSnapshot: Codable, Equatable, Sendable {
-     var projects: [BlotV3.Project]?
+     var projects: [oriV3.Project]?
      var pairedDevices: [WorkspacePairedDevice]?
      var messagePins: [WorkspaceMessagePin]?
 diff --git a/apps/shared/WorkspaceV3/WorkspaceStore.swift b/apps/shared/WorkspaceV3/WorkspaceStore.swift
 --- a/apps/shared/WorkspaceV3/WorkspaceStore.swift
 +++ b/apps/shared/WorkspaceV3/WorkspaceStore.swift
 @@ -82,20 +82,27 @@
-     @ObservationIgnored private let authenticationLog = Logger(subsystem: "dev.blot.authentication", category: "BrowserHandoff")
+     @ObservationIgnored private let authenticationLog = Logger(subsystem: "dev.ori.authentication", category: "BrowserHandoff")
      private(set) var snapshot = WorkspaceSnapshot() {
          didSet {
 +            chatContent.update(snapshot, previous: oldValue)
@@ -711,7 +711,7 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceStore.swift b/apps/shared/Workspac
 +        chatContent.update(snapshot, previous: WorkspaceSnapshot())
 +        messageIndex = WorkspaceMessageIndex(snapshot.messages)
      }
-     var currentPinnedMessages: [BlotV3.Message] {
+     var currentPinnedMessages: [oriV3.Message] {
 -        let states = Dictionary(uniqueKeysWithValues: (snapshot.messagePins ?? []).map { ($0.messageID, $0.pinned) })
 -        let automatic = selectedConversationID.flatMap { snapshot.pinnedGroupPlans?[$0] }
 -        return WorkspaceMessageOrder.ordered(currentMessages.filter {
@@ -732,17 +732,17 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceStore.swift b/apps/shared/Workspac
          }
      }
  
--    var currentConversation: BlotV3.Conversation? { snapshot.conversations.first { $0.metadata.id == selectedConversationID } }
-+    var currentConversation: BlotV3.Conversation? { selectedConversationID.flatMap { chatContent.conversations[$0] } }
-     var currentMessages: [BlotV3.Message] {
+-    var currentConversation: oriV3.Conversation? { snapshot.conversations.first { $0.metadata.id == selectedConversationID } }
++    var currentConversation: oriV3.Conversation? { selectedConversationID.flatMap { chatContent.conversations[$0] } }
+     var currentMessages: [oriV3.Message] {
 -        mode == .live ? messageIndex.messages(in: selectedConversationID)
 -            : snapshot.messages.filter { $0.conversationId == selectedConversationID }
 -    }
 +        messageIndex.messages(in: selectedConversationID)
 +    }
-+    var currentVisibleMessages: [BlotV3.Message] { messageIndex.visibleMessages(in: selectedConversationID) }
++    var currentVisibleMessages: [oriV3.Message] { messageIndex.visibleMessages(in: selectedConversationID) }
 +    var currentMessageIDs: [UUID] { messageIndex.ids(in: selectedConversationID) }
-+    func message(_ id: UUID) -> BlotV3.Message? { messageIndex.message(id) }
++    func message(_ id: UUID) -> oriV3.Message? { messageIndex.message(id) }
  
      func loadWorkspace() async {
          if let loadingWorkspace { await loadingWorkspace.value; return }
@@ -763,7 +763,7 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceStore.swift b/apps/shared/Workspac
      }
 @@ -690,7 +699,7 @@
  
-     var currentReplyTarget: BlotV3.Message? {
+     var currentReplyTarget: oriV3.Message? {
          guard let id = form.composer.replyToMessageID else { return nil }
 -        return currentMessages.first { $0.metadata.id == id }
 +        return message(id)
@@ -797,9 +797,9 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceStore.swift b/apps/shared/Workspac
          return .init(messageID: source.metadata.id, agentIDs: agentIDs)
      }
  
-diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceModelRuntime.swift b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceModelRuntime.swift
---- a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceModelRuntime.swift
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceModelRuntime.swift
+diff --git a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceModelRuntime.swift b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceModelRuntime.swift
+--- a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceModelRuntime.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceModelRuntime.swift
 @@ -157,7 +157,7 @@
      private func checkExecution(taskID: UUID?, delegated: Bool) async throws {
          try _Concurrency.Task.checkCancellation()
@@ -809,9 +809,9 @@ diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceModelRuntime.
          guard var task = projection.tasks.first(where: { $0.metadata.id == taskID }),
                task.execution.executorDeviceId == identity.deviceID, (task.execution.originDeviceId == identity.deviceID && task.executionMode == .local_owned || delegated && task.executionMode == .delegated && task.execution.originDeviceId != identity.deviceID && task.authorizationJSON != nil) else { throw WorkspaceStorageError.permissionDenied }
          var visited: Set<UUID> = []
-diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceNamedReferences.swift b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceNamedReferences.swift
---- a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceNamedReferences.swift
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceNamedReferences.swift
+diff --git a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceNamedReferences.swift b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceNamedReferences.swift
+--- a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceNamedReferences.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceNamedReferences.swift
 @@ -2,6 +2,7 @@
  
  /// Finds complete known names in display text, choosing longer names before overlapping ones.
@@ -846,9 +846,9 @@ diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceNamedReferenc
 +        }
 +    }
  }
-diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceRecordStore.swift b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceRecordStore.swift
---- a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceRecordStore.swift
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceRecordStore.swift
+diff --git a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceRecordStore.swift b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceRecordStore.swift
+--- a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceRecordStore.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceRecordStore.swift
 @@ -7,6 +7,18 @@
      private let database: SQLiteDatabase
      private let replicas: WorkspaceReplicaStore
@@ -867,11 +867,11 @@ diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceRecordStore.s
 +    }()
      init(database: SQLiteDatabase) { self.database = database; self.replicas = WorkspaceReplicaStore(database: database); self.index = WorkspaceRecordIndex(database: database) }
  
-     func executionAdmitted(_ task: BlotV3.Task, identity: WorkspaceIdentity) throws -> Bool {
+     func executionAdmitted(_ task: oriV3.Task, identity: WorkspaceIdentity) throws -> Bool {
 @@ -34,17 +46,25 @@
      }
  
-     func records<T: BlotWorkspaceRecord>(_ type: T.Type, workspaceID: UUID) throws -> [T] {
+     func records<T: oriWorkspaceRecord>(_ type: T.Type, workspaceID: UUID) throws -> [T] {
 -        try database.query("SELECT payload FROM records WHERE kind = ? AND workspace_id = ? AND deleted = 0 ORDER BY rowid",
 +        try database.query("SELECT id,payload FROM records WHERE kind = ? AND workspace_id = ? AND deleted = 0 ORDER BY rowid",
              [.text(T.recordKind), .text(workspaceID.uuidString)]) {
@@ -880,7 +880,7 @@ diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceRecordStore.s
              }
      }
  
-     func record<T: BlotWorkspaceRecord>(_ type: T.Type, id: UUID, workspaceID: UUID) throws -> T? {
+     func record<T: oriWorkspaceRecord>(_ type: T.Type, id: UUID, workspaceID: UUID) throws -> T? {
          try database.query("SELECT payload FROM records WHERE kind = ? AND id = ? AND workspace_id = ? AND deleted = 0",
              [.text(T.recordKind), .text(id.uuidString), .text(workspaceID.uuidString)]) {
 -                try WorkspaceCoding.decode(type, from: Data(SQLiteDatabase.text($0, 0).utf8))
@@ -888,7 +888,7 @@ diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceRecordStore.s
              }.first
 +    }
 +
-+    private func decode<T: BlotWorkspaceRecord>(_ type: T.Type, id: String, workspaceID: UUID, payload: String) throws -> T {
++    private func decode<T: oriWorkspaceRecord>(_ type: T.Type, id: String, workspaceID: UUID, payload: String) throws -> T {
 +        let key = (workspaceID.uuidString + ":" + T.recordKind + ":" + id) as NSString
 +        if let cached = decoded.object(forKey: key), cached.payload == payload, let value = cached.value as? T { return value }
 +        let value = try WorkspaceCoding.decode(type, from: Data(payload.utf8))
@@ -897,12 +897,12 @@ diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceRecordStore.s
      }
  
      func write(_ mutation: WorkspaceRecordMutation, commandID: UUID) throws {
-diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceRepository.swift b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceRepository.swift
---- a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceRepository.swift
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceRepository.swift
+diff --git a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceRepository.swift b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceRepository.swift
+--- a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceRepository.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceRepository.swift
 @@ -175,6 +175,16 @@
  
-     public func record<T: BlotWorkspaceRecord>(_ type: T.Type, id: UUID, workspaceID: UUID) throws -> T? {
+     public func record<T: oriWorkspaceRecord>(_ type: T.Type, id: UUID, workspaceID: UUID) throws -> T? {
          try store.record(type, id: id, workspaceID: workspaceID)
 +    }
 +
@@ -910,8 +910,8 @@ diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceRepository.sw
 +    func taskExecutionProjection(identity: WorkspaceIdentity) throws -> WorkspaceProjection {
 +        try database.transaction {
 +            var result = WorkspaceProjection()
-+            result.tasks = try store.records(BlotV3.Task.self, workspaceID: identity.workspaceID).filter { $0.metadata.ownerId == identity.ownerID }
-+            result.invocations = try store.records(BlotV3.ToolInvocation.self, workspaceID: identity.workspaceID).filter { $0.metadata.ownerId == identity.ownerID }
++            result.tasks = try store.records(oriV3.Task.self, workspaceID: identity.workspaceID).filter { $0.metadata.ownerId == identity.ownerID }
++            result.invocations = try store.records(oriV3.ToolInvocation.self, workspaceID: identity.workspaceID).filter { $0.metadata.ownerId == identity.ownerID }
 +            return result
 +        }
      }
@@ -922,26 +922,26 @@ new file mode 100644
 --- /dev/null
 +++ b/apps/shared/WorkspaceV3/WorkspaceChatPresentation.swift
 @@ -0,0 +1,96 @@
-+import BlotDomain
-+import BlotWorkspace
++import oriDomain
++import oriWorkspace
 +import Foundation
 +import Observation
 +
 +/// Chat views observe only presentation inputs that changed, rather than every task/tool snapshot.
 +@MainActor @Observable
 +final class WorkspaceChatPresentation {
-+    private(set) var agents: [BlotV3.AgentProfile] = []
-+    private(set) var skills: [BlotV3.Skill] = []
-+    private(set) var participants: [BlotV3.ConversationParticipant] = []
-+    private(set) var conversations: [UUID: BlotV3.Conversation] = [:]
-+    private(set) var artifacts: [UUID: BlotV3.Artifact] = [:]
-+    private(set) var reactions: [UUID: [BlotV3.MessageReaction]] = [:]
-+    private(set) var pinnedMessages: [UUID: [BlotV3.Message]] = [:]
++    private(set) var agents: [oriV3.AgentProfile] = []
++    private(set) var skills: [oriV3.Skill] = []
++    private(set) var participants: [oriV3.ConversationParticipant] = []
++    private(set) var conversations: [UUID: oriV3.Conversation] = [:]
++    private(set) var artifacts: [UUID: oriV3.Artifact] = [:]
++    private(set) var reactions: [UUID: [oriV3.MessageReaction]] = [:]
++    private(set) var pinnedMessages: [UUID: [oriV3.Message]] = [:]
 +    private(set) var messagePins: [UUID: Bool] = [:]
 +    private(set) var pinnedPlans: [UUID: UUID] = [:]
 +    private(set) var runningTaskConversationIDs: Set<UUID> = []
 +    private var toolRevision = 0
-+    @ObservationIgnored private var steps: [UUID: [BlotV3.ModelStep]] = [:]
++    @ObservationIgnored private var steps: [UUID: [oriV3.ModelStep]] = [:]
 +    @ObservationIgnored private let plugins = NSCache<NSUUID, PluginResult>()
 +    @ObservationIgnored private let plans = NSCache<NSUUID, PlanResult>()
 +
@@ -982,7 +982,7 @@ new file mode 100644
 +        }
 +    }
 +
-+    func plan(for message: BlotV3.Message) -> WorkspaceGroupPlanProgress? {
++    func plan(for message: oriV3.Message) -> WorkspaceGroupPlanProgress? {
 +        guard message.role == .assistant, let conversation = conversations[message.conversationId], conversation.kind == .group else { return nil }
 +        let key = message.metadata.id as NSUUID
 +        let legacy = message.authorAgentId == conversation.agentId
@@ -993,7 +993,7 @@ new file mode 100644
 +        return value
 +    }
 +
-+    func plugins(for message: BlotV3.Message) -> [WorkspacePluginReference] {
++    func plugins(for message: oriV3.Message) -> [WorkspacePluginReference] {
 +        guard message.role == .assistant else { return [] }
 +        _ = toolRevision
 +        let matching = steps[message.metadata.id] ?? []
@@ -1007,9 +1007,9 @@ new file mode 100644
 +
 +    private final class PluginResult {
 +        let content: String
-+        let steps: [BlotV3.ModelStep]
++        let steps: [oriV3.ModelStep]
 +        let value: [WorkspacePluginReference]
-+        init(content: String, steps: [BlotV3.ModelStep], value: [WorkspacePluginReference]) { self.content = content; self.steps = steps; self.value = value }
++        init(content: String, steps: [oriV3.ModelStep], value: [WorkspacePluginReference]) { self.content = content; self.steps = steps; self.value = value }
 +    }
 +    private final class PlanResult {
 +        let content: String
@@ -1023,7 +1023,7 @@ new file mode 100644
 --- /dev/null
 +++ b/apps/shared/WorkspaceV3/WorkspaceTranscriptWindow.swift
 @@ -0,0 +1,20 @@
-+import BlotDomain
++import oriDomain
 +import Foundation
 +
 +/// The view owns its history window. Older records stay persisted and can be revealed or reached by a pin/reply.
@@ -1031,11 +1031,11 @@ new file mode 100644
 +    static let pageSize = 80
 +    private(set) var count = pageSize
 +
-+    func messages(in messages: [BlotV3.Message]) -> ArraySlice<BlotV3.Message> { messages.suffix(count) }
-+    func hasEarlier(in messages: [BlotV3.Message]) -> Bool { messages.count > count }
++    func messages(in messages: [oriV3.Message]) -> ArraySlice<oriV3.Message> { messages.suffix(count) }
++    func hasEarlier(in messages: [oriV3.Message]) -> Bool { messages.count > count }
 +    mutating func loadEarlier() { count += Self.pageSize }
 +    mutating func reset() { count = Self.pageSize }
-+    mutating func reveal(_ id: UUID, in messages: [BlotV3.Message]) {
++    mutating func reveal(_ id: UUID, in messages: [oriV3.Message]) {
 +        guard let index = messages.firstIndex(where: { $0.metadata.id == id }) else { return }
 +        count = max(count, messages.count - index)
 +    }
@@ -1048,13 +1048,13 @@ new file mode 100644
 --- /dev/null
 +++ b/apps/shared/WorkspaceV3/WorkspaceMessagePluginAttribution.swift
 @@ -0,0 +1,31 @@
-+import BlotAppleIntegrations
-+import BlotDomain
-+import BlotWorkspace
++import oriAppleIntegrations
++import oriDomain
++import oriWorkspace
 +import Foundation
 +
 +struct WorkspaceMessagePluginAttribution {
-+    func references(for message: BlotV3.Message, steps: [BlotV3.ModelStep]) -> [WorkspacePluginReference] {
++    func references(for message: oriV3.Message, steps: [oriV3.ModelStep]) -> [WorkspacePluginReference] {
 +        guard message.role == .assistant else { return [] }
 +        var names: [String] = []
 +        for step in steps where step.responseMessageId == message.metadata.id {
@@ -1079,15 +1079,15 @@ new file mode 100644
 +        struct Message: Decodable { let role: String; let name: String?; let toolCallID: String? }
 +    }
 +}
-diff --git a/packages/BlotWorkspace/Tests/BlotWorkspaceTests/WorkspaceReadCacheTests.swift b/packages/BlotWorkspace/Tests/BlotWorkspaceTests/WorkspaceReadCacheTests.swift
+diff --git a/packages/oriWorkspace/Tests/oriWorkspaceTests/WorkspaceReadCacheTests.swift b/packages/oriWorkspace/Tests/oriWorkspaceTests/WorkspaceReadCacheTests.swift
 new file mode 100644
 --- /dev/null
-+++ b/packages/BlotWorkspace/Tests/BlotWorkspaceTests/WorkspaceReadCacheTests.swift
++++ b/packages/oriWorkspace/Tests/oriWorkspaceTests/WorkspaceReadCacheTests.swift
 @@ -0,0 +1,78 @@
-+import BlotDomain
++import oriDomain
 +import Foundation
 +import Testing
-+@testable import BlotWorkspace
++@testable import oriWorkspace
 +
 +private final class DecodeCounter: @unchecked Sendable {
 +    private let lock = NSLock()
@@ -1096,12 +1096,12 @@ new file mode 100644
 +    var value: Int { lock.lock(); defer { lock.unlock() }; return count }
 +}
 +
-+private struct CountedMessage: BlotWorkspaceRecord {
++private struct CountedMessage: oriWorkspaceRecord {
 +    static let counter = DecodeCounter()
 +    static let recordKind = "Message"
-+    let message: BlotV3.Message
-+    var metadata: BlotV3.RecordMetadata { message.metadata }
-+    init(from decoder: Decoder) throws { message = try BlotV3.Message(from: decoder); Self.counter.increment() }
++    let message: oriV3.Message
++    var metadata: oriV3.RecordMetadata { message.metadata }
++    init(from decoder: Decoder) throws { message = try oriV3.Message(from: decoder); Self.counter.increment() }
 +    func encode(to encoder: Encoder) throws { try message.encode(to: encoder) }
 +}
 +
@@ -1112,11 +1112,11 @@ new file mode 100644
 +    defer { try? database.close() }
 +    let store = WorkspaceRecordStore(database: database)
 +    let owner = UUID(), workspace = UUID(), conversation = UUID(), now = Date()
-+    var messages: [BlotV3.Message] = []
++    var messages: [oriV3.Message] = []
 +    try database.transaction {
 +        for index in 0..<1000 {
-+            let metadata = try BlotV3.RecordMetadata(id: UUID(), ownerId: owner, workspaceId: workspace, version: 1, createdAt: now, updatedAt: now)
-+            let message = try BlotV3.Message(metadata: metadata, conversationId: conversation, role: .assistant,
++            let metadata = try oriV3.RecordMetadata(id: UUID(), ownerId: owner, workspaceId: workspace, version: 1, createdAt: now, updatedAt: now)
++            let message = try oriV3.Message(metadata: metadata, conversationId: conversation, role: .assistant,
 +                content: "Message \(index) " + String(repeating: "history ", count: 80), delivery: .completed, commandId: UUID(), artifactIds: [])
 +            let payload = String(decoding: try WorkspaceCoding.encode(message), as: UTF8.self)
 +            try database.execute("INSERT INTO records(kind,id,workspace_id,version,payload,deleted) VALUES ('Message',?,?,1,?,0)",
@@ -1134,7 +1134,7 @@ new file mode 100644
 +    let cold = clock.now
 +    for _ in 0..<8 {
 +        let rows = try database.query("SELECT payload FROM records WHERE kind = 'Message' AND workspace_id = ? AND deleted = 0 ORDER BY rowid", [.text(workspace.uuidString)]) {
-+            try WorkspaceCoding.decode(BlotV3.Message.self, from: Data(SQLiteDatabase.text($0, 0).utf8))
++            try WorkspaceCoding.decode(oriV3.Message.self, from: Data(SQLiteDatabase.text($0, 0).utf8))
 +        }
 +        #expect(rows.count == 1000)
 +    }
@@ -1180,8 +1180,8 @@ new file mode 100755
 +if [[ "${1:-}" == --baseline ]]; then text_root="$PWD/.build/chat-performance-baseline"; fi
 +arguments+=("$text_root/apps/shared/WorkspaceV3/WorkspacePluginReference.swift" "$text_root/apps/shared/WorkspaceV3/WorkspaceMessageText.swift")
 +xcrun swiftc -parse-as-library -swift-version 5 -default-isolation MainActor -module-cache-path "$checks/cache" \
-+    -I "$products" -I packages/BlotWorkspace/Sources/CSQLite \
-+    "$products/BlotDomain.o" "$products/BlotWorkspace.o" "$products/BlotDesign.o" "$products/BlotAppleIntegrations.o" -lsqlite3 \
++    -I "$products" -I packages/oriWorkspace/Sources/CSQLite \
++    "$products/oriDomain.o" "$products/oriWorkspace.o" "$products/oriDesign.o" "$products/oriAppleIntegrations.o" -lsqlite3 \
 +    "${arguments[@]}" scripts/verify-chat-performance.swift -o "$checks/verify"
 +"$checks/verify"
 diff --git a/scripts/verify-chat-performance.swift b/scripts/verify-chat-performance.swift
@@ -1189,10 +1189,10 @@ new file mode 100644
 --- /dev/null
 +++ b/scripts/verify-chat-performance.swift
 @@ -0,0 +1,107 @@
-+import BlotAppleIntegrations
-+import BlotDesign
-+import BlotDomain
-+import BlotWorkspace
++import oriAppleIntegrations
++import oriDesign
++import oriDomain
++import oriWorkspace
 +import Observation
 +import SwiftUI
 +import Synchronization
@@ -1201,11 +1201,11 @@ new file mode 100644
 +struct VerifyChatPerformance {
 +    static func main() throws {
 +        let owner = UUID(), workspace = UUID(), conversation = UUID(), now = Date()
-+        func metadata(_ id: UUID = UUID()) throws -> BlotV3.RecordMetadata {
++        func metadata(_ id: UUID = UUID()) throws -> oriV3.RecordMetadata {
 +            try .init(id: id, ownerId: owner, workspaceId: workspace, version: 1, createdAt: now, updatedAt: now)
 +        }
-+        let first = try BlotV3.AgentProfile(metadata: metadata(), name: "Architect", roleId: "custom", avatarShape: "round", avatarColor: "orange", instructions: "Help", modelId: "compatible", accessMode: .ask_first)
-+        let second = try BlotV3.AgentProfile(metadata: metadata(), name: "Reviewer", roleId: "custom", avatarShape: "round", avatarColor: "blue", instructions: "Help", modelId: "compatible", accessMode: .ask_first)
++        let first = try oriV3.AgentProfile(metadata: metadata(), name: "Architect", roleId: "custom", avatarShape: "round", avatarColor: "orange", instructions: "Help", modelId: "compatible", accessMode: .ask_first)
++        let second = try oriV3.AgentProfile(metadata: metadata(), name: "Reviewer", roleId: "custom", avatarShape: "round", avatarColor: "blue", instructions: "Help", modelId: "compatible", accessMode: .ask_first)
 +        var snapshot = WorkspaceSnapshot()
 +        snapshot.ownerID = owner; snapshot.agents = [first, second]
 +        snapshot.conversations = [try .init(metadata: metadata(conversation), agentId: first.metadata.id, title: "Large history", mobileOwned: false, pinned: false, archived: false, kind: .group)]
@@ -1232,7 +1232,7 @@ new file mode 100644
 +            .init(agentID: first.metadata.id, name: first.name, task: "Implement"),
 +            .init(agentID: second.metadata.id, name: second.name, task: "Review")])
 +        let planID = UUID()
-+        func planMessage(_ text: String) throws -> BlotV3.Message {
++        func planMessage(_ text: String) throws -> oriV3.Message {
 +            try .init(metadata: metadata(planID), conversationId: conversation, role: .assistant, content: text, delivery: .completed,
 +                      commandId: UUID(), artifactIds: [], authorAgentId: first.metadata.id)
 +        }
@@ -1244,14 +1244,14 @@ new file mode 100644
 +        let response = snapshot.messages[1]
 +        let mail = AppleToolCatalog.all.first { $0.plugin == .mail }!.definition.name
 +        let calendar = AppleToolCatalog.all.first { $0.plugin == .calendar }!.definition.name
-+        func step(_ name: String) throws -> BlotV3.ModelStep {
++        func step(_ name: String) throws -> oriV3.ModelStep {
 +            let request = try JSONSerialization.data(withJSONObject: ["messages": [["role": "tool", "toolCallID": "call", "name": name, "content": String(repeating: "recorded output ", count: 1000)]]])
 +            return try .init(metadata: metadata(planID), conversationId: conversation, sourceMessageId: snapshot.messages[0].metadata.id,
 +                responseMessageId: response.metadata.id, executorDeviceId: owner, originDeviceId: owner, executionMode: .local_owned,
 +                stepIndex: 0, modelId: "compatible", budgetTokenLimit: 20000, requestJSON: String(decoding: request, as: UTF8.self), state: .completed)
 +        }
 +        // Use a response without an inline mention, so the durable tool badge remains visible.
-+        let plain = try BlotV3.Message(metadata: response.metadata, conversationId: conversation, role: .assistant, content: "Completed", delivery: .completed, commandId: UUID(), artifactIds: [])
++        let plain = try oriV3.Message(metadata: response.metadata, conversationId: conversation, role: .assistant, content: "Completed", delivery: .completed, commandId: UUID(), artifactIds: [])
 +        var updated = snapshot; updated.modelSteps = [try step(mail)]
 +        content.update(updated, previous: snapshot)
 +        precondition(content.plugins(for: plain).first?.entry.appleID == .mail)

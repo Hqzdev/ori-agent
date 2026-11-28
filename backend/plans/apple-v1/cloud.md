@@ -1,6 +1,6 @@
 # Отдельный сервер Apple v1
 
-`backend/cloud` — самостоятельный Spring Boot-процесс, `dev.blot.cloud.CloudServer`. Он зависит от общих ports/infrastructure, но не от `:api`; component scan ограничен `dev.blot.cloud`. Старые desktop HTTP controllers и agent workers в этом процессе не запускаются.
+`backend/cloud` — самостоятельный Spring Boot-процесс, `dev.ori.cloud.CloudServer`. Он зависит от общих ports/infrastructure, но не от `:api`; component scan ограничен `dev.ori.cloud`. Старые desktop HTTP controllers и agent workers в этом процессе не запускаются.
 
 Сейчас реализованы аккаунты с Argon2id и email-кодом, поворот access/refresh sessions, доказательство ключа устройства, подтверждённое сопряжение, подписанный отзыв с новым epoch, ciphertext relay с receipt/ACK/TTL, хранилище зашифрованных chunks, поколения полномочий исполнителя и шлюз текстового GigaChat с дневной квотой. Это компонентный сервер; native keyring/ECDH/цепочка доверия и files проверены HTTP harness; account/pairing UI, композиция snapshot/cloud в приложениях ещё не завершена. Физическая приёмка не пройдена.
 
@@ -10,7 +10,7 @@
 
 ```sh
 backend/gradlew -p backend :cloud:test :cloud:bootJar
-java --enable-native-access=ALL-UNNAMED -jar backend/cloud/build/libs/blot-cloud.jar
+java --enable-native-access=ALL-UNNAMED -jar backend/cloud/build/libs/ori-cloud.jar
 ```
 
 Перед запуском требуется постоянный ключ HMAC для email-кодов: файл с base64 от не менее 32 случайных байтов; путь задаётся `BLOT_CLOUD_CHALLENGE_KEY_FILE`. Сгенерировать его один раз через `openssl rand -base64 32`, хранить вне репозитория с ограниченными правами. Смена этого ключа делает ранее выданные email-коды непригодными. Содержимое файла не выводить в логи или чат.

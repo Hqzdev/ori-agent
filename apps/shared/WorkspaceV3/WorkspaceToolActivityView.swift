@@ -1,10 +1,10 @@
 import Foundation
-import BlotDesign
-import BlotDomain
+import OriDesign
+import OriDomain
 import SwiftUI
 
 struct WorkspaceToolActivityView: View {
-    let message: BlotV3.Message
+    let message: OriV3.Message
     var inline = false
     @Environment(WorkspaceStore.self) private var store
     @State private var showsAll = false
@@ -19,15 +19,15 @@ struct WorkspaceToolActivityView: View {
                     Button { showsAll.toggle() } label: {
                         HStack(spacing: 7) {
                             Text(summary(rows: rows))
-                            BlotIcon(symbol: showsAll ? "chevron.down" : "chevron.right", size: 12)
+                            OriIcon(symbol: showsAll ? "chevron.down" : "chevron.right", size: 12)
                         }.font(.callout).frame(minHeight: 32, alignment: .leading).contentShape(Rectangle())
-                    }.buttonStyle(BlotSecondaryTextButtonStyle()).accessibilityLabel(summary(rows: rows))
+                    }.buttonStyle(OriSecondaryTextButtonStyle()).accessibilityLabel(summary(rows: rows))
                 }
                 if inline || message.delivery != .completed || showsAll {
                     ForEach(inline || showsAll || showsLiveBrowserSteps ? rows : Array(rows.suffix(4))) { row in WorkspaceToolActivityRow(row: row, russian: russian) }
                     if message.delivery != .completed, rows.count > 4, !showsLiveBrowserSteps {
                         Button(showsAll ? (russian ? "Свернуть действия" : "Show fewer actions") : (russian ? "Все действия (\(rows.count))" : "All actions (\(rows.count))")) { showsAll.toggle() }
-                            .font(.caption).buttonStyle(BlotSecondaryTextButtonStyle()).padding(.leading, 27).padding(.vertical, 5)
+                            .font(.caption).buttonStyle(OriSecondaryTextButtonStyle()).padding(.leading, 27).padding(.vertical, 5)
                     }
                     if rows.count == 64 { Text(russian ? "Показаны последние 64 действия" : "Showing the latest 64 actions").font(.caption2).foregroundStyle(.secondary) }
                 }
@@ -75,19 +75,19 @@ private struct WorkspaceToolActivityRow: View {
             Button { expanded.toggle() } label: {
                 HStack(alignment: .center, spacing: 8) {
                     if let plugin = row.plugin { WorkspacePluginLogo(plugin: plugin, size: 20).clipShape(RoundedRectangle(cornerRadius: 4)) }
-                    else { BlotIcon(symbol: row.symbol).frame(width: 20, height: 20).accessibilityHidden(true) }
+                    else { OriIcon(symbol: row.symbol).frame(width: 20, height: 20).accessibilityHidden(true) }
                     ViewThatFits(in: .horizontal) {
                         HStack(spacing: 5) { name; provider }
                         VStack(alignment: .leading, spacing: 2) { name; provider }
                     }.frame(maxWidth: .infinity, alignment: .leading)
                     if row.state == .running { ProgressView().controlSize(.mini).accessibilityLabel(row.status(russian: russian)) }
                     else if row.state != .succeeded { Text(row.status(russian: russian)).font(.caption2).foregroundStyle(terminalFailure ? .red : .secondary) }
-                    BlotIcon(symbol: expanded ? "chevron.down" : "chevron.right", size: 10).accessibilityHidden(true)
+                    OriIcon(symbol: expanded ? "chevron.down" : "chevron.right", size: 10).accessibilityHidden(true)
                 }
                 .font(.system(size: 12, weight: .regular)).padding(.horizontal, 7).padding(.vertical, 6)
                 .frame(minHeight: minimumHeight).contentShape(Rectangle())
             }
-            .buttonStyle(BlotSecondaryTextButtonStyle())
+            .buttonStyle(OriSecondaryTextButtonStyle())
             .accessibilityLabel(displayTitle + ", " + row.status(russian: russian))
             .accessibilityValue(expanded ? (russian ? "Развёрнуто" : "Expanded") : (russian ? "Свёрнуто" : "Collapsed"))
             .accessibilityIdentifier("workspace.chat.tool-action.\(row.id)")

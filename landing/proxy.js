@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 // The web application is a separate deployment, exposed only through /app.
 export function proxy(request) {
+  if (request.nextUrl.pathname === "/app/api/model/chat") return NextResponse.next();
   const secret = process.env.BLOT_WEB_PROXY_SECRET;
   const configured = process.env.BLOT_WEB_UPSTREAM_URL;
   if (!secret || !configured) return new NextResponse("Web application unavailable", { status: 503 });

@@ -1,6 +1,6 @@
-diff --git a/apps/macos/BlotMac/Features/Agents/MacAgentCreationView.swift b/apps/macos/BlotMac/Features/Agents/MacAgentCreationView.swift
---- a/apps/macos/BlotMac/Features/Agents/MacAgentCreationView.swift
-+++ b/apps/macos/BlotMac/Features/Agents/MacAgentCreationView.swift
+diff --git a/apps/macos/oriMac/Features/Agents/MacAgentCreationView.swift b/apps/macos/oriMac/Features/Agents/MacAgentCreationView.swift
+--- a/apps/macos/oriMac/Features/Agents/MacAgentCreationView.swift
++++ b/apps/macos/oriMac/Features/Agents/MacAgentCreationView.swift
 @@ -5,6 +5,7 @@
  struct MacAgentCreationView: View {
      var isEditing = false
@@ -25,9 +25,9 @@ diff --git a/apps/macos/BlotMac/Features/Agents/MacAgentCreationView.swift b/app
              else { await store.createDesktopAgentAndStartChat() }
          }
      }
-diff --git a/apps/macos/BlotMac/Features/Workspace/MacLiveTeamInspector.swift b/apps/macos/BlotMac/Features/Workspace/MacLiveTeamInspector.swift
---- a/apps/macos/BlotMac/Features/Workspace/MacLiveTeamInspector.swift
-+++ b/apps/macos/BlotMac/Features/Workspace/MacLiveTeamInspector.swift
+diff --git a/apps/macos/oriMac/Features/Workspace/MacLiveTeamInspector.swift b/apps/macos/oriMac/Features/Workspace/MacLiveTeamInspector.swift
+--- a/apps/macos/oriMac/Features/Workspace/MacLiveTeamInspector.swift
++++ b/apps/macos/oriMac/Features/Workspace/MacLiveTeamInspector.swift
 @@ -5,6 +5,8 @@
 
  struct MacLiveTeamInspector: View {
@@ -36,7 +36,7 @@ diff --git a/apps/macos/BlotMac/Features/Workspace/MacLiveTeamInspector.swift b/
 +    @State private var editingGroup = false
      @State private var tab = "Обзор"
      private var isGroup: Bool { store.currentConversation?.kind == .group }
-     private var agent: BlotV3.AgentProfile? {
+     private var agent: oriV3.AgentProfile? {
 @@ -36,12 +38,12 @@
                                  ForEach(store.snapshot.memories.filter { $0.scopeId == agent?.metadata.id || $0.scopeId == nil }, id: \.metadata.id) { memory in
                                      Text(memory.content).font(.system(size: 12)).textSelection(.enabled)
@@ -109,9 +109,9 @@ diff --git a/apps/macos/BlotMac/Features/Workspace/MacLiveTeamInspector.swift b/
 +        }
      }
  }
-diff --git a/apps/macos/BlotMac/Features/Workspace/MacMarketplacePage.swift b/apps/macos/BlotMac/Features/Workspace/MacMarketplacePage.swift
---- a/apps/macos/BlotMac/Features/Workspace/MacMarketplacePage.swift
-+++ b/apps/macos/BlotMac/Features/Workspace/MacMarketplacePage.swift
+diff --git a/apps/macos/oriMac/Features/Workspace/MacMarketplacePage.swift b/apps/macos/oriMac/Features/Workspace/MacMarketplacePage.swift
+--- a/apps/macos/oriMac/Features/Workspace/MacMarketplacePage.swift
++++ b/apps/macos/oriMac/Features/Workspace/MacMarketplacePage.swift
 @@ -47,7 +47,7 @@
          }
          .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -121,9 +121,9 @@ diff --git a/apps/macos/BlotMac/Features/Workspace/MacMarketplacePage.swift b/ap
              switch item {
              case .plugin(let plugin): MacMarketplacePluginDetail(plugin: plugin).environment(store)
              case .template(let template): MacMarketplaceTemplateDetail(template: template).environment(store)
-diff --git a/apps/macos/BlotMac/Features/Workspace/MacMarketplacePluginDetail.swift b/apps/macos/BlotMac/Features/Workspace/MacMarketplacePluginDetail.swift
---- a/apps/macos/BlotMac/Features/Workspace/MacMarketplacePluginDetail.swift
-+++ b/apps/macos/BlotMac/Features/Workspace/MacMarketplacePluginDetail.swift
+diff --git a/apps/macos/oriMac/Features/Workspace/MacMarketplacePluginDetail.swift b/apps/macos/oriMac/Features/Workspace/MacMarketplacePluginDetail.swift
+--- a/apps/macos/oriMac/Features/Workspace/MacMarketplacePluginDetail.swift
++++ b/apps/macos/oriMac/Features/Workspace/MacMarketplacePluginDetail.swift
 @@ -7,6 +7,7 @@
      let plugin: MacTeamPlugin
      @Environment(WorkspaceStore.self) private var store
@@ -144,9 +144,9 @@ diff --git a/apps/macos/BlotMac/Features/Workspace/MacMarketplacePluginDetail.sw
              .interactiveDismissDisabled(store.busy || disconnecting)
              .onExitCommand { if !store.busy && !disconnecting { dismiss() } }
              .confirmationDialog("Отключить «\(plugin.name)»?", isPresented: $confirmingDisconnect, titleVisibility: .visible) {
-diff --git a/apps/macos/BlotMac/Features/Workspace/MacMarketplaceTemplateDetail.swift b/apps/macos/BlotMac/Features/Workspace/MacMarketplaceTemplateDetail.swift
---- a/apps/macos/BlotMac/Features/Workspace/MacMarketplaceTemplateDetail.swift
-+++ b/apps/macos/BlotMac/Features/Workspace/MacMarketplaceTemplateDetail.swift
+diff --git a/apps/macos/oriMac/Features/Workspace/MacMarketplaceTemplateDetail.swift b/apps/macos/oriMac/Features/Workspace/MacMarketplaceTemplateDetail.swift
+--- a/apps/macos/oriMac/Features/Workspace/MacMarketplaceTemplateDetail.swift
++++ b/apps/macos/oriMac/Features/Workspace/MacMarketplaceTemplateDetail.swift
 @@ -5,6 +5,7 @@
      let template: MacDemoTemplate
      @Environment(WorkspaceStore.self) private var store
@@ -417,10 +417,10 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceScheduleRunSummary.swift b/apps/sh
 +++ b/apps/shared/WorkspaceV3/WorkspaceScheduleRunSummary.swift
 @@ -5,6 +5,7 @@
  struct WorkspaceScheduleRunSummary: View {
-     let schedule: BlotV3.Automation
+     let schedule: oriV3.Automation
      @Environment(WorkspaceStore.self) private var store
 +    @Environment(\.workspacePanelNavigation) private var panelNavigation
-     private var latest: BlotV3.AutomationRun? {
+     private var latest: oriV3.AutomationRun? {
          (store.snapshot.automationRuns ?? []).filter { $0.automationId == schedule.metadata.id }
              .max { $0.metadata.createdAt < $1.metadata.createdAt }
 @@ -27,9 +28,14 @@
@@ -445,7 +445,7 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceSkillRunner.swift b/apps/shared/Wo
 --- a/apps/shared/WorkspaceV3/WorkspaceSkillRunner.swift
 +++ b/apps/shared/WorkspaceV3/WorkspaceSkillRunner.swift
 @@ -6,6 +6,7 @@
-     let skill: BlotV3.Skill
+     let skill: oriV3.Skill
      @Environment(WorkspaceStore.self) private var store
      @Environment(\.dismiss) private var dismiss
 +    @Environment(\.workspacePanelNavigation) private var panelNavigation
@@ -505,7 +505,7 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceSkillsView.swift b/apps/shared/Wor
          }
      }
 @@ -53,6 +53,7 @@
-     let skill: BlotV3.Skill?
+     let skill: oriV3.Skill?
      @Environment(WorkspaceStore.self) private var store
      @Environment(\.dismiss) private var dismiss
 +    @Environment(\.workspacePanelNavigation) private var panelNavigation
@@ -584,7 +584,7 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceTaskExecutionView.swift b/apps/sha
      @State private var goal = ""
      @State private var executorID: UUID?
      @State private var projectID: UUID?
-     private var tasks: [BlotV3.Task] {
+     private var tasks: [oriV3.Task] {
 -        let tasks = (store.snapshot.tasks ?? []).filter { $0.conversationId == store.selectedConversationID }
 +        let tasks = (store.snapshot.tasks ?? []).filter { task in
 +            if let taskID { return task.metadata.id == taskID }

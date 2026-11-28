@@ -1,6 +1,6 @@
-import BlotDesign
-import BlotDomain
-import BlotWorkspace
+import OriDesign
+import OriDomain
+import OriWorkspace
 import SwiftUI
 
 struct WorkspacePairedDeviceCard: View {
@@ -59,7 +59,7 @@ struct WorkspacePairedDeviceCard: View {
 
     private var identity: some View {
         HStack(spacing: 12) {
-            BlotIcon(symbol: symbol, size: 24)
+            OriIcon(symbol: symbol, size: 24)
                 .frame(width: 48, height: 48)
                 .background(WorkspaceStyle.secondary.opacity(0.08), in: .rect(cornerRadius: 14))
                 .accessibilityHidden(true)
@@ -79,27 +79,27 @@ struct WorkspacePairedDeviceCard: View {
                 .fixedSize()
             WorkspaceMenu {
                 Button { showingDetails = true } label: {
-                    BlotLabel(ru ? "Об устройстве" : "Device details", symbol: "info.circle")
+                    OriLabel(ru ? "Об устройстве" : "Device details", symbol: "info.circle")
                 }
                 Button {
                     WorkspaceClipboard.copy(device.id.uuidString)
                     copiedID = true
                 } label: {
-                    BlotLabel(ru ? (copiedID ? "ID скопирован" : "Скопировать ID") : (copiedID ? "ID copied" : "Copy device ID"), symbol: "doc.on.doc")
+                    OriLabel(ru ? (copiedID ? "ID скопирован" : "Скопировать ID") : (copiedID ? "ID copied" : "Copy device ID"), symbol: "doc.on.doc")
                 }
                 Button { _Concurrency.Task { await refresh() } } label: {
-                    BlotLabel(ru ? "Обновить статус" : "Refresh status", symbol: "arrow.clockwise")
+                    OriLabel(ru ? "Обновить статус" : "Refresh status", symbol: "arrow.clockwise")
                 }.disabled(store.pairingCommands == nil)
                 if !device.revoked && device.id != store.snapshot.localDeviceID {
                     WorkspaceMenuGap()
                     Button(role: .destructive) { confirmingRevoke = true } label: {
-                        BlotLabel(ru ? "Отозвать доступ" : "Revoke access", symbol: "xmark.shield")
+                        OriLabel(ru ? "Отозвать доступ" : "Revoke access", symbol: "xmark.shield")
                     }.disabled(store.pairingCommands == nil)
                 }
             } label: {
                 Group {
                     if working { ProgressView().controlSize(.small) }
-                    else { BlotIcon(symbol: "ellipsis").font(.body.weight(.semibold)) }
+                    else { OriIcon(symbol: "ellipsis").font(.body.weight(.semibold)) }
                 }
                 .frame(width: 44, height: 44).contentShape(Rectangle())
             }

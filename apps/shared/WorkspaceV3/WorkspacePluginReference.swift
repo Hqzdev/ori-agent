@@ -1,5 +1,5 @@
-import BlotAppleIntegrations
-import BlotWorkspace
+import OriAppleIntegrations
+import OriWorkspace
 import Foundation
 import SwiftUI
 

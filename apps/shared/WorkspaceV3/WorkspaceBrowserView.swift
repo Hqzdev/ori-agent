@@ -1,6 +1,6 @@
-import BlotAppleIntegrations
-import BlotDesign
-import BlotWorkspace
+import OriAppleIntegrations
+import OriDesign
+import OriWorkspace
 import SwiftUI
 import WebKit
 import QuickLook
@@ -119,7 +119,7 @@ struct WorkspaceBrowserView: View {
             VStack(spacing: 8) {
                 HStack(spacing: 8) {
                     addressField
-                    Button { controller.presented = false } label: { BlotIcon(symbol: "xmark").frame(width: 44, height: 44) }.buttonStyle(.plain).accessibilityLabel(text("Закрыть браузер", "Close browser"))
+                    Button { controller.presented = false } label: { OriIcon(symbol: "xmark").frame(width: 44, height: 44) }.buttonStyle(.plain).accessibilityLabel(text("Закрыть браузер", "Close browser"))
                 }
                 HStack(spacing: 8) { navigationButtons; Spacer(); downloadButton; browserMenuButton }
             }
@@ -158,7 +158,7 @@ struct WorkspaceBrowserView: View {
     }
     private var browserMenuButton: some View {
         Button { menuVisible.toggle() } label: {
-            BlotIcon(symbol: "ellipsis").frame(width: controlSize, height: controlSize).contentShape(Circle()).blotHover(in: Circle())
+            OriIcon(symbol: "ellipsis").frame(width: controlSize, height: controlSize).contentShape(Circle()).oriHover(in: Circle())
         }
             .buttonStyle(.plain).background(WorkspaceStyle.surface, in: Circle()).accessibilityLabel(text("Меню панели", "Panel menu"))
             .popover(isPresented: $menuVisible, arrowEdge: .bottom) { panelMenu }
@@ -187,7 +187,7 @@ struct WorkspaceBrowserView: View {
     }
     private func menuRow(_ symbol: String, _ title: String, action: @escaping () -> Void) -> some View {
         Button { menuVisible = false; action() } label: {
-            BlotLabel(title, symbol: symbol)
+            OriLabel(title, symbol: symbol)
         }.buttonStyle(MacMenuRowStyle())
     }
     private var tabs: some View {
@@ -198,19 +198,19 @@ struct WorkspaceBrowserView: View {
                         HStack(spacing: 7) {
                             Button { work { try controller.select(tab.id) } } label: {
                                 HStack(spacing: 7) {
-                                    BlotIcon(tab.localPage.flatMap { WorkspaceToolDestination(identifier: $0) }?.glyph ?? .globe).foregroundStyle(WorkspaceStyle.secondary)
+                                    OriIcon(tab.localPage.flatMap { WorkspaceToolDestination(identifier: $0) }?.glyph ?? .globe).foregroundStyle(WorkspaceStyle.secondary)
                                     Text(tabTitle(tab)).lineLimit(1)
                                 }.frame(maxWidth: .infinity, alignment: .leading).contentShape(Rectangle())
                             }.buttonStyle(.plain).accessibilityAddTraits(controller.selectedID == tab.id ? .isSelected : [])
                             Button { do { try controller.close(tab.id) } catch WorkspaceBrowserError.unsavedChanges { closing = tab.id } catch { controller.error = error.localizedDescription } } label: {
-                                BlotIcon(symbol: "xmark", size: 10).frame(width: 22, height: 26)
-                                    .contentShape(Rectangle()).blotHover(in: Circle())
+                                OriIcon(symbol: "xmark", size: 10).frame(width: 22, height: 26)
+                                    .contentShape(Rectangle()).oriHover(in: Circle())
                             }
                                 .buttonStyle(.plain).foregroundStyle(WorkspaceStyle.secondary).accessibilityLabel(text("Закрыть вкладку", "Close tab") + " " + tabTitle(tab))
                         }.font(.system(size: 12)).padding(.leading, 12).padding(.trailing, 4).frame(width: 166, height: 36)
                             .background(controller.selectedID == tab.id ? WorkspaceStyle.surface : .clear, in: RoundedRectangle(cornerRadius: 12))
                             .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(WorkspaceStyle.ink.opacity(controller.selectedID == tab.id ? 0.08 : 0)))
-                            .blotHover(in: RoundedRectangle(cornerRadius: 12))
+                            .oriHover(in: RoundedRectangle(cornerRadius: 12))
                     }
                 }.scrollTargetLayout()
             }
@@ -244,7 +244,7 @@ struct WorkspaceBrowserView: View {
                         if item.state == "running" { Button(text("Остановить", "Stop")) { controller.cancelDownload(item.id) } }
                         if item.state == "completed", let url = item.url {
                             Button(text("Просмотр", "Preview")) { preview = url }
-                            ShareLink(item: url) { BlotIcon(symbol: "square.and.arrow.up") }
+                            ShareLink(item: url) { OriIcon(symbol: "square.and.arrow.up") }
                         }
                     }.padding(.vertical, 6)
                 }
@@ -266,8 +266,8 @@ struct WorkspaceBrowserView: View {
     }
     private func button(_ image: String, _ title: String, disabled: Bool = false, action: @escaping () throws -> Void) -> some View {
         Button { work(action) } label: {
-            BlotIcon(symbol: image, size: 12).frame(width: 30, height: 34)
-                .contentShape(Rectangle()).blotHover(in: Capsule())
+            OriIcon(symbol: image, size: 12).frame(width: 30, height: 34)
+                .contentShape(Rectangle()).oriHover(in: Capsule())
         }.buttonStyle(.plain).disabled(disabled).accessibilityLabel(title)
     }
     private func openSystemAuthentication() {
@@ -303,7 +303,7 @@ private struct PhoneWorkspaceBrowser: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 12) {
-                Button { controller.presented = false; store.back() } label: { BlotIcon(symbol: "chevron.left").frame(minWidth: 44, minHeight: 44) }
+                Button { controller.presented = false; store.back() } label: { OriIcon(symbol: "chevron.left").frame(minWidth: 44, minHeight: 44) }
                     .accessibilityLabel(text("Назад в чат", "Back to chat"))
                 TextField(text("Адрес или поиск", "Address or search"), text: $address)
                     .textFieldStyle(.roundedBorder).textInputAutocapitalization(.never).autocorrectionDisabled()
@@ -384,7 +384,7 @@ private struct PhoneWorkspaceBrowser: View {
                     Button(text("Закрыть вкладку", "Close tab"), role: .destructive) { close(tab) }
                 }
             }
-        } label: { BlotIcon(symbol: "ellipsis.circle").frame(minWidth: 44, minHeight: 44) }
+        } label: { OriIcon(symbol: "ellipsis.circle").frame(minWidth: 44, minHeight: 44) }
             .accessibilityLabel(text("Меню браузера", "Browser menu"))
     }
 

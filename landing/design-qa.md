@@ -1,4 +1,4 @@
-# Blot landing — design QA
+# Ori landing — design QA
 
 Date: 2026-11-01
 
@@ -24,7 +24,7 @@ Light theme, initial Sales Outbound role, Individual pricing, and first FAQ open
 
 ## Comparison history
 
-1. **P2 — Desktop menu closed on the first click.** Hover opened the menu immediately before click toggled it shut. Fixed by making the desktop click open its named menu; pointer leave, outside click, and Escape handle closing. Retested in the production browser: Products displays Chat, Blot, Agents, and Workspace.
+1. **P2 — Desktop menu closed on the first click.** Hover opened the menu immediately before click toggled it shut. Fixed by making the desktop click open its named menu; pointer leave, outside click, and Escape handle closing. Retested in the production browser: Products displays Chat, Ori, Agents, and Workspace.
 2. **P2 — Statement and Guides drifted from Pencil.** The statement initially used one cream surface, and Guides was centered. Restored the split text/pet composition, a separate cream pet panel, left-aligned Guides content, and its dark CTA. Compared again in the final full-page sheets.
 3. **P2 — Sections could remain hidden after fast navigation.** Initial opacity zero allowed skipped scroll animations to leave full-page content invisible. Changed reveals to keep the default document visible, then animate explicit entrance keyframes. Repeated fast scrolling and focused section checks. All four feature panels are visible in the final full-page evidence; computed opacity settled at one, and browser screenshots show the actual illustrations.
 4. **P2 — Agent selection could retain a paused demo after a custom message.** Choosing a new agent now resets its transcript and resumes autoplay. The mobile home-logo link also closes its dialog rather than leaving navigation open.
@@ -35,13 +35,13 @@ Light theme, initial Sales Outbound role, Individual pricing, and first FAQ open
 - **Typography:** 60 px desktop and 34 px mobile hero; 36/32 px section headings; local source variable font, with Inter as fallback. The Pencil file used Inter, while the website restores the reference font. This is intentional. Checked wrapping in role labels, FAQ questions, plan features, and the mobile header. No hidden or overlapping text was observed at the tested widths.
 - **Spacing/layout:** Reviewed full-page structure and focused hero, feature, role, pricing, menu, and FAQ regions. Desktop uses paired feature columns and three individual-plan columns; mobile stacks them. The mobile plan cards retain the approved 520 px minimum. Small vertical differences come from live transcripts, actual font metrics, and functional controls; no major region is missing. Video is intentionally absent.
 - **Colors/tokens:** White, `#0a0a0a`, `#858585`, `#f9f8f6`, `#f2ede5`, and `#d5d9e2` follow the agreed palette. Agent colors match the saved role catalog. The dark-theme control was exercised. This is not a claim of an independent WCAG contrast audit of the source palette.
-- **Images/assets:** Existing Blot wordmark in header, footer, and mobile menu; source SVG chat avatars; recorded native vector poses for the animated pet and colored role avatars; original source feature illustrations and wallpapers. No broken images were found. No video assets are shipped. The locally recorded pet timeline reproduces the observed poses, not the original site's complete internal animation engine.
-- **Copy/content:** User-facing reference branding is replaced with Blot. A browser text check found no Grok Bot, xAI, or SpaceXSI in the main document. The approved demonstration pricing/availability copy is retained. Navigation destinations point to existing project pages and anchors.
+- **Images/assets:** Existing Ori wordmark in header, footer, and mobile menu; source SVG chat avatars; recorded native vector poses for the animated pet and colored role avatars; original source feature illustrations and wallpapers. No broken images were found. No video assets are shipped. The locally recorded pet timeline reproduces the observed poses, not the original site's complete internal animation engine.
+- **Copy/content:** User-facing reference branding is replaced with Ori. A browser text check found no Grok Bot, xAI, or SpaceXSI in the main document. The approved demonstration pricing/availability copy is retained. Navigation destinations point to existing project pages and anchors.
 
 ## Functional browser checks
 
 - Desktop Products dropdown opens; its real destinations are available.
-- Mobile menu opens, its Products group expands, Pricing navigation closes it, and clicking the Blot logo closes it.
+- Mobile menu opens, its Products group expands, Pricing navigation closes it, and clicking the Ori logo closes it.
 - Agent search filters to one Talent Scout result; selecting it updates the chat title.
 - Local demo composer accepts a message and appends its demonstration reply.
 - Computer panel opens and closes; Add an agent shows six choices.

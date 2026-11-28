@@ -1,7 +1,7 @@
 import AppKit
-import BlotDesign
-import BlotDomain
-import BlotWorkspace
+import OriDesign
+import OriDomain
+import OriWorkspace
 import SwiftUI
 
 @main @MainActor
@@ -22,7 +22,7 @@ struct VerifyConversationCardUI {
                 let root = WorkspaceConversationCardView(card: card, fallback: sample.name)
                     .environment(store).frame(width: 480).padding(36)
                     .frame(width: 740, height: 760).background(WorkspaceStyle.canvas)
-                    .blotTheme(dark ? .dark : .light).environment(\.colorScheme, dark ? .dark : .light)
+                    .oriTheme(dark ? .dark : .light).environment(\.colorScheme, dark ? .dark : .light)
                 let host = NSHostingView(rootView: root)
                 let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 740, height: 760), styleMask: [.borderless], backing: .buffered, defer: false)
                 window.isReleasedWhenClosed = false; window.contentView = host

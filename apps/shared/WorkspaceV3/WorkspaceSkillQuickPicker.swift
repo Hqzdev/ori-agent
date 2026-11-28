@@ -1,12 +1,12 @@
-import BlotDesign
-import BlotDomain
+import OriDesign
+import OriDomain
 import SwiftUI
 
 struct WorkspaceSkillQuickButton: View {
     @Environment(WorkspaceStore.self) private var store
     @State private var showing = false
     var body: some View {
-        Button { showing = true } label: { BlotLabel(store.t("Skills"), symbol: "shippingbox") }
+        Button { showing = true } label: { OriLabel(store.t("Skills"), symbol: "shippingbox") }
             .workspacePanelSheet(isPresented: $showing) { WorkspaceSkillQuickPicker().environment(store) }
     }
 }
@@ -16,9 +16,9 @@ struct WorkspaceSkillQuickPicker: View {
     @WorkspacePresentationDismiss private var dismiss
     @State private var query = ""
     @State private var running: Selection?
-    private struct Selection: Identifiable { let skill: BlotV3.Skill; var id: UUID { skill.metadata.id } }
+    private struct Selection: Identifiable { let skill: OriV3.Skill; var id: UUID { skill.metadata.id } }
     private var ru: Bool { store.language == "ru" }
-    private var skills: [BlotV3.Skill] {
+    private var skills: [OriV3.Skill] {
         (store.snapshot.skills ?? []).filter { !$0.archived && (query.isEmpty || $0.name.localizedCaseInsensitiveContains(query)) }
             .sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
     }
@@ -29,7 +29,7 @@ struct WorkspaceSkillQuickPicker: View {
                 if skills.isEmpty { Text(ru ? "Создайте навык в разделе «Навыки» и назначьте его агенту." : "Create a skill in Skills and assign it to an agent.").foregroundStyle(.secondary) }
                 ForEach(skills, id: \.metadata.id) { skill in
                     Button { running = .init(skill: skill) } label: {
-                        HStack { BlotLabel(skill.name, symbol: "shippingbox"); Spacer(); BlotIcon(symbol: "chevron.right") }
+                        HStack { OriLabel(skill.name, symbol: "shippingbox"); Spacer(); OriIcon(symbol: "chevron.right") }
                             .frame(minHeight: 44).contentShape(Rectangle())
                     }.buttonStyle(.plain)
                 }

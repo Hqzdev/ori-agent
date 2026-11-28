@@ -1,5 +1,5 @@
-import BlotDesign
-import BlotWorkspace
+import OriDesign
+import OriWorkspace
 import SwiftUI
 
 struct WorkspacePluginPreset: Identifiable, Sendable {
@@ -26,7 +26,7 @@ struct WorkspacePluginConnectView: View {
     private var ru: Bool { store.language == "ru" }
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
-            BlotLabel(preset.name, symbol: "puzzlepiece.extension").font(.title2)
+            OriLabel(preset.name, symbol: "puzzlepiece.extension").font(.title2)
             Text(ru ? "Официальный MCP-сервер сервиса. Войдите через OAuth или используйте поддерживаемый сервисом токен, затем выберите инструменты." : "The service’s official MCP server. Sign in with OAuth or use a token supported by the service, then choose tools.")
                 .foregroundStyle(.secondary)
             ForEach(entries) { entry in

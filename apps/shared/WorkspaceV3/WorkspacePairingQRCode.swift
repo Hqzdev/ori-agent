@@ -29,7 +29,7 @@ struct WorkspacePairingQRCode: View {
         context.draw(qr, in: bounds)
 
         let badgeSide = floor(bounds.width * 0.17 / 6) * 6
-        let badge = Image("BlotPairingMark", bundle: resourceBundle).renderingMode(.template)
+        let badge = Image("OriPairingMark", bundle: resourceBundle).renderingMode(.template)
             .resizable().scaledToFit().foregroundStyle(.black)
             .padding(badgeSide * 0.06).frame(width: badgeSide, height: badgeSide)
             .background(.white, in: .rect(cornerRadius: badgeSide * 0.2))

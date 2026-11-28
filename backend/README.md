@@ -1,4 +1,4 @@
-# Backend Blot
+# Backend Ori
 
 Java 25, Spring Boot, SQLite и четыре модуля: `core`, `application`, `infrastructure`, `api`. Конкретные адаптеры собираются в `api/workspace/WorkspaceConfiguration`.
 
@@ -8,7 +8,7 @@ Java 25, Spring Boot, SQLite и четыре модуля: `core`, `application`
 
 ```sh
 backend/gradlew --no-daemon -p backend --dependency-verification=strict spotlessCheck check :api:bootJar
-BLOT_HTTP_FIXTURES="$PWD/.build/http-fixtures" swift test --package-path packages/BlotAPI
+BLOT_HTTP_FIXTURES="$PWD/.build/http-fixtures" swift test --package-path packages/OriAPI
 ```
 
 Нужен JDK 25. Gradle Wrapper и зависимости зафиксированы lock-файлами и `verification-metadata.xml`. При первом запуске требуется сеть. Полный локальный проход — `scripts/check-backend.sh`.
@@ -27,7 +27,7 @@ SMTP и общий доступ GigaChat можно задать через `.en
 backend/gradlew -p backend :api:bootRun
 ```
 
-По умолчанию сервер доступен на loopback. Полный режим с Keychain, TLS, сопряжением и VM запускается приложением Mac: `script/build_and_run.sh`. Build phase `Embed Java backend` включён в цель BlotMac, поэтому обычная сборка Xcode тоже добавляет JVM через jlink, JAR, SQLite JNI, Foundation adapter и гостевой runner. Локальная сборка использует ad hoc без Apple-сертификата; App Sandbox остаётся включённым. Если задана настоящая `BLOT_SIGNING_IDENTITY`, применяется Hardened Runtime. Установленная отдельно Java пользователю приложения не нужна.
+По умолчанию сервер доступен на loopback. Полный режим с Keychain, TLS, сопряжением и VM запускается приложением Mac: `script/build_and_run.sh`. Build phase `Embed Java backend` включён в цель OriMac, поэтому обычная сборка Xcode тоже добавляет JVM через jlink, JAR, SQLite JNI, Foundation adapter и гостевой runner. Локальная сборка использует ad hoc без Apple-сертификата; App Sandbox остаётся включённым. Если задана настоящая `BLOT_SIGNING_IDENTITY`, применяется Hardened Runtime. Установленная отдельно Java пользователю приложения не нужна.
 
 `script/build_and_run.sh --build-only` собирает и упаковывает приложение без его запуска. Для локального запуска с `.env` используйте `script/build_and_run.sh`: launcher открывает файл и передаёт его через stdin, затем Mac передаёт конфигурацию Java по приватному pipe. Секреты не копируются в `.app`; выбранный публичный CA может быть включён отдельно.
 

@@ -15,7 +15,7 @@ struct OpenApplePluginsIntent: AppIntent {
     }
 }
 
-struct BlotAppleShortcuts: AppShortcutsProvider {
+struct OriAppleShortcuts: AppShortcutsProvider {
     static var appShortcuts: [AppShortcut] {
         AppShortcut(intent: OpenApplePluginsIntent(), phrases: ["Открой подключения в \(.applicationName)"],
             shortTitle: "Приложения Apple", systemImageName: "app.connected.to.app.below.fill")

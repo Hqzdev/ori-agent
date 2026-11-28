@@ -1,4 +1,4 @@
-import BlotDesign
+import OriDesign
 import SwiftUI
 
 /// Fixtures compose production views; no authentication, file or network actions run.
@@ -30,7 +30,7 @@ struct MacRenderScenario {
             Self("chat", configure: completedTask),
             Self("project-card-sources", configure: { state in
                 completedTask(state)
-                let path = FileManager.default.currentDirectoryPath + "/apps/shared/AppIcon.icon/Assets/Blot.svg"
+                let path = FileManager.default.currentDirectoryPath + "/apps/shared/AppIcon.icon/Assets/Ori.svg"
                 let url = URL(fileURLWithPath: path)
                 state.shell.addSources([url], projectID: state.shellProjectID)
             }),
@@ -175,7 +175,7 @@ struct MacRenderScenario {
             cases.append(Self("profile-" + sheet.rawValue, overlay: { _ in AnyView(ProfileSheetView(sheet: sheet)) }))
         }
         for (name, title, label, value) in [
-            ("folder-edit", "Projects folder", "Folder path", "~/Developer/blot"),
+            ("folder-edit", "Projects folder", "Folder path", "~/Developer/ori"),
             ("command-add", "Add allowed command", "Command", ""),
             ("server-add", "Add MCP server", "Server name", "")
         ] {
@@ -204,9 +204,9 @@ struct MacRenderScenario {
     }
 
     private static func modelPanel(choosing: Bool) -> ModelPickerPanel {
-        ModelPickerPanel(options: ModelOption.options(from: ["Blot 1", "Blot 1 Mini"]),
+        ModelPickerPanel(options: ModelOption.options(from: ["Ori 1", "Ori 1 Mini"]),
                          selectedModel: .constant(""), effort: .constant(.high),
-                         defaultModel: "Blot 1", choosingModel: choosing)
+                         defaultModel: "Ori 1", choosingModel: choosing)
     }
 }
 
@@ -220,7 +220,7 @@ struct MacRenderPreview: View {
             if let login {
                 LoginView(model: login).background(WindowChrome().frame(width: 0, height: 0))
             } else {
-                BlotWindowContent(state: state)
+                OriWindowContent(state: state)
             }
         }
         .overlay(alignment: scenario.name.hasPrefix("profile") && !["profile-invitation", "profile-guide", "profile-about"].contains(scenario.name) ? .bottomLeading : .center) {
@@ -236,7 +236,7 @@ struct MacRenderPreview: View {
             }
         }
         .environment(state)
-        .blotTheme(state.theme).tint(K.inverse)
+        .oriTheme(state.theme).tint(K.inverse)
         .environment(\.scenePhase, .inactive)
     }
 }

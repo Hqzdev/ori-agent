@@ -22,13 +22,13 @@ Scope: macOS and the shared Apple-local Swift runtime. No Java runtime parity or
 
 ## Remaining handoff
 
-The user clarified that documents, tables and presentations must be generated and opened locally inside Blot, without Google. No new Google APIs were enabled. Docs/Sheets/Slides/Contacts/Tasks connections were not granted. The shipped Google service set remains Gmail, Calendar and Drive.
+The user clarified that documents, tables and presentations must be generated and opened locally inside Ori, without Google. No new Google APIs were enabled. Docs/Sheets/Slides/Contacts/Tasks connections were not granted. The shipped Google service set remains Gmail, Calendar and Drive.
 
 Implementation/configuration details: [Google Workspace guide](../integrations/google-workspace.md).
 
 ## Local documents and context compaction
 
-- document_create supports Markdown/PDF documents, CSV tables and 16:9 PDF presentations with structured title/body slides. The PDF writer checks every title and body fits; it never silently clips content. Generation replay is bound to its exact inputs, so changing PDF metadata timestamps cannot cause duplicate files. Files persist as local artifacts, attach to the response and open inside Blot for the currently visible chat. Background chats do not steal focus.
+- document_create supports Markdown/PDF documents, CSV tables and 16:9 PDF presentations with structured title/body slides. The PDF writer checks every title and body fits; it never silently clips content. Generation replay is bound to its exact inputs, so changing PDF metadata timestamps cannot cause duplicate files. Files persist as local artifacts, attach to the response and open inside Ori for the currently visible chat. Background chats do not steal focus.
 - Local preview renders PDF pages, Markdown blocks and CSV cells, including quoted commas, quotes and multiline Unicode cells. No external browser or Google upload is used.
 - The automatic context policy caps compaction at 250,000 estimated tokens, respecting the smaller model window, per-run budget and existing file-context allowance. UTF-8 byte size is intentionally a conservative token estimate, not a provider tokenizer. The installed default GigaChat window is 32,768, so compaction happens earlier.
 - Summaries preserve goals, decisions, restrictions, pending work and exact document links/IDs. Recent messages remain in context and original messages are retained. Summary requests are batched below record-size limits; failed summarization does not replace history.

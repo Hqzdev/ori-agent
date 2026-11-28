@@ -1,6 +1,6 @@
-diff --git a/apps/ios/BlotIOS/Features/Settings/PhoneGeneralSettingsView.swift b/apps/ios/BlotIOS/Features/Settings/PhoneGeneralSettingsView.swift
---- a/apps/ios/BlotIOS/Features/Settings/PhoneGeneralSettingsView.swift
-+++ b/apps/ios/BlotIOS/Features/Settings/PhoneGeneralSettingsView.swift
+diff --git a/apps/ios/oriIOS/Features/Settings/PhoneGeneralSettingsView.swift b/apps/ios/oriIOS/Features/Settings/PhoneGeneralSettingsView.swift
+--- a/apps/ios/oriIOS/Features/Settings/PhoneGeneralSettingsView.swift
++++ b/apps/ios/oriIOS/Features/Settings/PhoneGeneralSettingsView.swift
 @@ -27,6 +27,7 @@
                      }.labelsHidden()
                  }
@@ -9,9 +9,9 @@ diff --git a/apps/ios/BlotIOS/Features/Settings/PhoneGeneralSettingsView.swift b
          }
      }
  }
-diff --git a/apps/ios/BlotIOS/Features/Settings/PhoneSettingsCatalog.swift b/apps/ios/BlotIOS/Features/Settings/PhoneSettingsCatalog.swift
---- a/apps/ios/BlotIOS/Features/Settings/PhoneSettingsCatalog.swift
-+++ b/apps/ios/BlotIOS/Features/Settings/PhoneSettingsCatalog.swift
+diff --git a/apps/ios/oriIOS/Features/Settings/PhoneSettingsCatalog.swift b/apps/ios/oriIOS/Features/Settings/PhoneSettingsCatalog.swift
+--- a/apps/ios/oriIOS/Features/Settings/PhoneSettingsCatalog.swift
++++ b/apps/ios/oriIOS/Features/Settings/PhoneSettingsCatalog.swift
 @@ -12,7 +12,7 @@
      static let groups = ["Workspace", "Personal", "Integrations"]
      static let items: [Item] = [
@@ -21,9 +21,9 @@ diff --git a/apps/ios/BlotIOS/Features/Settings/PhoneSettingsCatalog.swift b/app
          .init(route: .notifications, title: "Notifications", detail: "Events your agents notify you about.", symbol: "bell", group: "Personal"),
          .init(route: .settingsProfile, title: "Profile", detail: "Your profile, token activity and account actions.", symbol: "person.crop.circle", group: "Personal"),
          .init(route: .appearance, title: "Appearance", detail: "Theme, motion and interface density.", symbol: "sun.max", group: "Personal"),
-diff --git a/apps/ios/BlotIOS/Features/Settings/PhoneSettingsCopy.swift b/apps/ios/BlotIOS/Features/Settings/PhoneSettingsCopy.swift
---- a/apps/ios/BlotIOS/Features/Settings/PhoneSettingsCopy.swift
-+++ b/apps/ios/BlotIOS/Features/Settings/PhoneSettingsCopy.swift
+diff --git a/apps/ios/oriIOS/Features/Settings/PhoneSettingsCopy.swift b/apps/ios/oriIOS/Features/Settings/PhoneSettingsCopy.swift
+--- a/apps/ios/oriIOS/Features/Settings/PhoneSettingsCopy.swift
++++ b/apps/ios/oriIOS/Features/Settings/PhoneSettingsCopy.swift
 @@ -18,6 +18,7 @@
          "Usage and subscription": "Использование и подписка", "Agent memory": "Память агентов",
          "Files and data": "Файлы и данные", "Data and privacy": "Данные и приватность", "Applications": "Приложения", "Updates": "Обновления",
@@ -32,9 +32,9 @@ diff --git a/apps/ios/BlotIOS/Features/Settings/PhoneSettingsCopy.swift b/apps/i
          "Events your agents notify you about.": "События, о которых сообщают ваши агенты.",
          "Your name in your personal workspace.": "Ваше имя в личном пространстве.",
          "Theme, motion and interface density.": "Тема, движение и плотность интерфейса.",
-diff --git a/apps/macos/BlotMac/Features/TeamDesign/MacTeamSettingsCatalog.swift b/apps/macos/BlotMac/Features/TeamDesign/MacTeamSettingsCatalog.swift
---- a/apps/macos/BlotMac/Features/TeamDesign/MacTeamSettingsCatalog.swift
-+++ b/apps/macos/BlotMac/Features/TeamDesign/MacTeamSettingsCatalog.swift
+diff --git a/apps/macos/oriMac/Features/TeamDesign/MacTeamSettingsCatalog.swift b/apps/macos/oriMac/Features/TeamDesign/MacTeamSettingsCatalog.swift
+--- a/apps/macos/oriMac/Features/TeamDesign/MacTeamSettingsCatalog.swift
++++ b/apps/macos/oriMac/Features/TeamDesign/MacTeamSettingsCatalog.swift
 @@ -71,7 +71,7 @@
      }
      func matches(_ query: String) -> Bool {
@@ -44,11 +44,11 @@ diff --git a/apps/macos/BlotMac/Features/TeamDesign/MacTeamSettingsCatalog.swift
          case .appearance: "светлая тёмная системная анимации уменьшить компактные"
          case .personalization: "задача обучение шаблон"
          case .connections: "Gmail Calendar Drive Slack Notion"
-diff --git a/apps/macos/BlotMac/Features/Workspace/MacSettingsGeneralPane.swift b/apps/macos/BlotMac/Features/Workspace/MacSettingsGeneralPane.swift
---- a/apps/macos/BlotMac/Features/Workspace/MacSettingsGeneralPane.swift
-+++ b/apps/macos/BlotMac/Features/Workspace/MacSettingsGeneralPane.swift
+diff --git a/apps/macos/oriMac/Features/Workspace/MacSettingsGeneralPane.swift b/apps/macos/oriMac/Features/Workspace/MacSettingsGeneralPane.swift
+--- a/apps/macos/oriMac/Features/Workspace/MacSettingsGeneralPane.swift
++++ b/apps/macos/oriMac/Features/Workspace/MacSettingsGeneralPane.swift
 @@ -28,6 +28,7 @@
-                 MacTeamSettingsToggle(title: "Открывать при входе в систему", detail: "Запускать Blot вместе с macOS.",
+                 MacTeamSettingsToggle(title: "Открывать при входе в систему", detail: "Запускать ori вместе с macOS.",
                      isOn: Binding(get: { launchesAtLogin }, set: setLaunchAtLogin))
              }
 +            WorkspaceVoiceSettingsView()
@@ -87,9 +87,9 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceStore.swift b/apps/shared/Workspac
              guard let self, self.sessionGeneration == generation else { throw CancellationError() }
              return try await self.sendVoiceTurn(text, in: id)
          }
-diff --git a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/AppleVoiceInput.swift b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/AppleVoiceInput.swift
---- a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/AppleVoiceInput.swift
-+++ b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/AppleVoiceInput.swift
+diff --git a/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/AppleVoiceInput.swift b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/AppleVoiceInput.swift
+--- a/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/AppleVoiceInput.swift
++++ b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/AppleVoiceInput.swift
 @@ -12,6 +12,15 @@
      private var results: Task<Void, Error>?
      private var transcript = VoiceTranscript()
@@ -106,9 +106,9 @@ diff --git a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/AppleV
      public func prepare(locale: Locale) async throws {
          self.locale = locale
          if SpeechTranscriber.isAvailable, let supported = await SpeechTranscriber.supportedLocale(equivalentTo: locale) {
-diff --git a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/VoiceConversationSession.swift b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/VoiceConversationSession.swift
---- a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/VoiceConversationSession.swift
-+++ b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/VoiceConversationSession.swift
+diff --git a/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/VoiceConversationSession.swift b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/VoiceConversationSession.swift
+--- a/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/VoiceConversationSession.swift
++++ b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/VoiceConversationSession.swift
 @@ -22,7 +22,7 @@
      public init(input: any VoiceRecognizing = AppleVoiceInput(), output: any VoiceSpeaking = AppleVoiceOutput()) {
          self.input = input; self.output = output
@@ -154,7 +154,7 @@ diff --git a/scripts/verify-voice-chat.swift b/scripts/verify-voice-chat.swift
          let input = ChatVoiceInput(), output = ChatVoiceOutput()
          let voice = VoiceConversationSession(input: input, output: output)
 -        let store = WorkspaceStore(mode: .live, service: local, voice: voice)
-+        let suite = "dev.blot.voice-preferences-fixture." + UUID().uuidString
++        let suite = "dev.ori.voice-preferences-fixture." + UUID().uuidString
 +        let defaults = UserDefaults(suiteName: suite)!
 +        defer { defaults.removePersistentDomain(forName: suite) }
 +        let preferences = WorkspaceVoicePreferences(defaults: defaults)
@@ -195,7 +195,7 @@ new file mode 100644
 +/// Device-local recognition preference, independent from the interface and playback language.
 +@MainActor @Observable
 +final class WorkspaceVoicePreferences {
-+    static let defaultsKey = "blot.v3.voice.recognitionLanguage"
++    static let defaultsKey = "ori.v3.voice.recognitionLanguage"
 +    static let followInterface = "interface"
 +    private let defaults: UserDefaults?
 +    var selection: String {
@@ -215,7 +215,7 @@ new file mode 100644
 --- /dev/null
 +++ b/apps/shared/WorkspaceV3/WorkspaceVoiceSettingsView.swift
 @@ -0,0 +1,62 @@
-+import BlotAppleIntegrations
++import oriAppleIntegrations
 +import SwiftUI
 +
 +struct WorkspaceVoiceSettingsView: View {

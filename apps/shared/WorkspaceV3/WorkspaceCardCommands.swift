@@ -1,6 +1,6 @@
-import BlotAppleIntegrations
-import BlotDomain
-import BlotWorkspace
+import OriAppleIntegrations
+import OriDomain
+import OriWorkspace
 import Foundation
 
 @MainActor
@@ -14,11 +14,11 @@ extension LocalWorkspaceService: WorkspaceCardCommands {
     func retryMailCard(_ id: UUID) async throws {
         let identity = try await context()
         guard cardWorkers[id] == nil,
-              let card = try await repository.record(BlotV3.ConversationCard.self, id: id, workspaceID: identity.workspaceID),
+              let card = try await repository.record(OriV3.ConversationCard.self, id: id, workspaceID: identity.workspaceID),
               card.metadata.ownerId == identity.ownerID, card.kind == "mailFailure", card.executorDeviceId == identity.deviceID,
               let raw = card.responseJSON, try JSONDecoder().decode(WorkspaceCardResponse.self, from: Data(raw.utf8)).action == "confirmed_not_sent",
-              let action = try await repository.record(BlotV3.PreparedAction.self, id: card.operationId, workspaceID: identity.workspaceID), action.state == .failed,
-              let message = try await repository.record(BlotV3.Message.self, id: card.messageId, workspaceID: identity.workspaceID),
+              let action = try await repository.record(OriV3.PreparedAction.self, id: card.operationId, workspaceID: identity.workspaceID), action.state == .failed,
+              let message = try await repository.record(OriV3.Message.self, id: card.messageId, workspaceID: identity.workspaceID),
               let source = message.replyToMessageId, let agentID = message.authorAgentId else { throw WorkspaceStorageError.permissionDenied }
         let saved = try JSONDecoder().decode(ChatJSON.self, from: Data(action.parameters.utf8))
         let arguments: ChatJSON
@@ -36,14 +36,14 @@ extension LocalWorkspaceService: WorkspaceCardCommands {
         let identity = try await context()
         let now = Date()
         if ["confirmed_sent", "confirmed_not_sent"].contains(response.action) {
-            guard let card = try await repository.record(BlotV3.ConversationCard.self, id: id, workspaceID: identity.workspaceID),
+            guard let card = try await repository.record(OriV3.ConversationCard.self, id: id, workspaceID: identity.workspaceID),
                   card.kind == "mailFailure", card.state == "pending", card.metadata.version == version, card.expiresAt.map({ $0 > now }) ?? true,
                   card.metadata.ownerId == identity.ownerID, card.executorDeviceId == identity.deviceID,
                   let invocation = try await repository.projection(identity: identity).invocations.first(where: { $0.preparedActionId == card.operationId && $0.state == .unknown }) else { throw WorkspaceStorageError.permissionDenied }
             _ = try await resolveAppleInvocation(invocation.metadata.id, succeeded: response.action == "confirmed_sent")
         }
         if response.action == "saved" {
-            guard let card = try await repository.record(BlotV3.ConversationCard.self, id: id, workspaceID: identity.workspaceID),
+            guard let card = try await repository.record(OriV3.ConversationCard.self, id: id, workspaceID: identity.workspaceID),
                   card.executorDeviceId == identity.deviceID, let value = try await mcpCredentials.read("card:" + identity.ownerID.uuidString + ":" + id.uuidString), !value.isEmpty else { throw WorkspaceStorageError.permissionDenied }
         }
         try await WorkspaceConversationCardService(repository: repository, identity: identity).respond(
@@ -52,7 +52,7 @@ extension LocalWorkspaceService: WorkspaceCardCommands {
     func saveCardSecret(_ id: UUID, version: Int, secret: String) async throws {
         let identity = try await context()
         guard !secret.isEmpty, secret.utf8.count <= 16 * 1024,
-              let card = try await repository.record(BlotV3.ConversationCard.self, id: id, workspaceID: identity.workspaceID),
+              let card = try await repository.record(OriV3.ConversationCard.self, id: id, workspaceID: identity.workspaceID),
               card.metadata.ownerId == identity.ownerID, card.metadata.version == version,
               card.executorDeviceId == identity.deviceID, card.state == "pending", card.expiresAt.map({ $0 > Date() }) ?? true,
               case .credential(let request) = try JSONDecoder().decode(WorkspaceCardContent.self, from: Data(card.payloadJSON.utf8)),

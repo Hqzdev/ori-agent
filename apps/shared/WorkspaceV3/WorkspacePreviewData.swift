@@ -393,7 +393,7 @@ enum WorkspacePreviewData {
         "updatedAt": "2026-11-02T09:00:00Z"
       },
       "service": "Gmail",
-      "accountName": "preview@blot.local",
+      "accountName": "preview@ori.local",
       "scopes": [],
       "state": "CONNECTED"
     },

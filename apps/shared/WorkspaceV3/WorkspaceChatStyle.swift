@@ -1,5 +1,5 @@
-import BlotDesign
-import BlotDomain
+import OriDesign
+import OriDomain
 import Foundation
 import SwiftUI
 
@@ -7,7 +7,7 @@ import SwiftUI
 enum WorkspaceChatStyle {
     static let avatarBaseline = VerticalAlignment(AvatarAlignment.self)
 
-    static func outgoing(agent: BlotV3.AgentProfile?, group: Bool, environment: EnvironmentValues) -> Color {
+    static func outgoing(agent: OriV3.AgentProfile?, group: Bool, environment: EnvironmentValues) -> Color {
         guard !group, let agent else { return Color(white: 0.065) }
         var paletteEnvironment = environment
         paletteEnvironment.colorScheme = .light

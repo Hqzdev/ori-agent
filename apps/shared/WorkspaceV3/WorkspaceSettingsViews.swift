@@ -1,6 +1,6 @@
-import BlotAppleIntegrations
-import BlotDesign
-import BlotDomain
+import OriAppleIntegrations
+import OriDesign
+import OriDomain
 import SwiftUI
 
 struct WorkspaceSettingsView: View {
@@ -20,14 +20,14 @@ struct WorkspaceSettingsView: View {
             #if os(macOS)
             if !embedded {
                 HStack(spacing: 10) {
-                    BlotIcon(MacSettingsCatalog.glyph(for: route), size: 22)
+                    OriIcon(MacSettingsCatalog.glyph(for: route), size: 22)
                     Text(store.t(route.title)).font(.system(size: 24, weight: .semibold)).accessibilityAddTraits(.isHeader)
                 }
             }
             #endif
             if !store.unresolvedConflicts.isEmpty {
                 Button { store.conflictsVisible = true } label: {
-                    BlotLabel(store.t("Review conflicting changes"), symbol: "arrow.triangle.branch")
+                    OriLabel(store.t("Review conflicting changes"), symbol: "arrow.triangle.branch")
                 }.buttonStyle(WorkspaceButtonStyle(.secondary))
             }
             content
@@ -81,7 +81,7 @@ struct WorkspaceSettingsView: View {
             Divider()
             settingRow("Default model") { WorkspaceLocalizedText(store.mode == .live ? "Compatible API" : "GigaChat") }
             settingRow("Run tasks on") { Text(store.t("This computer")) }
-            settingRow("Ask before significant actions") { BlotIcon(symbol: "checkmark.shield") }
+            settingRow("Ask before significant actions") { OriIcon(symbol: "checkmark.shield") }
             settingRow("Keep working after closing the window") { WorkspaceV3ActionButton(title: "Configure", action: .saveSetting, kind: .secondary) }
             #endif
             Text(store.t("Ori · Version 3 preview")).font(.caption).foregroundStyle(WorkspaceStyle.secondary)
@@ -94,7 +94,7 @@ struct WorkspaceSettingsView: View {
         VStack(alignment: .leading, spacing: 24) {
             WorkspaceHeading(title: "Account", subtitle: "Profile and security")
             settingRow("Name") { Text(store.isPreview ? "Yaroslav" : store.t("Not signed in")) }
-            settingRow("Email") { WorkspaceLocalizedText(store.isPreview ? "preview@blot.local" : "—") }
+            settingRow("Email") { WorkspaceLocalizedText(store.isPreview ? "preview@ori.local" : "—") }
             settingRow("Sign-in method") { WorkspaceLocalizedText(store.isPreview ? "Google" : "—") }
             Button(store.t("Sign out")) { store.signOut() }.buttonStyle(WorkspaceButtonStyle(.secondary))
             WorkspaceV3ActionButton(title: "Delete account", action: .saveSetting, kind: .destructive)
@@ -113,7 +113,7 @@ struct WorkspaceSettingsView: View {
             WorkspaceLocalizedText("Optional API key").font(.headline)
             #else
             WorkspaceCard {
-                BlotLabel("Ori", symbol: "bubble.left").font(.headline)
+                OriLabel("Ori", symbol: "bubble.left").font(.headline)
                 Text(store.t(store.isPreview ? "Trial access is set up. You can start without your own key." : "GigaChat connects directly from this device. The key is managed by this personal build.")).foregroundStyle(WorkspaceStyle.secondary)
             }
             Text(store.t("YOUR API KEY")).font(.caption.monospaced()).foregroundStyle(WorkspaceStyle.secondary)
@@ -167,9 +167,9 @@ struct WorkspaceSettingsView: View {
         VStack(alignment: .leading, spacing: 24) {
             WorkspaceHeading(title: "Your tools", subtitle: "Give agents access to the services they need.")
             ForEach(store.snapshot.connections, id: \.metadata.id) { connection in
-                HStack(spacing: 16) { BlotIcon(symbol: "powerplug").font(.title2)
+                HStack(spacing: 16) { OriIcon(symbol: "powerplug").font(.title2)
                     VStack(alignment: .leading, spacing: 7) { Text(connection.service).font(.headline); Text(connection.accountName).font(.caption).foregroundStyle(WorkspaceStyle.secondary) }
-                    Spacer(); BlotIcon(symbol: "checkmark.circle").accessibilityLabel(store.t("Connected")) }
+                    Spacer(); OriIcon(symbol: "checkmark.circle").accessibilityLabel(store.t("Connected")) }
             }
             ForEach(PluginCatalog.external) { plugin in
                 settingRow(plugin.name) { WorkspaceV3ActionButton(title: "Connect", action: .connect, kind: .secondary) }
@@ -179,7 +179,7 @@ struct WorkspaceSettingsView: View {
                 Text(store.t("Signing in to Ori grants no service access. Each connection’s permissions can be changed or revoked.")).foregroundStyle(WorkspaceStyle.secondary) }
         }
     }
-    private var visibleDevices: [BlotV3.Device] {
+    private var visibleDevices: [OriV3.Device] {
         #if os(macOS)
         store.snapshot.devices
         #else
@@ -191,7 +191,7 @@ struct WorkspaceSettingsView: View {
             WorkspaceHeading(title: "Work runs on your computer", subtitle: "Choose where agents run tasks.")
             ForEach(Array(visibleDevices.enumerated()), id: \.element.metadata.id) { i, device in
                 WorkspaceCard {
-                    BlotLabel(device.name, symbol: "laptopcomputer").font(.headline)
+                    OriLabel(device.name, symbol: "laptopcomputer").font(.headline)
                     Text(device.platform + " · " + store.t(i == 0 ? "Online" : "Offline")).foregroundStyle(WorkspaceStyle.secondary)
                     Text(store.t("Switching applies to new tasks. Running work stays on the current computer.")).font(.caption).foregroundStyle(WorkspaceStyle.secondary)
                     Button(store.t("Revoke")) { store.selectedRecordID = device.metadata.id; _Concurrency.Task { await store.perform(.revokeDevice) } }
@@ -203,7 +203,7 @@ struct WorkspaceSettingsView: View {
             if store.isPreview {
                 WorkspaceCard {
                     HStack(spacing: 22) {
-                        BlotIcon(symbol: "qrcode", size: 70).font(.system(size: 70))
+                        OriIcon(symbol: "qrcode", size: 70).font(.system(size: 70))
                         VStack(alignment: .leading, spacing: 14) {
                             Text(store.t("Pair a new device")).font(.headline)
                             Text("482 917").font(.system(.title2, design: .monospaced))
@@ -219,14 +219,14 @@ struct WorkspaceSettingsView: View {
                 HStack {
                     Text(store.t("Connect computer"))
                     Spacer()
-                    BlotIcon(.plus)
+                    OriIcon(.plus)
                 }.frame(maxWidth: .infinity)
             }.buttonStyle(WorkspaceButtonStyle(.secondary))
             Button { store.navigate(.offline) } label: {
                 HStack {
                     Text(store.t("Computer offline"))
                     Spacer()
-                    BlotIcon(.chevronRight, size: 14)
+                    OriIcon(.chevronRight, size: 14)
                 }.frame(maxWidth: .infinity)
             }.buttonStyle(WorkspaceButtonStyle(.secondary))
             #else
@@ -239,8 +239,8 @@ struct WorkspaceSettingsView: View {
         @Bindable var store = store
         return VStack(alignment: .leading, spacing: 24) {
             WorkspaceHeading(title: "Link your devices", subtitle: "Open Ori on your computer: Settings → Devices → Add iPhone.")
-            ZStack { RoundedRectangle(cornerRadius: 24).fill(BlotColor.inverse); BlotIcon(symbol: "viewfinder", size: 90).font(.system(size: 90)).foregroundStyle(BlotColor.onInverse) }.frame(height: 250)
-            WorkspaceCard { BlotLabel(store.t("Confirm on your computer"), symbol: "checkmark.shield")
+            ZStack { RoundedRectangle(cornerRadius: 24).fill(OriColor.inverse); OriIcon(symbol: "viewfinder", size: 90).font(.system(size: 90)).foregroundStyle(OriColor.onInverse) }.frame(height: 250)
+            WorkspaceCard { OriLabel(store.t("Confirm on your computer"), symbol: "checkmark.shield")
                 Text(store.t("After scanning, compare the code on both devices and allow the connection in Ori on your computer.")).foregroundStyle(WorkspaceStyle.secondary) }
             WorkspaceField(title: "Connection code", text: $store.form.pair.code)
             WorkspaceV3ActionButton(title: "Connect", action: .connect)
@@ -292,7 +292,7 @@ struct WorkspaceSettingsView: View {
         VStack(spacing: 14) {
             HStack(alignment: .center, spacing: 20) {
                 #if os(macOS)
-                HStack(spacing: 9) { BlotIcon(MacSettingsCatalog.glyph(forSetting: title), size: 15); Text(store.t(title)) }
+                HStack(spacing: 9) { OriIcon(MacSettingsCatalog.glyph(forSetting: title), size: 15); Text(store.t(title)) }
                 #else
                 Text(store.t(title))
                 #endif

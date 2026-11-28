@@ -9,7 +9,7 @@ enum VerifyMacTeamDemo {
     }
 
     static func main() throws {
-        let directory = FileManager.default.temporaryDirectory.appendingPathComponent("blot-demo-check-" + UUID().uuidString)
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent("ori-demo-check-" + UUID().uuidString)
         defer { try? FileManager.default.removeItem(at: directory) }
         let repository = MacDemoFileRepository(url: directory.appendingPathComponent("workspace.json"))
         let demo = MacDemoSession(repository: repository)
@@ -70,7 +70,7 @@ enum VerifyMacTeamDemo {
         demo.send("/Категоризировать расходы", conversation: "agent:finance", agentID: "finance")
         check(demo.state.threads["agent:finance"]?.last?.kind == .transactions, "run saved skill")
 
-        let connection = MacDemoConnection(id: "test-mcp", pluginID: "composio", label: "Тестовый сервер", account: "demo", endpoint: "https://demo.blot/mcp")
+        let connection = MacDemoConnection(id: "test-mcp", pluginID: "composio", label: "Тестовый сервер", account: "demo", endpoint: "https://demo.ori/mcp")
         demo.saveConnection(connection)
         check(demo.state.connections.contains { $0.id == connection.id && $0.endpoint == connection.endpoint }, "save MCP settings locally")
         demo.update { $0.settings.usageLimit = "$25"; $0.settings.profileName = "Демо" }

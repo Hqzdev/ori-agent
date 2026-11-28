@@ -47,15 +47,15 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceTaskExecutionView.swift b/apps/sha
 --- a/apps/shared/WorkspaceV3/WorkspaceTaskExecutionView.swift
 +++ b/apps/shared/WorkspaceV3/WorkspaceTaskExecutionView.swift
 @@ -1,5 +1,6 @@
- import BlotDesign
- import BlotDomain
-+import BlotWorkspace
+ import oriDesign
+ import oriDomain
++import oriWorkspace
  import SwiftUI
  
  struct WorkspaceTaskExecutionView: View {
 @@ -46,6 +47,9 @@
                      if !local, task.executionMode == .delegated {
-                         Text(store.language == "ru" ? "Ожидает выбранный Mac. Blot на Mac должен быть открыт; результат появится после синхронизации." : "Waiting for the selected Mac. Blot must be open there; results appear after sync.").font(.caption).foregroundStyle(.secondary)
+                         Text(store.language == "ru" ? "Ожидает выбранный Mac. ori на Mac должен быть открыт; результат появится после синхронизации." : "Waiting for the selected Mac. ori must be open there; results appear after sync.").font(.caption).foregroundStyle(.secondary)
                      }
 +                    if !local, task.execution.originDeviceId == store.snapshot.localDeviceID, ![.completed, .failed, .canceled].contains(task.state) {
 +                        Button(store.t("Stop task"), role: .destructive) { control(.stop, task: task) }.disabled(store.busy)

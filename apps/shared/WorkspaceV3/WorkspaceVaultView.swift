@@ -1,5 +1,5 @@
-import BlotDesign
-import BlotWorkspace
+import OriDesign
+import OriWorkspace
 import SwiftUI
 import UniformTypeIdentifiers
 
@@ -24,7 +24,7 @@ struct WorkspaceVaultButton: View {
     @Environment(WorkspaceStore.self) private var store
     @State private var showing = false
     var body: some View {
-        Button { showing = true } label: { BlotLabel("Vault", symbol: "lock.shield") }
+        Button { showing = true } label: { OriLabel("Vault", symbol: "lock.shield") }
             .workspacePanelSheet(isPresented: $showing) { WorkspaceVaultView().environment(store) }
     }
 }
@@ -53,9 +53,9 @@ struct WorkspaceVaultView: View {
                         }
                     } label: {
                         HStack {
-                            BlotIcon(symbol: symbol(item.kind))
+                            OriIcon(symbol: symbol(item.kind))
                             VStack(alignment: .leading) { Text(item.title); Text(item.hint).font(.caption).foregroundStyle(.secondary) }
-                            Spacer(); BlotIcon(symbol: "chevron.right")
+                            Spacer(); OriIcon(symbol: "chevron.right")
                         }.frame(minHeight: 44).contentShape(Rectangle())
                     }.buttonStyle(.plain)
                 }
@@ -68,10 +68,10 @@ struct WorkspaceVaultView: View {
                     WorkspaceMenu {
                         ForEach(WorkspaceVaultItem.Kind.allCases, id: \.self) { kind in
                             Button { editing = .init(title: "", kind: kind) } label: {
-                                BlotLabel(kindTitle(kind), symbol: symbol(kind))
+                                OriLabel(kindTitle(kind), symbol: symbol(kind))
                             }
                         }
-                    } label: { BlotLabel(ru ? "Новая запись" : "New item", symbol: "plus") }
+                    } label: { OriLabel(ru ? "Новая запись" : "New item", symbol: "plus") }
                 }
             }.workspaceEditorChrome()
         }

@@ -1,11 +1,11 @@
-import BlotDesign
-import BlotDomain
-import BlotWorkspace
+import OriDesign
+import OriDomain
+import OriWorkspace
 import SwiftUI
 
 /// A compact result row mirrors the link's stable artifact, including its latest saved revision.
 struct WorkspaceDocumentCard: View {
-    let file: BlotV3.Artifact
+    let file: OriV3.Artifact
     @Environment(WorkspaceStore.self) private var store
     @State private var document: WorkspaceEditableDocument?
     @State private var localURL: URL?
@@ -49,7 +49,7 @@ struct WorkspaceDocumentCard: View {
     private var openButton: some View {
         Button { store.showGeneratedFile(file.metadata.id) } label: {
             HStack(spacing: 12) {
-                BlotIcon(symbol: "doc.text", size: 23).foregroundStyle(.blue)
+                OriIcon(symbol: "doc.text", size: 23).foregroundStyle(.blue)
                     .frame(width: 48, height: 48)
                     .background(WorkspaceStyle.ink.opacity(0.045), in: RoundedRectangle(cornerRadius: 14))
                 VStack(alignment: .leading, spacing: 5) {
@@ -58,7 +58,7 @@ struct WorkspaceDocumentCard: View {
                         .font(.caption).foregroundStyle(.secondary)
                 }.frame(maxWidth: .infinity, alignment: .leading)
             }.frame(minWidth: 130, minHeight: 50, alignment: .leading).contentShape(Rectangle())
-                .blotHover(in: RoundedRectangle(cornerRadius: 14))
+                .oriHover(in: RoundedRectangle(cornerRadius: 14))
         }.buttonStyle(.plain).accessibilityLabel((ru ? "Открыть документ " : "Open document ") + (value?.title ?? file.name))
     }
     #if os(iOS)
@@ -89,15 +89,15 @@ struct WorkspaceDocumentCard: View {
             Button(ru ? "Открыть в Ori" : "Open in Ori") { store.showGeneratedFile(file.metadata.id) }
             if value != nil { Button(ru ? "Редактировать" : "Edit") { store.showGeneratedFile(file.metadata.id, editing: true) } }
             if let localURL {
-                ShareLink(item: localURL) { BlotLabel(ru ? "Поделиться файлом" : "Share file", symbol: "square.and.arrow.up") }
+                ShareLink(item: localURL) { OriLabel(ru ? "Поделиться файлом" : "Share file", symbol: "square.and.arrow.up") }
                     #if os(macOS)
                     .buttonStyle(MacMenuRowStyle())
                     #endif
             }
             Button(ru ? "Копировать ссылку" : "Copy link") { WorkspaceClipboard.copy(WorkspaceResultLink.url(for: file.metadata.id).absoluteString) }
-        } label: { BlotLabel(ru ? "Открыть" : "Open in", symbol: "chevron.down").font(.callout).padding(.horizontal, 10).padding(.vertical, 8).contentShape(Capsule()) }
+        } label: { OriLabel(ru ? "Открыть" : "Open in", symbol: "chevron.down").font(.callout).padding(.horizontal, 10).padding(.vertical, 8).contentShape(Capsule()) }
         .fixedSize()
-        .blotHover(in: Capsule())
+        .oriHover(in: Capsule())
         .accessibilityLabel((ru ? "Действия с файлом " : "File actions ") + (value?.title ?? file.name))
     }
 }
@@ -109,7 +109,7 @@ enum WorkspaceDocumentReceipt {
         guard !stem.isEmpty else { return false }
         let names = [fileName, stem].map(NSRegularExpression.escapedPattern(for:)).joined(separator: "|")
         let name = "(?:\(names))"
-        let russian = #"(?:Локальн(?:ый|ая) )?(?:документ(?: PDF)?|таблица(?: CSV)?|презентация) «\#(name)» (?:успешно )?создан[а]?(?: внутри Blot)?"#
+        let russian = #"(?:Локальн(?:ый|ая) )?(?:документ(?: PDF)?|таблица(?: CSV)?|презентация) «\#(name)» (?:успешно )?создан[а]?(?: внутри Ori)?"#
         let pdf = fileName.lowercased().hasSuffix(".pdf") ? "(?: и доступна в формате PDF)?" : ""
         let english = #"(?:The )?(?:(?:local )?(?:document|spreadsheet|presentation) )?["“]?\#(name)["”]? (?:was |has been )?(?:successfully )?created"#
         let pattern = #"\A(?:\#(russian)\#(pdf)|\#(english))\.?\z"#

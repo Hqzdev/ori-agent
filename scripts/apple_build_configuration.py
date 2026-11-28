@@ -216,7 +216,7 @@ def main():
             if clients:
                 types.append({'CFBundleURLName': 'dev.blot.google-oauth', 'CFBundleURLSchemes': ['.'.join(reversed(clients['iOS'].split('.')))]})
             info['CFBundleURLTypes'] = types
-            info['BlotMessagingClientIDs'] = result['MessagingClientIDs']
+            info['OriMessagingClientIDs'] = result['MessagingClientIDs']
             atomic_write(args.info_plist, plistlib.dumps(info, sort_keys=False))
             if args.output:
                 oauth = google_oauth_configuration(env if result['Profile'] == 'personal-dev' else {}, clients,

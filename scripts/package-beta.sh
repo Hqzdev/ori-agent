@@ -3,7 +3,7 @@ set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 
 free_kib=$(df -Pk . | awk 'NR == 2 {print $4}')
-if [[ "$free_kib" -lt 20971520 && "${ORI_RELEASE_ALLOW_LOW_DISK:-0}" != 1 ]]; then
+if [[ "$free_kib" -lt 20971520 && "${BLOT_RELEASE_ALLOW_LOW_DISK:-0}" != 1 ]]; then
     echo 'Apple release builds require at least 20 GiB of free disk space.' >&2
     exit 1
 fi
@@ -26,11 +26,11 @@ BLOT_AUTH_URL=https://blot-agent.vercel.app/login
 BLOT_GIGACHAT_MODEL=GigaChat-2
 EOF
 
-common=(-project apps/Blot.xcodeproj -configuration Release -disableAutomaticPackageResolution
+common=(-project apps/Ori.xcodeproj -configuration Release -disableAutomaticPackageResolution
     CODE_SIGNING_ALLOWED=NO CURRENT_PROJECT_VERSION=101 MARKETING_VERSION=1.0)
-xcodebuild "${common[@]}" -scheme BlotMac -destination 'platform=macOS,arch=arm64' \
+xcodebuild "${common[@]}" -scheme OriMac -destination 'platform=macOS,arch=arm64' \
     -derivedDataPath .build/xcode ARCHS=arm64 ONLY_ACTIVE_ARCH=YES build
-xcodebuild "${common[@]}" -scheme BlotIOS -destination 'generic/platform=iOS' \
+xcodebuild "${common[@]}" -scheme OriIOS -destination 'generic/platform=iOS' \
     -derivedDataPath .build/ios build
 
 mac="$PWD/.build/xcode/Build/Products/Release/Ori.app"
@@ -54,7 +54,7 @@ for argument in sys.argv[1:]:
         raise SystemExit('A public beta must not include environment files or private profiles')
 PY
 
-scripts/sign-native.sh --entitlements apps/macos/BlotMac/BlotMac.entitlements "$mac"
+scripts/sign-native.sh --entitlements apps/macos/OriMac/OriMac.entitlements "$mac"
 mkdir -p "$stage/ipa/Payload"
 ditto "$ios" "$stage/ipa/Payload/Ori.app"
 

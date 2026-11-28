@@ -1,4 +1,4 @@
-import BlotDesign
+import OriDesign
 import SwiftUI
 
 struct WorkspacePresenceDot: View {
@@ -44,7 +44,7 @@ struct WorkspaceTypingIndicator: View {
     var size: CGFloat = 6
     @Environment(\.accessibilityReduceMotion) private var systemReduceMotion
     @Environment(\.scenePhase) private var scenePhase
-    @Environment(\.blotReduceMotion) private var reduceMotion
+    @Environment(\.oriReduceMotion) private var reduceMotion
 
     private var active: Bool { !systemReduceMotion && !reduceMotion && scenePhase == .active }
 

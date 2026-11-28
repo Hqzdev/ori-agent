@@ -20,7 +20,7 @@ nonisolated enum WorkspacePairingTransportEvent {
 final class WorkspaceNearbyPairingTransport: NSObject, WorkspacePairingTransport {
     var onEvent: ((WorkspacePairingTransportEvent) -> Void)?
     private static let service = "blot-pair"
-    private static let logger = Logger(subsystem: "dev.blot.pairing", category: "Nearby")
+    private static let logger = Logger(subsystem: "dev.ori.pairing", category: "Nearby")
     private let peer = MCPeerID(displayName: UUID().uuidString)
     private var session: MCSession?
     private var advertiser: MCNearbyServiceAdvertiser?

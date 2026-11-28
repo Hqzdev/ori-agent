@@ -1,10 +1,10 @@
-import BlotDesign
+import OriDesign
 import SwiftUI
 
 /// Only the active action owns a repeating animation; completed history stays static.
 struct WorkspaceActivityShimmer: ViewModifier {
     let active: Bool
-    @Environment(\.blotReduceMotion) private var reduceMotion
+    @Environment(\.oriReduceMotion) private var reduceMotion
     @Environment(\.accessibilityReduceMotion) private var systemReduceMotion
 
     @ViewBuilder func body(content: Content) -> some View {

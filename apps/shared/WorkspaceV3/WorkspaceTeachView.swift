@@ -1,14 +1,14 @@
-import BlotAppleIntegrations
-import BlotDesign
-import BlotDomain
-import BlotWorkspace
+import OriAppleIntegrations
+import OriDesign
+import OriDomain
+import OriWorkspace
 import SwiftUI
 
 @MainActor protocol WorkspaceTeachProviding {
     func teachRequest(_ operation: NativeRequest.Operation, parameters: [String: String]) async throws -> ChatJSON
     func saveTeaching(_ recording: WorkspaceTaughtTask, name: String) async throws -> UUID
     func teaching(_ id: UUID) async throws -> WorkspaceTaughtTask
-    func updateTeaching(_ recording: WorkspaceTaughtTask, name: String, skill: BlotV3.Skill) async throws
+    func updateTeaching(_ recording: WorkspaceTaughtTask, name: String, skill: OriV3.Skill) async throws
 }
 extension LocalWorkspaceService: WorkspaceTeachProviding {
     func teachingExecutor() -> any NativeExecuting {
@@ -26,10 +26,10 @@ extension LocalWorkspaceService: WorkspaceTeachProviding {
         guard data.count <= 120_000 else { throw WorkspaceStorageError.invalidParameters }
         let recording = try JSONDecoder().decode(WorkspaceTaughtTask.self, from: data); try recording.validate(); return recording
     }
-    func updateTeaching(_ recording: WorkspaceTaughtTask, name: String, skill: BlotV3.Skill) async throws {
+    func updateTeaching(_ recording: WorkspaceTaughtTask, name: String, skill: OriV3.Skill) async throws {
         _ = try await persistTeaching(recording, name: name, skill: skill)
     }
-    private func persistTeaching(_ recording: WorkspaceTaughtTask, name: String, skill: BlotV3.Skill?) async throws -> UUID {
+    private func persistTeaching(_ recording: WorkspaceTaughtTask, name: String, skill: OriV3.Skill?) async throws -> UUID {
         try recording.validate()
         let id = try await fileService().store(commandID: UUID(), name: "Teach " + recording.application.replacingOccurrences(of: "/", with: "-") + ".json", mediaType: "application/json", data: JSONEncoder().encode(recording))
         return try await saveSkill(id: skill?.metadata.id, version: skill?.metadata.version ?? 0, name: name,
@@ -46,7 +46,7 @@ extension WorkspaceAccountApplicationService: WorkspaceTeachProviding {
     func teaching(_ id: UUID) async throws -> WorkspaceTaughtTask {
         guard let local = workspaceCommands as? LocalWorkspaceService else { throw WorkspaceServiceError.unavailable }; return try await local.teaching(id)
     }
-    func updateTeaching(_ recording: WorkspaceTaughtTask, name: String, skill: BlotV3.Skill) async throws {
+    func updateTeaching(_ recording: WorkspaceTaughtTask, name: String, skill: OriV3.Skill) async throws {
         guard let local = workspaceCommands as? LocalWorkspaceService else { throw WorkspaceServiceError.unavailable }; try await local.updateTeaching(recording, name: name, skill: skill)
     }
     func teachRequest(_ operation: NativeRequest.Operation, parameters: [String: String]) async throws -> ChatJSON {
@@ -64,7 +64,7 @@ struct WorkspaceTeachButton: View {
     @State private var showing = false
     var body: some View {
         #if os(macOS)
-        Button { showing = true } label: { BlotLabel(store.language == "ru" ? "Обучить задаче" : "Teach a task", symbol: "record.circle") }
+        Button { showing = true } label: { OriLabel(store.language == "ru" ? "Обучить задаче" : "Teach a task", symbol: "record.circle") }
             .workspacePanelSheet(isPresented: $showing) { WorkspaceTeachView().environment(store) }
         #else
         EmptyView()
@@ -149,7 +149,7 @@ private struct WorkspaceTeachView: View {
                         Text(ru ? "Записываются доступные кнопки и изменения обычных текстовых полей выбранного приложения. Пароли и сочетания клавиш не записываются. Для исполнителя Ori нужен доступ «Универсальный доступ» в настройках macOS." : "Records accessible buttons and ordinary text-field changes in the selected app. Passwords and keyboard shortcuts are excluded. Grant Accessibility access to the Ori executor in macOS Settings.").font(.caption).foregroundStyle(.secondary)
                     }
                     if recording {
-                        BlotLabel(String(Int(elapsed)) + (ru ? " сек. · шагов: " : " sec · steps: ") + String(count), symbol: paused ? "pause.circle" : "record.circle").monospacedDigit().foregroundStyle(.red)
+                        OriLabel(String(Int(elapsed)) + (ru ? " сек. · шагов: " : " sec · steps: ") + String(count), symbol: paused ? "pause.circle" : "record.circle").monospacedDigit().foregroundStyle(.red)
                         Button(paused ? (ru ? "Продолжить" : "Resume") : (ru ? "Пауза" : "Pause")) { pause() }
                         Button(ru ? "Завершить запись" : "Stop recording") { stop() }
                     } else { Button(ru ? "Начать запись" : "Start recording") { start() }.disabled(application.isEmpty) }

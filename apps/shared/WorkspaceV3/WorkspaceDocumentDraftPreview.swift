@@ -1,5 +1,5 @@
-import BlotDesign
-import BlotWorkspace
+import OriDesign
+import OriWorkspace
 import SwiftUI
 
 struct WorkspaceDocumentDraftPreview: View {

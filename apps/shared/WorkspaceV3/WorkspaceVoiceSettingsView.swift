@@ -1,4 +1,4 @@
-import BlotAppleIntegrations
+import OriAppleIntegrations
 import SwiftUI
 
 struct WorkspaceVoiceSettingsView: View {

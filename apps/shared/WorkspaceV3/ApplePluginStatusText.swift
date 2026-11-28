@@ -1,5 +1,5 @@
-import BlotAppleIntegrations
-import BlotDomain
+import OriAppleIntegrations
+import OriDomain
 import SwiftUI
 
 struct ApplePluginStatusText<Label: View>: View {

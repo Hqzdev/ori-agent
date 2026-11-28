@@ -1,6 +1,6 @@
-diff --git a/apps/macos/BlotMac/Features/Chat/MacWorkspaceChatPage.swift b/apps/macos/BlotMac/Features/Chat/MacWorkspaceChatPage.swift
---- a/apps/macos/BlotMac/Features/Chat/MacWorkspaceChatPage.swift
-+++ b/apps/macos/BlotMac/Features/Chat/MacWorkspaceChatPage.swift
+diff --git a/apps/macos/oriMac/Features/Chat/MacWorkspaceChatPage.swift b/apps/macos/oriMac/Features/Chat/MacWorkspaceChatPage.swift
+--- a/apps/macos/oriMac/Features/Chat/MacWorkspaceChatPage.swift
++++ b/apps/macos/oriMac/Features/Chat/MacWorkspaceChatPage.swift
 @@ -23,6 +23,7 @@
          .safeAreaInset(edge: .bottom, spacing: 0) {
              VStack(spacing: 8) {
@@ -9,9 +9,9 @@ diff --git a/apps/macos/BlotMac/Features/Chat/MacWorkspaceChatPage.swift b/apps/
                  MacWorkspaceComposer()
              }.frame(maxWidth: MacWorkspaceStyle.composerWidth)
                  .padding(.horizontal, 18).padding(.top, 8).padding(.bottom, 14)
-diff --git a/apps/macos/BlotMac/Features/Workspace/MacLiveTeamSettings.swift b/apps/macos/BlotMac/Features/Workspace/MacLiveTeamSettings.swift
---- a/apps/macos/BlotMac/Features/Workspace/MacLiveTeamSettings.swift
-+++ b/apps/macos/BlotMac/Features/Workspace/MacLiveTeamSettings.swift
+diff --git a/apps/macos/oriMac/Features/Workspace/MacLiveTeamSettings.swift b/apps/macos/oriMac/Features/Workspace/MacLiveTeamSettings.swift
+--- a/apps/macos/oriMac/Features/Workspace/MacLiveTeamSettings.swift
++++ b/apps/macos/oriMac/Features/Workspace/MacLiveTeamSettings.swift
 @@ -79,6 +79,7 @@
                  }
              }
@@ -31,11 +31,11 @@ diff --git a/apps/shared/WorkspaceV3/LocalWorkspaceService.swift b/apps/shared/W
 +    let makeNativeExecutor: @Sendable () -> any NativeExecuting
      let mcpCredentials: any WorkspaceCredentialStore
      private let deviceAuthority: WorkspaceDeviceAuthority?
-     private var delegationAuthorization: (@Sendable (BlotV3.Task) async throws -> Void)? {
+     private var delegationAuthorization: (@Sendable (oriV3.Task) async throws -> Void)? {
 @@ -45,9 +47,17 @@
           scheduleClock: any WorkspaceScheduleClock = WorkspaceSystemScheduleClock(),
           deviceAuthority: WorkspaceDeviceAuthority? = nil,
-          mcpCredentials: any WorkspaceCredentialStore = WorkspaceKeychain(service: "dev.blot.apple.mcp"),
+          mcpCredentials: any WorkspaceCredentialStore = WorkspaceKeychain(service: "dev.ori.apple.mcp"),
 +         makeNativeExecutor: @escaping @Sendable () -> any NativeExecuting = {
 +             #if os(macOS)
 +             NativeXPCClient()
@@ -98,7 +98,7 @@ diff --git a/apps/shared/WorkspaceV3/LocalWorkspaceService.swift b/apps/shared/W
              maximumOutputTokens: maximumOutputTokens, authorize: delegationAuthorization).run(taskID: taskID, makeModel: { [weak self] id in
                  guard let self else { throw CancellationError() }
 @@ -506,7 +520,7 @@
-     func searchMessages(_ query: String) async throws -> [BlotV3.Message] {
+     func searchMessages(_ query: String) async throws -> [oriV3.Message] {
          try await repository.searchMessages(query, workspaceID: context().workspaceID)
      }
 -    private func requireDeviceAuthority() throws -> WorkspaceDeviceAuthority {
@@ -118,8 +118,8 @@ diff --git a/apps/shared/WorkspaceV3/LocalWorkspaceService.swift b/apps/shared/W
 @@ -603,6 +617,7 @@
          result.scheduleFailures = try await repository.scheduleFailures()
          result.artifacts = records.artifacts; result.connections = records.connections
-         result.mcpConnections = try await repository.records(BlotV3.McpConnection.self, workspaceID: identity.workspaceID)
-+        result.projects = try await repository.records(BlotV3.Project.self, workspaceID: identity.workspaceID)
+         result.mcpConnections = try await repository.records(oriV3.McpConnection.self, workspaceID: identity.workspaceID)
++        result.projects = try await repository.records(oriV3.Project.self, workspaceID: identity.workspaceID)
          result.toolInvocations = records.invocations; result.preparedActions = records.actions
          result.participants = records.participants; result.reactions = records.reactions; result.readPositions = records.readPositions
          result.skillAssignments = WorkspaceSkillAccess.assignments(records.grants)
@@ -141,7 +141,7 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceSnapshot.swift b/apps/shared/Works
  import Foundation
  
  struct WorkspaceSnapshot: Codable, Equatable {
-+    var projects: [BlotV3.Project]?
++    var projects: [oriV3.Project]?
      var pairedDevices: [WorkspacePairedDevice]?
      var messagePins: [WorkspaceMessagePin]?
      var pinnedGroupPlans: [UUID: UUID]?
@@ -199,7 +199,7 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceTaskExecutionView.swift b/apps/sha
      @State private var goal = ""
      @State private var executorID: UUID?
 +    @State private var projectID: UUID?
-     private var tasks: [BlotV3.Task] {
+     private var tasks: [oriV3.Task] {
          let tasks = (store.snapshot.tasks ?? []).filter { $0.conversationId == store.selectedConversationID }
              .sorted { $0.metadata.createdAt > $1.metadata.createdAt }
 @@ -18,6 +19,7 @@
@@ -229,9 +229,9 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceTaskExecutionView.swift b/apps/sha
                      if success, goal == submitted { goal = "" }
                  }
              }.buttonStyle(WorkspaceButtonStyle()).disabled(store.busy || goal.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-diff --git a/docs/product/blot-technical-specification.md b/docs/product/blot-technical-specification.md
---- a/docs/product/blot-technical-specification.md
-+++ b/docs/product/blot-technical-specification.md
+diff --git a/docs/product/ori-technical-specification.md b/docs/product/ori-technical-specification.md
+--- a/docs/product/ori-technical-specification.md
++++ b/docs/product/ori-technical-specification.md
 @@ -174,7 +174,7 @@
  
  Генерация кода не ограничивается перечнем языков. Реальное выполнение зависит от установленного toolchain, платформы и прав. При отсутствии компилятора, SDK, доступа к сети или credentials показывается конкретная причина; приложение не объявляет сборку успешной и не устанавливает системный toolchain само.
@@ -241,9 +241,9 @@ diff --git a/docs/product/blot-technical-specification.md b/docs/product/blot-te
  
  На Windows предлагается отдельный runner в заранее подготовленном пользователем WSL2-окружении для совместимых CLI-проектов. Это не macOS VM и не универсальный Windows sandbox. WSL-дистрибутив пользователя сам по себе не считается изоляцией: обязательны отдельная рабочая среда, ограничение host-монтирований и отсутствие пользовательских секретов. Проекты с Windows-only toolchain требуют отдельного native runner и не получают ложного статуса «проверено»; поддержка такого исполнения согласуется по конкретному toolchain. Установка WSL и системных SDK выполняется человеком.
  
-diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceAccountErasure.swift b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceAccountErasure.swift
---- a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceAccountErasure.swift
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceAccountErasure.swift
+diff --git a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceAccountErasure.swift b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceAccountErasure.swift
+--- a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceAccountErasure.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceAccountErasure.swift
 @@ -29,7 +29,7 @@
          }
          defer { _ = locks }
@@ -253,24 +253,24 @@ diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceAccountErasur
          for workspace in intent.workspaceIDs {
              prefixes += ["device-keys:", "device-authority:", "device-trust-v2:"].map { $0 + workspace.uuidString + ":" }
              for prefix in prefixes.suffix(3) { try await credentials.remove(prefix + intent.deviceID.uuidString) }
-diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceDeviceAuthority.swift b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceDeviceAuthority.swift
---- a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceDeviceAuthority.swift
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceDeviceAuthority.swift
+diff --git a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceDeviceAuthority.swift b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceDeviceAuthority.swift
+--- a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceDeviceAuthority.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceDeviceAuthority.swift
 @@ -102,8 +102,9 @@
          try await settle()
          guard let peer = state.peers[id], !peer.revoked else { throw WorkspaceStorageError.permissionDenied }; return peer
      }
 -    func signDelegation(_ data: Data) async throws -> Data {
--        try await keys.signProof(domain: "BLOT-TASK-DELEGATION-1", ids: [identity.ownerID, identity.workspaceID], values: [data])
+-        try await keys.signProof(domain: "ori-TASK-DELEGATION-1", ids: [identity.ownerID, identity.workspaceID], values: [data])
 +    func signDelegation(_ data: Data, version: Int = 1) async throws -> Data {
 +        guard version == 1 || version == 2 else { throw WorkspaceStorageError.permissionDenied }
-+        return try await keys.signProof(domain: "BLOT-TASK-DELEGATION-" + String(version), ids: [identity.ownerID, identity.workspaceID], values: [data])
++        return try await keys.signProof(domain: "ori-TASK-DELEGATION-" + String(version), ids: [identity.ownerID, identity.workspaceID], values: [data])
      }
      private func packet(kind: String, id: UUID, target: UUID?, name: String, proof: Data, expires: Date) async throws -> String {
          guard !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty, name.count <= 200 else { throw WorkspaceStorageError.invalidParameters }
-diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceGroupOperationHistory.swift b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceGroupOperationHistory.swift
---- a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceGroupOperationHistory.swift
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceGroupOperationHistory.swift
+diff --git a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceGroupOperationHistory.swift b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceGroupOperationHistory.swift
+--- a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceGroupOperationHistory.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceGroupOperationHistory.swift
 @@ -16,7 +16,7 @@
                  var value = values[call.id]
                  if value.map(Self.isUnknown) ?? true { value = WorkspaceTaskCheckpoint.reconciledResult(call, step: step, projection: projection) ?? value }
@@ -294,9 +294,9 @@ diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceGroupOperatio
 +        WorkspaceNativeCatalog.writes(name) || name.hasPrefix("mcp_") || name == "document_create" || name.hasPrefix("apple_") && ["create", "update", "delete", "send", "reply", "move", "run"].contains(String(name.split(separator: "_").last ?? ""))
      }
  }
-diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceTaskCheckpoint.swift b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceTaskCheckpoint.swift
---- a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceTaskCheckpoint.swift
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceTaskCheckpoint.swift
+diff --git a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceTaskCheckpoint.swift b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceTaskCheckpoint.swift
+--- a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceTaskCheckpoint.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceTaskCheckpoint.swift
 @@ -28,7 +28,8 @@
              }
              for call in calls {
@@ -307,9 +307,9 @@ diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceTaskCheckpoin
                      ? Self.reconciledResult(call, step: step, projection: projection) : saved
                  guard let result, !Self.isUnknown(result) else { throw WorkspaceTaskExecutionError.uncertainToolResult }
                  byStep[step.metadata.id, default: [:]][call.id] = result
-diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceTaskDelegation.swift b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceTaskDelegation.swift
---- a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceTaskDelegation.swift
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceTaskDelegation.swift
+diff --git a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceTaskDelegation.swift b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceTaskDelegation.swift
+--- a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceTaskDelegation.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceTaskDelegation.swift
 @@ -5,6 +5,7 @@
      private struct Request: Codable, Equatable {
          let ownerID: UUID; let workspaceID: UUID; let taskID: UUID; let conversationID: UUID; let originID: UUID; let executorID: UUID
@@ -341,12 +341,12 @@ diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceTaskDelegatio
 +        struct Input: Encodable { let conversationID: UUID; let agentID: UUID; let executorID: UUID; let goal: String; let budget: Int; let projectID: UUID? }
 +        let command = try WorkspaceCommand(type: "task.delegate", workspaceID: identity.workspaceID, payload: Input(conversationID: conversationID, agentID: agentID, executorID: executorID, goal: goal, budget: budget, projectID: projectID)).data()
          return try await repository.execute(commandID: commandID, command: command, identity: identity) { tx in
-             let agent = try tx.require(BlotV3.AgentProfile.self, id: agentID)
+             let agent = try tx.require(oriV3.AgentProfile.self, id: agentID)
              guard agent.configurationId == nil || agent.configurationId == configuration.metadata.id else { throw WorkspaceStorageError.versionConflict }
              let id = try WorkspaceTaskService.insert(tx, taskID: commandID, conversationID: conversationID, agentID: agentID, goal: goal,
 -                executorDeviceID: executorID, parentTaskID: nil, skillRevisionID: nil, budgetTokenLimit: budget, authorizationJSON: json, now: now)
 +                executorDeviceID: executorID, parentTaskID: nil, skillRevisionID: nil, budgetTokenLimit: budget, projectID: projectID, authorizationJSON: json, now: now)
-             guard try tx.require(BlotV3.Task.self, id: id).configurationId == configuration.metadata.id else { throw WorkspaceStorageError.versionConflict }
+             guard try tx.require(oriV3.Task.self, id: id).configurationId == configuration.metadata.id else { throw WorkspaceStorageError.versionConflict }
              return id
          }
 @@ -41,15 +42,15 @@
@@ -363,14 +363,14 @@ diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceTaskDelegatio
 -              r.configurationID == task.configurationId, r.goal == task.goal, r.budget == task.budgetTokenLimit,
 +              r.configurationID == task.configurationId, r.goal == task.goal, r.budget == task.budgetTokenLimit, r.projectID == task.projectId,
                r.pairingID == peer.pairingID, r.expires > now, r.expires <= now.addingTimeInterval(7 * 86_400 + 300), task.execution.revision == 1 else { throw WorkspaceStorageError.permissionDenied }
--        try WorkspaceDeviceKeys.verifyProof(proof.signature, signingKey: peer.signingKey, domain: "BLOT-TASK-DELEGATION-1",
-+        try WorkspaceDeviceKeys.verifyProof(proof.signature, signingKey: peer.signingKey, domain: "BLOT-TASK-DELEGATION-" + (r.projectID == nil ? "1" : "2"),
+-        try WorkspaceDeviceKeys.verifyProof(proof.signature, signingKey: peer.signingKey, domain: "ori-TASK-DELEGATION-1",
++        try WorkspaceDeviceKeys.verifyProof(proof.signature, signingKey: peer.signingKey, domain: "ori-TASK-DELEGATION-" + (r.projectID == nil ? "1" : "2"),
              ids: [identity.ownerID, identity.workspaceID], values: [WorkspaceCoding.encode(r)])
      }
  }
-diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceTaskService.swift b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceTaskService.swift
---- a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceTaskService.swift
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceTaskService.swift
+diff --git a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceTaskService.swift b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceTaskService.swift
+--- a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceTaskService.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceTaskService.swift
 @@ -7,23 +7,24 @@
      public init(repository: WorkspaceRepository, identity: WorkspaceIdentity) { self.repository = repository; self.identity = identity }
  
@@ -398,34 +398,34 @@ diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceTaskService.s
 -                       executorDeviceID: UUID, parentTaskID: UUID?, skillRevisionID: UUID?, budgetTokenLimit: Int, runnable: Bool = true, authorizationJSON: String? = nil, now: Date) throws -> UUID {
 +                       executorDeviceID: UUID, parentTaskID: UUID?, skillRevisionID: UUID?, budgetTokenLimit: Int, projectID: UUID? = nil, runnable: Bool = true, authorizationJSON: String? = nil, now: Date) throws -> UUID {
              guard budgetTokenLimit > 0 else { throw WorkspaceStorageError.invalidParameters }
-             _ = try tx.require(BlotV3.Conversation.self, id: conversationID)
-             let agent = try tx.require(BlotV3.AgentProfile.self, id: agentID)
+             _ = try tx.require(oriV3.Conversation.self, id: conversationID)
+             let agent = try tx.require(oriV3.AgentProfile.self, id: agentID)
 @@ -34,9 +35,12 @@
-             else if let legacy = try tx.records(BlotV3.AgentConfigurationRevision.self).filter({ $0.agentId == agentID }).max(by: { $0.revision < $1.revision }) { configuration = legacy }
+             else if let legacy = try tx.records(oriV3.AgentConfigurationRevision.self).filter({ $0.agentId == agentID }).max(by: { $0.revision < $1.revision }) { configuration = legacy }
              else { throw WorkspaceStorageError.missingRecord }
              var taskBudget = budgetTokenLimit
 +            var selectedProjectID = projectID
              if let skillRevisionID { try WorkspaceSkillAccess.require(revisionID: skillRevisionID, agentID: agentID, tx: tx) }
              if let parentTaskID {
-                 var parent = try tx.require(BlotV3.Task.self, id: parentTaskID)
+                 var parent = try tx.require(oriV3.Task.self, id: parentTaskID)
 +                guard projectID == nil || projectID == parent.projectId else { throw WorkspaceStorageError.permissionDenied }
 +                selectedProjectID = parent.projectId
                  var depth = 1
                  while true {
                      guard !Self.terminal(parent.state), parent.conversationId == conversationID,
 @@ -48,9 +52,14 @@
-                     parent = try tx.require(BlotV3.Task.self, id: ancestor)
+                     parent = try tx.require(oriV3.Task.self, id: ancestor)
                  }
              }
 +            if let selectedProjectID {
 +                try tx.requireResolved(kind: "Project", id: selectedProjectID)
-+                let project = try tx.require(BlotV3.Project.self, id: selectedProjectID)
++                let project = try tx.require(oriV3.Project.self, id: selectedProjectID)
 +                guard project.repositoryPath == "device:" + executorDeviceID.uuidString else { throw WorkspaceStorageError.permissionDenied }
 +            }
-             let execution = try BlotV3.ExecutionContext(executorDeviceId: executorDeviceID, originDeviceId: tx.identity.deviceID,
+             let execution = try oriV3.ExecutionContext(executorDeviceId: executorDeviceID, originDeviceId: tx.identity.deviceID,
                  taskId: taskID, revision: 1)
--            let task = try BlotV3.Task(metadata: tx.metadata(id: taskID, now: now), execution: execution, projectId: nil,
-+            let task = try BlotV3.Task(metadata: tx.metadata(id: taskID, now: now), execution: execution, projectId: selectedProjectID,
+-            let task = try oriV3.Task(metadata: tx.metadata(id: taskID, now: now), execution: execution, projectId: nil,
++            let task = try oriV3.Task(metadata: tx.metadata(id: taskID, now: now), execution: execution, projectId: selectedProjectID,
                  conversationId: conversationID, goal: goal, state: runnable ? .queued : .waiting_approval, plan: [], configurationId: configuration.metadata.id,
                  parentTaskId: parentTaskID, skillRevisionId: skillRevisionID, budgetTokenLimit: taskBudget,
                  executionMode: executorDeviceID == tx.identity.deviceID ? .local_owned : .delegated, authorizationJSON: authorizationJSON)
@@ -440,7 +440,7 @@ diff --git a/scripts/check-group-routing.sh b/scripts/check-group-routing.sh
 +sources+=(WorkspaceDevicePairingCommands WorkspaceNativeProviding)
  arguments=()
  for source in "${sources[@]}"; do arguments+=("apps/shared/WorkspaceV3/$source.swift"); done
- objects=("$products/BlotDomain.o" "$products/BlotWorkspace.o")
+ objects=("$products/oriDomain.o" "$products/oriWorkspace.o")
 diff --git a/scripts/package-backend.sh b/scripts/package-backend.sh
 --- a/scripts/package-backend.sh
 +++ b/scripts/package-backend.sh
@@ -449,18 +449,18 @@ diff --git a/scripts/package-backend.sh b/scripts/package-backend.sh
      scripts/sign-native.sh "$library"
  done
 +scripts/build-native-executor.sh "$bundle" "${BUILT_PRODUCTS_DIR:-$(dirname "$bundle")}"
- scripts/sign-native.sh --entitlements apps/macos/BlotMac/BlotMac.entitlements "$bundle"
+ scripts/sign-native.sh --entitlements apps/macos/oriMac/oriMac.entitlements "$bundle"
  codesign --verify --deep --strict "$bundle"
- [ -x "$runtime/bin/java" ] && [ -s "$resources/blot-backend.jar" ] || { echo 'Backend packaging is incomplete.' >&2; exit 1; }
+ [ -x "$runtime/bin/java" ] && [ -s "$resources/ori-backend.jar" ] || { echo 'Backend packaging is incomplete.' >&2; exit 1; }
 diff --git a/apps/shared/WorkspaceV3/WorkspaceNativeProjectsView.swift b/apps/shared/WorkspaceV3/WorkspaceNativeProjectsView.swift
 new file mode 100644
 --- /dev/null
 +++ b/apps/shared/WorkspaceV3/WorkspaceNativeProjectsView.swift
 @@ -0,0 +1,251 @@
-+import BlotAppleIntegrations
-+import BlotDesign
-+import BlotDomain
-+import BlotWorkspace
++import oriAppleIntegrations
++import oriDesign
++import oriDomain
++import oriWorkspace
 +import Foundation
 +import SwiftUI
 +import UniformTypeIdentifiers
@@ -561,7 +561,7 @@ new file mode 100644
 +            Button(text("Проверено: не выполнено", "Verified: not completed")) { resolve(false) }
 +        }
 +    }
-+    private var nativeActions: [BlotV3.PreparedAction] { (store.snapshot.preparedActions ?? []).filter { $0.resource.hasPrefix("project:") }.sorted { $0.metadata.createdAt > $1.metadata.createdAt } }
++    private var nativeActions: [oriV3.PreparedAction] { (store.snapshot.preparedActions ?? []).filter { $0.resource.hasPrefix("project:") }.sorted { $0.metadata.createdAt > $1.metadata.createdAt } }
 +    private func reload() async {
 +        do {
 +            guard let service = try await store.nativeCommands?.nativeService() else { return }
@@ -632,7 +632,7 @@ new file mode 100644
 +
 +private struct NativeProjectSetup: View {
 +    let folder: URL
-+    let agents: [BlotV3.AgentProfile]
++    let agents: [oriV3.AgentProfile]
 +    let russian: Bool
 +    let commands: (any WorkspaceNativeProviding)?
 +    @Environment(\.dismiss) private var dismiss
@@ -713,9 +713,9 @@ new file mode 100644
 --- /dev/null
 +++ b/apps/shared/WorkspaceV3/WorkspaceNativeProviding.swift
 @@ -0,0 +1,41 @@
-+import BlotAppleIntegrations
-+import BlotDomain
-+import BlotWorkspace
++import oriAppleIntegrations
++import oriDomain
++import oriWorkspace
 +import Foundation
 +
 +nonisolated struct WorkspaceUnavailableNativeExecutor: NativeExecuting {
@@ -762,8 +762,8 @@ new file mode 100644
 +<?xml version="1.0" encoding="UTF-8"?>
 +<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 +<plist version="1.0"><dict>
-+<key>CFBundleExecutable</key><string>BlotWorkspaceExecutor</string>
-+<key>CFBundleIdentifier</key><string>dev.blot.workspace-executor</string>
++<key>CFBundleExecutable</key><string>oriWorkspaceExecutor</string>
++<key>CFBundleIdentifier</key><string>dev.ori.workspace-executor</string>
 +<key>CFBundlePackageType</key><string>XPC!</string>
 +<key>CFBundleVersion</key><string>1</string>
 +<key>CFBundleShortVersionString</key><string>1.0</string>
@@ -775,7 +775,7 @@ new file mode 100644
 --- /dev/null
 +++ b/native/WorkspaceExecutor/main.swift
 @@ -0,0 +1,49 @@
-+import BlotWorkspace
++import oriWorkspace
 +import Foundation
 +
 +/// Each authenticated app connection owns its executor. Losing the app closes all its child processes.
@@ -824,10 +824,10 @@ new file mode 100644
 +let listener = NSXPCListener.service()
 +listener.delegate = delegate
 +listener.resume()
-diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/NativeExecutionTypes.swift b/packages/BlotWorkspace/Sources/BlotWorkspace/NativeExecutionTypes.swift
+diff --git a/packages/oriWorkspace/Sources/oriWorkspace/NativeExecutionTypes.swift b/packages/oriWorkspace/Sources/oriWorkspace/NativeExecutionTypes.swift
 new file mode 100644
 --- /dev/null
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/NativeExecutionTypes.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/NativeExecutionTypes.swift
 @@ -0,0 +1,100 @@
 +import Foundation
 +
@@ -929,10 +929,10 @@ new file mode 100644
 +extension NativeProcessSnapshot {
 +    func json() throws -> ChatJSON { try JSONDecoder().decode(ChatJSON.self, from: WorkspaceCoding.encode(self)) }
 +}
-diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/NativeExecutor.swift b/packages/BlotWorkspace/Sources/BlotWorkspace/NativeExecutor.swift
+diff --git a/packages/oriWorkspace/Sources/oriWorkspace/NativeExecutor.swift b/packages/oriWorkspace/Sources/oriWorkspace/NativeExecutor.swift
 new file mode 100644
 --- /dev/null
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/NativeExecutor.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/NativeExecutor.swift
 @@ -0,0 +1,39 @@
 +#if os(macOS)
 +import Foundation
@@ -973,10 +973,10 @@ new file mode 100644
 +    public func stopAll() async { stopped = true; await processes.stopAll() }
 +}
 +#endif
-diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/NativeGitService.swift b/packages/BlotWorkspace/Sources/BlotWorkspace/NativeGitService.swift
+diff --git a/packages/oriWorkspace/Sources/oriWorkspace/NativeGitService.swift b/packages/oriWorkspace/Sources/oriWorkspace/NativeGitService.swift
 new file mode 100644
 --- /dev/null
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/NativeGitService.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/NativeGitService.swift
 @@ -0,0 +1,256 @@
 +#if os(macOS)
 +import CryptoKit
@@ -1037,7 +1037,7 @@ new file mode 100644
 +            }
 +            let indexPath = try await git(command, ["rev-parse", "--path-format=absolute", "--git-path", "index"]).trimmingCharacters(in: .whitespacesAndNewlines)
 +            let indexHash = try fileHash(URL(fileURLWithPath: indexPath))
-+            let temporary = FileManager.default.temporaryDirectory.appendingPathComponent("blot-git-index-" + UUID().uuidString)
++            let temporary = FileManager.default.temporaryDirectory.appendingPathComponent("ori-git-index-" + UUID().uuidString)
 +            defer { try? FileManager.default.removeItem(at: temporary); try? FileManager.default.removeItem(atPath: temporary.path + ".lock") }
 +            let env = ["GIT_INDEX_FILE": temporary.path]
 +            _ = try await git(command, ["read-tree", currentHead], environment: env)
@@ -1083,7 +1083,7 @@ new file mode 100644
 +            guard fd >= 0 else { throw NativeExecutionError.busy }
 +            close(fd)
 +            defer { try? FileManager.default.removeItem(atPath: lock) }
-+            let temporary = FileManager.default.temporaryDirectory.appendingPathComponent("blot-git-commit-index-" + UUID().uuidString)
++            let temporary = FileManager.default.temporaryDirectory.appendingPathComponent("ori-git-commit-index-" + UUID().uuidString)
 +            defer { try? FileManager.default.removeItem(at: temporary); try? FileManager.default.removeItem(atPath: temporary.path + ".lock") }
 +            if FileManager.default.fileExists(atPath: prepared.indexPath) { try FileManager.default.copyItem(atPath: prepared.indexPath, toPath: temporary.path) }
 +            let env = ["GIT_INDEX_FILE": temporary.path]
@@ -1234,10 +1234,10 @@ new file mode 100644
 +    }
 +}
 +#endif
-diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/NativeProcessEngine.swift b/packages/BlotWorkspace/Sources/BlotWorkspace/NativeProcessEngine.swift
+diff --git a/packages/oriWorkspace/Sources/oriWorkspace/NativeProcessEngine.swift b/packages/oriWorkspace/Sources/oriWorkspace/NativeProcessEngine.swift
 new file mode 100644
 --- /dev/null
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/NativeProcessEngine.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/NativeProcessEngine.swift
 @@ -0,0 +1,173 @@
 +#if os(macOS)
 +import Darwin
@@ -1412,10 +1412,10 @@ new file mode 100644
 +    func drop() { lock.lock(); lost = true; lock.unlock() }
 +}
 +#endif
-diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/NativeProcessTree.swift b/packages/BlotWorkspace/Sources/BlotWorkspace/NativeProcessTree.swift
+diff --git a/packages/oriWorkspace/Sources/oriWorkspace/NativeProcessTree.swift b/packages/oriWorkspace/Sources/oriWorkspace/NativeProcessTree.swift
 new file mode 100644
 --- /dev/null
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/NativeProcessTree.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/NativeProcessTree.swift
 @@ -0,0 +1,34 @@
 +#if os(macOS)
 +import Darwin
@@ -1451,10 +1451,10 @@ new file mode 100644
 +    }
 +}
 +#endif
-diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/NativeProjectFiles.swift b/packages/BlotWorkspace/Sources/BlotWorkspace/NativeProjectFiles.swift
+diff --git a/packages/oriWorkspace/Sources/oriWorkspace/NativeProjectFiles.swift b/packages/oriWorkspace/Sources/oriWorkspace/NativeProjectFiles.swift
 new file mode 100644
 --- /dev/null
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/NativeProjectFiles.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/NativeProjectFiles.swift
 @@ -0,0 +1,79 @@
 +#if os(macOS)
 +import CryptoKit
@@ -1535,10 +1535,10 @@ new file mode 100644
 +    static func hash(_ data: Data) -> String { SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined() }
 +}
 +#endif
-diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/NativeXPCClient.swift b/packages/BlotWorkspace/Sources/BlotWorkspace/NativeXPCClient.swift
+diff --git a/packages/oriWorkspace/Sources/oriWorkspace/NativeXPCClient.swift b/packages/oriWorkspace/Sources/oriWorkspace/NativeXPCClient.swift
 new file mode 100644
 --- /dev/null
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/NativeXPCClient.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/NativeXPCClient.swift
 @@ -0,0 +1,89 @@
 +#if os(macOS)
 +import Foundation
@@ -1562,7 +1562,7 @@ new file mode 100644
 +
 +/// No public socket or legacy backend endpoint. The OS enforces the embedded helper's exact code requirement.
 +public actor NativeXPCClient: NativeExecuting {
-+    public static let identifier = "dev.blot.workspace-executor"
++    public static let identifier = "dev.ori.workspace-executor"
 +    private var connection: NSXPCConnection?
 +    private var pending: [UUID: CheckedContinuation<ChatJSON, Error>] = [:]
 +    private var timers: [UUID: _Concurrency.Task<Void, Never>] = [:]
@@ -1571,7 +1571,7 @@ new file mode 100644
 +    private func connect() throws -> NSXPCConnection {
 +        guard !stopped else { throw NativeExecutionError.unavailable }
 +        if let connection { return connection }
-+        let service = Bundle.main.bundleURL.appendingPathComponent("Contents/XPCServices/BlotWorkspaceExecutor.xpc")
++        let service = Bundle.main.bundleURL.appendingPathComponent("Contents/XPCServices/oriWorkspaceExecutor.xpc")
 +        let requirement = try NativeCodeIdentity.requirement(at: service)
 +        let connection = NSXPCConnection(serviceName: Self.identifier)
 +        connection.remoteObjectInterface = NSXPCInterface(with: NativeExecutorXPC.self)
@@ -1629,10 +1629,10 @@ new file mode 100644
 +    func finish() { lock.lock(); let value = continuation; continuation = nil; lock.unlock(); value?.resume() }
 +}
 +#endif
-diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceNativeCatalog.swift b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceNativeCatalog.swift
+diff --git a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceNativeCatalog.swift b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceNativeCatalog.swift
 new file mode 100644
 --- /dev/null
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceNativeCatalog.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceNativeCatalog.swift
 @@ -0,0 +1,63 @@
 +import Foundation
 +
@@ -1697,12 +1697,12 @@ new file mode 100644
 +    public func request(_ request: NativeRequest) async throws -> ChatJSON { throw NativeExecutionError.unavailable }
 +    public func stopAll() async {}
 +}
-diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceNativeService.swift b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceNativeService.swift
+diff --git a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceNativeService.swift b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceNativeService.swift
 new file mode 100644
 --- /dev/null
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceNativeService.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceNativeService.swift
 @@ -0,0 +1,303 @@
-+import BlotDomain
++import oriDomain
 +import Foundation
 +
 +/// Device-only project bindings and authority. A replicated Project never grants command execution.
@@ -1752,7 +1752,7 @@ new file mode 100644
 +    public func select(projectID: UUID?, conversationID: UUID) async throws {
 +        var value = try await load()
 +        if let projectID { guard value.projects.contains(where: { $0.id == projectID }) else { throw NativeExecutionError.accessDenied } }
-+        guard try await repository.record(BlotV3.Conversation.self, id: conversationID, workspaceID: identity.workspaceID) != nil else { throw NativeExecutionError.accessDenied }
++        guard try await repository.record(oriV3.Conversation.self, id: conversationID, workspaceID: identity.workspaceID) != nil else { throw NativeExecutionError.accessDenied }
 +        value.conversations[conversationID.uuidString] = projectID; try await save(value)
 +    }
 +    @discardableResult
@@ -1777,7 +1777,7 @@ new file mode 100644
 +        let command = try WorkspaceCommand(type: "project.connect", workspaceID: identity.workspaceID,
 +            payload: Input(id: entry.id, name: name, agents: agents.sorted { $0.uuidString < $1.uuidString })).data()
 +        _ = try await repository.execute(commandID: entry.id, command: command, identity: identity) { tx in
-+            let record = try BlotV3.Project(metadata: tx.metadata(id: entry.id, now: Date()), name: name, repositoryPath: "device:" + identity.deviceID.uuidString)
++            let record = try oriV3.Project(metadata: tx.metadata(id: entry.id, now: Date()), name: name, repositoryPath: "device:" + identity.deviceID.uuidString)
 +            try tx.put(record, expectedVersion: 0)
 +            for agent in agents { try Self.assign(tx, agentID: agent, adding: true, trusted: !trustedClasses.isEmpty) }
 +            return entry.id
@@ -1802,24 +1802,24 @@ new file mode 100644
 +        let command = try WorkspaceCommand(type: "project.disconnect", workspaceID: identity.workspaceID, payload: Input(id: id)).data()
 +        let remaining = value.projects
 +        _ = try await repository.execute(commandID: UUID(), command: command, identity: identity) { tx in
-+            if let record = try tx.record(BlotV3.Project.self, id: id) { try tx.delete(record) }
++            if let record = try tx.record(oriV3.Project.self, id: id) { try tx.delete(record) }
 +            for agent in entry.agents where !remaining.contains(where: { $0.agents.contains(agent) }) { try Self.assign(tx, agentID: agent, adding: false) }
 +            return id
 +        }
 +        if let scope = scopes.removeValue(forKey: id) { scope.stopAccessingSecurityScopedResource() }
 +    }
 +    private static func assign(_ tx: WorkspaceTransaction, agentID: UUID, adding: Bool, trusted: Bool = false) throws {
-+        guard let agent = try tx.record(BlotV3.AgentProfile.self, id: agentID) else {
++        guard let agent = try tx.record(oriV3.AgentProfile.self, id: agentID) else {
 +            if adding { throw WorkspaceStorageError.missingRecord }; return
 +        }
 +        try tx.requireResolved(kind: "AgentProfile", id: agentID)
 +        guard let configurationID = agent.configurationId else { throw NativeExecutionError.accessDenied }
-+        let config = try tx.require(BlotV3.AgentConfigurationRevision.self, id: configurationID), revisionID = UUID()
++        let config = try tx.require(oriV3.AgentConfigurationRevision.self, id: configurationID), revisionID = UUID()
 +        let tools = adding ? Set(config.toolIds).union(WorkspaceNativeCatalog.toolIDs) : Set(config.toolIds).subtracting(WorkspaceNativeCatalog.toolIDs)
 +        guard tools.count <= 100 else { throw NativeExecutionError.invalidRequest }
-+        try tx.put(BlotV3.AgentConfigurationRevision(metadata: tx.metadata(id: revisionID, now: Date()), agentId: agentID,
++        try tx.put(oriV3.AgentConfigurationRevision(metadata: tx.metadata(id: revisionID, now: Date()), agentId: agentID,
 +            revision: agent.metadata.version + 1, instructions: config.instructions, toolIds: tools.sorted(), modelId: config.modelId), expectedVersion: 0)
-+        try tx.put(BlotV3.AgentProfile(metadata: tx.metadata(id: agentID, now: Date(), replacing: agent.metadata), name: agent.name, roleId: agent.roleId,
++        try tx.put(oriV3.AgentProfile(metadata: tx.metadata(id: agentID, now: Date(), replacing: agent.metadata), name: agent.name, roleId: agent.roleId,
 +            avatarShape: agent.avatarShape, avatarColor: agent.avatarColor, instructions: agent.instructions, modelId: agent.modelId,
 +            accessMode: trusted && agent.accessMode != .observe ? .trusted_scope : agent.accessMode, configurationId: revisionID), expectedVersion: agent.metadata.version)
 +    }
@@ -1843,7 +1843,7 @@ new file mode 100644
 +            projectID = task.projectId
 +        } else { projectID = value.conversations[source.conversationId.uuidString] }
 +        guard let projectID, let project = value.projects.first(where: { $0.id == projectID && $0.agents.contains(agentID) }),
-+              let row = try await repository.record(BlotV3.Project.self, id: projectID, workspaceID: identity.workspaceID), row.repositoryPath == "device:" + identity.deviceID.uuidString,
++              let row = try await repository.record(oriV3.Project.self, id: projectID, workspaceID: identity.workspaceID), row.repositoryPath == "device:" + identity.deviceID.uuidString,
 +              context.allowedToolIDs.contains(name), try WorkspaceAgentConfigurationResolver().resolve(agentID: agentID, projection: projection)?.toolIds.contains(name) == true,
 +              !projection.conflicts.contains(where: { !$0.resolved && ($0.recordId == projectID || $0.recordId == agentID) }) else { throw NativeExecutionError.accessDenied }
 +        let writes = WorkspaceNativeCatalog.writes(name)
@@ -1928,7 +1928,7 @@ new file mode 100644
 +                if configuration?.revision != job.projectRevision || configuration?.agents.contains(job.agentID) != true || !currentTools.contains("process_run") || live.agents.first(where: { $0.metadata.id == job.agentID })?.accessMode == .observe {
 +                    _ = try? await executor?.request(.init(.stop, command: job.command))
 +                }
-+                if let task = try await repository.record(BlotV3.Task.self, id: job.taskID, workspaceID: identity.workspaceID),
++                if let task = try await repository.record(oriV3.Task.self, id: job.taskID, workspaceID: identity.workspaceID),
 +                   [.paused, .canceled, .interrupted, .failed, .completed].contains(task.state) {
 +                    _ = try? await executor?.request(.init(.stop, command: job.command))
 +                }
@@ -1939,7 +1939,7 @@ new file mode 100644
 +                    let log = "stdout:\n" + snapshot.stdout + "\nstderr:\n" + snapshot.stderr
 +                    let artifact = try await files.store(commandID: id, name: "command-" + String(id.uuidString.prefix(8)) + ".log", mediaType: "text/plain", data: Data(log.utf8), taskID: job.taskID)
 +                    var fields = summary(snapshot).mcpFields; fields["log_artifact_id"] = .string(artifact.uuidString)
-+                    let state: BlotV3.ActionState = snapshot.state == .succeeded ? .succeeded : .failed
++                    let state: oriV3.ActionState = snapshot.state == .succeeded ? .succeeded : .failed
 +                    try await permission.finish(commandID: UUID(), invocationID: job.invocationID, state: state, result: String(decoding: try WorkspaceCoding.encode(ChatJSON.object(fields)), as: UTF8.self))
 +                    jobs[id]?.snapshot = snapshot
 +                    if job.actionOnly { try? await WorkspaceTaskService(repository: repository, identity: identity).completeActionTask(taskID: job.taskID) }
@@ -2005,12 +2005,12 @@ new file mode 100644
 +            state: succeeded ? .succeeded : .failed, result: String(decoding: try WorkspaceCoding.encode(result), as: UTF8.self))
 +    }
 +}
-diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceNativeTools.swift b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceNativeTools.swift
+diff --git a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceNativeTools.swift b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceNativeTools.swift
 new file mode 100644
 --- /dev/null
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceNativeTools.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceNativeTools.swift
 @@ -0,0 +1,119 @@
-+import BlotDomain
++import oriDomain
 +import Foundation
 +
 +public struct WorkspaceNativeTools: WorkspaceToolExecuting {
@@ -2059,7 +2059,7 @@ new file mode 100644
 +        }
 +        let permission = WorkspacePermissionService(repository: repository, identity: identity)
 +        let actionID = WorkspaceToolCallIdentity.actionID(workspaceID: identity.workspaceID, sourceID: context.sourceMessageID, callID: call.id)
-+        if let action = try await repository.record(BlotV3.PreparedAction.self, id: actionID, workspaceID: identity.workspaceID) {
++        if let action = try await repository.record(oriV3.PreparedAction.self, id: actionID, workspaceID: identity.workspaceID) {
 +            guard action.toolId == call.name, action.resource == "project:" + project.id.uuidString,
 +                  try WorkspaceCoding.decode(ChatJSON.self, from: Data(action.parameters.utf8)) == call.arguments else { throw NativeExecutionError.changed }
 +            let projection = try await repository.projection(identity: identity)
@@ -2079,7 +2079,7 @@ new file mode 100644
 +            preview = String(decoding: try WorkspaceCoding.encode(prepared), as: UTF8.self)
 +            binding = await service.redact(.object(prepared.mcpFields.filter { $0.key != "diff" }), project: project)
 +        }
-+        guard let source = try await repository.record(BlotV3.Message.self, id: context.sourceMessageID, workspaceID: identity.workspaceID), let agent = context.agentID else { throw NativeExecutionError.accessDenied }
++        guard let source = try await repository.record(oriV3.Message.self, id: context.sourceMessageID, workspaceID: identity.workspaceID), let agent = context.agentID else { throw NativeExecutionError.accessDenied }
 +        let taskID: UUID
 +        if let existing = context.taskID { taskID = existing }
 +        else { taskID = try await WorkspaceTaskService(repository: repository, identity: identity).create(commandID: UUID(), conversationID: source.conversationId,
@@ -2090,8 +2090,8 @@ new file mode 100644
 +        let consequences = String(decoding: try WorkspaceCoding.encode(ChatJSON.object(["operation": .string(call.name), "project": .string(project.name), "binding": binding])), as: UTF8.self)
 +        _ = try await permission.prepare(commandID: actionID, taskID: taskID, draft: .init(toolID: call.name, resource: "project:" + project.id.uuidString,
 +            parametersJSON: parametersJSON, consequences: consequences), expiresAt: Date().addingTimeInterval(600))
-+        guard let action = try await repository.record(BlotV3.PreparedAction.self, id: actionID, workspaceID: identity.workspaceID) else { throw NativeExecutionError.unknown }
-+        let agentProfile = try await repository.record(BlotV3.AgentProfile.self, id: agent, workspaceID: identity.workspaceID)
++        guard let action = try await repository.record(oriV3.PreparedAction.self, id: actionID, workspaceID: identity.workspaceID) else { throw NativeExecutionError.unknown }
++        let agentProfile = try await repository.record(oriV3.AgentProfile.self, id: agent, workspaceID: identity.workspaceID)
 +        let trusted = operation != .gitPush && agentProfile?.accessMode == .trusted_scope && project.trustedClasses.contains(WorkspaceNativeCatalog.operationClass(call.name))
 +        do {
 +            if !trusted { guard try await confirm("\(project.name) · \(call.name)", details) else { throw NativeExecutionError.accessDenied } }
@@ -2129,15 +2129,15 @@ new file mode 100644
 +        }
 +    }
 +}
-diff --git a/packages/BlotWorkspace/Tests/BlotWorkspaceTests/NativeExecutionTests.swift b/packages/BlotWorkspace/Tests/BlotWorkspaceTests/NativeExecutionTests.swift
+diff --git a/packages/oriWorkspace/Tests/oriWorkspaceTests/NativeExecutionTests.swift b/packages/oriWorkspace/Tests/oriWorkspaceTests/NativeExecutionTests.swift
 new file mode 100644
 --- /dev/null
-+++ b/packages/BlotWorkspace/Tests/BlotWorkspaceTests/NativeExecutionTests.swift
++++ b/packages/oriWorkspace/Tests/oriWorkspaceTests/NativeExecutionTests.swift
 @@ -0,0 +1,168 @@
 +#if os(macOS)
 +import Foundation
 +import Testing
-+@testable import BlotWorkspace
++@testable import oriWorkspace
 +
 +private func nativeWait(_ engine: NativeProcessEngine, _ command: NativeCommand) async throws -> NativeProcessSnapshot {
 +    _ = try await engine.start(command)
@@ -2274,7 +2274,7 @@ new file mode 100644
 +    await #expect(throws: NativeExecutionError.busy) { _ = try await engine.start(.init(projectID: UUID(), root: root.path, executable: "/bin/echo")) }
 +    await engine.stopAll()
 +    let fresh = NativeProcessEngine()
-+    await #expect(throws: NativeExecutionError.programUnavailable) { _ = try await fresh.start(.init(projectID: UUID(), root: root.path, executable: "/blot-missing-tool")) }
++    await #expect(throws: NativeExecutionError.programUnavailable) { _ = try await fresh.start(.init(projectID: UUID(), root: root.path, executable: "/ori-missing-tool")) }
 +    await fresh.stopAll()
 +}
 +
@@ -2302,16 +2302,16 @@ new file mode 100644
 +    #expect(try Data(contentsOf: f.folder.appendingPathComponent(".git/index")) == originalIndex)
 +}
 +#endif
-diff --git a/packages/BlotWorkspace/Tests/BlotWorkspaceTests/WorkspaceNativeTests.swift b/packages/BlotWorkspace/Tests/BlotWorkspaceTests/WorkspaceNativeTests.swift
+diff --git a/packages/oriWorkspace/Tests/oriWorkspaceTests/WorkspaceNativeTests.swift b/packages/oriWorkspace/Tests/oriWorkspaceTests/WorkspaceNativeTests.swift
 new file mode 100644
 --- /dev/null
-+++ b/packages/BlotWorkspace/Tests/BlotWorkspaceTests/WorkspaceNativeTests.swift
++++ b/packages/oriWorkspace/Tests/oriWorkspaceTests/WorkspaceNativeTests.swift
 @@ -0,0 +1,154 @@
 +#if os(macOS)
-+import BlotDomain
++import oriDomain
 +import Foundation
 +import Testing
-+@testable import BlotWorkspace
++@testable import oriWorkspace
 +
 +private actor NativeTestCredentials: WorkspaceCredentialStore {
 +    private var values: [String: Data] = [:]
@@ -2383,7 +2383,7 @@ new file mode 100644
 +    let projection = try await f.repository.projection(identity: f.identity)
 +    #expect(projection.invocations.count == 1 && projection.invocations.first?.state == .succeeded)
 +    #expect(projection.artifacts.count == 1)
-+    let project = try #require(try await f.repository.records(BlotV3.Project.self, workspaceID: f.identity.workspaceID).first)
++    let project = try #require(try await f.repository.records(oriV3.Project.self, workspaceID: f.identity.workspaceID).first)
 +    #expect(project.repositoryPath == "device:" + f.identity.deviceID.uuidString)
 +    await f.service.suspend()
 +}
@@ -2393,7 +2393,7 @@ new file mode 100644
 +    let tasks = WorkspaceTaskService(repository: f.repository, identity: f.identity)
 +    let parent = try await tasks.create(commandID: UUID(), conversationID: f.conversation, agentID: f.agent, goal: "Parent", executorDeviceID: f.identity.deviceID, projectID: f.project)
 +    let child = try await tasks.create(commandID: UUID(), conversationID: f.conversation, agentID: f.agent, goal: "Child", executorDeviceID: f.identity.deviceID, parentTaskID: parent)
-+    #expect(try await f.repository.record(BlotV3.Task.self, id: child, workspaceID: f.identity.workspaceID)?.projectId == f.project)
++    #expect(try await f.repository.record(oriV3.Task.self, id: child, workspaceID: f.identity.workspaceID)?.projectId == f.project)
 +    let other = try await workspaceTestRepository(url: f.folder.appendingPathComponent("other.sqlite"))
 +    let otherID = try await other.joinWorkspace(ownerID: f.identity.ownerID, workspaceID: f.identity.workspaceID)
 +    try await other.installReplicaSnapshot(f.repository.replicaSnapshot(identity: f.identity), identity: otherID)
@@ -2431,12 +2431,12 @@ new file mode 100644
 +    let legacy = try await sender.create(commandID: UUID(), conversationID: f.conversation, agentID: f.agent, executorID: f.identity.deviceID, goal: "Legacy chat task")
 +    try await f.repository.installReplicaSnapshot(phone.replicaSnapshot(identity: phoneID), identity: f.identity)
 +    let receiver = WorkspaceTaskDelegation(repository: f.repository, identity: f.identity, authority: macTrust)
-+    let task = try #require(try await f.repository.record(BlotV3.Task.self, id: id, workspaceID: f.identity.workspaceID))
++    let task = try #require(try await f.repository.record(oriV3.Task.self, id: id, workspaceID: f.identity.workspaceID))
 +    try await receiver.authorize(task)
-+    try await receiver.authorize(try #require(try await f.repository.record(BlotV3.Task.self, id: legacy, workspaceID: f.identity.workspaceID)))
++    try await receiver.authorize(try #require(try await f.repository.record(oriV3.Task.self, id: legacy, workspaceID: f.identity.workspaceID)))
 +    var changed = try JSONSerialization.jsonObject(with: WorkspaceCoding.encode(task)) as! [String: Any]
 +    changed["projectId"] = UUID().uuidString
-+    let forged = try WorkspaceCoding.decode(BlotV3.Task.self, from: JSONSerialization.data(withJSONObject: changed))
++    let forged = try WorkspaceCoding.decode(oriV3.Task.self, from: JSONSerialization.data(withJSONObject: changed))
 +    await #expect(throws: WorkspaceStorageError.permissionDenied) { try await receiver.authorize(forged) }
 +    await f.service.suspend()
 +}
@@ -2471,15 +2471,15 @@ new file mode 100755
 +cd "$(dirname "$0")/.."
 +bundle="${1:?Pass the app bundle}"
 +products="${2:?Pass Xcode built products}"
-+service="$bundle/Contents/XPCServices/BlotWorkspaceExecutor.xpc"
++service="$bundle/Contents/XPCServices/oriWorkspaceExecutor.xpc"
 +cache="$(dirname "$bundle")/NativeExecutorCache"
 +mkdir -p "$service/Contents/MacOS" "$cache"
 +xcrun swiftc -O -swift-version 6 -module-cache-path "$cache" \
-+    -I "$products" -I packages/BlotWorkspace/Sources/CSQLite \
-+    "$products/BlotDomain.o" "$products/BlotWorkspace.o" -lsqlite3 native/WorkspaceExecutor/main.swift \
-+    -o "$service/Contents/MacOS/BlotWorkspaceExecutor"
++    -I "$products" -I packages/oriWorkspace/Sources/CSQLite \
++    "$products/oriDomain.o" "$products/oriWorkspace.o" -lsqlite3 native/WorkspaceExecutor/main.swift \
++    -o "$service/Contents/MacOS/oriWorkspaceExecutor"
 +cp native/WorkspaceExecutor/Info.plist "$service/Contents/Info.plist"
-+scripts/sign-native.sh --identifier dev.blot.workspace-executor "$service"
++scripts/sign-native.sh --identifier dev.ori.workspace-executor "$service"
 diff --git a/scripts/check-native-execution.sh b/scripts/check-native-execution.sh
 new file mode 100755
 --- /dev/null
@@ -2498,11 +2498,11 @@ new file mode 100755
 +for source in $sources; do set -- "$@" "apps/shared/WorkspaceV3/$source.swift"; done
 +mkdir -p "$checks/cache"
 +xcrun swiftc -parse-as-library -swift-version 5 -default-isolation MainActor -module-cache-path "$checks/cache" \
-+    -I "$products" -I packages/BlotWorkspace/Sources/CSQLite "$products/BlotDomain.o" "$products/BlotWorkspace.o" "$products/BlotAppleIntegrations.o" -lsqlite3 \
++    -I "$products" -I packages/oriWorkspace/Sources/CSQLite "$products/oriDomain.o" "$products/oriWorkspace.o" "$products/oriAppleIntegrations.o" -lsqlite3 \
 +    "$@" scripts/verify-native-execution.swift -o "$app/Contents/MacOS/NativeServiceVerification"
 +cat > "$app/Contents/Info.plist" <<'PLIST'
 +<?xml version="1.0" encoding="UTF-8"?><plist version="1.0"><dict>
-+<key>CFBundleIdentifier</key><string>dev.blot.native-service-verification</string>
++<key>CFBundleIdentifier</key><string>dev.ori.native-service-verification</string>
 +<key>CFBundleExecutable</key><string>NativeServiceVerification</string>
 +<key>CFBundlePackageType</key><string>APPL</string>
 +</dict></plist>
@@ -2522,15 +2522,15 @@ new file mode 100755
 +#!/bin/sh
 +set -eu
 +cd "$(dirname "$0")/.."
-+products="${1:-$PWD/packages/BlotWorkspace/.build/out/Products/Debug}"
++products="${1:-$PWD/packages/oriWorkspace/.build/out/Products/Debug}"
 +build="$PWD/.build/native-xpc-verification"
 +app="$build/NativeVerification.app"
 +mkdir -p "$app/Contents/MacOS" "$build/cache"
-+xcrun swiftc -parse-as-library -swift-version 6 -module-cache-path "$build/cache" -I "$products" -I packages/BlotWorkspace/Sources/CSQLite \
-+    "$products/BlotDomain.o" "$products/BlotWorkspace.o" -lsqlite3 scripts/verify-native-xpc.swift -o "$app/Contents/MacOS/NativeVerification"
++xcrun swiftc -parse-as-library -swift-version 6 -module-cache-path "$build/cache" -I "$products" -I packages/oriWorkspace/Sources/CSQLite \
++    "$products/oriDomain.o" "$products/oriWorkspace.o" -lsqlite3 scripts/verify-native-xpc.swift -o "$app/Contents/MacOS/NativeVerification"
 +cat > "$app/Contents/Info.plist" <<'PLIST'
 +<?xml version="1.0" encoding="UTF-8"?><plist version="1.0"><dict>
-+<key>CFBundleIdentifier</key><string>dev.blot.native-verification</string>
++<key>CFBundleIdentifier</key><string>dev.ori.native-verification</string>
 +<key>CFBundleExecutable</key><string>NativeVerification</string>
 +<key>CFBundlePackageType</key><string>APPL</string>
 +</dict></plist>
@@ -2547,9 +2547,9 @@ new file mode 100644
 --- /dev/null
 +++ b/scripts/verify-native-execution.swift
 @@ -0,0 +1,141 @@
-+import BlotAppleIntegrations
-+import BlotDomain
-+import BlotWorkspace
++import oriAppleIntegrations
++import oriDomain
++import oriWorkspace
 +import Foundation
 +
 +private actor NativeVerificationCredentials: WorkspaceCredentialStore {
@@ -2640,7 +2640,7 @@ new file mode 100644
 +        let project = try await native.connect(name: "Native test", root: code, bookmark: nil, agents: [agent], trustedCLI: true)
 +        try await native.select(projectID: project, conversationID: conversation)
 +        let sourceID = try await WorkspaceChatService(repository: repository, identity: identity).sendMessage(commandID: UUID(), conversationID: conversation, content: "Change a.txt, verify it and commit the exact change")
-+        let source = try await repository.record(BlotV3.Message.self, id: sourceID, workspaceID: identity.workspaceID)!
++        let source = try await repository.record(oriV3.Message.self, id: sourceID, workspaceID: identity.workspaceID)!
 +        let approvals = _Concurrency.Task { @MainActor in
 +            while !_Concurrency.Task.isCancelled {
 +                if let pending = service.appleIntegrations.interactions.pending {
@@ -2693,7 +2693,7 @@ new file mode 100644
 --- /dev/null
 +++ b/scripts/verify-native-xpc.swift
 @@ -0,0 +1,24 @@
-+import BlotWorkspace
++import oriWorkspace
 +import Foundation
 +
 +@main struct VerifyNativeXPC {

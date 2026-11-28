@@ -10,7 +10,7 @@ struct LocalizationVerification {
             precondition(WorkspaceLanguage.system(preferredLanguages: [tag, "ru-RU"]) == "en", tag)
         }
         precondition(WorkspaceLanguage.system(preferredLanguages: []) == "en")
-        let suite = "blot.localization.verification.\(UUID().uuidString)"
+        let suite = "ori.localization.verification.\(UUID().uuidString)"
         let defaults = UserDefaults(suiteName: suite)!
         defer { defaults.removePersistentDomain(forName: suite) }
         // The old forced-Russian default must not override automatic system selection.

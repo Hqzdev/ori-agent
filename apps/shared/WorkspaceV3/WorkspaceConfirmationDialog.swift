@@ -1,4 +1,4 @@
-import BlotDesign
+import OriDesign
 import SwiftUI
 
 /// Application confirmations use the same opaque surfaces as editors. OS permission
@@ -40,8 +40,8 @@ private struct WorkspaceConfirmationPanel<Actions: View, Message: View>: View {
             HStack(alignment: .top, spacing: 16) {
                 Text(title).font(.title3.weight(.semibold)).fixedSize(horizontal: false, vertical: true).accessibilityAddTraits(.isHeader)
                 Spacer(minLength: 0)
-                Button { isPresented = false } label: { BlotIcon(.close, size: 18).frame(width: 36, height: 36) }
-                    .buttonStyle(BlotPlainButtonStyle(showsHover: false)).blotRow().keyboardShortcut(.cancelAction)
+                Button { isPresented = false } label: { OriIcon(.close, size: 18).frame(width: 36, height: 36) }
+                    .buttonStyle(OriPlainButtonStyle(showsHover: false)).oriRow().keyboardShortcut(.cancelAction)
                     .accessibilityLabel(Text("Close"))
             }
             message().foregroundStyle(WorkspaceStyle.secondary).fixedSize(horizontal: false, vertical: true)
@@ -58,6 +58,6 @@ private struct WorkspaceConfirmationActionStyle: PrimitiveButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         Button(role: configuration.role) { configuration.trigger(); close() } label: {
             configuration.label.frame(maxWidth: .infinity)
-        }.buttonStyle(BlotButtonStyle(configuration.role == .destructive ? .destructive : configuration.role == .cancel ? .ghost : .primary, size: .large))
+        }.buttonStyle(OriButtonStyle(configuration.role == .destructive ? .destructive : configuration.role == .cancel ? .ghost : .primary, size: .large))
     }
 }

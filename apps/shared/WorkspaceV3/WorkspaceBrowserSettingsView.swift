@@ -1,7 +1,7 @@
-import BlotDomain
-import BlotDesign
-import BlotAppleIntegrations
-import BlotWorkspace
+import OriDomain
+import OriDesign
+import OriAppleIntegrations
+import OriWorkspace
 import SwiftUI
 
 struct WorkspaceBrowserSettingsView: View {
@@ -94,7 +94,7 @@ struct WorkspaceBrowserSettingsView: View {
             Button(ru ? "Не выполнено" : "Not completed") { resolve(false) }
         }
     }
-    private var unknownInvocations: [BlotV3.ToolInvocation] {
+    private var unknownInvocations: [OriV3.ToolInvocation] {
         let actions = Set((store.snapshot.preparedActions ?? []).filter { $0.toolId.hasPrefix("browser_") }.map(\.metadata.id))
         return (store.snapshot.toolInvocations ?? []).filter { $0.state == .unknown && $0.execution.executorDeviceId == store.snapshot.localDeviceID && actions.contains($0.preparedActionId) }
     }

@@ -1,6 +1,6 @@
-import BlotAppleIntegrations
-import BlotDomain
-import BlotWorkspace
+import OriAppleIntegrations
+import OriDomain
+import OriWorkspace
 import Foundation
 
 struct WorkspaceToolActivity: Identifiable {
@@ -83,8 +83,8 @@ struct WorkspaceToolActivityBuilder {
         ]
     private typealias State = WorkspaceToolActivity.State
     struct Result { var rows: [WorkspaceToolActivity]; let dependencies: Set<UUID> }
-    func build(steps: [BlotV3.ModelStep], actions: [UUID: BlotV3.PreparedAction], invocations: [UUID: BlotV3.ToolInvocation],
-               connections: [BlotV3.McpConnection], pendingQuestionIDs: Set<UUID> = []) -> Result {
+    func build(steps: [OriV3.ModelStep], actions: [UUID: OriV3.PreparedAction], invocations: [UUID: OriV3.ToolInvocation],
+               connections: [OriV3.McpConnection], pendingQuestionIDs: Set<UUID> = []) -> Result {
         var rows: [WorkspaceToolActivity] = [], dependencies: Set<UUID> = []
         var positions: [String: Int] = [:]
         for step in steps.sorted(by: { $0.stepIndex < $1.stepIndex }) {
@@ -120,13 +120,13 @@ struct WorkspaceToolActivityBuilder {
         }
         return Result(rows: Array(rows.suffix(64)), dependencies: dependencies)
     }
-    private func actionIDs(_ step: BlotV3.ModelStep, call: ChatToolCall) -> [UUID] {
+    private func actionIDs(_ step: OriV3.ModelStep, call: ChatToolCall) -> [UUID] {
         guard let workspace = step.metadata.workspaceId else { return [] }
         return [WorkspaceToolCallIdentity.actionID(workspaceID: workspace, sourceID: step.sourceMessageId, callID: call.id),
                 WorkspaceToolCallIdentity.actionID(workspaceID: workspace, sourceID: step.sourceMessageId, callID: call.id, scope: .browser),
                 WorkspaceToolCallIdentity.actionID(workspaceID: workspace, sourceID: step.sourceMessageId, callID: call.id, scope: .sessionFile)]
     }
-    private func state(step: BlotV3.ModelStep, result: ChatJSON?, action: BlotV3.PreparedAction?, invocation: BlotV3.ToolInvocation?, queued: Bool) -> State {
+    private func state(step: OriV3.ModelStep, result: ChatJSON?, action: OriV3.PreparedAction?, invocation: OriV3.ToolInvocation?, queued: Bool) -> State {
         switch invocation?.state ?? action?.state {
         case .unknown: return .unknown
         case .denied, .expired: return .denied

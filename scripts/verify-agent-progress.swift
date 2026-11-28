@@ -1,35 +1,35 @@
 import AppKit
-import BlotAppleIntegrations
-import BlotDomain
-import BlotWorkspace
+import OriAppleIntegrations
+import OriDomain
+import OriWorkspace
 import Foundation
 import Observation
 import Synchronization
-@testable import Blot
+@testable import Ori
 
 @MainActor private struct ActivityFixture {
     let owner = UUID(), conversation = UUID(), source = UUID(), response = UUID(), agent = UUID(), command = UUID()
-    func metadata(_ id: UUID) throws -> BlotV3.RecordMetadata {
+    func metadata(_ id: UUID) throws -> OriV3.RecordMetadata {
         try .init(id: id, ownerId: owner, workspaceId: owner, version: 1, createdAt: Date(timeIntervalSince1970: 1000), updatedAt: Date(timeIntervalSince1970: 1000))
     }
-    func message(_ id: UUID? = nil, role: BlotV3.MessageRole = .assistant, author: UUID? = nil, commandID: UUID? = nil,
-                 content: String = "Проверю документацию.", delivery: BlotV3.DeliveryState = .completed, age: TimeInterval = 0) throws -> BlotV3.Message {
+    func message(_ id: UUID? = nil, role: OriV3.MessageRole = .assistant, author: UUID? = nil, commandID: UUID? = nil,
+                 content: String = "Проверю документацию.", delivery: OriV3.DeliveryState = .completed, age: TimeInterval = 0) throws -> OriV3.Message {
         let id = id ?? response
         return try .init(metadata: .init(id: id, ownerId: owner, workspaceId: owner, version: 1, createdAt: Date(timeIntervalSince1970: 1000 + age), updatedAt: Date(timeIntervalSince1970: 1000 + age)),
             conversationId: conversation, role: role, content: content, delivery: delivery, commandId: commandID ?? command, artifactIds: [], authorAgentId: role == .assistant ? (author ?? agent) : nil)
     }
     func call(_ name: String, _ id: String = "call", arguments: [String: ChatJSON] = [:]) -> ChatToolCall { .init(id: id, name: name, arguments: .object(arguments)) }
-    func step(_ calls: [ChatToolCall], results: [String: ChatJSON] = [:], state: BlotV3.ModelStepState = .waiting_tools, index: Int = 0, id: UUID = UUID()) throws -> BlotV3.ModelStep {
+    func step(_ calls: [ChatToolCall], results: [String: ChatJSON] = [:], state: OriV3.ModelStepState = .waiting_tools, index: Int = 0, id: UUID = UUID()) throws -> OriV3.ModelStep {
         try .init(metadata: metadata(id), conversationId: conversation, sourceMessageId: source, responseMessageId: response,
             executorDeviceId: owner, originDeviceId: owner, executionMode: .local_owned, stepIndex: index, modelId: "compatible", budgetTokenLimit: 20000,
             requestJSON: "secret old context must never become an activity row", toolCallsJSON: String(decoding: try JSONEncoder().encode(calls), as: UTF8.self),
             toolResultsJSON: results.isEmpty ? nil : String(decoding: try JSONEncoder().encode(results), as: UTF8.self), state: state)
     }
-    func action(_ tool: String, state: BlotV3.ActionState, scope: WorkspaceToolCallIdentity.Scope = .tool) throws -> BlotV3.PreparedAction {
+    func action(_ tool: String, state: OriV3.ActionState, scope: WorkspaceToolCallIdentity.Scope = .tool) throws -> OriV3.PreparedAction {
         try .init(metadata: metadata(WorkspaceToolCallIdentity.actionID(workspaceID: owner, sourceID: source, callID: "call", scope: scope)),
             execution: .init(executorDeviceId: owner, originDeviceId: owner, taskId: UUID(), revision: 1), toolId: tool, resource: "fixture", parameters: "{}", digest: "fixture", consequences: "fixture", expiresAt: Date().addingTimeInterval(600), state: state)
     }
-    func snapshot(_ steps: [BlotV3.ModelStep], actions: [BlotV3.PreparedAction] = [], invocations: [BlotV3.ToolInvocation] = []) throws -> WorkspaceSnapshot {
+    func snapshot(_ steps: [OriV3.ModelStep], actions: [OriV3.PreparedAction] = [], invocations: [OriV3.ToolInvocation] = []) throws -> WorkspaceSnapshot {
         var value = WorkspaceSnapshot(); value.ownerID = owner; value.localDeviceID = owner
         value.messages = [try message(source, role: .user, content: "Проверь сайт"), try message(content: "", delivery: .running)]
         value.modelSteps = steps; value.preparedActions = actions; value.toolInvocations = invocations
@@ -67,14 +67,14 @@ import Synchronization
     let question = f.call("conversation_ask")
     let unrelated = f.call("conversation_ask", "another-question")
     let questionID = WorkspaceToolCallIdentity.actionID(workspaceID: f.owner, sourceID: f.source, callID: question.id)
-    func questionCard(operationID: UUID, state: String = "pending", expiresAt: Date = .now.addingTimeInterval(60)) throws -> BlotV3.ConversationCard {
+    func questionCard(operationID: UUID, state: String = "pending", expiresAt: Date = .now.addingTimeInterval(60)) throws -> OriV3.ConversationCard {
         try .init(metadata: f.metadata(operationID), messageId: UUID(), operationId: operationID, executorDeviceId: f.owner,
             kind: "question", state: state, expiresAt: expiresAt, payloadJSON: "{}", updatedByDeviceId: f.owner)
     }
     var questionSnapshot = try f.snapshot([f.step([question, unrelated])])
     content.update(questionSnapshot, previous: value)
     precondition(content.activities(for: pending).map(\.state) == [.running, .queued])
-    let questionCases: [(BlotV3.ConversationCard, WorkspaceToolActivity.State)] = [
+    let questionCases: [(OriV3.ConversationCard, WorkspaceToolActivity.State)] = [
         (try questionCard(operationID: UUID()), .running),
         (try questionCard(operationID: questionID, expiresAt: .distantPast), .running),
         (try questionCard(operationID: questionID), .waitingForAnswer),
@@ -96,13 +96,13 @@ import Synchronization
     let step = try f.step([f.call("browser_click")])
     value = try f.snapshot([step], actions: [action]); content.update(value, previous: answeredSnapshot)
     precondition(content.activities(for: pending).first?.state == .approval)
-    let uncertain = try BlotV3.ToolInvocation(metadata: f.metadata(UUID()), execution: action.execution, preparedActionId: action.metadata.id, state: .unknown)
+    let uncertain = try OriV3.ToolInvocation(metadata: f.metadata(UUID()), execution: action.execution, preparedActionId: action.metadata.id, state: .unknown)
     let before = value; value.toolInvocations = [uncertain]
     let authorsChanged = Mutex(false)
     withObservationTracking { _ = content.agents; _ = content.conversations; _ = content.artifacts } onChange: { authorsChanged.withLock { $0 = true } }
     content.update(value, previous: before)
     precondition(content.activities(for: pending).first?.state == .unknown && !authorsChanged.withLock { $0 })
-    let finished = try BlotV3.ToolInvocation(metadata: uncertain.metadata, execution: action.execution, preparedActionId: action.metadata.id, state: .succeeded, result: "{\"state\":\"succeeded\"}")
+    let finished = try OriV3.ToolInvocation(metadata: uncertain.metadata, execution: action.execution, preparedActionId: action.metadata.id, state: .succeeded, result: "{\"state\":\"succeeded\"}")
     let beforeFinished = value; value.toolInvocations = [finished]; content.update(value, previous: beforeFinished)
     precondition(content.activities(for: pending).first?.state == .succeeded)
     print("PASS: exact browser action tracks approval → unknown → reconciled success without invalidating message identity")
@@ -117,7 +117,7 @@ import Synchronization
         precondition(rows.count == 1 && !rows[0].title(russian: false).isEmpty)
     }
     print("PASS: expanding successful file/folder actions resolves the full title table without duplicate-key traps")
-    for (state, expected) in [(BlotV3.ModelStepState.canceled, WorkspaceToolActivity.State.stopped), (.interrupted, .unknown), (.completed, .unknown)] {
+    for (state, expected) in [(OriV3.ModelStepState.canceled, WorkspaceToolActivity.State.stopped), (.interrupted, .unknown), (.completed, .unknown)] {
         let terminalStep = try f.step([f.call("git_push")], state: state)
         precondition(builder.build(steps: [terminalStep], actions: [:], invocations: [:], connections: []).rows.first?.state == expected)
     }
@@ -165,7 +165,7 @@ private struct ProgressModel: ChatModel {
 @MainActor @main enum AgentProgressVerification {
     static func main() async throws {
         try verifyPresentation()
-        let root = FileManager.default.temporaryDirectory.appendingPathComponent("blot-progress-" + UUID().uuidString)
+        let root = FileManager.default.temporaryDirectory.appendingPathComponent("ori-progress-" + UUID().uuidString)
         defer { try? FileManager.default.removeItem(at: root) }
         let local = try LocalWorkspaceService(databaseURL: root.appendingPathComponent("workspace.sqlite"), runTokenBudget: 100000, makeModel: { _ in ProgressModel() })
         let store = WorkspaceStore(mode: .live, service: local)

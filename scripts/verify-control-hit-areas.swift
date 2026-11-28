@@ -1,6 +1,6 @@
-@testable import Blot
+@testable import Ori
 import AppKit
-import BlotDesign
+import OriDesign
 import SwiftUI
 
 @MainActor
@@ -19,12 +19,12 @@ private struct HitAreaBoard: View {
             HStack(spacing: 32) {
                 MacChatIconButton(title: "Icon", symbol: "plus") { recorder.hit("icon") }.record("icon", in: recorder)
                 Button("Action") { recorder.hit("primary") }.buttonStyle(WorkspaceButtonStyle()).record("primary", in: recorder)
-                Button("Action") {}.buttonStyle(.glassProminent).tint(BlotColor.inverse).buttonBorderShape(.capsule).record("reference", in: recorder)
+                Button("Action") {}.buttonStyle(.glassProminent).tint(OriColor.inverse).buttonBorderShape(.capsule).record("reference", in: recorder)
                 Button("Disabled") { recorder.hit("disabled-primary") }.buttonStyle(WorkspaceButtonStyle()).disabled(true).record("disabled-primary", in: recorder)
                 Button("Secondary") { recorder.hit("secondary") }.buttonStyle(WorkspaceButtonStyle(.secondary)).record("secondary", in: recorder)
                 Button { recorder.hit("dismiss") } label: {
-                    Image(systemName: "xmark").frame(width: 20, height: 20).blotHitArea()
-                }.buttonStyle(BlotHitTargetButtonStyle(expansion: 10)).record("dismiss", in: recorder)
+                    Image(systemName: "xmark").frame(width: 20, height: 20).oriHitArea()
+                }.buttonStyle(OriHitTargetButtonStyle(expansion: 10)).record("dismiss", in: recorder)
             }
             GlassEffectContainer(spacing: 8) {
             HStack(spacing: 8) {
@@ -36,7 +36,7 @@ private struct HitAreaBoard: View {
             }
             Button { recorder.hit("row") } label: {
                 HStack { Image(systemName: "folder"); Text("Whole row"); Spacer() }.padding(8).frame(width: 260, height: 44)
-            }.buttonStyle(BlotPlainButtonStyle()).record("row", in: recorder)
+            }.buttonStyle(OriPlainButtonStyle()).record("row", in: recorder)
             Button { recorder.hit("quiet") } label: {
                 HStack { Text("Quiet action"); Spacer() }.frame(width: 260, height: 36)
             }.buttonStyle(WorkspaceButtonStyle(.quiet)).record("quiet", in: recorder)
@@ -45,7 +45,7 @@ private struct HitAreaBoard: View {
             }.buttonStyle(WorkspaceRowButtonStyle()).record("workspace-row", in: recorder)
         }.padding(40).frame(width: 640, height: 520, alignment: .topLeading)
             .background(.white).coordinateSpace(name: "hit-board")
-            .environment(\.blotReduceMotion, true)
+            .environment(\.oriReduceMotion, true)
     }
 }
 

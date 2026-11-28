@@ -1,5 +1,5 @@
-import BlotDomain
-import BlotWorkspace
+import OriDomain
+import OriWorkspace
 import Foundation
 
 @MainActor
@@ -19,27 +19,27 @@ protocol WorkspaceObservationService {
 
 @MainActor
 protocol WorkspaceExecutionService {
-    func responses(to message: BlotV3.Message, profile: BlotInferenceProfile?) async throws -> AsyncThrowingStream<BlotV3.Message, Error>
+    func responses(to message: OriV3.Message, profile: OriInferenceProfile?) async throws -> AsyncThrowingStream<OriV3.Message, Error>
     func cancelResponse(in conversationID: UUID) async throws -> WorkspaceSnapshot
     func stopAll() async
 }
 
 @MainActor
 protocol WorkspaceCommandService: WorkspaceObservationService, WorkspaceExecutionService {
-    func updateConversation(_ chat: BlotV3.Conversation, title: String?, pinned: Bool?, archived: Bool?, deleting: Bool) async throws -> WorkspaceSnapshot
+    func updateConversation(_ chat: OriV3.Conversation, title: String?, pinned: Bool?, archived: Bool?, deleting: Bool) async throws -> WorkspaceSnapshot
     func setReaction(messageID: UUID, emoji: String, removed: Bool) async throws -> WorkspaceSnapshot
     func markRead(conversationID: UUID, messageID: UUID) async throws -> WorkspaceSnapshot
-    func deleteMemory(_ memory: BlotV3.MemoryEntry) async throws -> WorkspaceSnapshot
+    func deleteMemory(_ memory: OriV3.MemoryEntry) async throws -> WorkspaceSnapshot
     func createGroup(commandID: UUID, title: String, agentIDs: [UUID]) async throws -> WorkspaceSnapshot
     func branchConversation(commandID: UUID, messageID: UUID, agentID: UUID) async throws -> WorkspaceSnapshot
     func updateGroup(_ id: UUID, expectedVersion: Int, title: String, agentIDs: [UUID]) async throws -> WorkspaceSnapshot
     func fileURL(_ id: UUID) async throws -> URL
     func enqueueDueSchedules() async throws -> WorkspaceSnapshot
     func runScheduleManually(_ id: UUID) async throws -> WorkspaceSnapshot
-    func searchMessages(_ query: String) async throws -> [BlotV3.Message]
+    func searchMessages(_ query: String) async throws -> [OriV3.Message]
     func fileText(_ id: UUID) async throws -> String
     func resolveConflict(_ selectedID: UUID, displayedIDs: Set<UUID>) async throws -> WorkspaceSnapshot
-    func export(_ message: BlotV3.Message, format: WorkspaceExportFormat) async throws -> WorkspaceSnapshot
+    func export(_ message: OriV3.Message, format: WorkspaceExportFormat) async throws -> WorkspaceSnapshot
 }
 
 @MainActor

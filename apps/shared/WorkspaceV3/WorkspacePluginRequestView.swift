@@ -1,7 +1,7 @@
-import BlotAppleIntegrations
-import BlotDesign
-import BlotDomain
-import BlotWorkspace
+import OriAppleIntegrations
+import OriDesign
+import OriDomain
+import OriWorkspace
 import SwiftUI
 
 extension EnvironmentValues {
@@ -11,7 +11,7 @@ extension EnvironmentValues {
 /// Setup stays outside the model. Only a verified connection result resumes its tool call.
 struct WorkspacePluginRequestView: View {
     let request: WorkspaceCardContent.ConnectionRequest
-    let card: BlotV3.ConversationCard
+    let card: OriV3.ConversationCard
     let active: Bool
     @Environment(WorkspaceStore.self) private var store
     @State private var setup = false

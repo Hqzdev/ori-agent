@@ -75,7 +75,7 @@
     " " : {
 
     },
-    "    <BlotAvatar />\n    <h1>Your AI team</h1>\n  );\n}" : {
+    "    <OriAvatar />\n    <h1>Your AI team</h1>\n  );\n}" : {
 
     },
     " · demo account available" : {
@@ -938,13 +938,13 @@
         }
       }
     },
-    "~/Blot is created automatically. Each chat has its own history and working files. Agents request access to other folders directly from the chat." : {
+    "~/ori is created automatically. Each chat has its own history and working files. Agents request access to other folders directly from the chat." : {
 
     },
-    "~/Blot создаётся автоматически. У каждого чата — своя папка с историей и рабочими файлами. Доступ к другим папкам агент запрашивает прямо из чата." : {
+    "~/ori создаётся автоматически. У каждого чата — своя папка с историей и рабочими файлами. Доступ к другим папкам агент запрашивает прямо из чата." : {
 
     },
-    "~/Documents/Blot Workspace" : {
+    "~/Documents/Ori Workspace" : {
 
     },
     "−" : {
@@ -12460,7 +12460,7 @@
     "https://connect.example.com" : {
 
     },
-    "https://demo.blot/mcp" : {
+    "https://demo.ori/mcp" : {
 
     },
     "https://example.com" : {
@@ -27508,7 +27508,7 @@
         }
       }
     },
-    "To: team@blot.app\nFrom: preview@blot.local" : {
+    "To: team@ori.app\nFrom: preview@ori.local" : {
 
     },
     "Today" : {

@@ -55,7 +55,7 @@
   margin: clamp(48px, 10svh, 108px) auto 0;
 }
 .auth-heading { display: grid; justify-items: center; gap: 14px; margin-block-end: 28px; text-align: center; }
-.auth-heading .blot-pet { --blot-paper: var(--auth-face); margin-block-end: 4px; }
+.auth-heading .ori-pet { --ori-paper: var(--auth-face); margin-block-end: 4px; }
 .auth-heading h1 { font-size: clamp(25px, 5vw, 29px); line-height: 1.2; font-weight: 550; letter-spacing: -.025em; text-wrap: balance; }
 .auth-heading p { color: var(--auth-secondary); font-size: 14px; line-height: 1.55; overflow-wrap: anywhere; }
 .auth-heading strong { font-weight: 600; color: var(--auth-ink); }

@@ -1,6 +1,6 @@
-import BlotAppleIntegrations
-import BlotDesign
-import BlotWorkspace
+import OriAppleIntegrations
+import OriDesign
+import OriWorkspace
 import SwiftUI
 import Observation
 
@@ -68,7 +68,7 @@ enum WorkspaceToolDestination: Hashable {
         else if identifier.hasPrefix("page:"), let route = WorkspaceRoute(rawValue: String(identifier.dropFirst(5))), !route.isAuthentication { self = .page(route) }
         else { return nil }
     }
-    var glyph: BlotGlyph {
+    var glyph: OriGlyph {
         switch self {
         case .fileChange: .document
         #if os(macOS)
@@ -147,10 +147,10 @@ struct WorkspaceBrowserStartPage: View {
                     ForEach(featured, id: \.self) { tool in toolCard(tool) }
                     Button { more.toggle() } label: {
                         HStack(spacing: 12) {
-                            BlotIcon(.more).frame(width: 20).foregroundStyle(WorkspaceStyle.secondary)
+                            OriIcon(.more).frame(width: 20).foregroundStyle(WorkspaceStyle.secondary)
                             Text(ru ? "Ещё инструменты" : "More tools")
                             Spacer(minLength: 0)
-                            BlotIcon(symbol: more ? "chevron.up" : "chevron.down", size: 10)
+                            OriIcon(symbol: more ? "chevron.up" : "chevron.down", size: 10)
                         }.panelToolCard()
                     }.buttonStyle(WorkspaceRowButtonStyle(padding: 0)).accessibilityValue(more ? (ru ? "Развёрнуто" : "Expanded") : (ru ? "Свёрнуто" : "Collapsed"))
                     if more { ForEach(Array(WorkspaceToolDestination.tools.dropFirst(5)), id: \.self) { tool in toolCard(tool) } }
@@ -180,10 +180,10 @@ struct WorkspaceBrowserStartPage: View {
     private func toolCard(_ tool: WorkspaceToolDestination) -> some View {
         Button { select(tool) } label: {
             HStack(spacing: 12) {
-                BlotIcon(tool.glyph).frame(width: 20).foregroundStyle(WorkspaceStyle.secondary)
+                OriIcon(tool.glyph).frame(width: 20).foregroundStyle(WorkspaceStyle.secondary)
                 Text(tool.title(russian: ru)).lineLimit(2)
                 Spacer(minLength: 0)
-                BlotIcon(symbol: "chevron.right", size: 9).foregroundStyle(WorkspaceStyle.secondary)
+                OriIcon(symbol: "chevron.right", size: 9).foregroundStyle(WorkspaceStyle.secondary)
             }.panelToolCard()
         }.buttonStyle(WorkspaceRowButtonStyle(padding: 0)).accessibilityIdentifier("workspace.tools.\(tool.identifier)")
     }
@@ -207,14 +207,14 @@ struct WorkspaceBrowserToolPage: View {
             if showsHeader {
                 HStack {
                     Button { navigation.path.removeLast() } label: {
-                        BlotLabel(ru ? "Назад" : "Back", symbol: "chevron.left", size: BlotIconSize.control)
-                            .padding(6).blotHitArea()
+                        OriLabel(ru ? "Назад" : "Back", symbol: "chevron.left", size: OriIconSize.control)
+                            .padding(6).oriHitArea()
                     }.buttonStyle(WorkspaceRowButtonStyle(padding: 0))
                     Spacer()
                     Text(navigation.path.last?.title(russian: ru) ?? "").font(.headline).lineLimit(1)
                     Spacer()
                     Button { navigation.path.removeAll() } label: {
-                        BlotIcon(.grid, size: BlotIconSize.control).padding(6).blotHitArea()
+                        OriIcon(.grid, size: OriIconSize.control).padding(6).oriHitArea()
                     }.buttonStyle(WorkspaceRowButtonStyle(padding: 0)).accessibilityLabel(ru ? "Все инструменты" : "All tools")
                 }.padding(14)
                 Divider()

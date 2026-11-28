@@ -1,13 +1,13 @@
-import BlotDesign
-import BlotDomain
-import BlotWorkspace
+import OriDesign
+import OriDomain
+import OriWorkspace
 import SwiftUI
 
 struct WorkspaceMessageBody: View {
     let text: String
     let markdown: Bool
-    let agents: [BlotV3.AgentProfile]
-    let skills: [BlotV3.Skill]
+    let agents: [OriV3.AgentProfile]
+    let skills: [OriV3.Skill]
     var onAccentSurface = false
     var report = false
     @Environment(WorkspaceStore.self) private var store
@@ -41,7 +41,7 @@ struct WorkspaceMessageBody: View {
             HStack {
                 Text(language.isEmpty ? (store.language == "ru" ? "Код" : "Code") : language).lineLimit(1)
                 Spacer()
-                Button { WorkspaceClipboard.copy(value) } label: { BlotLabel(store.language == "ru" ? "Копировать" : "Copy", symbol: "doc.on.doc") }.buttonStyle(.plain)
+                Button { WorkspaceClipboard.copy(value) } label: { OriLabel(store.language == "ru" ? "Копировать" : "Copy", symbol: "doc.on.doc") }.buttonStyle(.plain)
             }.font(.caption).foregroundStyle(.secondary)
             ScrollView(.horizontal) { Text(value).font(.system(.callout, design: .monospaced)).textSelection(.enabled).fixedSize(horizontal: true, vertical: false) }
         }.padding(12).background(WorkspaceStyle.ink.opacity(0.045), in: RoundedRectangle(cornerRadius: 16))

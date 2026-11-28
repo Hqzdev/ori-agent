@@ -288,7 +288,7 @@ export const russian = {
   "What’s new in 1.0 Beta": "Что нового в 1.0 Beta",
   "What’s new in Ori.": "Что нового в Ori",
   "November 26, 2026": "26 ноября 2026",
-  "Blot is now Ori.": "Blot теперь называется Ori",
+  "Ori is now Ori.": "Ori теперь называется Ori",
   "This beta updates the chat and workspace on Mac and iPhone.": "В этой бете обновлены чат и рабочее пространство на Mac и iPhone.",
   "Download macOS and iPhone builds from GitHub. Android and Windows are coming soon.": "Скачайте сборки для macOS и iPhone с GitHub. Android и Windows появятся позже.",
   "Your desktop workspace for agents, chats, files, and projects.": "Рабочее пространство для агентов, чатов, файлов и проектов на компьютере.",

@@ -1,38 +1,38 @@
-import BlotDomain
-import BlotWorkspace
+import OriDomain
+import OriWorkspace
 import Foundation
 
 struct WorkspaceSnapshot: Codable, Equatable, Sendable {
     var localConnectedPluginIDs: [String]?
-    var cards: [BlotV3.ConversationCard]?
-    var projects: [BlotV3.Project]?
+    var cards: [OriV3.ConversationCard]?
+    var projects: [OriV3.Project]?
     var pairedDevices: [WorkspacePairedDevice]?
     var messagePins: [WorkspaceMessagePin]?
     var pinnedGroupPlans: [UUID: UUID]?
-    var toolInvocations: [BlotV3.ToolInvocation]?
-    var tasks: [BlotV3.Task]?
-    var automationRuns: [BlotV3.AutomationRun]?
+    var toolInvocations: [OriV3.ToolInvocation]?
+    var tasks: [OriV3.Task]?
+    var automationRuns: [OriV3.AutomationRun]?
     var scheduleFailures: [UUID]?
-    var preparedActions: [BlotV3.PreparedAction]?
-    var modelSteps: [BlotV3.ModelStep]?
+    var preparedActions: [OriV3.PreparedAction]?
+    var modelSteps: [OriV3.ModelStep]?
     var ownerID: UUID?
     var localDeviceID: UUID?
-    var participants: [BlotV3.ConversationParticipant]?
-    var reactions: [BlotV3.MessageReaction]?
-    var readPositions: [BlotV3.ConversationReadPosition]?
+    var participants: [OriV3.ConversationParticipant]?
+    var reactions: [OriV3.MessageReaction]?
+    var readPositions: [OriV3.ConversationReadPosition]?
     var skillAssignments: [WorkspaceSkillAssignment]?
-    var skills: [BlotV3.Skill]?
-    var skillRevisions: [BlotV3.SkillRevision]?
-    var configurations: [BlotV3.AgentConfigurationRevision]?
-    var summaries: [BlotV3.ContextSummary]?
-    var conflicts: [BlotV3.ConflictingRevision]?
-    var agents: [BlotV3.AgentProfile] = []
-    var conversations: [BlotV3.Conversation] = []
-    var messages: [BlotV3.Message] = []
-    var schedules: [BlotV3.Automation] = []
-    var devices: [BlotV3.Device] = []
-    var memories: [BlotV3.MemoryEntry] = []
-    var connections: [BlotV3.Connection] = []
-    var artifacts: [BlotV3.Artifact] = []
-    var mcpConnections: [BlotV3.McpConnection] = []
+    var skills: [OriV3.Skill]?
+    var skillRevisions: [OriV3.SkillRevision]?
+    var configurations: [OriV3.AgentConfigurationRevision]?
+    var summaries: [OriV3.ContextSummary]?
+    var conflicts: [OriV3.ConflictingRevision]?
+    var agents: [OriV3.AgentProfile] = []
+    var conversations: [OriV3.Conversation] = []
+    var messages: [OriV3.Message] = []
+    var schedules: [OriV3.Automation] = []
+    var devices: [OriV3.Device] = []
+    var memories: [OriV3.MemoryEntry] = []
+    var connections: [OriV3.Connection] = []
+    var artifacts: [OriV3.Artifact] = []
+    var mcpConnections: [OriV3.McpConnection] = []
 }

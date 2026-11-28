@@ -1,4 +1,4 @@
-import BlotDomain
+import OriDomain
 import Foundation
 import Observation
 
@@ -35,7 +35,7 @@ final class WorkspaceChatActivity {
         }
     }
 
-    func enqueue(message: BlotV3.Message, replies: [String], onRead: @escaping @MainActor () -> Void,
+    func enqueue(message: OriV3.Message, replies: [String], onRead: @escaping @MainActor () -> Void,
                  complete: @escaping @MainActor (String, Bool) -> Void) {
         let conversationID = message.conversationId
         let messageID = message.metadata.id

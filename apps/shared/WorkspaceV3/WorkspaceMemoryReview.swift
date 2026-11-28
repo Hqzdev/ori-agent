@@ -1,10 +1,10 @@
-import BlotDesign
-import BlotDomain
-import BlotWorkspace
+import OriDesign
+import OriDomain
+import OriWorkspace
 import SwiftUI
 
 struct WorkspaceMemoryReview: View {
-    let memory: BlotV3.MemoryEntry
+    let memory: OriV3.MemoryEntry
     @Environment(WorkspaceStore.self) private var store
     var body: some View {
         if memory.state == .candidate {
@@ -50,7 +50,7 @@ struct WorkspaceMemoryImportView: View {
                 }
                 if facts.isEmpty {
                     Section(ru ? "Вставьте ответ" : "Paste its response") {
-                        TextEditor(text: $text).frame(minHeight: 180).blotEditorSurface()
+                        TextEditor(text: $text).frame(minHeight: 180).oriEditorSurface()
                         Button(ru ? "Просмотреть факты" : "Review facts") {
                             let parsed = WorkspaceMemoryImport.facts(from: text)
                             guard !parsed.isEmpty, parsed.count <= 100, text.utf8.count <= 256_000 else {

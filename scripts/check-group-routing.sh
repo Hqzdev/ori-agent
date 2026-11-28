@@ -9,12 +9,12 @@ sources=(WorkspaceService WorkspaceForms WorkspacePersonalization WorkspaceMessa
 sources+=(WorkspaceDevicePairingCommands WorkspaceNativeProviding WorkspaceBrowserProviding WorkspaceSessionFileProviding)
 arguments=()
 for source in "${sources[@]}"; do arguments+=("apps/shared/WorkspaceV3/$source.swift"); done
-objects=("$products/BlotDomain.o" "$products/BlotWorkspace.o")
-if [[ -f "$products/BlotAppleIntegrations.o" && -f apps/shared/WorkspaceV3/WorkspaceAppleIntegrationProviding.swift ]]; then
-    objects+=("$products/BlotAppleIntegrations.o")
+objects=("$products/OriDomain.o" "$products/OriWorkspace.o")
+if [[ -f "$products/OriAppleIntegrations.o" && -f apps/shared/WorkspaceV3/WorkspaceAppleIntegrationProviding.swift ]]; then
+    objects+=("$products/OriAppleIntegrations.o")
     arguments+=(apps/shared/WorkspaceV3/WorkspaceAppleIntegrationProviding.swift)
 fi
 xcrun swiftc -parse-as-library -swift-version 5 -default-isolation MainActor -module-cache-path "$checks/cache" \
-    -I "$products" -I packages/BlotWorkspace/Sources/CSQLite "${objects[@]}" -lsqlite3 \
+    -I "$products" -I packages/OriWorkspace/Sources/CSQLite "${objects[@]}" -lsqlite3 \
     "${arguments[@]}" "$verification" -o "$checks/verify"
 "$checks/verify"

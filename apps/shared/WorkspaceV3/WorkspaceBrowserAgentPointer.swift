@@ -1,5 +1,5 @@
-import BlotAppleIntegrations
-import BlotDesign
+import OriAppleIntegrations
+import OriDesign
 import SwiftUI
 
 struct WorkspaceBrowserAgentPointer: View {
@@ -7,11 +7,11 @@ struct WorkspaceBrowserAgentPointer: View {
     @State private var visible = false
     @State private var position: CGPoint?
     @Environment(\.accessibilityReduceMotion) private var systemReduceMotion
-    @Environment(\.blotReduceMotion) private var reduceMotion
+    @Environment(\.oriReduceMotion) private var reduceMotion
     var body: some View {
         GeometryReader { geometry in
             if let pointer, let position, visible {
-                BlotIcon(symbol: pointer.operation == "browser_type" ? "text.cursor" : "cursorarrow")
+                OriIcon(symbol: pointer.operation == "browser_type" ? "text.cursor" : "cursorarrow")
                     .font(.system(size: 23, weight: .semibold))
                     .foregroundStyle(.white)
                     .shadow(color: .black.opacity(0.8), radius: 1)

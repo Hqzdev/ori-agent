@@ -1,4 +1,4 @@
-import BlotDesign
+import OriDesign
 import SwiftUI
 import UniformTypeIdentifiers
 
@@ -8,7 +8,7 @@ struct WorkspaceFilesImportButton: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Button { importing = true } label: {
-                BlotLabel(store.language == "ru" ? "Импортировать файлы" : "Import files", symbol: "square.and.arrow.down")
+                OriLabel(store.language == "ru" ? "Импортировать файлы" : "Import files", symbol: "square.and.arrow.down")
             }.disabled(store.busy || store.fileCommands == nil)
             WorkspaceFeedback()
         }

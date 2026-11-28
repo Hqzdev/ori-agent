@@ -1,0 +1,867 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 110;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B20000000000000000000001 /* OriAPI in Frameworks */ = {isa = PBXBuildFile; productRef = B20000000000000000000002 /* OriAPI */; };
+		B20000000000000000000003 /* OriAPI in Frameworks */ = {isa = PBXBuildFile; productRef = B20000000000000000000004 /* OriAPI */; };
+		B20000000000000000000011 /* OriDesign in Frameworks */ = {isa = PBXBuildFile; productRef = B20000000000000000000012 /* OriDesign */; };
+		B20000000000000000000013 /* OriDesign in Frameworks */ = {isa = PBXBuildFile; productRef = B20000000000000000000014 /* OriDesign */; };
+		C30000000000000000000001 /* OriWorkspace in Frameworks */ = {isa = PBXBuildFile; productRef = C30000000000000000000002 /* OriWorkspace */; };
+		C30000000000000000000003 /* OriWorkspace in Frameworks */ = {isa = PBXBuildFile; productRef = C30000000000000000000004 /* OriWorkspace */; };
+		E50000000000000000000001 /* OriAppleIntegrations in Frameworks */ = {isa = PBXBuildFile; productRef = E50000000000000000000002 /* OriAppleIntegrations */; };
+		E50000000000000000000003 /* OriAppleIntegrations in Frameworks */ = {isa = PBXBuildFile; productRef = E50000000000000000000004 /* OriAppleIntegrations */; };
+		F6000000000000000000000B /* OriWidgets.appex in Embed Widget Extension */ = {isa = PBXBuildFile; fileRef = F60000000000000000000003 /* OriWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F60000000000000000000011 /* OriWidgetSupport in Frameworks */ = {isa = PBXBuildFile; productRef = F6000000000000000000000E /* OriWidgetSupport */; };
+		F60000000000000000000012 /* OriWidgetSupport in Frameworks */ = {isa = PBXBuildFile; productRef = F6000000000000000000000F /* OriWidgetSupport */; };
+		F60000000000000000000013 /* OriDesign in Frameworks */ = {isa = PBXBuildFile; productRef = F60000000000000000000010 /* OriDesign */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F6000000000000000000000D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 13CB0E69307BE25300C7CE8A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F60000000000000000000001;
+			remoteInfo = OriWidgets;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F6000000000000000000000A /* Embed Widget Extension */ = {
+			isa = PBXCopyFilesBuildPhase;
+			dstPath = "";
+			dstSubfolder = PlugIns;
+			files = (
+				F6000000000000000000000B /* OriWidgets.appex in Embed Widget Extension */,
+			);
+			name = "Embed Widget Extension";
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		13CB0E71307BE25300C7CE8A /* Ori.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ori.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A20000000000000000000004 /* Ori.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ori.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F60000000000000000000003 /* OriWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OriWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		F60000000000000000000015 /* Exceptions for "ios/OriWidgets" folder in "OriWidgets" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = F60000000000000000000001 /* OriWidgets */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		13CB0E73307BE25300C7CE8A /* macos/OriMac */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = macos/OriMac;
+			sourceTree = "<group>";
+		};
+		A20000000000000000000002 /* shared */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = shared;
+			sourceTree = "<group>";
+		};
+		A20000000000000000000003 /* ios/OriIOS */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ios/OriIOS;
+			sourceTree = "<group>";
+		};
+		F60000000000000000000002 /* ios/OriWidgets */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				F60000000000000000000015 /* Exceptions for "ios/OriWidgets" folder in "OriWidgets" target */,
+			);
+			path = ios/OriWidgets;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		13CB0E6E307BE25300C7CE8A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+				B20000000000000000000001 /* OriAPI in Frameworks */,
+				B20000000000000000000011 /* OriDesign in Frameworks */,
+				C30000000000000000000001 /* OriWorkspace in Frameworks */,
+				E50000000000000000000001 /* OriAppleIntegrations in Frameworks */,
+			);
+		};
+		A20000000000000000000007 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+				B20000000000000000000003 /* OriAPI in Frameworks */,
+				B20000000000000000000013 /* OriDesign in Frameworks */,
+				C30000000000000000000003 /* OriWorkspace in Frameworks */,
+				E50000000000000000000003 /* OriAppleIntegrations in Frameworks */,
+				F60000000000000000000011 /* OriWidgetSupport in Frameworks */,
+			);
+		};
+		F60000000000000000000006 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+				F60000000000000000000012 /* OriWidgetSupport in Frameworks */,
+				F60000000000000000000013 /* OriDesign in Frameworks */,
+			);
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		13CB0E68307BE25300C7CE8A = {
+			isa = PBXGroup;
+			children = (
+				13CB0E73307BE25300C7CE8A /* macos/OriMac */,
+				A20000000000000000000003 /* ios/OriIOS */,
+				F60000000000000000000002 /* ios/OriWidgets */,
+				A20000000000000000000002 /* shared */,
+				13CB0E72307BE25300C7CE8A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		13CB0E72307BE25300C7CE8A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				13CB0E71307BE25300C7CE8A /* Ori.app */,
+				A20000000000000000000004 /* Ori.app */,
+				F60000000000000000000003 /* OriWidgets.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		13CB0E70307BE25300C7CE8A /* Ori */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 13CB0E7C307BE25400C7CE8A /* Build configuration list for PBXNativeTarget "Ori" */;
+			buildPhases = (
+				13CB0E6D307BE25300C7CE8A /* Sources */,
+				13CB0E6E307BE25300C7CE8A /* Frameworks */,
+				13CB0E6F307BE25300C7CE8A /* Resources */,
+				B20000000000000000000006 /* Embed Java backend */,
+				D40000000000000000000001 /* Prepare Apple configuration */,
+			);
+			buildRules = (
+			);
+			fileSystemSynchronizedGroups = (
+				13CB0E73307BE25300C7CE8A /* macos/OriMac */,
+				A20000000000000000000002 /* shared */,
+			);
+			name = Ori;
+			packageProductDependencies = (
+				B20000000000000000000002 /* OriAPI */,
+				B20000000000000000000012 /* OriDesign */,
+				C30000000000000000000002 /* OriWorkspace */,
+				E50000000000000000000002 /* OriAppleIntegrations */,
+			);
+			productName = OriMac;
+			productReference = 13CB0E71307BE25300C7CE8A /* Ori.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A20000000000000000000001 /* OriIOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A20000000000000000000005 /* Build configuration list for PBXNativeTarget "OriIOS" */;
+			buildPhases = (
+				A20000000000000000000006 /* Sources */,
+				A20000000000000000000007 /* Frameworks */,
+				A20000000000000000000008 /* Resources */,
+				F6000000000000000000000A /* Embed Widget Extension */,
+				D40000000000000000000002 /* Prepare Apple configuration */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F6000000000000000000000C /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A20000000000000000000002 /* shared */,
+				A20000000000000000000003 /* ios/OriIOS */,
+			);
+			name = OriIOS;
+			packageProductDependencies = (
+				B20000000000000000000004 /* OriAPI */,
+				B20000000000000000000014 /* OriDesign */,
+				C30000000000000000000004 /* OriWorkspace */,
+				E50000000000000000000004 /* OriAppleIntegrations */,
+				F6000000000000000000000E /* OriWidgetSupport */,
+			);
+			productName = OriIOS;
+			productReference = A20000000000000000000004 /* Ori.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F60000000000000000000001 /* OriWidgets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F60000000000000000000004 /* Build configuration list for PBXNativeTarget "OriWidgets" */;
+			buildPhases = (
+				F60000000000000000000005 /* Sources */,
+				F60000000000000000000006 /* Frameworks */,
+				F60000000000000000000007 /* Resources */,
+			);
+			buildRules = (
+			);
+			fileSystemSynchronizedGroups = (
+				F60000000000000000000002 /* ios/OriWidgets */,
+			);
+			name = OriWidgets;
+			packageProductDependencies = (
+				F6000000000000000000000F /* OriWidgetSupport */,
+				F60000000000000000000010 /* OriDesign */,
+			);
+			productName = OriWidgets;
+			productReference = F60000000000000000000003 /* OriWidgets.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		13CB0E69307BE25300C7CE8A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2700;
+				LastUpgradeCheck = 2700;
+				TargetAttributes = {
+					13CB0E70307BE25300C7CE8A = {
+						CreatedOnToolsVersion = 27.0;
+					};
+					A20000000000000000000001 = {
+						CreatedOnToolsVersion = 27.0;
+					};
+				};
+			};
+			buildConfigurationList = 13CB0E6C307BE25300C7CE8A /* Build configuration list for PBXProject "Ori" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				ru,
+				Base,
+			);
+			mainGroup = 13CB0E68307BE25300C7CE8A;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				B20000000000000000000005 /* XCLocalSwiftPackageReference "../packages/OriAPI" */,
+				B20000000000000000000015 /* XCLocalSwiftPackageReference "../packages/OriDesign" */,
+				C30000000000000000000005 /* XCLocalSwiftPackageReference "../packages/OriWorkspace" */,
+				E50000000000000000000005 /* XCLocalSwiftPackageReference "../packages/OriAppleIntegrations" */,
+				F60000000000000000000014 /* XCLocalSwiftPackageReference "../packages/OriWidgetSupport" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 13CB0E72307BE25300C7CE8A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				13CB0E70307BE25300C7CE8A /* Ori */,
+				A20000000000000000000001 /* OriIOS */,
+				F60000000000000000000001 /* OriWidgets */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		13CB0E6F307BE25300C7CE8A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
+		A20000000000000000000008 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
+		F60000000000000000000007 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		B20000000000000000000006 /* Embed Java backend */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			inputPaths = (
+				"$(TARGET_BUILD_DIR)/$(INFOPLIST_PATH)",
+				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
+			);
+			name = "Embed Java backend";
+			outputPaths = (
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/Backend/ori-backend.jar",
+			);
+			shellPath = /bin/sh;
+			shellScript = (
+				"set -eu",
+				"\"$SRCROOT/../scripts/package-backend.sh\" \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\"",
+				"",
+			);
+		};
+		D40000000000000000000001 /* Prepare Apple configuration */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			inputPaths = (
+				"$(TARGET_BUILD_DIR)/$(INFOPLIST_PATH)",
+			);
+			name = "Prepare Apple configuration";
+			outputPaths = (
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/AppleInstallation.plist",
+			);
+			shellPath = /bin/sh;
+			shellScript = (
+				"set -eu",
+				"/usr/bin/python3 \"$SRCROOT/../scripts/apple_build_configuration.py\" --configuration \"$CONFIGURATION\" --output \"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/AppleInstallation.plist\" --info-plist \"$TARGET_BUILD_DIR/$INFOPLIST_PATH\"",
+				"",
+			);
+		};
+		D40000000000000000000002 /* Prepare Apple configuration */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			inputPaths = (
+				"$(TARGET_BUILD_DIR)/$(INFOPLIST_PATH)",
+			);
+			name = "Prepare Apple configuration";
+			outputPaths = (
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/AppleInstallation.plist",
+			);
+			shellPath = /bin/sh;
+			shellScript = (
+				"set -eu",
+				"/usr/bin/python3 \"$SRCROOT/../scripts/apple_build_configuration.py\" --configuration \"$CONFIGURATION\" --output \"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/AppleInstallation.plist\" --info-plist \"$TARGET_BUILD_DIR/$INFOPLIST_PATH\"",
+				"",
+			);
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		13CB0E6D307BE25300C7CE8A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
+		A20000000000000000000006 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
+		F60000000000000000000005 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F6000000000000000000000C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F60000000000000000000001 /* OriWidgets */;
+			targetProxy = F6000000000000000000000D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		13CB0E7A307BE25400C7CE8A /* Debug configuration for PBXProject "Ori" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 9RPQ7DDSR4;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		13CB0E7B307BE25400C7CE8A /* Release configuration for PBXProject "Ori" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 9RPQ7DDSR4;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		13CB0E7D307BE25400C7CE8A /* Debug configuration for PBXNativeTarget "Ori" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = macos/OriMac/OriMac.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 9RPQ7DDSR4;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_INCOMING_NETWORK_CONNECTIONS = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_RESOURCE_ACCESS_BLUETOOTH = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				ENABLE_USER_SELECTED_FILES = readwrite;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BackendInfo.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Ori;
+				INFOPLIST_KEY_NSAppleEventsUsageDescription = "Ori automates Mail and Notes only after you connect them.";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Ori uses Bluetooth to connect your trusted devices.";
+				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "Ori reads and updates the calendars you connect for your agents.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Scan the pairing QR code displayed by your Mac.";
+				INFOPLIST_KEY_NSContactsUsageDescription = "Ori finds and updates contacts you allow your agents to use.";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Ori connects your iPhone to the agent running on your Mac.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Ori uses the microphone only during a voice conversation you start.";
+				INFOPLIST_KEY_NSRemindersFullAccessUsageDescription = "Ori manages reminders in the lists you connect.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Ori transcribes your speech into chat messages during a voice conversation.";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "yaroslavstrelkov.blot-agent";
+				PRODUCT_MODULE_NAME = Ori;
+				PRODUCT_NAME = Ori;
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = macosx;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		13CB0E7E307BE25400C7CE8A /* Release configuration for PBXNativeTarget "Ori" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = macos/OriMac/OriMac.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 9RPQ7DDSR4;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_INCOMING_NETWORK_CONNECTIONS = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_RESOURCE_ACCESS_BLUETOOTH = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				ENABLE_USER_SELECTED_FILES = readwrite;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BackendInfo.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Ori;
+				INFOPLIST_KEY_NSAppleEventsUsageDescription = "Ori automates Mail and Notes only after you connect them.";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Ori uses Bluetooth to connect your trusted devices.";
+				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "Ori reads and updates the calendars you connect for your agents.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Scan the pairing QR code displayed by your Mac.";
+				INFOPLIST_KEY_NSContactsUsageDescription = "Ori finds and updates contacts you allow your agents to use.";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Ori connects your iPhone to the agent running on your Mac.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Ori uses the microphone only during a voice conversation you start.";
+				INFOPLIST_KEY_NSRemindersFullAccessUsageDescription = "Ori manages reminders in the lists you connect.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Ori transcribes your speech into chat messages during a voice conversation.";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "yaroslavstrelkov.blot-agent";
+				PRODUCT_MODULE_NAME = Ori;
+				PRODUCT_NAME = Ori;
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = macosx;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		A20000000000000000000009 /* Debug configuration for PBXNativeTarget "OriIOS" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ios/OriIOS/OriIOS.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 9RPQ7DDSR4;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BackendInfo.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Ori;
+				INFOPLIST_KEY_NSAppleEventsUsageDescription = "Ori automates Mail and Notes only after you connect them.";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Ori uses Bluetooth to connect your trusted devices.";
+				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "Ori reads and updates the calendars you connect for your agents.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Ori uses the camera to attach photos and scan pairing QR codes.";
+				INFOPLIST_KEY_NSContactsUsageDescription = "Ori finds and updates contacts you allow your agents to use.";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Ori connects your iPhone to the agent running on your Mac.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Ori uses the microphone only during a voice conversation you start.";
+				INFOPLIST_KEY_NSRemindersFullAccessUsageDescription = "Ori manages reminders in the lists you connect.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Ori transcribes your speech into chat messages during a voice conversation.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "yaroslavstrelkov.blot-agent.ios";
+				PRODUCT_MODULE_NAME = OriIOS;
+				PRODUCT_NAME = Ori;
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A2000000000000000000000A /* Release configuration for PBXNativeTarget "OriIOS" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ios/OriIOS/OriIOS.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 9RPQ7DDSR4;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BackendInfo.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Ori;
+				INFOPLIST_KEY_NSAppleEventsUsageDescription = "Ori automates Mail and Notes only after you connect them.";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Ori uses Bluetooth to connect your trusted devices.";
+				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "Ori reads and updates the calendars you connect for your agents.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Ori uses the camera to attach photos and scan pairing QR codes.";
+				INFOPLIST_KEY_NSContactsUsageDescription = "Ori finds and updates contacts you allow your agents to use.";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Ori connects your iPhone to the agent running on your Mac.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Ori uses the microphone only during a voice conversation you start.";
+				INFOPLIST_KEY_NSRemindersFullAccessUsageDescription = "Ori manages reminders in the lists you connect.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Ori transcribes your speech into chat messages during a voice conversation.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "yaroslavstrelkov.blot-agent.ios";
+				PRODUCT_MODULE_NAME = OriIOS;
+				PRODUCT_NAME = Ori;
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		F60000000000000000000008 /* Debug configuration for PBXNativeTarget "OriWidgets" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = ios/OriWidgets/OriWidgets.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 9RPQ7DDSR4;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ios/OriWidgets/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Ori Widgets";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "yaroslavstrelkov.blot-agent.ios.widgets";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F60000000000000000000009 /* Release configuration for PBXNativeTarget "OriWidgets" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = ios/OriWidgets/OriWidgets.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 9RPQ7DDSR4;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ios/OriWidgets/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Ori Widgets";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "yaroslavstrelkov.blot-agent.ios.widgets";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		13CB0E6C307BE25300C7CE8A /* Build configuration list for PBXProject "Ori" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				13CB0E7A307BE25400C7CE8A /* Debug configuration for PBXProject "Ori" */,
+				13CB0E7B307BE25400C7CE8A /* Release configuration for PBXProject "Ori" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		13CB0E7C307BE25400C7CE8A /* Build configuration list for PBXNativeTarget "Ori" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				13CB0E7D307BE25400C7CE8A /* Debug configuration for PBXNativeTarget "Ori" */,
+				13CB0E7E307BE25400C7CE8A /* Release configuration for PBXNativeTarget "Ori" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		A20000000000000000000005 /* Build configuration list for PBXNativeTarget "OriIOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A20000000000000000000009 /* Debug configuration for PBXNativeTarget "OriIOS" */,
+				A2000000000000000000000A /* Release configuration for PBXNativeTarget "OriIOS" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		F60000000000000000000004 /* Build configuration list for PBXNativeTarget "OriWidgets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F60000000000000000000008 /* Debug configuration for PBXNativeTarget "OriWidgets" */,
+				F60000000000000000000009 /* Release configuration for PBXNativeTarget "OriWidgets" */,
+			);
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		B20000000000000000000005 /* XCLocalSwiftPackageReference "../packages/OriAPI" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../packages/OriAPI;
+		};
+		B20000000000000000000015 /* XCLocalSwiftPackageReference "../packages/OriDesign" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../packages/OriDesign;
+		};
+		C30000000000000000000005 /* XCLocalSwiftPackageReference "../packages/OriWorkspace" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../packages/OriWorkspace;
+		};
+		E50000000000000000000005 /* XCLocalSwiftPackageReference "../packages/OriAppleIntegrations" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../packages/OriAppleIntegrations;
+		};
+		F60000000000000000000014 /* XCLocalSwiftPackageReference "../packages/OriWidgetSupport" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../packages/OriWidgetSupport;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B20000000000000000000002 /* OriAPI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = OriAPI;
+		};
+		B20000000000000000000004 /* OriAPI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = OriAPI;
+		};
+		B20000000000000000000012 /* OriDesign */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = OriDesign;
+		};
+		B20000000000000000000014 /* OriDesign */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = OriDesign;
+		};
+		C30000000000000000000002 /* OriWorkspace */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = OriWorkspace;
+		};
+		C30000000000000000000004 /* OriWorkspace */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = OriWorkspace;
+		};
+		E50000000000000000000002 /* OriAppleIntegrations */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = OriAppleIntegrations;
+		};
+		E50000000000000000000004 /* OriAppleIntegrations */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = OriAppleIntegrations;
+		};
+		F6000000000000000000000E /* OriWidgetSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F60000000000000000000014 /* XCLocalSwiftPackageReference "../packages/OriWidgetSupport" */;
+			productName = OriWidgetSupport;
+		};
+		F6000000000000000000000F /* OriWidgetSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F60000000000000000000014 /* XCLocalSwiftPackageReference "../packages/OriWidgetSupport" */;
+			productName = OriWidgetSupport;
+		};
+		F60000000000000000000010 /* OriDesign */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B20000000000000000000015 /* XCLocalSwiftPackageReference "../packages/OriDesign" */;
+			productName = OriDesign;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 13CB0E69307BE25300C7CE8A /* Project object */;
+	validationLevel = 1;
+}

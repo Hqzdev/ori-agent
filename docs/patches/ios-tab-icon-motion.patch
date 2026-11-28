@@ -1,6 +1,6 @@
-diff --git a/apps/ios/BlotIOS/Features/Root/PhoneTabBar.swift b/apps/ios/BlotIOS/Features/Root/PhoneTabBar.swift
---- a/apps/ios/BlotIOS/Features/Root/PhoneTabBar.swift
-+++ b/apps/ios/BlotIOS/Features/Root/PhoneTabBar.swift
+diff --git a/apps/ios/oriIOS/Features/Root/PhoneTabBar.swift b/apps/ios/oriIOS/Features/Root/PhoneTabBar.swift
+--- a/apps/ios/oriIOS/Features/Root/PhoneTabBar.swift
++++ b/apps/ios/oriIOS/Features/Root/PhoneTabBar.swift
 @@ -5,19 +5,20 @@
      private struct Item: Identifiable {
          let route: WorkspaceRoute
@@ -45,17 +45,17 @@ diff --git a/apps/ios/BlotIOS/Features/Root/PhoneTabBar.swift b/apps/ios/BlotIOS
 +            store.selectTab(item.route)
 +        } label: {
              HStack(spacing: 9) {
--                BlotIcon(symbol: item.symbol, size: 22)
+-                oriIcon(symbol: item.symbol, size: 22)
 +                PhoneTabIcon(kind: item.icon, activation: iconActivations[item.route, default: 0])
                  if showsTitle {
                      Text(store.t(item.title)).font(.subheadline.weight(.medium))
                          .lineLimit(1).fixedSize(horizontal: true, vertical: false).transition(.opacity)
-diff --git a/apps/ios/BlotIOS/Features/Root/PhoneTabIcon.swift b/apps/ios/BlotIOS/Features/Root/PhoneTabIcon.swift
+diff --git a/apps/ios/oriIOS/Features/Root/PhoneTabIcon.swift b/apps/ios/oriIOS/Features/Root/PhoneTabIcon.swift
 new file mode 100644
 --- /dev/null
-+++ b/apps/ios/BlotIOS/Features/Root/PhoneTabIcon.swift
++++ b/apps/ios/oriIOS/Features/Root/PhoneTabIcon.swift
 @@ -0,0 +1,135 @@
-+import BlotDesign
++import oriDesign
 +import SwiftUI
 +
 +struct PhoneTabIcon: View {
@@ -65,7 +65,7 @@ new file mode 100644
 +    let activation: Int
 +    @ScaledMetric(relativeTo: .body) private var size: CGFloat = 22
 +    @Environment(\.accessibilityReduceMotion) private var systemReduceMotion
-+    @Environment(\.blotReduceMotion) private var reduceMotion
++    @Environment(\.oriReduceMotion) private var reduceMotion
 +
 +    private struct Frame {
 +        var travel = 0.0
@@ -121,7 +121,7 @@ new file mode 100644
 +                    .rotationEffect(.degrees(frame.tilt), anchor: .init(x: 0.4, y: 0.4))
 +                    .offset(x: frame.travel * 1.2, y: -frame.travel * 1.6)
 +            case .calendar:
-+                BlotIcon(symbol: "calendar", size: 24)
++                oriIcon(symbol: "calendar", size: 24)
 +                calendarPage(turn: frame.page)
 +            case .overview:
 +                ForEach(0..<4, id: \.self) { index in
@@ -134,7 +134,7 @@ new file mode 100644
 +                        .offset(x: frame.travel * 2 * x, y: frame.travel * 2 * y)
 +                }
 +            case .settings:
-+                BlotIcon(.settings, size: 24).rotationEffect(.degrees(frame.rotation))
++                oriIcon(.settings, size: 24).rotationEffect(.degrees(frame.rotation))
 +            }
 +        }
 +        .frame(width: 24, height: 24)
@@ -206,7 +206,7 @@ new file mode 100644
 --- /dev/null
 +++ b/apps/verification/WorkspacePresentationTests/PhoneTabIconMotionTests.swift
 @@ -0,0 +1,109 @@
-+import BlotDesign
++import oriDesign
 +import Observation
 +import SwiftUI
 +import UIKit
@@ -312,6 +312,6 @@ new file mode 100644
 +        PhoneTabIcon(kind: kind, activation: probe.activation).scaleEffect(4)
 +            .frame(maxWidth: .infinity, maxHeight: .infinity)
 +            .foregroundStyle(.black).background(.white)
-+            .environment(\.blotReduceMotion, appReduceMotion)
++            .environment(\.oriReduceMotion, appReduceMotion)
 +    }
 +}

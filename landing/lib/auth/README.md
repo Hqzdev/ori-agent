@@ -9,7 +9,7 @@ Set these variables in the website's deployment environment. For local developme
 | Variable | Purpose |
 | --- | --- |
 | `DATABASE_URL` | Pooled PostgreSQL connection string, injected by the Neon integration in Vercel. Enables the built-in service. |
-| `BLOT_POSTGRES_URL` | Preferred server-only PostgreSQL connection, including a Supabase integration connected with prefix `BLOT`. Overrides legacy `DATABASE_URL`; the web application and its migrations use the same priority. |
+| `BLOT_POSTGRES_URL` | Preferred server-only PostgreSQL connection, including a Supabase integration connected with prefix `ORI`. Overrides legacy `DATABASE_URL`; the web application and its migrations use the same priority. |
 | `BLOT_CLOUD_ORIGIN` | Optional legacy Java account-service origin; `BLOT_ACCOUNT_SERVICE_URL` is an alias. Used only when `DATABASE_URL` is absent. |
 | `BLOT_AUTH_CHALLENGE_SECRET` | Optional independent secret for email-code HMACs. Defaults to a domain-separated key derived from the session secret. |
 | `BLOT_WEB_SESSION_SECRET` | At least 24 random characters for encrypted browser cookies. Falls back to the Google web client secret, then the Yandex web client secret. |
@@ -57,8 +57,8 @@ Run `npm run test:auth` and `npm run build` from `landing/`. Tests use an embedd
 
 ## Terminal sign-in and model API
 
-`blot run` opens the existing website sign-in with the `blot-cli` client ID.
-Its PKCE redirect is `http://127.0.0.1:<port>/oauth/blot`. The terminal exchanges
+`ori run` opens the existing website sign-in with the `blot-cli` client ID.
+Its PKCE redirect is `http://127.0.0.1:<port>/oauth/ori`. The terminal exchanges
 the one-time code at `/v1/auth/browser/token` and uses its Ori session at
 `/v1/cli/model`. The model route authenticates against the built-in PostgreSQL
 account service and applies account and service request limits.

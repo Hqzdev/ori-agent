@@ -1,13 +1,13 @@
-import BlotDesign
-import BlotDomain
-import BlotWorkspace
+import OriDesign
+import OriDomain
+import OriWorkspace
 import SwiftUI
 
 struct WorkspaceMessageResults: View {
-    let message: BlotV3.Message
+    let message: OriV3.Message
     var artifactIDs: [UUID]? = nil
     @Environment(WorkspaceStore.self) private var store
-    private var files: [BlotV3.Artifact] { (artifactIDs ?? message.artifactIds).compactMap { store.chatContent.artifacts[$0] } }
+    private var files: [OriV3.Artifact] { (artifactIDs ?? message.artifactIds).compactMap { store.chatContent.artifacts[$0] } }
     private var websites: [WorkspaceResultLink.Website] { message.delivery == .completed ? WorkspaceResultLink.websites(in: message.content) : [] }
     var body: some View {
         if !files.isEmpty || !websites.isEmpty {
@@ -33,7 +33,7 @@ private struct WorkspaceWebsiteCard: View {
         HStack(spacing: 12) {
             Button { store.openBrowserURL(website.url) } label: {
                 HStack(spacing: 12) {
-                    BlotIcon(symbol: "globe", size: 25).foregroundStyle(.cyan).frame(width: 48, height: 48)
+                    OriIcon(symbol: "globe", size: 25).foregroundStyle(.cyan).frame(width: 48, height: 48)
                         .background(WorkspaceStyle.ink.opacity(0.045), in: RoundedRectangle(cornerRadius: 14))
                     VStack(alignment: .leading, spacing: 5) {
                         Text(website.title).font(.body.weight(.medium)).lineLimit(2)
@@ -49,7 +49,7 @@ private struct WorkspaceWebsiteCard: View {
                 Button(ru ? "Открыть ссылку" : "Open link") { store.openBrowserURL(website.url) }
                 #endif
                 Button(ru ? "Копировать ссылку" : "Copy link") { WorkspaceClipboard.copy(website.url.absoluteString) }
-            } label: { BlotLabel(ru ? "Открыть" : "Open in", symbol: "chevron.down").font(.callout).padding(8) }
+            } label: { OriLabel(ru ? "Открыть" : "Open in", symbol: "chevron.down").font(.callout).padding(8) }
             .fixedSize()
         }.padding(12).background(WorkspaceStyle.canvas, in: RoundedRectangle(cornerRadius: 18))
             .overlay(RoundedRectangle(cornerRadius: 18).strokeBorder(WorkspaceStyle.ink.opacity(0.1)))

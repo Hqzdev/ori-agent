@@ -1,5 +1,5 @@
-import BlotDesign
-import BlotWorkspace
+import OriDesign
+import OriWorkspace
 import SwiftUI
 
 @MainActor protocol WorkspacePageProviding { func pageService() async throws -> WorkspacePageService }
@@ -33,7 +33,7 @@ struct WorkspacePagesButton: View {
             Label {
                 Text(store.language == "ru" ? "Библиотека" : "Library")
             } icon: {
-                BlotIcon(.document)
+                OriIcon(.document)
             }
         }
     }
@@ -86,12 +86,12 @@ struct WorkspacePagesView: View {
                                 _Concurrency.Task { exportURL = try? await store.pageCommands?.pageService().export(summary.document) }
                             } label: {
                                 HStack {
-                                    BlotIcon(symbol: summary.document.pinned ? "pin.fill" : "doc.richtext")
+                                    OriIcon(symbol: summary.document.pinned ? "pin.fill" : "doc.richtext")
                                     VStack(alignment: .leading, spacing: 5) {
                                         Text(summary.document.title).font(.headline)
                                         Text(summary.document.updatedAt, format: .dateTime.day().month().hour().minute()).font(.caption).foregroundStyle(.secondary)
                                     }
-                                    Spacer(); BlotIcon(symbol: "chevron.right")
+                                    Spacer(); OriIcon(symbol: "chevron.right")
                                 }.padding(14).frame(maxWidth: .infinity, alignment: .leading).background(WorkspaceStyle.surface, in: RoundedRectangle(cornerRadius: 18)).contentShape(Rectangle())
                             }.buttonStyle(.plain)
                         }

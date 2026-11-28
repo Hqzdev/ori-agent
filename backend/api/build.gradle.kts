@@ -18,5 +18,5 @@ tasks.named<JavaExec>("bootRun") {
 }
 
 tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
-    archiveFileName.set("blot-backend.jar")
+    archiveFileName.set("ori-backend.jar")
 }

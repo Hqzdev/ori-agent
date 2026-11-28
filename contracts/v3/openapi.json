@@ -1,7 +1,7 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Blot v3 local API",
+    "title": "Ori v3 local API",
     "version": "3.0.0",
     "description": "Direct-chat runtime with isolated v3 storage. See x-supported-commands; other target commands return 501. v2 records are not converted."
   },

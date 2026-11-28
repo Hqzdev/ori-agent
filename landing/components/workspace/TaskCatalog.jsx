@@ -52,7 +52,7 @@ export default function TaskCatalog({ onOpenTask, status = "active", type = "all
             <button key={item.id} aria-pressed={!isCompleted && type === item.id} className={!isCompleted && type === item.id ? "selected" : ""} onClick={() => changeType(item.id)}><span>{item.label}</span><span>{projectPlan.getTasksForType(item.id, { status: item.id === "architecture" ? "all" : "active" }).length}</span></button>
           ))}
         </div>
-        <div className="ws-slice-note"><span>ПОЛНЫЙ ПЛАН РЕАЛИЗАЦИИ</span><p>{projectPlan.tasks.length} подзадач в {projectPlan.epics.length} блоках. Каждая связана с ТЗ и roadmap.</p><a href="/implementation-plan.md" download>Скачать порядок работ <ArrowUpRight size={13} /></a><a href="/BLOT_TECHNICAL_SPECIFICATION.md" download>Скачать ТЗ <ArrowUpRight size={13} /></a></div>
+        <div className="ws-slice-note"><span>ПОЛНЫЙ ПЛАН РЕАЛИЗАЦИИ</span><p>{projectPlan.tasks.length} подзадач в {projectPlan.epics.length} блоках. Каждая связана с ТЗ и roadmap.</p><a href="/implementation-plan.md" download>Скачать порядок работ <ArrowUpRight size={13} /></a><a href="/ORI_TECHNICAL_SPECIFICATION.md" download>Скачать ТЗ <ArrowUpRight size={13} /></a></div>
       </aside>
       <div className="ws-task-content" ref={contentRef}>
         <div className="ws-task-toolbar">

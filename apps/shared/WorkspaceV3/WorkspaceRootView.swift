@@ -1,7 +1,7 @@
-import BlotAppleIntegrations
-import BlotDesign
-import BlotDomain
-import BlotWorkspace
+import OriAppleIntegrations
+import OriDesign
+import OriDomain
+import OriWorkspace
 import SwiftUI
 
 struct WorkspacePage: View {
@@ -138,7 +138,7 @@ struct WorkspaceRootView: View {
         .environment(\.locale, Locale(identifier: store.language == "ru" ? "ru_RU" : "en_GB"))
         .environment(\.timeZone, store.mode == .preview ? TimeZone(identifier: "Asia/Yekaterinburg")! : .current)
         .background(WorkspaceStyle.canvas).foregroundStyle(WorkspaceStyle.ink)
-        .blotTheme(theme)
+        .oriTheme(theme)
         .tint(WorkspaceStyle.ink)
         .kMotionRoot(reduceMotion: reduceMotion)
         .sheet(isPresented: $store.catalogVisible) { WorkspaceCatalogView().environment(store) }
@@ -246,7 +246,7 @@ struct WorkspaceRootView: View {
                     Color.black.opacity(0.25)
                     WorkspaceSettingsPanel(route: store.route)
                         .frame(maxWidth: 860, maxHeight: 640)
-                        .clipShape(RoundedRectangle(cornerRadius: BlotRadius.panel)).padding(28)
+                        .clipShape(RoundedRectangle(cornerRadius: OriRadius.panel)).padding(28)
                 }
             }
             .sheet(item: Binding(

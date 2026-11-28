@@ -1,9 +1,9 @@
-import BlotDomain
-import BlotWorkspace
+import OriDomain
+import OriWorkspace
 import SwiftUI
 
 struct WorkspaceSkillRunner: View {
-    let skill: BlotV3.Skill
+    let skill: OriV3.Skill
     @Environment(WorkspaceStore.self) private var store
     @WorkspacePresentationDismiss private var dismiss
     @Environment(\.workspacePanelNavigation) private var panelNavigation
@@ -14,8 +14,8 @@ struct WorkspaceSkillRunner: View {
     @State private var busy = false
     @State private var failure: String?
     private var ru: Bool { store.language == "ru" }
-    private var revisions: [BlotV3.SkillRevision] { (store.snapshot.skillRevisions ?? []).filter { $0.skillId == skill.metadata.id }.sorted { $0.metadata.createdAt > $1.metadata.createdAt } }
-    private var revision: BlotV3.SkillRevision? { revisions.first { $0.metadata.id == (revisionID ?? skill.activeRevisionId) } }
+    private var revisions: [OriV3.SkillRevision] { (store.snapshot.skillRevisions ?? []).filter { $0.skillId == skill.metadata.id }.sorted { $0.metadata.createdAt > $1.metadata.createdAt } }
+    private var revision: OriV3.SkillRevision? { revisions.first { $0.metadata.id == (revisionID ?? skill.activeRevisionId) } }
     private var parameters: [SkillParameter] { revision.flatMap { try? WorkspaceSkillService.parameters($0) } ?? [] }
     private var needsMac: Bool { revision?.toolIds.contains("desktop_replay") == true }
     private var deviceReady: Bool {
@@ -25,7 +25,7 @@ struct WorkspaceSkillRunner: View {
         true
         #endif
     }
-    private var agents: [BlotV3.AgentProfile] {
+    private var agents: [OriV3.AgentProfile] {
         let assigned = Set((store.snapshot.skillAssignments ?? []).filter { $0.skillID == skill.metadata.id && $0.assigned }.map(\.agentID))
         return store.snapshot.agents.filter { assigned.contains($0.metadata.id) }
     }

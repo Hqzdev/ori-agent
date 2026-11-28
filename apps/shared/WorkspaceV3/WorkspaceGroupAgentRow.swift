@@ -1,9 +1,9 @@
-import BlotDesign
-import BlotDomain
+import OriDesign
+import OriDomain
 import SwiftUI
 
 struct WorkspaceGroupAgentRow: View {
-    let agent: BlotV3.AgentProfile
+    let agent: OriV3.AgentProfile
     let selected: Bool
     let toggle: () -> Void
     @Environment(WorkspaceStore.self) private var store
@@ -20,7 +20,7 @@ struct WorkspaceGroupAgentRow: View {
                     Text(agent.instructions).font(.caption).foregroundStyle(WorkspaceStyle.secondary).lineLimit(2)
                         .multilineTextAlignment(.leading)
                 }.frame(maxWidth: .infinity, alignment: .leading)
-                BlotIcon(symbol: selected ? "checkmark.circle.fill" : "circle")
+                OriIcon(symbol: selected ? "checkmark.circle.fill" : "circle")
                     .font(.system(size: 21, weight: .regular))
                     .foregroundStyle(selected ? WorkspaceStyle.ink : WorkspaceStyle.secondary.opacity(0.4))
             }.padding(12).frame(maxWidth: .infinity, minHeight: 76, alignment: .leading)

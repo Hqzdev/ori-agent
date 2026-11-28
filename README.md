@@ -4,7 +4,7 @@
 
 Give an agent a task in chat, or bring specialists together in a group with a coordinator. Ori keeps the conversation, attached files, and results in the workspace. When an action requires approval, you can review what the agent proposes before it runs.
 
-[Beta downloads](https://github.com/Hqzdev/blot-releases/releases) · [Screenshots](#screenshots) · [Build from source](#build-from-source) · [Documentation](docs/README.md)
+[Website](https://ori-agent.vercel.app) · [Beta downloads](https://github.com/Hqzdev/blot-releases/releases) · [Screenshots](#screenshots) · [Build from source](#build-from-source) · [Documentation](docs/README.md)
 
 [![Ori on Mac showing a team chat, its roster of agents, and a reply about a meeting document](assets/readme/mac-team-chat.jpg)](assets/readme/mac-team-chat.jpg)
 
@@ -59,8 +59,8 @@ cd ori-agent
 
 Use Xcode with the macOS and iOS 26 SDKs and Swift 6.2 or later. The Mac build also requires JDK 25 to package the local backend.
 
-- **Mac** — Open [`apps/Blot.xcodeproj`](apps/Blot.xcodeproj) and run the **BlotMac** scheme. From the repository root, `./script/build_and_run.sh` builds and launches the app. Use `--build-only` to build or `--design` to open the team demo with sample data.
-- **iPhone** — Select **BlotIOS** in the same Xcode project, configure your signing team, and run on a connected physical iPhone.
+- **Mac** — Open [`apps/Ori.xcodeproj`](apps/Ori.xcodeproj) and run the **OriMac** scheme. From the repository root, `./script/build_and_run.sh` builds and launches the app. Use `--build-only` to build or `--design` to open the team demo with sample data.
+- **iPhone** — Select **OriIOS** in the same Xcode project, configure your signing team, and run on a connected physical iPhone.
 
 ### Website
 
@@ -88,6 +88,10 @@ Use JDK 25 and the included Gradle Wrapper. Environment variables for the databa
 
 See the [backend guide](backend/README.md) and [installation and environment guide](docs/status/installation-environment.md).
 
+### Compatibility with previous releases
+
+Ori uses the existing app and widget IDs, account callbacks, browser sessions, and on-disk storage formats so installed copies can keep their data and settings. Existing deployment keys with the `ori_` prefix and the current download and login URLs are still supported.
+
 ## Repository guide
 
 | Path | What lives there |
@@ -101,7 +105,7 @@ See the [backend guide](backend/README.md) and [installation and environment gui
 ### Checks
 
 ```bash
-swift test --package-path packages/BlotWorkspace
+swift test --package-path packages/OriWorkspace
 ./backend/gradlew --no-daemon -p backend --dependency-verification=strict spotlessCheck check
 ```
 
@@ -109,7 +113,7 @@ For website checks, run `npm run test:plan`, `npm run test:auth`, and `npm run b
 
 ## Documentation
 
-- [Product specification and acceptance criteria](docs/product/blot-technical-specification.md)
+- [Product specification and acceptance criteria](docs/product/ori-technical-specification.md)
 - [Module map](docs/architecture/module-map.md) and [v3 contracts](contracts/v3/README.md)
 - [Permissions and approvals](docs/rules/permission-policy.md) and [MCP developer guide](docs/integrations/mcp-developer-guide.md)
 - [Verification notes and evidence](docs/status/)

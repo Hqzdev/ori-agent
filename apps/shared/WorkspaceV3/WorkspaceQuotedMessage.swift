@@ -1,9 +1,9 @@
-import BlotDesign
-import BlotDomain
+import OriDesign
+import OriDomain
 import SwiftUI
 
 struct WorkspaceQuotedMessage: View {
-    let message: BlotV3.Message
+    let message: OriV3.Message
     var onDarkSurface = false
     @Environment(WorkspaceStore.self) private var store
 

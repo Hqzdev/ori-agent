@@ -37,6 +37,6 @@ The macOS footer profile circle and Connect apps capsule use opaque matte surfac
 
 ## Card demonstration
 
-macOS Go → Agent card examples opens a separate in-memory Blot chat containing all 14 production card types: question, connectionRequest, plugin, credential, email, mailFailure, slack, command, takeover, cookies, purchase, subscription, page and task. The window uses the light theme. External-action buttons are disabled; no account services, credentials or working conversations are attached to its preview store.
+macOS Go → Agent card examples opens a separate in-memory Ori chat containing all 14 production card types: question, connectionRequest, plugin, credential, email, mailFailure, slack, command, takeover, cookies, purchase, subscription, page and task. The window uses the light theme. External-action buttons are disabled; no account services, credentials or working conversations are attached to its preview store.
 
 The gallery window was opened on the physical Mac and all 14 card types were verified through the native UI, including disabled action controls. It was left open at the beginning of the chat for review.

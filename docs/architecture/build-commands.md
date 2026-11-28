@@ -1,6 +1,6 @@
 # Архитектура: как собирать сайт и продукт
 
-> **Статус: октябрьская версия.** Если здесь написано иначе, чем в [ТЗ от 1 ноября 2026](../product/blot-technical-specification.md), верно ТЗ.
+> **Статус: октябрьская версия.** Если здесь написано иначе, чем в [ТЗ от 1 ноября 2026](../product/ori-technical-specification.md), верно ТЗ.
 
 Задача: A2.8. Дата: 11 октября 2026. Документы и настройки подготовлены; задача целиком требует реализации пользователя.
 
@@ -16,7 +16,7 @@ npm run build
 npm run dev
 ```
 
-`spec:generate` готовит техническое задание для скачивания и копии документов для сайта. `build` собирает сайт Next.js для выпуска. `dev` запускает сайт для разработки. Эти команды не собирают BlotMac, BlotIOS или сервер Java.
+`spec:generate` готовит техническое задание для скачивания и копии документов для сайта. `build` собирает сайт Next.js для выпуска. `dev` запускает сайт для разработки. Эти команды не собирают OriMac, OriIOS или сервер Java.
 
 ## Будущие команды продукта
 
@@ -29,17 +29,17 @@ npm run dev
 После создания общих пакетов Swift их тесты запускаются так:
 
 ```bash
-swift test --package-path packages/BlotDomain
-swift test --package-path packages/BlotAPI
-swift test --package-path packages/BlotDesign
-swift test --package-path packages/BlotGraph
+swift test --package-path packages/OriDomain
+swift test --package-path packages/OriAPI
+swift test --package-path packages/OriDesign
+swift test --package-path packages/OriGraph
 ```
 
 После создания общих схем Xcode можно собрать Mac и посмотреть доступные устройства для iOS:
 
 ```bash
-xcodebuild -project apps/Blot.xcodeproj -scheme BlotMac -destination 'platform=macOS' build
-xcodebuild -project apps/Blot.xcodeproj -scheme BlotIOS -showdestinations
+xcodebuild -project apps/Ori.xcodeproj -scheme OriMac -destination 'platform=macOS' build
+xcodebuild -project apps/Ori.xcodeproj -scheme OriIOS -showdestinations
 ```
 
 Из списка iOS выбирается существующий симулятор. Его ID используется для сборки и тестов. Связь устройств проверяется отдельно на настоящем iPhone.

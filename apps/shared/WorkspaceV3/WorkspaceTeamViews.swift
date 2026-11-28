@@ -1,6 +1,6 @@
-import BlotDesign
-import BlotDomain
-import BlotWorkspace
+import OriDesign
+import OriDomain
+import OriWorkspace
 import SwiftUI
 
 struct WorkspaceTeamView: View {
@@ -19,7 +19,7 @@ struct WorkspaceTeamView: View {
         default: agents
         }
     }
-    private var visibleAgents: Array<BlotV3.AgentProfile> {
+    private var visibleAgents: Array<OriV3.AgentProfile> {
         #if os(macOS)
         store.snapshot.agents
         #else
@@ -136,7 +136,7 @@ struct WorkspaceTeamView: View {
                     if let openFile { openFile(file.metadata.id) }
                     else { store.selectedRecordID = file.metadata.id; store.navigate(.file) }
                 } label: {
-                    HStack { BlotIcon(symbol: "doc"); Text(file.name); Spacer(); BlotIcon(symbol: "chevron.right") }
+                    HStack { OriIcon(symbol: "doc"); Text(file.name); Spacer(); OriIcon(symbol: "chevron.right") }
                 }.buttonStyle(WorkspaceRowButtonStyle())
                 Divider()
             }
@@ -174,7 +174,7 @@ struct WorkspaceTeamView: View {
                             Text(schedule.localTime + " · " + schedule.timezone).font(.caption).foregroundStyle(WorkspaceStyle.secondary)
                             if store.mode == .live { WorkspaceScheduleRunSummary(schedule: schedule) }
                             Text(store.t(schedule.goal)).foregroundStyle(WorkspaceStyle.secondary)
-                            BlotLabel(executorName(schedule), symbol: "laptopcomputer").font(.caption).foregroundStyle(WorkspaceStyle.secondary)
+                            OriLabel(executorName(schedule), symbol: "laptopcomputer").font(.caption).foregroundStyle(WorkspaceStyle.secondary)
                         }
                         Spacer(minLength: 0)
                         Toggle(store.t("Enabled"), isOn: Binding(get: { schedule.enabled }, set: { _ in
@@ -199,7 +199,7 @@ struct WorkspaceTeamView: View {
             }
         }
     }
-    private func executorName(_ schedule: BlotV3.Automation) -> String {
+    private func executorName(_ schedule: OriV3.Automation) -> String {
         if schedule.executorDeviceId == store.snapshot.localDeviceID { return store.t("This device") }
         return store.snapshot.devices.first { $0.metadata.id == schedule.executorDeviceId }?.name ?? store.t("Selected computer")
     }
@@ -207,7 +207,7 @@ struct WorkspaceTeamView: View {
     private var upcomingSchedules: some View {
         TimelineView(.periodic(from: .now, by: 60)) { context in
             let calculator = WorkspaceScheduleCalculator()
-            let upcoming = store.snapshot.schedules.compactMap { schedule -> (schedule: BlotV3.Automation, date: Date)? in
+            let upcoming = store.snapshot.schedules.compactMap { schedule -> (schedule: OriV3.Automation, date: Date)? in
                 guard let date = try? calculator.nextRun(for: schedule, after: context.date) else { return nil }
                 return (schedule, date)
             }.sorted { $0.date < $1.date }
@@ -240,8 +240,8 @@ struct WorkspaceTeamView: View {
             ForEach(Array(["M", "T", "W", "T", "F", "S", "S"].enumerated()), id: \.offset) { i, day in
                 VStack(spacing: 10) { Text(day).font(.caption); Text("\(i + 2)").font(.title3) }
                     .frame(maxWidth: .infinity).padding(.vertical, 15)
-                    .foregroundStyle(i == 0 ? BlotColor.onInverse : WorkspaceStyle.ink)
-                    .background(i == 0 ? BlotColor.inverse : WorkspaceStyle.surface, in: Capsule())
+                    .foregroundStyle(i == 0 ? OriColor.onInverse : WorkspaceStyle.ink)
+                    .background(i == 0 ? OriColor.inverse : WorkspaceStyle.surface, in: Capsule())
             }
         }.accessibilityLabel(store.t("Week of November 2"))
     }
@@ -274,8 +274,8 @@ struct WorkspaceTeamView: View {
                             .foregroundStyle(WorkspaceStyle.ink)
                             .fontWeight(selected ? .bold : .regular)
                             #else
-                            .foregroundStyle(selected ? BlotColor.onInverse : WorkspaceStyle.ink)
-                            .background(selected ? BlotColor.inverse : WorkspaceStyle.surface, in: Capsule())
+                            .foregroundStyle(selected ? OriColor.onInverse : WorkspaceStyle.ink)
+                            .background(selected ? OriColor.inverse : WorkspaceStyle.surface, in: Capsule())
                             #endif
                     }.buttonStyle(WorkspaceRowButtonStyle(padding: 0))
                         .accessibilityLabel(formatter.standaloneWeekdaySymbols[index])
@@ -289,7 +289,7 @@ struct WorkspaceTeamView: View {
                 WorkspaceChoice(title: store.t("Run tasks on"), selection: $store.form.schedule.deviceID,
                     options: [.init(nil, store.t("Not selected"))] + (store.snapshot.localDeviceID.map { [.init(Optional($0), store.t("This device"))] } ?? []) + store.snapshot.devices.filter { $0.metadata.id != store.snapshot.localDeviceID }.map { .init(Optional($0.metadata.id), $0.name) })
                 WorkspaceChoice(title: store.t("Missed runs"), selection: $store.form.schedule.missedRunPolicy,
-                    options: BlotV3.MissedRunPolicy.allCases.map { .init($0, WorkspaceSchedulePolicyLabel.title($0, russian: store.language == "ru")) })
+                    options: OriV3.MissedRunPolicy.allCases.map { .init($0, WorkspaceSchedulePolicyLabel.title($0, russian: store.language == "ru")) })
                 if store.form.schedule.missedRunPolicy == .catch_up {
                     WorkspaceCounter(title: store.t("Maximum catch-up runs"), value: $store.form.schedule.maximumCatchUpRuns, range: 1...100)
                 }

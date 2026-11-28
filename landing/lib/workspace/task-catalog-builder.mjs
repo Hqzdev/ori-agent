@@ -6,27 +6,27 @@ const profiles = {
   P0: { type: "architecture", kind: "document", due: "2026-10-14", stream: "scope", root: "docs", screens: ["Первый запуск", "Чат", "Проект", "Приёмка"], dependencies: [] },
   D1: { type: "design", kind: "design", due: "2026-10-23", stream: "design", root: "docs/design", screens: ["agent.pen", "macOS", "iOS"], dependencies: ["P0.1"] },
   A2: { type: "architecture", kind: "document", due: "2026-10-19", stream: "foundation", root: "docs/architecture", screens: ["Сборка", "Первый запуск", "Контракт API"], dependencies: ["P0.1"] },
-  J3: { type: "backend", kind: "java", due: "2026-10-30", stream: "backend", root: "backend/infrastructure/src/main/java/dev/blot", screens: ["Проекты", "Задачи", "Live-активность"], dependencies: ["A2.4"] },
-  J4: { type: "agents", kind: "java", due: "2026-10-30", stream: "model", root: "backend/infrastructure/src/main/java/dev/blot/provider", screens: ["Настройки GigaChat", "Чат", "Результат инструмента"], dependencies: ["A2.4"] },
-  J5: { type: "security", kind: "java", due: "2026-11-06", stream: "security", root: "backend/application/src/main/java/dev/blot/permissions", screens: ["Approval", "Permission Rules", "Git"], dependencies: ["A2.4", "P0.5"] },
-  J6: { type: "security", kind: "java", due: "2026-11-06", stream: "security", root: "backend/infrastructure/src/main/java/dev/blot/tools", screens: ["Workspace", "Diff", "Terminal"], dependencies: ["A2.4", "J5.1"] },
-  J7: { type: "agents", kind: "java", due: "2026-11-06", stream: "team", root: "backend/application/src/main/java/dev/blot/agent", screens: ["Команда", "Сессия", "Карточка агента"], dependencies: ["A2.4", "J4.1"] },
-  J8: { type: "agents", kind: "java", due: "2026-11-13", stream: "team", root: "backend/application/src/main/java/dev/blot/orchestration", screens: ["Чат руководителя", "План", "Зависимости задач"], dependencies: ["J7.3"] },
-  J9: { type: "backend", kind: "java", due: "2026-11-06", stream: "team", root: "backend/application/src/main/java/dev/blot/messaging", screens: ["Каналы", "Сообщения", "Граф общения"], dependencies: ["J3.9"] },
-  J10: { type: "backend", kind: "java", due: "2026-11-13", stream: "team", root: "backend/application/src/main/java/dev/blot/memory", screens: ["Память проекта", "Контекст задачи", "Источники"], dependencies: ["J3.1"] },
-  J11: { type: "backend", kind: "java", due: "2026-11-20", stream: "graph-review", root: "backend/application/src/main/java/dev/blot/review", screens: ["Ревью", "Findings", "Интеграция"], dependencies: ["J12.2"] },
-  J12: { type: "backend", kind: "java", due: "2026-11-23", stream: "graph-review", root: "backend/application/src/main/java/dev/blot/artifacts", screens: ["Артефакты", "Changed Files", "Commit", "Push"], dependencies: ["J3.1"] },
-  J13: { type: "agents", kind: "java", due: "2026-11-20", stream: "extensions", root: "backend/application/src/main/java/dev/blot/resilience", screens: ["Бюджет", "Восстановление", "Диагностика"], dependencies: ["J7.3"] },
-  S14: { type: "architecture", kind: "swift", due: "2026-10-30", stream: "backend", root: "packages/BlotAPI/Sources/BlotAPI", screens: ["Общий Swift store", "Команды", "Поток событий"], dependencies: ["A2.11"] },
-  M15: { type: "macos", kind: "swift", due: "2026-11-23", stream: "desktop", root: "apps/macos/BlotMac", screens: ["Рабочая среда macOS", "Настройки"], dependencies: ["S14.2"] },
-  R16: { type: "connectivity", kind: "swift", due: "2026-11-09", stream: "wifi", root: "packages/BlotAPI/Sources/BlotAPI/Connectivity", screens: ["Устройства", "QR", "Соединение Wi-Fi"], dependencies: ["A2.11"] },
-  B17: { type: "connectivity", kind: "swift", due: "2026-11-23", stream: "bluetooth", root: "packages/BlotAPI/Sources/BlotAPI/Bluetooth", screens: ["Bluetooth", "Статус соединения", "Мобильный чат"], dependencies: ["P0.1"] },
-  I18: { type: "ios", kind: "swift", due: "2026-11-20", stream: "wifi", root: "apps/ios/BlotIOS", screens: ["Рабочая среда iPhone", "Выбранный Mac"], dependencies: ["D1.17", "R16.9", "S14.2"] },
-  G19: { type: "macos", kind: "swift", due: "2026-11-20", stream: "graph-review", root: "packages/BlotGraph/Sources/BlotGraph", screens: ["Организация", "Общение", "DAG", "Список узлов"], dependencies: ["S14.1"] },
-  H20: { type: "agents", kind: "java", due: "2026-11-27", stream: "extensions", root: "backend/application/src/main/java/dev/blot/hiring", screens: ["Hiring", "Performance", "Профиль специалиста"], dependencies: ["J7.3"] },
-  E21: { type: "agents", kind: "java", due: "2026-11-27", stream: "extensions", root: "backend/application/src/main/java/dev/blot/extensions", screens: ["Skills", "Автоматизации", "Настройки расширений"], dependencies: ["A2.4"] },
+  J3: { type: "backend", kind: "java", due: "2026-10-30", stream: "backend", root: "backend/infrastructure/src/main/java/dev/ori", screens: ["Проекты", "Задачи", "Live-активность"], dependencies: ["A2.4"] },
+  J4: { type: "agents", kind: "java", due: "2026-10-30", stream: "model", root: "backend/infrastructure/src/main/java/dev/ori/provider", screens: ["Настройки GigaChat", "Чат", "Результат инструмента"], dependencies: ["A2.4"] },
+  J5: { type: "security", kind: "java", due: "2026-11-06", stream: "security", root: "backend/application/src/main/java/dev/ori/permissions", screens: ["Approval", "Permission Rules", "Git"], dependencies: ["A2.4", "P0.5"] },
+  J6: { type: "security", kind: "java", due: "2026-11-06", stream: "security", root: "backend/infrastructure/src/main/java/dev/ori/tools", screens: ["Workspace", "Diff", "Terminal"], dependencies: ["A2.4", "J5.1"] },
+  J7: { type: "agents", kind: "java", due: "2026-11-06", stream: "team", root: "backend/application/src/main/java/dev/ori/agent", screens: ["Команда", "Сессия", "Карточка агента"], dependencies: ["A2.4", "J4.1"] },
+  J8: { type: "agents", kind: "java", due: "2026-11-13", stream: "team", root: "backend/application/src/main/java/dev/ori/orchestration", screens: ["Чат руководителя", "План", "Зависимости задач"], dependencies: ["J7.3"] },
+  J9: { type: "backend", kind: "java", due: "2026-11-06", stream: "team", root: "backend/application/src/main/java/dev/ori/messaging", screens: ["Каналы", "Сообщения", "Граф общения"], dependencies: ["J3.9"] },
+  J10: { type: "backend", kind: "java", due: "2026-11-13", stream: "team", root: "backend/application/src/main/java/dev/ori/memory", screens: ["Память проекта", "Контекст задачи", "Источники"], dependencies: ["J3.1"] },
+  J11: { type: "backend", kind: "java", due: "2026-11-20", stream: "graph-review", root: "backend/application/src/main/java/dev/ori/review", screens: ["Ревью", "Findings", "Интеграция"], dependencies: ["J12.2"] },
+  J12: { type: "backend", kind: "java", due: "2026-11-23", stream: "graph-review", root: "backend/application/src/main/java/dev/ori/artifacts", screens: ["Артефакты", "Changed Files", "Commit", "Push"], dependencies: ["J3.1"] },
+  J13: { type: "agents", kind: "java", due: "2026-11-20", stream: "extensions", root: "backend/application/src/main/java/dev/ori/resilience", screens: ["Бюджет", "Восстановление", "Диагностика"], dependencies: ["J7.3"] },
+  S14: { type: "architecture", kind: "swift", due: "2026-10-30", stream: "backend", root: "packages/OriAPI/Sources/OriAPI", screens: ["Общий Swift store", "Команды", "Поток событий"], dependencies: ["A2.11"] },
+  M15: { type: "macos", kind: "swift", due: "2026-11-23", stream: "desktop", root: "apps/macos/OriMac", screens: ["Рабочая среда macOS", "Настройки"], dependencies: ["S14.2"] },
+  R16: { type: "connectivity", kind: "swift", due: "2026-11-09", stream: "wifi", root: "packages/OriAPI/Sources/OriAPI/Connectivity", screens: ["Устройства", "QR", "Соединение Wi-Fi"], dependencies: ["A2.11"] },
+  B17: { type: "connectivity", kind: "swift", due: "2026-11-23", stream: "bluetooth", root: "packages/OriAPI/Sources/OriAPI/Bluetooth", screens: ["Bluetooth", "Статус соединения", "Мобильный чат"], dependencies: ["P0.1"] },
+  I18: { type: "ios", kind: "swift", due: "2026-11-20", stream: "wifi", root: "apps/ios/OriIOS", screens: ["Рабочая среда iPhone", "Выбранный Mac"], dependencies: ["D1.17", "R16.9", "S14.2"] },
+  G19: { type: "macos", kind: "swift", due: "2026-11-20", stream: "graph-review", root: "packages/OriGraph/Sources/OriGraph", screens: ["Организация", "Общение", "DAG", "Список узлов"], dependencies: ["S14.1"] },
+  H20: { type: "agents", kind: "java", due: "2026-11-27", stream: "extensions", root: "backend/application/src/main/java/dev/ori/hiring", screens: ["Hiring", "Performance", "Профиль специалиста"], dependencies: ["J7.3"] },
+  E21: { type: "agents", kind: "java", due: "2026-11-27", stream: "extensions", root: "backend/application/src/main/java/dev/ori/extensions", screens: ["Skills", "Автоматизации", "Настройки расширений"], dependencies: ["A2.4"] },
   Q22: { type: "qa", kind: "verification", due: "2026-12-08", stream: "audit", root: "docs/qa", screens: ["macOS", "iOS", "Контрольный репозиторий", "Протокол проверки"], dependencies: ["J3.4", "J5.3", "S14.1"] },
-  L23: { type: "release", kind: "release", due: "2026-11-23", stream: "beta", root: "apps/macos/BlotMac/Services", screens: ["Установка", "Запуск", "Обновление", "Передача проекта"], dependencies: ["A2.4"] },
+  L23: { type: "release", kind: "release", due: "2026-11-23", stream: "beta", root: "apps/macos/OriMac/Services", screens: ["Установка", "Запуск", "Обновление", "Передача проекта"], dependencies: ["A2.4"] },
 };
 
 function timing(epicId, number, profile) {
@@ -56,19 +56,19 @@ function timing(epicId, number, profile) {
 function filesFor(epicId, number, blueprint, profile) {
   let path = `${profile.root}/${blueprint.file}`;
   if (blueprint.file.endsWith(".md") && ["swift", "release"].includes(profile.kind)) path = `docs/${epicId === "L23" ? "release" : "verification"}/${blueprint.file}`;
-  if (epicId === "J3" && number <= 4) path = `backend/core/src/main/java/dev/blot/${blueprint.file}`;
-  if (epicId === "J4" && number === 1) path = `backend/application/src/main/java/dev/blot/provider/${blueprint.file}`;
-  if (epicId === "S14" && number === 1) path = `packages/BlotDomain/Sources/BlotDomain/${blueprint.file}`;
-  if (epicId === "B17" && number === 3) path = `apps/macos/BlotMac/Services/Bluetooth/${blueprint.file}`;
-  if (epicId === "B17" && number === 4) path = `apps/ios/BlotIOS/Services/Bluetooth/${blueprint.file}`;
-  if (epicId === "R16" && [1, 2, 3, 5, 6, 7, 17].includes(number)) path = `apps/macos/BlotMac/Services/Connectivity/${blueprint.file}`;
-  if (epicId === "R16" && number === 7) path = `apps/macos/BlotMac/Views/Settings/${blueprint.file}`;
-  if (epicId === "E21" && blueprint.file.endsWith(".swift")) path = `apps/macos/BlotMac/Views/Extensions/${blueprint.file}`;
-  if (epicId === "J4" && number >= 19) path = `backend/infrastructure/src/test/java/dev/blot/provider/${blueprint.file}`;
-  if (epicId === "J5" && number === 18) path = `backend/infrastructure/src/test/java/dev/blot/permissions/${blueprint.file}`;
-  if (epicId === "J9" && number === 13) path = `backend/application/src/test/java/dev/blot/messaging/${blueprint.file}`;
-  if (epicId === "G19" && number >= 14) path = `packages/BlotGraph/Tests/BlotGraphTests/${blueprint.file}`;
-  if (epicId === "S14" && number === 13) path = `packages/BlotAPI/Tests/BlotAPITests/${blueprint.file}`;
+  if (epicId === "J3" && number <= 4) path = `backend/core/src/main/java/dev/ori/${blueprint.file}`;
+  if (epicId === "J4" && number === 1) path = `backend/application/src/main/java/dev/ori/provider/${blueprint.file}`;
+  if (epicId === "S14" && number === 1) path = `packages/OriDomain/Sources/OriDomain/${blueprint.file}`;
+  if (epicId === "B17" && number === 3) path = `apps/macos/OriMac/Services/Bluetooth/${blueprint.file}`;
+  if (epicId === "B17" && number === 4) path = `apps/ios/OriIOS/Services/Bluetooth/${blueprint.file}`;
+  if (epicId === "R16" && [1, 2, 3, 5, 6, 7, 17].includes(number)) path = `apps/macos/OriMac/Services/Connectivity/${blueprint.file}`;
+  if (epicId === "R16" && number === 7) path = `apps/macos/OriMac/Views/Settings/${blueprint.file}`;
+  if (epicId === "E21" && blueprint.file.endsWith(".swift")) path = `apps/macos/OriMac/Views/Extensions/${blueprint.file}`;
+  if (epicId === "J4" && number >= 19) path = `backend/infrastructure/src/test/java/dev/ori/provider/${blueprint.file}`;
+  if (epicId === "J5" && number === 18) path = `backend/infrastructure/src/test/java/dev/ori/permissions/${blueprint.file}`;
+  if (epicId === "J9" && number === 13) path = `backend/application/src/test/java/dev/ori/messaging/${blueprint.file}`;
+  if (epicId === "G19" && number >= 14) path = `packages/OriGraph/Tests/OriGraphTests/${blueprint.file}`;
+  if (epicId === "S14" && number === 13) path = `packages/OriAPI/Tests/OriAPITests/${blueprint.file}`;
   const domainFiles = {
     1: ["Project.java", "Run.java", "RunStatus.java", "SpecificationRevision.java"],
     2: ["Task.java", "TaskDependency.java", "TaskAttempt.java"],
@@ -76,20 +76,20 @@ function filesFor(epicId, number, blueprint, profile) {
     4: ["RunStateMachine.java", "TaskStateMachine.java", "SessionStateMachine.java"],
   };
   const files = epicId === "J3" && number <= 4
-    ? domainFiles[number].map((name) => ({ path: `backend/core/src/main/java/dev/blot/core/${name}`, purpose: blueprint.result }))
+    ? domainFiles[number].map((name) => ({ path: `backend/core/src/main/java/dev/ori/core/${name}`, purpose: blueprint.result }))
     : [{ path, purpose: blueprint.result }];
   if (epicId === "D1") files.unshift({ path: "agent.pen", purpose: `Frames и компоненты: ${blueprint.result.toLocaleLowerCase("ru")}.` });
   if (epicId === "A2") {
-    const artifacts = { 1: [".gitignore"], 2: ["apps/Blot.xcodeproj/project.pbxproj"], 3: ["packages/BlotDomain/Package.swift", "packages/BlotAPI/Package.swift", "packages/BlotDesign/Package.swift", "packages/BlotGraph/Package.swift"], 4: ["backend/settings.gradle.kts", "backend/build.gradle.kts"], 5: ["backend/api/src/main/java/dev/blot/CompositionRoot.java"], 6: ["backend/gradle/libs.versions.toml"], 7: [".swift-format"], 8: ["scripts/build-all.sh"], 9: [".github/workflows/ci.yml"], 10: ["fixtures/contracts/project-event.json"], 11: ["contracts/openapi.yaml", "contracts/project-event.schema.json"], 12: ["backend/infrastructure/src/main/java/dev/blot/logging/LogRedactor.java"] };
+    const artifacts = { 1: [".gitignore"], 2: ["apps/Ori.xcodeproj/project.pbxproj"], 3: ["packages/OriDomain/Package.swift", "packages/OriAPI/Package.swift", "packages/OriDesign/Package.swift", "packages/OriGraph/Package.swift"], 4: ["backend/settings.gradle.kts", "backend/build.gradle.kts"], 5: ["backend/api/src/main/java/dev/ori/CompositionRoot.java"], 6: ["backend/gradle/libs.versions.toml"], 7: [".swift-format"], 8: ["scripts/build-all.sh"], 9: [".github/workflows/ci.yml"], 10: ["fixtures/contracts/project-event.json"], 11: ["contracts/openapi.yaml", "contracts/project-event.schema.json"], 12: ["backend/infrastructure/src/main/java/dev/ori/logging/LogRedactor.java"] };
     files.push(...artifacts[number].map((path) => ({ path, purpose: blueprint.result })));
     if (number === 3) files.push(...[
-      "packages/BlotDomain/Sources/BlotDomain/Project.swift",
-      "packages/BlotDomain/Sources/BlotDomain/Run.swift",
-      "packages/BlotDomain/Sources/BlotDomain/Task.swift",
-      "packages/BlotAPI/Sources/BlotAPI/BackendClient.swift",
-      "packages/BlotDesign/Sources/BlotDesign/DesignTokens.swift",
-      "packages/BlotGraph/Sources/BlotGraph/GraphNode.swift",
-      "packages/BlotGraph/Sources/BlotGraph/GraphEdge.swift",
+      "packages/OriDomain/Sources/OriDomain/Project.swift",
+      "packages/OriDomain/Sources/OriDomain/Run.swift",
+      "packages/OriDomain/Sources/OriDomain/Task.swift",
+      "packages/OriAPI/Sources/OriAPI/BackendClient.swift",
+      "packages/OriDesign/Sources/OriDesign/DesignTokens.swift",
+      "packages/OriGraph/Sources/OriGraph/GraphNode.swift",
+      "packages/OriGraph/Sources/OriGraph/GraphEdge.swift",
     ].map((path) => ({ path, purpose: "Реальные общие типы и настройки из инструкции задачи; полная реализация функций выполняется в S14 и G19." })));
   }
   return files;

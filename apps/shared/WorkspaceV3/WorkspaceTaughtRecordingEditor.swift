@@ -1,10 +1,10 @@
-import BlotDesign
-import BlotDomain
-import BlotWorkspace
+import OriDesign
+import OriDomain
+import OriWorkspace
 import SwiftUI
 
 struct WorkspaceTaughtRecordingEditor: View {
-    let skill: BlotV3.Skill
+    let skill: OriV3.Skill
     let recordingID: UUID
     var onSaved: @MainActor () -> Void = {}
     @Environment(WorkspaceStore.self) private var store
@@ -14,7 +14,7 @@ struct WorkspaceTaughtRecordingEditor: View {
     @State private var working = false
     @State private var failure: String?
     private var ru: Bool { store.language == "ru" }
-    static func identifier(_ revision: BlotV3.SkillRevision) -> UUID? {
+    static func identifier(_ revision: OriV3.SkillRevision) -> UUID? {
         guard revision.toolIds == ["desktop_replay"], let range = revision.instructions.range(of: #"recording_id ([A-Fa-f0-9-]{36})"#, options: .regularExpression) else { return nil }
         return UUID(uuidString: String(revision.instructions[range]).replacingOccurrences(of: "recording_id ", with: ""))
     }
@@ -58,8 +58,8 @@ struct WorkspaceTaughtRecordingEditor: View {
                 }), axis: .vertical).lineLimit(2...8)
             }
             HStack {
-                Button { move(step.id, by: -1) } label: { BlotIcon(symbol: "arrow.up") }.disabled(index == 0).accessibilityLabel(ru ? "Шаг выше" : "Move step up")
-                Button { move(step.id, by: 1) } label: { BlotIcon(symbol: "arrow.down") }.disabled(index + 1 == recording?.steps.count).accessibilityLabel(ru ? "Шаг ниже" : "Move step down")
+                Button { move(step.id, by: -1) } label: { OriIcon(symbol: "arrow.up") }.disabled(index == 0).accessibilityLabel(ru ? "Шаг выше" : "Move step up")
+                Button { move(step.id, by: 1) } label: { OriIcon(symbol: "arrow.down") }.disabled(index + 1 == recording?.steps.count).accessibilityLabel(ru ? "Шаг ниже" : "Move step down")
                 Spacer()
                 Button(store.t("Delete"), role: .destructive) { recording?.steps.removeAll { $0.id == step.id } }
             }
