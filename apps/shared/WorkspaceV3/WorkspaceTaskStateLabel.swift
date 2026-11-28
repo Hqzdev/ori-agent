@@ -1,8 +1,8 @@
-import BlotDomain
+import OriDomain
 import SwiftUI
 
 struct WorkspaceTaskStateLabel: View {
-    let state: BlotV3.TaskState
+    let state: OriV3.TaskState
     @Environment(WorkspaceStore.self) private var store
     var body: some View { Text(title) }
     private var title: String {

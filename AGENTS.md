@@ -33,10 +33,10 @@ This repository is developed on two computers: macOS for Mac/iPhone, and Windows
 
 - Choose the prefix from the application being changed. On the Mac computer, iPhone tasks use `ios/` and Mac tasks use `mac/`; on the Windows computer, Android tasks use `android/` and Windows tasks use `windows/`. The host OS alone does not identify the target.
 - Git cannot have both `ios` and `ios/auth`; the same restriction applies to the other platforms. Always use `<platform>/main` for the platform base. Do not create bare `ios`, `mac`, `windows`, or `android` branches.
-- Before editing, inspect `git status`, the current branch, and worktrees. Fetch `origin`, then create a task branch from the current remote platform base: `git switch -c ios/auth origin/ios/main`. Replace the platform and task as appropriate.
-- Use a separate branch/worktree per task. Do not switch, reset, stash, or include another task's uncommitted changes without authorization. If an existing task branch matches the work, continue on it.
+- Before editing, inspect `git status`, the current branch, and worktrees. First implement and validate requested changes in the user's current project; only then prepare the task branch. A task is not complete while its changes exist only in a separate branch or worktree. Preserve unrelated uncommitted changes when applying the task to the current project.
+- Prepare the focused platform task branch after the changes are available in the current project. Fetch `origin` and base that task branch on the current remote platform base, for example `origin/ios/main`. A separate worktree may be used to prepare the branch, but it must not replace applying the changes to the current project. Do not switch, reset, stash, or include another task's uncommitted changes without authorization. If an existing task branch matches the work, continue on it.
 - Push explicitly to the matching remote branch, for example `git push -u origin ios/auth`. Never push iOS work to `mac/*`, Android work to `windows/*`, or vice versa. These names replace the earlier `codex/*` and `work/*` conventions.
-- Platform bases receive reviewed task changes through pull requests. `main` remains the shared integration/default branch; integrate platform changes into `main` through a reviewed pull request. Fetch and merge updated `origin/main` into a platform base before starting work that needs those updates. Never force-push shared branches.
+- Platform bases receive reviewed task changes through pull requests. `main` remains the shared integration/default branch; integrate platform changes into `main` through a reviewed pull request. Bring updates from `origin/main` into a platform through an adaptation task branch and validate before merging into its base, as described below. Never force-push shared branches.
 - Work spanning both Apple clients goes into one owning platform task branch (for example, `mac/shared-auth`), then reaches the other platform through `main`. Do not independently duplicate shared changes in several branches.
 
 ## Transferring core updates between computers
@@ -59,11 +59,11 @@ Branches and computers do not synchronize automatically. Transfer shared core ch
 
 Keep the receiving platform base on its previous working version until its adaptation is validated. If a core change cannot remain compatible with older clients, coordinate its rollout and versioning before replacing a shared deployed service.
 
-Distinguish shared Java backend/contracts from the Apple-local Swift core in `packages/BlotWorkspace`. Git transfers Swift source, but does not make it executable in the Java Android/Windows applications. Implement the corresponding behavior in Java or expose it through an agreed API; use common contracts and fixtures to verify parity.
+Distinguish shared Java backend/contracts from the Apple-local Swift core in `packages/OriWorkspace`. Git transfers Swift source, but does not make it executable in the Java Android/Windows applications. Implement the corresponding behavior in Java or expose it through an agreed API; use common contracts and fixtures to verify parity.
 
 ## Shared code and compatibility
 
-- `backend/`, `contracts/`, `fixtures/`, `landing/`, `scripts/`, CI, and this file affect more than one platform. `apps/shared/`, `packages/`, and `apps/Blot.xcodeproj` are shared by the Apple clients. Inspect their consumers before changing them.
+- `backend/`, `contracts/`, `fixtures/`, `landing/`, `scripts/`, CI, and this file affect more than one platform. `apps/shared/`, `packages/`, and `apps/Ori.xcodeproj` are shared by the Apple clients. Inspect their consumers before changing them.
 - Isolate shared backend/contract changes in a focused commit or pull request under the owning platform prefix. Check affected consumers, integrate through `main`, then update dependent platform bases. Shared backend code must not import platform UI or system APIs; use interfaces and platform adapters.
 - `contracts/v3/model.json` is the source for generated v3 models. Modify it and run `python3 scripts/generate-v3-contracts.py`, then `python3 scripts/format-v3-java.py`. Do not hand-edit generated Java/Swift DTOs or schemas. Commit the source and all affected generated outputs together.
 - Preserve compatibility with other platform branches. Breaking API, schema, or sync changes require a coordinated version/migration change and validation of affected clients. A clean Git merge does not prove compatibility.

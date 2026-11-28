@@ -1,5 +1,5 @@
-import BlotAppleIntegrations
-import BlotDomain
+import OriAppleIntegrations
+import OriDomain
 import SwiftUI
 
 /// Interrupted operations are reconciled separately from the connection's single action.
@@ -18,7 +18,7 @@ struct AppleConnectionRecovery: ViewModifier {
         content
             .task { presented = pending != nil }
             .onChange(of: pending?.id) { _, id in presented = id != nil }
-            .alert("Проверьте результат действия", isPresented: $presented, presenting: pending) { action in
+            .workspaceConfirmationDialog("Проверьте результат действия", isPresented: $presented, presenting: pending) { action in
                 Button("Выполнено") { _Concurrency.Task { await store.resolveAppleInvocation(action.id, succeeded: true) } }
                 Button("Не выполнено") { _Concurrency.Task { await store.resolveAppleInvocation(action.id, succeeded: false) } }
                 Button("Позже", role: .cancel) {}

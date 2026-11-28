@@ -1,9 +1,9 @@
-import BlotWorkspace
+import OriWorkspace
 import Foundation
 import Testing
 
 @Test func signedHostCanPersistAndRemoveDeviceOnlyKeychainValue() async throws {
-    let keychain = WorkspaceKeychain(service: "dev.blot.verification." + UUID().uuidString)
+    let keychain = WorkspaceKeychain(service: "dev.ori.verification." + UUID().uuidString)
     let name = "synthetic-test-key"
     let value = Data("Synthetic verification value; not an account credential".utf8)
     do {

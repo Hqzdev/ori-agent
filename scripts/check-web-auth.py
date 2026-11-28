@@ -104,7 +104,7 @@ class MailHandler(socketserver.BaseRequestHandler):
 def main():
     BUILD.mkdir(exist_ok=True)
     java_home = BUILD / 'tools/jdk-25.0.4.1+1/Contents/Home'
-    jar = ROOT / 'backend/cloud/build/libs/blot-cloud.jar'
+    jar = ROOT / 'backend/cloud/build/libs/ori-cloud.jar'
     if not jar.exists() or not (ROOT / 'landing/.next/BUILD_ID').exists():
         raise RuntimeError('Build :cloud:bootJar and run next build first')
     with tempfile.TemporaryDirectory(prefix='web-auth-', dir=BUILD) as temporary:

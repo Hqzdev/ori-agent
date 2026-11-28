@@ -48,6 +48,35 @@ async function registered() {
 before(async () => { await database.initialize(); });
 after(async () => { await pool.close(); });
 
+test("public account tables reject public API access through row-level security", async () => {
+  const { rows } = await database.query(`SELECT relname, relrowsecurity FROM pg_class
+    WHERE relnamespace = 'public'::regnamespace AND relkind = 'r' AND relname LIKE 'blot_%'`);
+  assert.ok(rows.length >= 7);
+  assert.ok(rows.every(row => row.relrowsecurity === true));
+});
+
+test("web login exchanges a single PKCE code for the existing Ori owner", async () => {
+  const previous = process.env.BLOT_WEB_APP_URL;
+  try {
+    process.env.BLOT_WEB_APP_URL = "https://web.ori.example";
+    const { tokens } = await registered();
+    const client = { clientID: "blot-web", redirectURI: "https://web.ori.example/api/auth/blot/callback" };
+    const codeVerifier = randomToken();
+    const codeChallenge = createHash("sha256").update(codeVerifier).digest("base64url");
+    const { code } = await service.request("browser/code", { accessToken: tokens.accessToken, body: { ...client, codeChallenge } });
+    await assert.rejects(service.request("browser/token", { body: { ...client, code, codeVerifier: randomToken() } }), rejectCode("browser_authorization_invalid"));
+    const web = await service.request("browser/token", { body: { ...client, code, codeVerifier } });
+    assert.equal(web.ownerID, tokens.ownerID);
+    assert.notEqual(web.sessionID, tokens.sessionID);
+    await assert.rejects(service.request("browser/token", { body: { ...client, code, codeVerifier } }), rejectCode("browser_authorization_invalid"));
+    await service.request("logout", { accessToken: web.accessToken });
+    await assert.rejects(service.request("me", { method: "GET", accessToken: web.accessToken }), rejectCode("session_expired"));
+    assert.equal((await service.request("me", { method: "GET", accessToken: tokens.accessToken })).id, tokens.ownerID);
+  } finally {
+    if (previous === undefined) delete process.env.BLOT_WEB_APP_URL; else process.env.BLOT_WEB_APP_URL = previous;
+  }
+});
+
 test("registration verifies email once; hashes, refresh rotation and logout persist", async () => {
   const { email, tokens, code } = await registered();
   const stored = (await database.query("SELECT * FROM blot_accounts WHERE email = $1", [email])).rows[0];
@@ -148,7 +177,7 @@ test("workspace backup commits complete data atomically and isolates accounts", 
 
 test("Yandex browser login creates a persistent account and completes iPhone/Mac PKCE handoff", async context => {
   process.env.BLOT_WEB_SESSION_SECRET = randomToken();
-  const config = { clientID: "blot-yandex", clientSecret: randomToken(), redirectURI: "https://blot.example/auth/yandex/callback" };
+  const config = { clientID: "ori-yandex", clientSecret: randomToken(), redirectURI: "https://ori.example/auth/yandex/callback" };
   const email = `${randomUUID()}@yandex.ru`, subject = randomUUID();
   let tokenRequests = 0, profileRequests = 0;
   const exchangedCodes = new Set();
@@ -174,10 +203,10 @@ test("Yandex browser login creates a persistent account and completes iPhone/Mac
     const codeVerifier = randomToken(), state = randomToken();
     const query = new URLSearchParams({ response_type: "code", client_id: `blot-${platform}`, redirect_uri: `blot-agent-${platform}:/oauth/account`,
       state, code_challenge: createHash("sha256").update(codeVerifier).digest("base64url"), code_challenge_method: "S256", intent: "login" });
-    const started = signIn.start(new NextRequest("https://blot.example/auth/yandex/start?" + query));
+    const started = signIn.start(new NextRequest("https://ori.example/auth/yandex/start?" + query));
     const attemptCookie = started.cookies.get(YANDEX_COOKIE).value;
     const providerState = new URL(started.headers.get("location")).searchParams.get("state");
-    const callbackRequest = new NextRequest(`https://blot.example/auth/yandex/callback?state=${providerState}&code=test-code-${platform}`, {
+    const callbackRequest = new NextRequest(`https://ori.example/auth/yandex/callback?state=${providerState}&code=test-code-${platform}`, {
       headers: { cookie: `${YANDEX_COOKIE}=${attemptCookie}` },
     });
     const callback = await signIn.callback(callbackRequest);
@@ -234,17 +263,17 @@ test("provider sign-in never links matching emails; repeat subjects keep their a
 test("Yandex cancellation and account email collision issue no browser session", async context => {
   process.env.BLOT_WEB_SESSION_SECRET = randomToken();
   const { email } = await registered();
-  const config = { clientID: "blot-yandex", clientSecret: randomToken(), redirectURI: "https://blot.example/auth/yandex/callback" };
+  const config = { clientID: "ori-yandex", clientSecret: randomToken(), redirectURI: "https://ori.example/auth/yandex/callback" };
   context.mock.method(globalThis, "fetch", async url => url === "https://oauth.yandex.ru/token"
     ? Response.json({ access_token: "private-yandex-token", token_type: "bearer" })
     : Response.json({ id: randomUUID(), client_id: config.clientID, default_email: email }));
   const accounts = new AccountService({ database, email: {}, challengeSecret: randomToken(), yandexIdentity: new YandexAccountIdentity(config.clientID) });
   const signIn = new YandexSignIn({ configuration: () => config, accounts: (path, options) => accounts.request(path, options) });
   for (const outcome of ["error=access_denied", "code=code"]) {
-    const start = signIn.start(new NextRequest("https://blot.example/auth/yandex/start"));
+    const start = signIn.start(new NextRequest("https://ori.example/auth/yandex/start"));
     const cookie = start.cookies.get(YANDEX_COOKIE).value;
     const state = new URL(start.headers.get("location")).searchParams.get("state");
-    const callback = await signIn.callback(new NextRequest(`https://blot.example/auth/yandex/callback?state=${state}&${outcome}`, {
+    const callback = await signIn.callback(new NextRequest(`https://ori.example/auth/yandex/callback?state=${state}&${outcome}`, {
       headers: { cookie: `${YANDEX_COOKIE}=${cookie}` },
     }));
     assert.equal(new URL(callback.headers.get("location")).searchParams.get("auth_error"), outcome.startsWith("error=") ? "yandex_access_denied" : "yandex_link_required");

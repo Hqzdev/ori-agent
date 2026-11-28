@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Blot command v2",
+  "title": "Ori command v2",
   "type": "object",
   "required": [
     "schemaVersion",

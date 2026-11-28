@@ -10,6 +10,6 @@ agent-profile and new-agent behavior retain their existing navigation.
 
 Validation: app build and whitespace checks passed without warnings/errors.
 `participants.jpg` shows the two-member Editorial group, role-free message headers
-and the new section. Opened Blot's profile although it is the group's second
+and the new section. Opened Ori's profile although it is the group's second
 member, verified its role/instructions, saved without changes and confirmed the
 Editorial group remained selected.

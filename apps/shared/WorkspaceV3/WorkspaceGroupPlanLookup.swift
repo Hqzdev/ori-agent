@@ -1,8 +1,8 @@
-import BlotDomain
-import BlotWorkspace
+import OriDomain
+import OriWorkspace
 
 extension WorkspaceStore {
-    func groupPlan(for message: BlotV3.Message) -> WorkspaceGroupPlanProgress? {
+    func groupPlan(for message: OriV3.Message) -> WorkspaceGroupPlanProgress? {
         chatContent.plan(for: message)
     }
 }

@@ -1,7 +1,7 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Blot local backend",
+    "title": "Ori local backend",
     "version": "2.0.0",
     "description": "Рабочие команды и чтение. Полные поля payload описаны в backend-api.md. Старые маршруты закрыты."
   },
@@ -1582,7 +1582,7 @@
     },
     "schemas": {
       "Command": {
-        "title": "Blot command v2",
+        "title": "Ori command v2",
         "type": "object",
         "required": [
           "schemaVersion",
@@ -1660,7 +1660,7 @@
         "additionalProperties": false
       },
       "Event": {
-        "title": "Blot persisted event v2",
+        "title": "Ori persisted event v2",
         "type": "object",
         "required": [
           "schemaVersion",

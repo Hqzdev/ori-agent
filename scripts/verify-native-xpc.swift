@@ -1,4 +1,4 @@
-import BlotWorkspace
+import OriWorkspace
 import Foundation
 
 @main struct VerifyNativeXPC {

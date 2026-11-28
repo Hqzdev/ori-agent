@@ -1,6 +1,6 @@
-# Backend Blot: реализация и границы готовности
+# Backend Ori: реализация и границы готовности
 
-> **Статус: отчёт на октябрь 2026.** Показывает, что было сделано и проверено на ту дату. Текущие требования — в [ТЗ от 1 ноября 2026](../product/blot-technical-specification.md).
+> **Статус: отчёт на октябрь 2026.** Показывает, что было сделано и проверено на ту дату. Текущие требования — в [ТЗ от 1 ноября 2026](../product/ori-technical-specification.md).
 
 Срез реализации: 21 октября 2026 года. Серверное ядро и системные адаптеры добавлены в репозиторий. **Полная приёмка всего плана ещё не завершена.** Ниже отдельно указаны реализованное поведение, доказательства проверок и оставшаяся интеграция.
 
@@ -118,10 +118,10 @@ Code, Motes, граф, навыки и расписания используют
 | Проверка | Результат |
 | --- | --- |
 | Java `spotlessCheck check :api:bootJar`, JDK 25, strict dependency verification | Успешно; 49 тестов: application 10, infrastructure 33, api 6 |
-| Swift BlotAPI с настоящими ответами Java HTTP fixture и подключением состояния Mac | 23 теста успешно |
-| Swift BlotDomain | 2 теста успешно |
-| BlotMac, Debug arm64, `CODE_SIGNING_ALLOWED=NO` | Сборка успешна |
-| BlotIOS, Debug, generic iOS Simulator, `CODE_SIGNING_ALLOWED=NO` | Сборка успешна |
+| Swift OriAPI с настоящими ответами Java HTTP fixture и подключением состояния Mac | 23 теста успешно |
+| Swift OriDomain | 2 теста успешно |
+| OriMac, Debug arm64, `CODE_SIGNING_ALLOWED=NO` | Сборка успешна |
+| OriIOS, Debug, generic iOS Simulator, `CODE_SIGNING_ALLOWED=NO` | Сборка успешна |
 | Guest runner и Foundation JNI adapter | Компиляция успешна; VM не запускалась |
 | JSON контракты и Bonjour declarations | Разбираются; `_blot._tcp` присутствует массивом в обоих Info.plist |
 

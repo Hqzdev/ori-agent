@@ -16,7 +16,7 @@ The user reported deleting an agent chat immediately before the crash. The captu
 
 ## Verification
 
-The signed `BlotIOS` Debug build succeeds. The isolated UIKit regression test mounts the production `WorkspaceRootView`, deletes pinned and last chats, removes the final archived row, and repeatedly switches between chats and agents. It uses an in-memory preview store and a separate test-host bundle; it does not delete the user's chats.
+The signed `OriIOS` Debug build succeeds. The isolated UIKit regression test mounts the production `WorkspaceRootView`, deletes pinned and last chats, removes the final archived row, and repeatedly switches between chats and agents. It uses an in-memory preview store and a separate test-host bundle; it does not delete the user's chats.
 
 Run on an unlocked connected iPhone:
 
@@ -26,7 +26,7 @@ python3 scripts/check-ios-chat-lifecycle.py --device-udid <device-udid>
 
 Physical-device verification passed on iPhone 13 Pro Max / iOS 27.2: one lifecycle test, zero failures, 4.704 seconds. It covers active pinned-chat deletion, deleting the final archived conversation, empty-state rendering, simultaneous error/notice rendering and removal, and eight round trips between agents and chats. The first test run exposed incorrect fixture assumptions (all initial pins were archived, and absent feedback contributes no row); the test now explicitly prepares active pinned chats and checks UIKit's actual row counts.
 
-Result bundle: `.build/ios-chat-lifecycle/DerivedData/Logs/Test/Test-BlotWorkspaceVerification-2026.11.04_14-33-08-+0500.xcresult`.
+Result bundle: `.build/ios-chat-lifecycle/DerivedData/Logs/Test/Test-OriWorkspaceVerification-2026.11.04_14-33-08-+0500.xcresult`.
 
 This verifies list lifecycle updates. It does not establish a cause for every reported delay in the signed-in application's other screens; those require reproduction if they persist.
 

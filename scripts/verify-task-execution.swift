@@ -1,5 +1,5 @@
-import BlotDomain
-import BlotWorkspace
+import OriDomain
+import OriWorkspace
 import Foundation
 
 private actor ServiceTaskModel: ChatModel {
@@ -48,7 +48,7 @@ private actor ServiceTaskModel: ChatModel {
         let task = try await repository.projection(identity: identity).tasks.first!
         require(try await repository.projection(identity: identity).tasks.count == 1, "Repeated command created another task")
         _ = try await service.execute(.init(action: .pause, form: form, selectedAgentID: agent, selectedConversationID: chat, selectedRecordID: task.metadata.id), snapshot: service.currentSnapshot())
-        require(try await repository.record(BlotV3.Task.self, id: task.metadata.id, workspaceID: identity.workspaceID)?.state == .paused)
+        require(try await repository.record(OriV3.Task.self, id: task.metadata.id, workspaceID: identity.workspaceID)?.state == .paused)
         try await service.close()
         print("PASS: task creation, command replay and pause through LocalWorkspaceService")
 
@@ -58,7 +58,7 @@ private actor ServiceTaskModel: ChatModel {
         require(try await reopened.projection(identity: identity).tasks.first?.state == .paused, "Reopening resumed a paused task")
         await model.hold(false)
         _ = try await resumed.execute(.init(action: .start, form: form, selectedAgentID: agent, selectedConversationID: chat, selectedRecordID: task.metadata.id), snapshot: resumed.currentSnapshot())
-        try await wait { try await reopened.record(BlotV3.Task.self, id: task.metadata.id, workspaceID: identity.workspaceID)?.state == .completed }
+        try await wait { try await reopened.record(OriV3.Task.self, id: task.metadata.id, workspaceID: identity.workspaceID)?.state == .completed }
         print("PASS: explicit resume after reopening completes the same task")
 
         await model.hold(true)
@@ -66,11 +66,11 @@ private actor ServiceTaskModel: ChatModel {
         try await wait { await model.count == 3 }
         let cancelID = try await reopened.projection(identity: identity).tasks.first { $0.metadata.id != task.metadata.id }!.metadata.id
         _ = try await resumed.execute(.init(action: .stop, form: form, selectedAgentID: agent, selectedConversationID: chat, selectedRecordID: cancelID), snapshot: resumed.currentSnapshot())
-        require(try await reopened.record(BlotV3.Task.self, id: cancelID, workspaceID: identity.workspaceID)?.state == .canceled)
+        require(try await reopened.record(OriV3.Task.self, id: cancelID, workspaceID: identity.workspaceID)?.state == .canceled)
         print("PASS: stop cancels the worker and preserves canceled state")
 
         let sourceID = try await WorkspaceChatService(repository: reopened, identity: identity).sendMessage(commandID: UUID(), conversationID: chat, content: "A regular chat reply")
-        let source = try await reopened.record(BlotV3.Message.self, id: sourceID, workspaceID: identity.workspaceID)!
+        let source = try await reopened.record(OriV3.Message.self, id: sourceID, workspaceID: identity.workspaceID)!
         let stream = try await resumed.responses(to: source)
         let consumer = _Concurrency.Task { for try await _ in stream { } }
         try await wait { await model.count == 4 }
@@ -87,7 +87,7 @@ private actor ServiceTaskModel: ChatModel {
         try await wait { await model.count == 6 }
         let activeID = try await reopened.projection(identity: identity).tasks.first { $0.state == .running }!.metadata.id
         _ = try await resumed.cancelResponse(in: chat)
-        require(try await reopened.record(BlotV3.Task.self, id: activeID, workspaceID: identity.workspaceID)?.state == .canceled)
+        require(try await reopened.record(OriV3.Task.self, id: activeID, workspaceID: identity.workspaceID)?.state == .canceled)
         print("PASS: the chat stop action cancels its running task")
         try await resumed.close()
     }

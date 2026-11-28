@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Blot persisted event v2",
+  "title": "Ori persisted event v2",
   "type": "object",
   "required": [
     "schemaVersion",

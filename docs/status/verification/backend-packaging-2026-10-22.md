@@ -2,11 +2,11 @@
 
 ## Причина ошибки
 
-Стандартная сборка Xcode в `~/Library/Developer/Xcode/DerivedData/.../Blot.app` не содержала `Backend/blot-backend.jar` и встроенную Java. Отдельная сборка в `.build/xcode` содержала их. Цель BlotMac не вызывала упаковщик автоматически.
+Стандартная сборка Xcode в `~/Library/Developer/Xcode/DerivedData/.../Ori.app` не содержала `Backend/ori-backend.jar` и встроенную Java. Отдельная сборка в `.build/xcode` содержала их. Цель OriMac не вызывала упаковщик автоматически.
 
 ## Изменения
 
-- В BlotMac добавлен обязательный build phase `Embed Java backend`. Ошибка Gradle, jlink или упаковки завершает сборку ошибкой.
+- В OriMac добавлен обязательный build phase `Embed Java backend`. Ошибка Gradle, jlink или упаковки завершает сборку ошибкой.
 - Launcher использует этот же build phase и проверяет наличие JAR/Java до открытия приложения. Добавлен режим `--build-only`.
 - Для локальной сборки применяется ad hoc без Apple identity и без Hardened Runtime. Настоящая identity включает Hardened Runtime при подписи. App Sandbox и VM-изоляция выполнения команд сохранены.
 - Настройки владельца читаются из `.env` как данные. Для локального запуска launcher передаёт `.env` через приватный FIFO в stdin; Mac отправляет bootstrap Java по приватному pipe. Значения не попадают в аргументы, outbox или `.app`.
@@ -19,12 +19,12 @@
 
 ```sh
 script/build_and_run.sh --build-only
-xcodebuild -quiet -project apps/Blot.xcodeproj -scheme BlotMac -configuration Debug -destination 'platform=macOS,arch=arm64' CODE_SIGNING_ALLOWED=NO build
+xcodebuild -quiet -project apps/Ori.xcodeproj -scheme OriMac -configuration Debug -destination 'platform=macOS,arch=arm64' CODE_SIGNING_ALLOWED=NO build
 ```
 
 Оба процесса завершились с кодом 0. Логи: `.build/env-packaged-build.log`, `.build/env-xcode-default-build.log`.
 
-JAR в `.build/xcode/.../Blot.app` совпадает с `backend/api/build/libs/blot-backend.jar`. Встроенная Java присутствует; подпись Java показывает ad hoc без флага runtime. Entitlements основного приложения содержат `com.apple.security.app-sandbox = true`. Упаковщик выполняет `codesign --verify --deep --strict`. Файлов `.env` в bundle нет; корневой `.env` игнорируется Git.
+JAR в `.build/xcode/.../Ori.app` совпадает с `backend/api/build/libs/ori-backend.jar`. Встроенная Java присутствует; подпись Java показывает ad hoc без флага runtime. Entitlements основного приложения содержат `com.apple.security.app-sandbox = true`. Упаковщик выполняет `codesign --verify --deep --strict`. Файлов `.env` в bundle нет; корневой `.env` игнорируется Git.
 
 ## Что не подтверждено
 
@@ -36,7 +36,7 @@ JAR в `.build/xcode/.../Blot.app` совпадает с `backend/api/build/libs
 
 В системном журнале 22 октября зафиксированы `System Policy: xpcproxy ... deny(1) file-read-data .../Desktop/klin-agent/.env` и `launchd: Unable to open stdin path ... Operation not permitted`. LaunchServices возвращал −10810 до запуска приложения. Прямой путь к `.env` заменён на приватный FIFO во временном каталоге. Чтение stdin в Swift выполняется до EOF, поскольку pipe может отдавать данные частями.
 
-Отдельно процесс Blot PID 4253 находился в состоянии `TX` под Xcode debugserver. Прежний `pkill -x Blot` отправлял SIGTERM, на котором останавливался отладчик. Теперь скрипт сообщает о таком процессе до сборки и предлагает завершить отладку в Xcode.
+Отдельно процесс Ori PID 4253 находился в состоянии `TX` под Xcode debugserver. Прежний `pkill -x Ori` отправлял SIGTERM, на котором останавливался отладчик. Теперь скрипт сообщает о таком процессе до сборки и предлагает завершить отладку в Xcode.
 
 После исправления `script/build_and_run.sh --build-only` завершился с кодом 0. Лог: `.build/launch-fix-build.log`. Синтаксис скрипта проверен через `bash -n`; `git diff --check` не обнаружил ошибок пробелов.
 

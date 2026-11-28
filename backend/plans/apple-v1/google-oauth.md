@@ -5,7 +5,7 @@
 ## 1. Google Cloud
 
 1. Создать отдельный Google Cloud project для разработки. В API Library включить **Gmail API** и **Google Calendar API**.
-2. В Google Auth Platform → Branding указать имя Blot, support email, developer contact, действующие страницы приложения и privacy policy. Использовать свои подтверждённые домены.
+2. В Google Auth Platform → Branding указать имя Ori, support email, developer contact, действующие страницы приложения и privacy policy. Использовать свои подтверждённые домены.
 3. В Audience выбрать Internal только для собственного Workspace-домена; для обычных Gmail-аккаунтов — External. Начать с Testing, добавить конкретные тестовые ящики в Test users.
 4. В Data Access добавить только области операций из таблицы ниже. Для опубликованного приложения Google может потребовать verification; Gmail readonly/compose относятся к restricted scopes. Проверить применимость проверки безопасности к фактическому способу обработки данных перед публикацией. В Testing повторная авторизация может требоваться чаще; это не доказательство ошибки синхронизации.
 
@@ -17,10 +17,10 @@
 
 | Клиент | Application type | Bundle ID |
 |---|---|---|
-| Blot iOS Development | iOS | `yaroslavstrelkov.blot-agent.ios` |
-| Blot macOS Development | iOS | `yaroslavstrelkov.blot-agent` |
+| Ori iOS Development | iOS | `yaroslavstrelkov.blot-agent.ios` |
+| Ori macOS Development | iOS | `yaroslavstrelkov.blot-agent` |
 
-Если Google Console предлагает проверку владения приложением / Team ID, указать собственную команду подписи. Проверить настройки custom URL scheme для каждого клиента. Сохранить выданные **client ID**. Нативный PKCE-клиент не использует client secret. Web application client и серверный callback для этого прямого доступа к Gmail/Calendar не нужны: аккаунт Blot имеет отдельный вход.
+Если Google Console предлагает проверку владения приложением / Team ID, указать собственную команду подписи. Проверить настройки custom URL scheme для каждого клиента. Сохранить выданные **client ID**. Нативный PKCE-клиент не использует client secret. Web application client и серверный callback для этого прямого доступа к Gmail/Calendar не нужны: аккаунт Ori имеет отдельный вход.
 
 Redirect URI строится так: перевернуть части client ID, разделённые точками, и добавить `:/oauthredirect`. Например, для синтетического `123456-demo.apps.googleusercontent.com` это `com.googleusercontent.apps.123456-demo:/oauthredirect`. Этот пример не рабочий ID. Один слеш после двоеточия обязателен. [Native OAuth: PKCE и redirect](https://developers.google.com/identity/protocols/oauth2/native-app).
 

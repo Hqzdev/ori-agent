@@ -1,6 +1,6 @@
-import BlotAppleIntegrations
-import BlotDesign
-import BlotWorkspace
+import OriAppleIntegrations
+import OriDesign
+import OriWorkspace
 import SwiftUI
 #if os(iOS)
 import MessageUI

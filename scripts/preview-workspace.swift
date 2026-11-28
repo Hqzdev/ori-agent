@@ -9,10 +9,10 @@ struct WorkspaceDesignPreview: App {
     init() {
         let state = AppState()
         precondition(state.product == .work)
-        state.currentUser = AuthUser(email: "design-preview@blot.local", name: "Ярослав")
+        state.currentUser = AuthUser(email: "design-preview@ori.local", name: "Ярослав")
         state.settings.reduceMotion = true
         let projectID = UUID().uuidString
-        state.workChat.registerProject(id: projectID, name: "Запуск Blot")
+        state.workChat.registerProject(id: projectID, name: "Запуск Ori")
         state.openWorkChatProject(projectID)
         precondition(state.workChat.selectedProjectID == projectID)
         state.openQuickChat()
@@ -31,8 +31,8 @@ struct WorkspaceDesignPreview: App {
     }
 
     var body: some Scene {
-        WindowGroup("Blot · Design Preview") {
-            BlotWindowContent(state: state)
+        WindowGroup("Ori · Design Preview") {
+            OriWindowContent(state: state)
         }.defaultSize(width: 1200, height: 780)
     }
 }

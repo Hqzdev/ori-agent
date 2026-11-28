@@ -1,11 +1,11 @@
-import BlotDomain
-import BlotAppleIntegrations
-import BlotWorkspace
+import OriDomain
+import OriAppleIntegrations
+import OriWorkspace
 import SwiftUI
 
 /// Attribution comes from durable calls/results, including calls preceding a separate final reply.
 struct WorkspaceMessagePlugins: View {
-    let message: BlotV3.Message
+    let message: OriV3.Message
     @Environment(WorkspaceStore.self) private var store
 
     var body: some View {

@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { russian } from "@/lib/landing/russian";
 
 const LocaleContext = createContext(null);
-const STORAGE_KEY = "blot-language";
+const STORAGE_KEY = "ori-language";
 
 export function LocaleProvider({ children }) {
   const [language, setLanguage] = useState("ru");

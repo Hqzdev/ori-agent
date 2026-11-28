@@ -12,7 +12,7 @@ static NSString *javaString(JNIEnv *env, jstring value) {
     return text;
 }
 
-JNIEXPORT jboolean JNICALL Java_dev_blot_infrastructure_workspace_MacProjectAccess_openBookmark(
+JNIEXPORT jboolean JNICALL Java_dev_ori_infrastructure_workspace_MacProjectAccess_openBookmark(
     JNIEnv *env, jclass type, jbyteArray bytes, jstring expected) {
     @autoreleasepool {
         if (!bytes || !expected) return JNI_FALSE;
@@ -43,7 +43,7 @@ JNIEXPORT jboolean JNICALL Java_dev_blot_infrastructure_workspace_MacProjectAcce
     }
 }
 
-JNIEXPORT void JNICALL Java_dev_blot_infrastructure_workspace_MacProjectAccess_closeBookmarks(
+JNIEXPORT void JNICALL Java_dev_ori_infrastructure_workspace_MacProjectAccess_closeBookmarks(
     JNIEnv *env, jclass type) {
     @autoreleasepool {
         @synchronized ([NSFileManager class]) {

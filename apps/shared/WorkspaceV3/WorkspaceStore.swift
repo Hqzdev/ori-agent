@@ -1,6 +1,6 @@
-import BlotAppleIntegrations
-import BlotDomain
-import BlotWorkspace
+import OriAppleIntegrations
+import OriDomain
+import OriWorkspace
 import Foundation
 import Observation
 import OSLog
@@ -12,11 +12,53 @@ final class WorkspaceStore {
     enum ScreenState: String, CaseIterable { case normal, empty, loading, error, offline, limit, unavailable, unknown }
     let mode: Mode
     private let service: any WorkspaceService
+    var subscriptionCardCommands: (any WorkspaceSubscriptionCardCommands)? { service as? any WorkspaceSubscriptionCardCommands }
+    var cardCommands: (any WorkspaceCardCommands)? { service as? any WorkspaceCardCommands }
     var serviceForBrowser: (any WorkspaceCommandService)? { commands }
     let guestBrowser = WorkspaceBrowserState()
+    let panelNavigations = WorkspacePanelNavigationRegistry()
+    @ObservationIgnored var documentOpeningModes: [UUID: Bool] = [:]
+    @ObservationIgnored var documentEdits: [UUID: WorkspaceDocumentEditSession] = [:]
+    var visibleFiles: [OriV3.Artifact] { snapshot.artifacts.filter { !WorkspaceEditableDocument.isInternalArtifact(name: $0.name) && !WorkspaceFileChange.isInternalArtifact(name: $0.name) } }
+    let voice: VoiceConversationSession
+    let voicePreferences: WorkspaceVoicePreferences
     var nativeCommands: (any WorkspaceNativeProviding)? { service as? any WorkspaceNativeProviding }
     var mcpCommands: (any WorkspaceMCPProviding)? { service as? any WorkspaceMCPProviding }
+    var pluginCommands: (any WorkspacePluginProviding)? { service as? any WorkspacePluginProviding }
+    var ruleCommands: (any WorkspaceRuleProviding)? { service as? any WorkspaceRuleProviding }
+    var vaultCommands: (any WorkspaceVaultProviding)? { service as? any WorkspaceVaultProviding }
+    var teachCommands: (any WorkspaceTeachProviding)? { service as? any WorkspaceTeachProviding }
+    var googleCommands: (any WorkspaceGoogleProviding)? { service as? any WorkspaceGoogleProviding }
+    var passwordCommands: (any WorkspacePasswordProviding)? { service as? any WorkspacePasswordProviding }
+    var collaborationCommands: (any WorkspaceCollaborationProviding)? { service as? any WorkspaceCollaborationProviding }
+    var messagingCommands: (any WorkspaceMessagingProviding)? { service as? any WorkspaceMessagingProviding }
+    var releaseCommands: (any WorkspaceReleaseProviding)? { service as? any WorkspaceReleaseProviding }
+    var billingCommands: (any WorkspaceBillingProviding)? { service as? any WorkspaceBillingProviding }
+    var pageCommands: (any WorkspacePageProviding)? { service as? any WorkspacePageProviding }
+    private(set) var billingOverview: WorkspaceBillingOverview?
+    private(set) var billingLoadFailed = false
+    @ObservationIgnored private var billingRequestID: UUID?
+
+    func refreshBilling() async {
+        guard let owner = snapshot.ownerID, let commands = billingCommands else { return }
+        let requestID = UUID()
+        billingRequestID = requestID
+        do {
+            let overview = try await commands.billingClient().overview(includePayments: false)
+            guard snapshot.ownerID == owner, billingRequestID == requestID else { return }
+            billingOverview = overview
+            billingLoadFailed = false
+        } catch {
+            guard snapshot.ownerID == owner, billingRequestID == requestID, !_Concurrency.Task.isCancelled else { return }
+            billingLoadFailed = true
+        }
+    }
+
+    var selectedPageID: UUID?
     func refreshMCP() async throws {
+        try await refreshContent()
+    }
+    func refreshContent() async throws {
         let generation = sessionGeneration
         guard let fresh = try await service.load(), generation == sessionGeneration else { throw CancellationError() }
         applyMutationSnapshot(fresh)
@@ -81,12 +123,15 @@ final class WorkspaceStore {
     #if os(macOS)
     private var restoredUserProfile: WorkspaceUserProfile?
     #endif
-    @ObservationIgnored private let authenticationLog = Logger(subsystem: "dev.blot.authentication", category: "BrowserHandoff")
+    @ObservationIgnored private let authenticationLog = Logger(subsystem: "dev.ori.authentication", category: "BrowserHandoff")
     private(set) var snapshot = WorkspaceSnapshot() {
         didSet {
-            if snapshot.ownerID != oldValue.ownerID { guestBrowser.controller?.shutdown(); guestBrowser.controller = nil }
+            if snapshot.ownerID != oldValue.ownerID { billingOverview = nil; billingLoadFailed = false; billingRequestID = nil; voice.end(); guestBrowser.controller?.shutdown(); guestBrowser.controller = nil; panelNavigations.clear(); documentEdits.removeAll(); documentOpeningModes.removeAll() }
+            let previousActivityIDs = chatContent.activityMessageIDs
             chatContent.update(snapshot, previous: oldValue)
-            if snapshot.messages != oldValue.messages { messageIndex = WorkspaceMessageIndex(snapshot.messages) }
+            if snapshot.messages != oldValue.messages || previousActivityIDs != chatContent.activityMessageIDs {
+                messageIndex = WorkspaceMessageIndex(snapshot.messages, activityMessageIDs: chatContent.activityMessageIDs)
+            }
             if mode == .live {
                 if let selectedConversationID, !snapshot.conversations.contains(where: { $0.metadata.id == selectedConversationID }),
                    let previous = oldValue.conversations.first(where: { $0.metadata.id == selectedConversationID }), previous.kind != .group {
@@ -106,10 +151,14 @@ final class WorkspaceStore {
     }
     private var messageIndex = WorkspaceMessageIndex()
     let chatContent = WorkspaceChatPresentation()
+    let browserSignIn = WorkspaceBrowserSignIn()
     private(set) var busy = false
     private(set) var isRestoringSession: Bool
+    #if os(macOS)
+    private(set) var sessionRestoreFailed = false
+    #endif
     private(set) var history: [WorkspaceRoute] = []
-    var route: WorkspaceRoute
+    var route: WorkspaceRoute { didSet { if route != oldValue { voice.end() } } }
     var rootRoute: WorkspaceRoute
     var settingsRoute: WorkspaceRoute?
     var tab: WorkspaceRoute = .chats
@@ -135,13 +184,17 @@ final class WorkspaceStore {
         }
         didSet {
             if oldValue != selectedConversationID {
+                voice.end()
                 restoringComposer = true
                 form.composer = selectedConversationID.flatMap { conversationDrafts[$0] } ?? WorkspaceComposerForm()
                 restoringComposer = false
+                updateBrowserSession()
             }
         }
     }
-    var selectedAgentID: UUID?
+    var selectedAgentID: UUID? {
+        didSet { if currentConversation == nil { updateBrowserSession() } }
+    }
     var selectedRecordID: UUID?
     var inspectorVisible = false
     var sidebarVisible = true
@@ -153,7 +206,7 @@ final class WorkspaceStore {
     var messageNavigationTarget: UUID?
     private var previewTaskPaused = false
     var taskPaused: Bool { mode == .preview ? previewTaskPaused : currentTask?.state == .paused }
-    var currentTask: BlotV3.Task? {
+    var currentTask: OriV3.Task? {
         if let selected = (snapshot.tasks ?? []).first(where: { $0.metadata.id == selectedRecordID }) { return selected }
         let tasks = (snapshot.tasks ?? []).filter { $0.conversationId == selectedConversationID }.sorted { $0.metadata.createdAt < $1.metadata.createdAt }
         return tasks.last { ![.completed, .failed, .canceled].contains($0.state) } ?? tasks.last
@@ -166,6 +219,7 @@ final class WorkspaceStore {
     }
     var pendingChatDeletionID: UUID?
     var pendingChatRenameID: UUID?
+    var pendingBranchMessageID: UUID?
     var chatTitleDraft = ""
     private(set) var replyFocusRequest = UUID()
     private var conversationDrafts: [UUID: WorkspaceComposerForm] = [:]
@@ -197,7 +251,7 @@ final class WorkspaceStore {
         (snapshot.modelSteps ?? []).compactMap { step in
             guard let input = step.inputTokens, let output = step.outputTokens else { return nil }
             let agentID = snapshot.configurations?.first { $0.metadata.id == step.configurationId }?.agentId
-            let name = snapshot.agents.first { $0.metadata.id == agentID }?.name ?? "Blot Agent"
+            let name = snapshot.agents.first { $0.metadata.id == agentID }?.name ?? "Ori"
             return .init(id: step.metadata.id, date: step.metadata.createdAt, modelID: step.modelId,
                 agentName: name, inputTokens: input, outputTokens: output)
         }
@@ -225,7 +279,10 @@ final class WorkspaceStore {
     }
     var isPreview: Bool { mode != .live }
 
-    init(mode: Mode = .live, route: WorkspaceRoute? = nil, service: (any WorkspaceService)? = nil) {
+    init(mode: Mode = .live, route: WorkspaceRoute? = nil, service: (any WorkspaceService)? = nil, voice: VoiceConversationSession? = nil, voicePreferences: WorkspaceVoicePreferences? = nil, previewSnapshot: WorkspaceSnapshot? = nil) {
+        precondition(previewSnapshot == nil || mode == .preview)
+        self.voice = voice ?? VoiceConversationSession()
+        self.voicePreferences = voicePreferences ?? WorkspaceVoicePreferences(defaults: mode == .live ? .standard : nil)
         self.mode = mode
         self.isRestoringSession = mode == .live
         self.inspectorVisible = mode == .preview
@@ -248,7 +305,7 @@ final class WorkspaceStore {
         if mode != .live {
             do {
                 let decoder = JSONDecoder(); decoder.dateDecodingStrategy = .iso8601
-                snapshot = try decoder.decode(WorkspaceSnapshot.self, from: WorkspacePreviewData.data)
+                snapshot = try previewSnapshot ?? decoder.decode(WorkspaceSnapshot.self, from: WorkspacePreviewData.data)
                 #if os(iOS)
                 snapshot = try WorkspaceChatOperations.migratePins(in: snapshot, agentIDs: Set(snapshot.agents.prefix(3).map(\.metadata.id)))
                 chatInteractions.pinnedOrder = snapshot.agents.prefix(3).compactMap { agent in
@@ -263,7 +320,7 @@ final class WorkspaceStore {
                 var calendar = Calendar(identifier: .gregorian)
                 calendar.timeZone = TimeZone(identifier: "Asia/Yekaterinburg")!
                 form.schedule.time = calendar.date(from: DateComponents(year: 2026, month: 11, day: 2, hour: 8, minute: 30))!
-                if mode == .preview { form.account.email = "preview@blot.local" }
+                if mode == .preview { form.account.email = "preview@ori.local" }
                 form.agent.instructions = "Help with interfaces: research references, propose options and check usability."
                 form.schedule.goal = "Build a morning digest: today's meetings, priority tasks and key emails."
             } catch { self.error = "Preview data could not be decoded: \(error.localizedDescription)" }
@@ -276,9 +333,9 @@ final class WorkspaceStore {
         }
         #endif
         chatContent.update(snapshot, previous: WorkspaceSnapshot())
-        messageIndex = WorkspaceMessageIndex(snapshot.messages)
+        messageIndex = WorkspaceMessageIndex(snapshot.messages, activityMessageIDs: chatContent.activityMessageIDs)
     }
-    var currentPinnedMessages: [BlotV3.Message] {
+    var currentPinnedMessages: [OriV3.Message] {
         selectedConversationID.flatMap { chatContent.pinnedMessages[$0] } ?? []
     }
 
@@ -305,13 +362,14 @@ final class WorkspaceStore {
         }
     }
 
-    var currentConversation: BlotV3.Conversation? { selectedConversationID.flatMap { chatContent.conversations[$0] } }
-    var currentMessages: [BlotV3.Message] {
+    var currentConversation: OriV3.Conversation? { selectedConversationID.flatMap { chatContent.conversations[$0] } }
+    var currentMessages: [OriV3.Message] {
         messageIndex.messages(in: selectedConversationID)
     }
-    var currentVisibleMessages: [BlotV3.Message] { messageIndex.visibleMessages(in: selectedConversationID) }
+    var currentVisibleMessages: [OriV3.Message] { messageIndex.visibleMessages(in: selectedConversationID) }
+    func latestVisibleMessage(in conversationID: UUID?) -> OriV3.Message? { messageIndex.visibleMessages(in: conversationID).last }
     var currentMessageIDs: [UUID] { messageIndex.ids(in: selectedConversationID) }
-    func message(_ id: UUID) -> BlotV3.Message? { messageIndex.message(id) }
+    func message(_ id: UUID) -> OriV3.Message? { messageIndex.message(id) }
 
     func loadWorkspace() async {
         if let loadingWorkspace { await loadingWorkspace.value; return }
@@ -329,6 +387,10 @@ final class WorkspaceStore {
     private func restoreInitialWorkspace() async {
         guard mode == .live, !loadedWorkspace else { return }
         defer { isRestoringSession = false }
+        #if os(macOS)
+        if sessionRestoreFailed { error = nil }
+        sessionRestoreFailed = false
+        #endif
         loadedWorkspace = true
         do {
             if let saved = try await service.load() {
@@ -340,7 +402,11 @@ final class WorkspaceStore {
             }
         } catch {
             loadedWorkspace = false
+            #if os(macOS)
+            sessionRestoreFailed = true
+            #else
             self.error = WorkspaceFailureCopy.message(error)
+            #endif
         }
     }
 
@@ -454,8 +520,29 @@ final class WorkspaceStore {
                 return
             }
             authenticationLog.info("Starting browser sign-in")
-            form.account.browserRegistering = false
-            await perform(.oauth)
+            signInWithBrowser()
+        }
+    }
+
+    var branchSourceName: String? {
+        guard let id = currentConversation?.parentMessageId else { return nil }
+        return message(id).map(messageAuthor) ?? "Agent"
+    }
+
+    func branchConversation(from messageID: UUID, to agentID: UUID) async -> Bool {
+        guard !busy, let commands else { return false }
+        let generation = sessionGeneration, id = UUID()
+        busy = true; error = nil
+        defer { if generation == sessionGeneration { busy = false } }
+        do {
+            let result = try await commands.branchConversation(commandID: id, messageID: messageID, agentID: agentID)
+            guard generation == sessionGeneration else { return false }
+            applyMutationSnapshot(result); pendingBranchMessageID = nil
+            openConversation(id); replyFocusRequest = UUID()
+            return true
+        } catch {
+            if generation == sessionGeneration { self.error = WorkspaceFailureCopy.message(error) }
+            return false
         }
     }
 
@@ -476,6 +563,7 @@ final class WorkspaceStore {
     #if os(macOS)
     func sendDesktopMessage() async {
         guard !busy, !form.composer.draft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || !form.composer.attachments.isEmpty else { return }
+        form.composer.inferenceProfile = MacComposerModelPreferences.profile
         if [.home, .newChat].contains(route) || selectedConversationID == nil {
             let composer = form.composer
             if selectedAgentID == nil { selectedAgentID = snapshot.agents.first?.metadata.id }
@@ -512,13 +600,18 @@ final class WorkspaceStore {
     }
     #endif
     func t(_ english: String) -> String { WorkspaceCopy.text(english, language: language) }
+    private func signInWithBrowser(registering: Bool = false) {
+        guard !busy, !isRestoringSession, !browserSignIn.isActive else { return }
+        form.account.browserRegistering = registering
+        browserSignIn.start { [weak self] in await self?.perform(.oauth) }
+    }
+
     func navigate(_ destination: WorkspaceRoute) {
         #if os(iOS)
         if rootRoute == .firstAgent, snapshot.agents.isEmpty, destination != .firstAgent { return }
         #endif
         if mode == .live, [.signIn, .createAccount].contains(destination) {
-            form.account.browserRegistering = destination == .createAccount
-            _Concurrency.Task { await perform(.oauth) }
+            signInWithBrowser(registering: destination == .createAccount)
             return
         }
         guard mode != .live || commands != nil || destination.isAuthentication else { return }
@@ -593,7 +686,7 @@ final class WorkspaceStore {
         tab = destination; rootRoute = destination; route = destination; history = []
         error = nil
     }
-    func selectAgent(_ id: UUID, destination: WorkspaceRoute = .agentProfile) {
+    func selectAgent(_ id: UUID, destination: WorkspaceRoute = .agentProfile, navigating: Bool = true) {
         selectedAgentID = id
         if let agent = snapshot.agents.first(where: { $0.metadata.id == id }) {
             form.agent.name = agent.name; form.agent.instructions = agent.instructions
@@ -601,7 +694,7 @@ final class WorkspaceStore {
             form.agent.modelID = agent.modelId
             form.agent.toolIDs = snapshot.configurations?.filter { $0.agentId == id }.max(by: { $0.revision < $1.revision })?.toolIds ?? []
         }
-        navigate(destination)
+        if navigating { navigate(destination) }
     }
     func perform(_ action: WorkspaceAction, next: WorkspaceRoute? = nil) async {
         guard !busy else { return }
@@ -609,6 +702,7 @@ final class WorkspaceStore {
             error = "Дождитесь ответа или остановите его перед новым сообщением."
             return
         }
+        if action == .send { voice.end() }
         error = nil; notice = nil; invalidField = nil
         guard validate(action) else { return }
         busy = true
@@ -668,7 +762,7 @@ final class WorkspaceStore {
                 chatInteractions.messages[sent.metadata.id, default: WorkspaceMessageMetadata()].replyToMessageID = submittedComposer.replyToMessageID
                 failedSends[sent.conversationId] = nil
                 if mode != .live { touchConversation(sent.conversationId) }
-                if mode == .live { enqueueLiveResponse(to: sent) }
+                if mode == .live { enqueueLiveResponse(to: sent, profile: submittedComposer.inferenceProfile) }
             }
             persistChatState()
             if mode == .preview, action == .pause { previewTaskPaused.toggle() }
@@ -682,6 +776,7 @@ final class WorkspaceStore {
                 #endif
             }
         } catch {
+            if action == .oauth, error is CancellationError || _Concurrency.Task.isCancelled { return }
             if action == .send, let submittedConversationID { failedSends[submittedConversationID] = submittedComposer }
             guard sessionGeneration == generation else { return }
             self.error = WorkspaceFailureCopy.message(error)
@@ -691,7 +786,7 @@ final class WorkspaceStore {
         Set(snapshot.conversations.filter { $0.pinned && !$0.archived }.map(\.metadata.id))
     }
 
-    var pinnedConversations: [BlotV3.Conversation] {
+    var pinnedConversations: [OriV3.Conversation] {
         let order = chatInteractions.pinnedOrder
         return snapshot.conversations.filter { $0.pinned && !$0.archived }.sorted {
             let lhs = order.firstIndex(of: $0.metadata.id) ?? Int.max
@@ -700,7 +795,7 @@ final class WorkspaceStore {
         }
     }
 
-    var currentReplyTarget: BlotV3.Message? {
+    var currentReplyTarget: OriV3.Message? {
         guard let id = form.composer.replyToMessageID else { return nil }
         return message(id)
     }
@@ -721,10 +816,10 @@ final class WorkspaceStore {
         return context
     }
 
-    func messageAuthor(_ message: BlotV3.Message) -> String {
+    func messageAuthor(_ message: OriV3.Message) -> String {
         if message.role == .user { return accountDisplayName }
         let agentID = message.authorAgentId ?? snapshot.conversations.first { $0.metadata.id == message.conversationId }?.agentId
-        return snapshot.agents.first { $0.metadata.id == agentID }?.name ?? "Blot Agent"
+        return snapshot.agents.first { $0.metadata.id == agentID }?.name ?? "Ori"
     }
 
     func beginReply(to messageID: UUID) {
@@ -810,7 +905,7 @@ final class WorkspaceStore {
         #endif
     }
 
-    var selectedFile: BlotV3.Artifact? {
+    var selectedFile: OriV3.Artifact? {
         snapshot.artifacts.first { $0.metadata.id == selectedRecordID }
     }
 
@@ -826,6 +921,8 @@ final class WorkspaceStore {
         if let draft = chatActivity.drafts[id] { return draft }
         guard mode == .live,
               let source = messageIndex.lastUser(in: id) else { return nil }
+        if let latest = currentVisibleMessages.last, latest.commandId == source.commandId,
+           chatContent.activities(for: latest).contains(where: { $0.state == .running || $0.state == .approval }) { return nil }
         let responses = messageIndex.activeResponses(in: id)
         guard isReplying || !responses.isEmpty else { return nil }
         let activeIDs = Set(responses.compactMap(\.authorAgentId))
@@ -846,20 +943,26 @@ final class WorkspaceStore {
         chatActivity.cancel(in: conversationID)
     }
 
-    private func enqueueLiveResponse(to message: BlotV3.Message) {
+    private func enqueueLiveResponse(to message: OriV3.Message, profile: OriInferenceProfile? = nil) {
         guard let service = commands, liveResponses[message.conversationId] == nil else { return }
         let generation = sessionGeneration
         liveResponses[message.conversationId] = _Concurrency.Task { [weak self] in
             guard let self else { return }
             defer { if self.sessionGeneration == generation { self.liveResponses[message.conversationId] = nil } }
             do {
-                for try await _ in try await service.responses(to: message) {
+                var openedArtifacts = Set<UUID>()
+                for try await response in try await service.responses(to: message, profile: profile) {
                     guard self.sessionGeneration == generation else { return }
                     self.snapshot = try await service.currentSnapshot()
+                    if self.selectedConversationID == message.conversationId, self.route == .chat {
+                        for id in response.artifactIds where openedArtifacts.insert(id).inserted {
+                            self.showGeneratedFile(id)
+                        }
+                    }
                 }
             } catch {
                 guard self.sessionGeneration == generation else { return }
-                let log = Logger(subsystem: "dev.blot.model", category: "Response")
+                let log = Logger(subsystem: "dev.ori.model", category: "Response")
                 if let modelError = error as? ChatModelError {
                     log.error("Model response failed: \(String(describing: modelError), privacy: .public)")
                 } else {
@@ -874,14 +977,65 @@ final class WorkspaceStore {
         }
     }
 
+    func beginVoiceConversation() {
+        guard mode == .live, !busy, !isReplying, let id = selectedConversationID, route == .chat else { return }
+        let generation = sessionGeneration
+        voice.begin(conversationID: id, locale: Locale(identifier: language == "ru" ? "ru-RU" : "en-US"),
+            recognitionLocale: voicePreferences.recognitionLocale(interfaceLanguage: language)) { [weak self] text in
+            guard let self, self.sessionGeneration == generation else { throw CancellationError() }
+            return try await self.sendVoiceTurn(text, in: id)
+        }
+    }
+
+    /// Uses the normal durable send and tool loop without replacing the user's typed draft.
+    private func sendVoiceTurn(_ text: String, in conversationID: UUID) async throws -> String {
+        guard !busy, selectedConversationID == conversationID, !isReplying, let commands else { throw VoiceFailure.emptyResponse }
+        try _Concurrency.Task.checkCancellation()
+        let generation = sessionGeneration
+        var input = WorkspaceForm()
+        input.composer.draft = text
+        input.composer.projectID = form.composer.projectID
+        input.messageContext = currentMessageContext
+        #if os(macOS)
+        input.messageContext.agentActivity = desktopContent.context(in: conversationID, snapshot: snapshot)
+        #endif
+        let request = WorkspaceRequest(action: .send, form: input, selectedAgentID: currentConversation?.agentId,
+            selectedConversationID: conversationID, selectedRecordID: nil)
+        busy = true
+        do {
+            let result = try await service.execute(request, snapshot: snapshot)
+            guard generation == sessionGeneration else { throw CancellationError() }
+            snapshot = result; busy = false
+        } catch { if generation == sessionGeneration { busy = false }; throw error }
+        try _Concurrency.Task.checkCancellation()
+        guard let sent = snapshot.messages.first(where: { $0.role == .user && $0.commandId == request.commandID }) else { throw VoiceFailure.emptyResponse }
+        #if os(macOS)
+        enqueueLiveResponse(to: sent, profile: MacComposerModelPreferences.profile)
+        #else
+        enqueueLiveResponse(to: sent)
+        #endif
+        await liveResponses[conversationID]?.value
+        try _Concurrency.Task.checkCancellation()
+        guard generation == sessionGeneration else { throw CancellationError() }
+        let fresh = try await commands.currentSnapshot()
+        snapshot = fresh
+        let replies = fresh.messages.filter { $0.role == .assistant && $0.commandId == request.commandID }
+        guard let reply = replies.max(by: { $0.metadata.createdAt < $1.metadata.createdAt }), reply.delivery == .completed else { throw VoiceFailure.emptyResponse }
+        return reply.content
+    }
+
     func retryResponse(to messageID: UUID) {
         guard mode == .live, let message = snapshot.messages.first(where: { $0.metadata.id == messageID }),
               message.role == .user, liveResponses[message.conversationId] == nil else { return }
         error = nil
+        #if os(macOS)
+        enqueueLiveResponse(to: message, profile: MacComposerModelPreferences.profile)
+        #else
         enqueueLiveResponse(to: message)
+        #endif
     }
 
-    func deliveryTitle(_ delivery: BlotV3.DeliveryState) -> String {
+    func deliveryTitle(_ delivery: OriV3.DeliveryState) -> String {
         switch delivery {
         case .saved: t("Saved locally")
         case .waiting_connection: t("Waiting for connection")
@@ -962,7 +1116,7 @@ final class WorkspaceStore {
             interactions.messages[reaction.messageId, default: .init()].reactedAt = reaction.metadata.updatedAt
         }
         interactions.unreadMessageIDs = [:]
-        var readPositions: [UUID: BlotV3.ConversationReadPosition] = [:]
+        var readPositions: [UUID: OriV3.ConversationReadPosition] = [:]
         for read in snapshot.readPositions ?? [] where read.participantId == ownerID && readPositions[read.conversationId] == nil {
             readPositions[read.conversationId] = read
         }
@@ -1041,12 +1195,12 @@ final class WorkspaceStore {
         } catch { self.error = t("Couldn't save the group. Reopen it and try again."); return false }
     }
 
-    func searchLocalMessages(_ query: String) async throws -> [BlotV3.Message] {
+    func searchLocalMessages(_ query: String) async throws -> [OriV3.Message] {
         guard let service = commands else { throw WorkspaceServiceError.unavailable }
         return try await service.searchMessages(query)
     }
 
-    var unresolvedConflicts: [BlotV3.ConflictingRevision] { (snapshot.conflicts ?? []).filter { !$0.resolved } }
+    var unresolvedConflicts: [OriV3.ConflictingRevision] { (snapshot.conflicts ?? []).filter { !$0.resolved } }
 
     func resolveConflict(_ selectedID: UUID, displayedIDs: Set<UUID>) async -> Bool {
         guard !busy, let service = commands else { return false }
@@ -1084,6 +1238,38 @@ final class WorkspaceStore {
             self.error = WorkspaceFailureCopy.message(error)
             return false
         }
+    }
+
+    func saveRoutine(_ draft: WorkspaceScheduleForm) async -> Bool {
+        guard !busy, mode == .live else { return false }
+        let previous = form.schedule
+        form.schedule = draft
+        await perform(.createSchedule)
+        form.schedule = previous
+        return error == nil
+    }
+
+    func importMemories(_ facts: [String]) async -> Bool {
+        guard !busy, mode == .live, let importer = (service as? any WorkspaceMemoryImportProviding)?.workspaceMemoryImport else { return false }
+        let generation = sessionGeneration
+        busy = true; error = nil
+        defer { busy = false }
+        do {
+            let fresh = try await importer.importMemories(facts)
+            guard generation == sessionGeneration else { return false }
+            applyMutationSnapshot(fresh)
+            return true
+        } catch {
+            guard generation == sessionGeneration else { return false }
+            self.error = WorkspaceFailureCopy.message(error)
+            return false
+        }
+    }
+
+    func reviewMemory(_ id: UUID, accepting: Bool) {
+        guard !busy, mode == .live else { return }
+        selectedRecordID = id
+        _Concurrency.Task { await perform(accepting ? .acceptMemory : .rejectMemory) }
     }
 
     func runScheduleManually(_ id: UUID) {
@@ -1187,6 +1373,7 @@ final class WorkspaceStore {
 
     func signOut(deletingLocalData: Bool = false) {
         guard !busy else { return }
+        voice.end()
         persistChatState(immediately: true)
         busy = true
         sessionGeneration = UUID()
@@ -1245,7 +1432,7 @@ final class WorkspaceStore {
         do {
             let conversation = snapshot.conversations[index]
             let old = conversation.metadata
-            let metadata = try BlotV3.RecordMetadata(id: old.id, ownerId: old.ownerId, workspaceId: old.workspaceId,
+            let metadata = try OriV3.RecordMetadata(id: old.id, ownerId: old.ownerId, workspaceId: old.workspaceId,
                 version: old.version + 1, createdAt: old.createdAt, updatedAt: Date())
             let userMessages = snapshot.messages.filter { $0.conversationId == id && $0.role == .user }
             let agentName = snapshot.agents.first { $0.metadata.id == conversation.agentId }?.name
@@ -1458,14 +1645,14 @@ final class WorkspaceStore {
 extension WorkspaceStore {
     var appleService: (any WorkspaceAppleIntegrationProviding)? { commands as? any WorkspaceAppleIntegrationProviding }
     var appleIntegrations: AppleIntegrationController? { appleService?.appleIntegrations }
-    func connectApple(_ plugin: ApplePluginID, resources: [String], agentIDs: [UUID]) async {
+    func connectApple(_ plugin: ApplePluginID, resources: [String]) async {
         guard let service = appleService, !busy else { return }
         busy = true; error = nil
         defer { busy = false }
-        do { snapshot = try await service.connectApple(plugin, resources: resources, agentIDs: agentIDs) }
+        do { snapshot = try await service.connectApple(plugin, resources: resources) }
         catch { self.error = error.localizedDescription }
     }
-    func disconnectApple(_ connection: BlotV3.Connection) async {
+    func disconnectApple(_ connection: OriV3.Connection) async {
         guard let service = appleService, !busy else { return }
         busy = true; error = nil
         defer { busy = false }

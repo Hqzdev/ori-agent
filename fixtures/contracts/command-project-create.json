@@ -3,7 +3,7 @@
   "commandId": "57a40946-c79b-4f3d-ab81-d8da50ad278f",
   "type": "project.create",
   "payload": {
-    "name": "Blot",
-    "repositoryPath": "/tmp/blot"
+    "name": "Ori",
+    "repositoryPath": "/tmp/ori"
   }
 }

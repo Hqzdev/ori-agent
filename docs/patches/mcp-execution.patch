@@ -1,5 +1,5 @@
---- a/apps/macos/BlotMac/Features/Workspace/MacLiveTeamSettings.swift
-+++ b/apps/macos/BlotMac/Features/Workspace/MacLiveTeamSettings.swift
+--- a/apps/macos/oriMac/Features/Workspace/MacLiveTeamSettings.swift
++++ b/apps/macos/oriMac/Features/Workspace/MacLiveTeamSettings.swift
 @@ -94,15 +94,7 @@
                      }
                  }
@@ -26,13 +26,13 @@
 +    var mcp: WorkspaceMCPService?
 +    let mcpCredentials: any WorkspaceCredentialStore
      private let deviceAuthority: WorkspaceDeviceAuthority?
-     private var delegationAuthorization: (@Sendable (BlotV3.Task) async throws -> Void)? {
+     private var delegationAuthorization: (@Sendable (oriV3.Task) async throws -> Void)? {
          guard let deviceAuthority, let identity else { return nil }
 @@ -42,8 +44,10 @@
           maximumOutputTokens: Int = 2048, runTokenBudget: Int = 20000,
           scheduleClock: any WorkspaceScheduleClock = WorkspaceSystemScheduleClock(),
           deviceAuthority: WorkspaceDeviceAuthority? = nil,
-+         mcpCredentials: any WorkspaceCredentialStore = WorkspaceKeychain(service: "dev.blot.apple.mcp"),
++         mcpCredentials: any WorkspaceCredentialStore = WorkspaceKeychain(service: "dev.ori.apple.mcp"),
           makeModel: (@MainActor (String) throws -> any ChatModel)? = nil) throws {
          self.deviceAuthority = deviceAuthority
 +        self.mcpCredentials = mcpCredentials
@@ -86,7 +86,7 @@
          result.automationRuns = records.automationRuns
          result.scheduleFailures = try await repository.scheduleFailures()
          result.artifacts = records.artifacts; result.connections = records.connections
-+        result.mcpConnections = try await repository.records(BlotV3.McpConnection.self, workspaceID: identity.workspaceID)
++        result.mcpConnections = try await repository.records(oriV3.McpConnection.self, workspaceID: identity.workspaceID)
          result.toolInvocations = records.invocations; result.preparedActions = records.actions
          result.participants = records.participants; result.reactions = records.reactions; result.readPositions = records.readPositions
          result.skillAssignments = WorkspaceSkillAccess.assignments(records.grants)
@@ -115,7 +115,7 @@
 -                WorkspaceCard {
 -                    HStack { Text(connection.name).font(.headline); Spacer(); Text(store.t(connection.state == .connected ? "Connected" : connection.state == .error ? "Reconnect" : "Not connected")).font(.caption) }
 -                    Text(connection.endpoint).font(.caption).foregroundStyle(WorkspaceStyle.secondary)
--                    ForEach(connection.toolIds, id: \.self) { tool in BlotLabel(tool, symbol: "checkmark.shield") }
+-                    ForEach(connection.toolIds, id: \.self) { tool in oriLabel(tool, symbol: "checkmark.shield") }
 -                }
 -            }
 -            WorkspaceField(title: "Server name", text: $store.form.mcp.name)
@@ -132,7 +132,7 @@
 +    private var mcp: some View { WorkspaceMCPSettingsView() }
      private var browserSettings: some View {
          VStack(alignment: .leading, spacing: 24) {
-             WorkspaceHeading(title: "Blot for Chrome", subtitle: "Connect your browser on this computer.")
+             WorkspaceHeading(title: "ori for Chrome", subtitle: "Connect your browser on this computer.")
 --- a/apps/shared/WorkspaceV3/WorkspaceStore.swift
 +++ b/apps/shared/WorkspaceV3/WorkspaceStore.swift
 @@ -12,6 +12,12 @@
@@ -148,8 +148,8 @@
      var pairingCommands: (any WorkspaceDevicePairingCommands)? {
          (service as? any WorkspaceDevicePairingProviding)?.workspacePairing
      }
---- a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/AppleInteractionCenter.swift
-+++ b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/AppleInteractionCenter.swift
+--- a/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/AppleInteractionCenter.swift
++++ b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/AppleInteractionCenter.swift
 @@ -36,7 +36,7 @@
      public func cancelAll() {
          for id in Array(continuations.keys) { finish(id, result: .failure(AppleIntegrationError.canceled)) }
@@ -159,8 +159,8 @@
          let result = try await request(.init(id: UUID(), kind: .confirmation, title: title, details: details, fields: [:]))
          return result == .bool(true)
      }
---- a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceAccountErasure.swift
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceAccountErasure.swift
+--- a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceAccountErasure.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceAccountErasure.swift
 @@ -29,7 +29,7 @@
          }
          defer { _ = locks }
@@ -170,8 +170,8 @@
          for workspace in intent.workspaceIDs {
              prefixes += ["device-keys:", "device-authority:", "device-trust-v2:"].map { $0 + workspace.uuidString + ":" }
              for prefix in prefixes.suffix(3) { try await credentials.remove(prefix + intent.deviceID.uuidString) }
---- a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceGroupOperationHistory.swift
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceGroupOperationHistory.swift
+--- a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceGroupOperationHistory.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceGroupOperationHistory.swift
 @@ -33,6 +33,6 @@
      }
      private static func key(_ call: ChatToolCall) throws -> String { call.name + ":" + String(decoding: try WorkspaceCoding.encode(call.arguments), as: UTF8.self) }
@@ -180,8 +180,8 @@
 +        name.hasPrefix("mcp_") || name == "document_create" || name.hasPrefix("apple_") && ["create", "update", "delete", "send", "reply", "move", "run"].contains(String(name.split(separator: "_").last ?? ""))
      }
  }
---- a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceToolRuntime.swift
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceToolRuntime.swift
+--- a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceToolRuntime.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceToolRuntime.swift
 @@ -16,9 +16,13 @@
      var definitions: [ChatToolDefinition] { get }
      func availableDefinitions(context: WorkspaceToolContext) async throws -> [ChatToolDefinition]
@@ -216,11 +216,11 @@
 +sources+=(WorkspaceDevicePairingCommands)
  arguments=()
  for source in "${sources[@]}"; do arguments+=("apps/shared/WorkspaceV3/$source.swift"); done
- objects=("$products/BlotDomain.o" "$products/BlotWorkspace.o")
+ objects=("$products/oriDomain.o" "$products/oriWorkspace.o")
 --- /dev/null
 +++ b/apps/shared/WorkspaceV3/MCPConfigurationFields.swift
 @@ -0,0 +1,60 @@
-+import BlotWorkspace
++import oriWorkspace
 +import SwiftUI
 +import UniformTypeIdentifiers
 +
@@ -256,7 +256,7 @@
 +                #endif
 +                SecureField(text("Переменные среды — JSON-объект", "Environment — JSON object"), text: $environment)
 +                Toggle(text("Я доверяю этой программе", "I trust this executable"), isOn: $configuration.trustedLocalProcess)
-+                Text(text("Программа получает только заданные переменные среды и доступ в рамках системной песочницы Blot. MCP сам по себе не изолирует программу.", "The executable receives only the specified environment and access allowed by Blot’s system sandbox. MCP itself does not isolate a process.")).font(.caption).foregroundStyle(.secondary)
++                Text(text("Программа получает только заданные переменные среды и доступ в рамках системной песочницы ori. MCP сам по себе не изолирует программу.", "The executable receives only the specified environment and access allowed by ori’s system sandbox. MCP itself does not isolate a process.")).font(.caption).foregroundStyle(.secondary)
 +            }
 +            Stepper(value: $configuration.timeout, in: 5...300, step: 5) { Text(text("Таймаут: ", "Timeout: ") + String(Int(configuration.timeout)) + text(" с", " s")) }
 +        }
@@ -283,8 +283,8 @@
 --- /dev/null
 +++ b/apps/shared/WorkspaceV3/WorkspaceMCPProviding.swift
 @@ -0,0 +1,29 @@
-+import BlotAppleIntegrations
-+import BlotWorkspace
++import oriAppleIntegrations
++import oriWorkspace
 +import Foundation
 +
 +@MainActor
@@ -315,9 +315,9 @@
 --- /dev/null
 +++ b/apps/shared/WorkspaceV3/WorkspaceMCPSettingsView.swift
 @@ -0,0 +1,204 @@
-+import BlotDesign
-+import BlotDomain
-+import BlotWorkspace
++import oriDesign
++import oriDomain
++import oriWorkspace
 +import SwiftUI
 +
 +struct WorkspaceMCPSettingsView: View {
@@ -326,7 +326,7 @@
 +    @State private var sheet: MCPSettingsSheet?
 +    @State private var error: String?
 +    @State private var busy = false
-+    @State private var resolving: BlotV3.ToolInvocation?
++    @State private var resolving: oriV3.ToolInvocation?
 +    private var russian: Bool { store.language == "ru" }
 +    private func text(_ ru: String, _ en: String) -> String { russian ? ru : en }
 +    var body: some View {
@@ -372,7 +372,7 @@
 +                Button(text("Отмена", "Cancel"), role: .cancel) { resolving = nil }
 +            }
 +    }
-+    private func unknown(_ id: UUID) -> [BlotV3.ToolInvocation] {
++    private func unknown(_ id: UUID) -> [oriV3.ToolInvocation] {
 +        let actions = Set((store.snapshot.preparedActions ?? []).filter { $0.resource == id.uuidString && $0.toolId.hasPrefix("mcp_") }.map(\.metadata.id))
 +        return (store.snapshot.toolInvocations ?? []).filter { $0.state == .unknown && $0.execution.executorDeviceId == store.snapshot.localDeviceID && actions.contains($0.preparedActionId) }
 +    }
@@ -401,7 +401,7 @@
 +
 +private struct WorkspaceMCPEditor: View {
 +    let initial: MCPAccess?
-+    let agents: [BlotV3.AgentProfile]
++    let agents: [oriV3.AgentProfile]
 +    let russian: Bool
 +    let commands: (any WorkspaceMCPProviding)?
 +    @Environment(\.dismiss) private var dismiss
@@ -495,7 +495,7 @@
 +
 +private struct MCPAccessFields: View {
 +    let tools: [MCPTool]
-+    let agents: [BlotV3.AgentProfile]
++    let agents: [oriV3.AgentProfile]
 +    @Binding var selected: Set<String>
 +    @Binding var selectedAgents: Set<UUID>
 +    let russian: Bool
@@ -520,7 +520,7 @@
 +    }
 +}
 --- /dev/null
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/MCPClient.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/MCPClient.swift
 @@ -0,0 +1,74 @@
 +import Foundation
 +
@@ -542,7 +542,7 @@
 +    private func initialize() async throws {
 +        guard !ready else { return }
 +        let result = try await request("initialize", params: .object(["protocolVersion": .string(Self.version), "capabilities": .object([:]),
-+            "clientInfo": .object(["name": .string("Blot"), "version": .string("1.0")])]))
++            "clientInfo": .object(["name": .string("ori"), "version": .string("1.0")])]))
 +        guard result.mcpFields["protocolVersion"] == .string(Self.version),
 +              case .object = result.mcpFields["capabilities"]?.mcpFields["tools"] else { throw MCPError.version }
 +        _ = try await transport.exchange(.object(["jsonrpc": .string("2.0"), "method": .string("notifications/initialized")]))
@@ -597,7 +597,7 @@
 +    public func close() async { ready = false; await transport.close() }
 +}
 --- /dev/null
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/MCPHTTPTransport.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/MCPHTTPTransport.swift
 @@ -0,0 +1,87 @@
 +import Foundation
 +
@@ -687,7 +687,7 @@
 +                    newRequest request: URLRequest, completionHandler: @escaping @Sendable (URLRequest?) -> Void) { completionHandler(nil) }
 +}
 --- /dev/null
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/MCPJSONSchema.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/MCPJSONSchema.swift
 @@ -0,0 +1,104 @@
 +import Foundation
 +
@@ -794,7 +794,7 @@
 +    }
 +}
 --- /dev/null
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/MCPStdioTransport.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/MCPStdioTransport.swift
 @@ -0,0 +1,129 @@
 +#if os(macOS)
 +import Foundation
@@ -806,7 +806,7 @@
 +    private let input = Pipe()
 +    private let output = Pipe()
 +    private let errors = Pipe()
-+    private let writer = DispatchQueue(label: "dev.blot.mcp.stdin")
++    private let writer = DispatchQueue(label: "dev.ori.mcp.stdin")
 +    private let timeout: Double
 +    private var reader: _Concurrency.Task<Void, Never>?
 +    private var waiting: (ChatJSON, CheckedContinuation<ChatJSON?, Error>)?
@@ -926,9 +926,9 @@
 +}
 +#endif
 --- /dev/null
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/MCPToolProvider.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/MCPToolProvider.swift
 @@ -0,0 +1,136 @@
-+import BlotDomain
++import oriDomain
 +import Foundation
 +
 +/// Every MCP call requires exact confirmation; server annotations cannot grant read/write privileges.
@@ -981,7 +981,7 @@
 +        try await service.authorize(entry, tool: tool, context: context)
 +        let permission = WorkspacePermissionService(repository: repository, identity: identity)
 +        let actionID = WorkspaceToolCallIdentity.actionID(workspaceID: identity.workspaceID, sourceID: context.sourceMessageID, callID: call.id)
-+        if let action = try await repository.record(BlotV3.PreparedAction.self, id: actionID, workspaceID: identity.workspaceID) {
++        if let action = try await repository.record(oriV3.PreparedAction.self, id: actionID, workspaceID: identity.workspaceID) {
 +            guard action.toolId == call.name, action.resource == entry.id.uuidString,
 +                  try JSONDecoder().decode(ChatJSON.self, from: Data(action.parameters.utf8)) == call.arguments else { throw WorkspaceToolError.invalidArguments }
 +            let projection = try await repository.projection(identity: identity)
@@ -998,7 +998,7 @@
 +            let live = try await client.tools()
 +            guard live.first(where: { $0.name == tool.name }) == tool else { throw MCPError.accessChanged }
 +            try await service.authorize(entry, tool: tool, context: context)
-+            guard let source = try await repository.record(BlotV3.Message.self, id: context.sourceMessageID, workspaceID: identity.workspaceID),
++            guard let source = try await repository.record(oriV3.Message.self, id: context.sourceMessageID, workspaceID: identity.workspaceID),
 +                  let agentID = context.agentID else { throw MCPError.accessChanged }
 +            let taskID: UUID
 +            if let id = context.taskID { taskID = id }
@@ -1010,7 +1010,7 @@
 +            _ = try await permission.prepare(commandID: actionID, taskID: taskID,
 +                draft: .init(toolID: call.name, resource: entry.id.uuidString, parametersJSON: parameters,
 +                    consequences: "MCP: \(entry.name) / \(tool.name). Сервер получит точные параметры действия и может изменить внешние ресурсы."), expiresAt: Date().addingTimeInterval(600))
-+            guard let action = try await repository.record(BlotV3.PreparedAction.self, id: actionID, workspaceID: identity.workspaceID) else { throw MCPError.uncertain }
++            guard let action = try await repository.record(oriV3.PreparedAction.self, id: actionID, workspaceID: identity.workspaceID) else { throw MCPError.uncertain }
 +            do {
 +                guard try await confirm("MCP: " + entry.name + " / " + tool.name, details) else { throw MCPError.denied }
 +                try _Concurrency.Task.checkCancellation()
@@ -1065,7 +1065,7 @@
 +    }
 +}
 --- /dev/null
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/MCPTypes.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/MCPTypes.swift
 @@ -0,0 +1,97 @@
 +import CryptoKit
 +import Foundation
@@ -1165,9 +1165,9 @@
 +    func close() async
 +}
 --- /dev/null
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceMCPService.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceMCPService.swift
 @@ -0,0 +1,216 @@
-+import BlotDomain
++import oriDomain
 +import Foundation
 +
 +public struct MCPInspection: Sendable {
@@ -1271,8 +1271,8 @@
 +            payload: Input(id: entry.id, tools: entry.toolIDs.sorted(), agents: entry.agentIDs.sorted { $0.uuidString < $1.uuidString })).data()
 +        _ = try await repository.execute(commandID: commandID, command: command, identity: identity) { tx in
 +            try tx.requireResolved(kind: "McpConnection", id: entry.id)
-+            let old = try tx.record(BlotV3.McpConnection.self, id: entry.id)
-+            let record = try BlotV3.McpConnection(metadata: tx.metadata(id: entry.id, now: Date(), replacing: old?.metadata), name: entry.name,
++            let old = try tx.record(oriV3.McpConnection.self, id: entry.id)
++            let record = try oriV3.McpConnection(metadata: tx.metadata(id: entry.id, now: Date(), replacing: old?.metadata), name: entry.name,
 +                transport: entry.configuration.transport == .http ? "STREAMABLE_HTTP" : "STDIO",
 +                endpoint: "device:" + tx.identity.deviceID.uuidString, toolIds: entry.toolIDs.sorted(), state: .connected)
 +            for agentID in entry.agentIDs.union(previous?.agentIDs ?? []) {
@@ -1314,12 +1314,12 @@
 +        let command = try WorkspaceCommand(type: "mcp.disconnect", workspaceID: identity.workspaceID, payload: Input(id: id)).data()
 +        _ = try await repository.execute(commandID: UUID(), command: command, identity: identity) { tx in
 +            for agentID in entry.agentIDs { try Self.updateAgent(tx, id: agentID, removing: Set(entry.toolIDs), adding: []) }
-+            if let old = try tx.record(BlotV3.McpConnection.self, id: id) { try tx.delete(old) }
++            if let old = try tx.record(oriV3.McpConnection.self, id: id) { try tx.delete(old) }
 +            return id
 +        }
 +    }
 +    public func provider(confirm: @escaping @Sendable (String, String) async throws -> Bool) async throws -> MCPToolProvider {
-+        let records = try await repository.records(BlotV3.McpConnection.self, workspaceID: identity.workspaceID)
++        let records = try await repository.records(oriV3.McpConnection.self, workspaceID: identity.workspaceID)
 +        let entries = records.isEmpty ? [] : try await load().filter(\.enabled)
 +        return MCPToolProvider(repository: repository, identity: identity, service: self, connections: entries, confirm: confirm)
 +    }
@@ -1334,7 +1334,7 @@
 +              WorkspaceToolRestrictions(userRequest: source.content).allows(operation: "update"),
 +              context.allowedToolIDs.contains(name),
 +              try WorkspaceAgentConfigurationResolver().resolve(agentID: agentID, projection: projection)?.toolIds.contains(name) == true,
-+              let record = try await repository.record(BlotV3.McpConnection.self, id: entry.id, workspaceID: identity.workspaceID),
++              let record = try await repository.record(oriV3.McpConnection.self, id: entry.id, workspaceID: identity.workspaceID),
 +              record.state == .connected, record.endpoint == "device:" + identity.deviceID.uuidString, record.toolIds.contains(name),
 +              !projection.conflicts.contains(where: { !$0.resolved && ($0.recordId == entry.id || $0.recordId == agentID) }) else { throw MCPError.accessChanged }
 +        if let taskID = context.taskID {
@@ -1367,29 +1367,29 @@
 +        guard !json.mcpContains(configuration.secrets) else { throw MCPError.protocolViolation }
 +    }
 +    private static func updateAgent(_ tx: WorkspaceTransaction, id: UUID, removing: Set<String>, adding: [String]) throws {
-+        guard let agent = try tx.record(BlotV3.AgentProfile.self, id: id) else {
++        guard let agent = try tx.record(oriV3.AgentProfile.self, id: id) else {
 +            if adding.isEmpty { return }; throw WorkspaceStorageError.missingRecord
 +        }
 +        try tx.requireResolved(kind: "AgentProfile", id: id)
 +        guard let configurationID = agent.configurationId else { throw WorkspaceStorageError.invalidRecord }
-+        let configuration = try tx.require(BlotV3.AgentConfigurationRevision.self, id: configurationID)
++        let configuration = try tx.require(oriV3.AgentConfigurationRevision.self, id: configurationID)
 +        let tools = Set(configuration.toolIds).subtracting(removing).union(adding).sorted()
 +        guard tools.count <= 100 else { throw WorkspaceStorageError.invalidParameters }
 +        let revisionID = UUID()
-+        try tx.put(BlotV3.AgentConfigurationRevision(metadata: tx.metadata(id: revisionID, now: Date()), agentId: id,
++        try tx.put(oriV3.AgentConfigurationRevision(metadata: tx.metadata(id: revisionID, now: Date()), agentId: id,
 +            revision: agent.metadata.version + 1, instructions: configuration.instructions, toolIds: tools, modelId: configuration.modelId), expectedVersion: 0)
-+        try tx.put(BlotV3.AgentProfile(metadata: tx.metadata(id: id, now: Date(), replacing: agent.metadata), name: agent.name, roleId: agent.roleId,
++        try tx.put(oriV3.AgentProfile(metadata: tx.metadata(id: id, now: Date(), replacing: agent.metadata), name: agent.name, roleId: agent.roleId,
 +            avatarShape: agent.avatarShape, avatarColor: agent.avatarColor, instructions: agent.instructions, modelId: agent.modelId,
 +            accessMode: agent.accessMode, configurationId: revisionID), expectedVersion: agent.metadata.version)
 +    }
 +}
 --- /dev/null
-+++ b/packages/BlotWorkspace/Tests/BlotWorkspaceTests/MCPHTTPTests.swift
++++ b/packages/oriWorkspace/Tests/oriWorkspaceTests/MCPHTTPTests.swift
 @@ -0,0 +1,118 @@
 +#if os(macOS)
 +import Foundation
 +import Testing
-+@testable import BlotWorkspace
++@testable import oriWorkspace
 +
 +/// An independent Python standard-library server exercises actual sockets, HTTP headers and SSE framing.
 +private final class MCPHTTPFixture {
@@ -1505,12 +1505,12 @@
 +}
 +#endif
 --- /dev/null
-+++ b/packages/BlotWorkspace/Tests/BlotWorkspaceTests/MCPTests.swift
++++ b/packages/oriWorkspace/Tests/oriWorkspaceTests/MCPTests.swift
 @@ -0,0 +1,223 @@
-+import BlotDomain
++import oriDomain
 +import Foundation
 +import Testing
-+@testable import BlotWorkspace
++@testable import oriWorkspace
 +
 +private actor MCPCredentials: WorkspaceCredentialStore {
 +    var values: [String: Data] = [:]
@@ -1586,7 +1586,7 @@
 +    #expect(first == replay); #expect(first.mcpFields["state"] == .string("succeeded")); #expect(await h.transport.calls == 1)
 +    let projection = try await h.repository.projection(identity: h.identity)
 +    #expect(projection.invocations.count == 1); #expect(projection.invocations.first?.state == .succeeded)
-+    let record = try #require(try await h.repository.records(BlotV3.McpConnection.self, workspaceID: h.identity.workspaceID).first)
++    let record = try #require(try await h.repository.records(oriV3.McpConnection.self, workspaceID: h.identity.workspaceID).first)
 +    #expect(record.endpoint == "device:" + h.identity.deviceID.uuidString)
 +    #expect(!String(decoding: try JSONEncoder().encode(record), as: UTF8.self).contains("example.test"))
 +}
@@ -1733,9 +1733,9 @@
 --- /dev/null
 +++ b/scripts/verify-mcp-execution.swift
 @@ -0,0 +1,96 @@
-+import BlotAppleIntegrations
-+import BlotDomain
-+import BlotWorkspace
++import oriAppleIntegrations
++import oriDomain
++import oriWorkspace
 +import Foundation
 +
 +private actor MCPVerificationCredentials: WorkspaceCredentialStore {
@@ -1806,7 +1806,7 @@
 +        let connectionID = try await mcp.save(inspection, selectedTools: ["echo"], agentIDs: [agent])
 +        require(try await service.currentSnapshot().mcpConnections.count == 1)
 +        let sourceID = try await WorkspaceChatService(repository: repository, identity: identity).sendMessage(commandID: UUID(), conversationID: conversation, content: "Use MCP")
-+        let source = try await repository.record(BlotV3.Message.self, id: sourceID, workspaceID: identity.workspaceID)!
++        let source = try await repository.record(oriV3.Message.self, id: sourceID, workspaceID: identity.workspaceID)!
 +        let response = _Concurrency.Task { @MainActor in for try await _ in try await service.responses(to: source) {} }
 +        try await approve(service); try await response.value
 +        require(try await service.currentSnapshot().toolInvocations?.filter { $0.state == .succeeded }.count == 1)

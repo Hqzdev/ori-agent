@@ -10,7 +10,7 @@ import { YANDEX_COOKIE, SESSION_COOKIE, seal, unseal, nativeAttempt } from "./br
 import { randomToken } from "../accounts/security.mjs";
 
 process.env.BLOT_WEB_SESSION_SECRET = randomToken();
-const config = { clientID: "blot-yandex", clientSecret: "server-only-secret", redirectURI: "https://blot.example/auth/yandex/callback" };
+const config = { clientID: "ori-yandex", clientSecret: "server-only-secret", redirectURI: "https://ori.example/auth/yandex/callback" };
 const rejectCode = code => error => error.code === code;
 
 test("Yandex uses a fresh state and S256 verifier; only the server exchanges the code", async () => {
@@ -77,10 +77,10 @@ test("callback clears expired cookies and preserves native context on cancellati
   const signIn = new YandexSignIn({ configuration: () => config, accounts: async () => { assert.fail("No account request is allowed"); } });
   const query = new URLSearchParams({ response_type: "code", client_id: "blot-ios", redirect_uri: "blot-agent-ios:/oauth/account",
     state: randomToken(), code_challenge: randomToken(), code_challenge_method: "S256", intent: "login" });
-  const start = signIn.start(new NextRequest("https://blot.example/auth/yandex/start?" + query));
+  const start = signIn.start(new NextRequest("https://ori.example/auth/yandex/start?" + query));
   const cookie = start.cookies.get(YANDEX_COOKIE).value;
   const saved = unseal(cookie);
-  const request = new NextRequest(`https://blot.example/auth/yandex/callback?state=${saved.state}&error=access_denied`, {
+  const request = new NextRequest(`https://ori.example/auth/yandex/callback?state=${saved.state}&error=access_denied`, {
     headers: { cookie: `${YANDEX_COOKIE}=${cookie}` },
   });
   const response = await signIn.callback(request);
@@ -102,9 +102,9 @@ test("callback clears expired cookies and preserves native context on cancellati
 
 test("start rejects unsafe native redirects and reports missing configuration", () => {
   const signIn = new YandexSignIn({ configuration: () => { throw new AuthError("yandex_unconfigured", 503); } });
-  const invalid = signIn.start(new NextRequest("https://blot.example/auth/yandex/start?redirect_uri=https://attacker.example"));
+  const invalid = signIn.start(new NextRequest("https://ori.example/auth/yandex/start?redirect_uri=https://attacker.example"));
   assert.equal(new URL(invalid.headers.get("location")).searchParams.get("auth_error"), "invalid_app_request");
-  const missing = signIn.start(new NextRequest("https://blot.example/auth/yandex/start"));
+  const missing = signIn.start(new NextRequest("https://ori.example/auth/yandex/start"));
   assert.equal(new URL(missing.headers.get("location")).searchParams.get("auth_error"), "yandex_unconfigured");
 });
 
@@ -117,7 +117,7 @@ test("Yandex configuration requires the exact callback and PostgreSQL; its secre
     process.env.BLOT_YANDEX_WEB_REDIRECT_URI = config.redirectURI;
     process.env.DATABASE_URL = "postgresql://test.invalid/test";
     assert.equal(yandexConfiguration().redirectURI, config.redirectURI);
-    for (const uri of ["invalid", "http://blot.example/auth/yandex/callback", "https://blot.example/wrong", `${config.redirectURI}?extra=1`, `https://user@blot.example/auth/yandex/callback`]) {
+    for (const uri of ["invalid", "http://ori.example/auth/yandex/callback", "https://ori.example/wrong", `${config.redirectURI}?extra=1`, `https://user@ori.example/auth/yandex/callback`]) {
       process.env.BLOT_YANDEX_WEB_REDIRECT_URI = uri;
       assert.throws(yandexConfiguration, rejectCode("yandex_unconfigured"));
     }

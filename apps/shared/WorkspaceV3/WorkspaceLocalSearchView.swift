@@ -1,17 +1,21 @@
-import BlotDesign
-import BlotDomain
+import OriDesign
+import OriDomain
 import SwiftUI
 
 struct WorkspaceLocalSearchView: View {
     @Environment(WorkspaceStore.self) private var store
-    @State private var messages: [BlotV3.Message] = []
+    @State private var messages: [OriV3.Message] = []
     @State private var failure: String?
 
     var body: some View {
         @Bindable var store = store
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
+                #if os(macOS)
+                WorkspaceField(title: "Search messages", text: $store.form.search.query)
+                #else
                 WorkspaceField(title: "Search", text: $store.form.search.query)
+                #endif
                 ForEach(messages, id: \.metadata.id) { message in
                     Button {
                         store.openConversation(message.conversationId)
