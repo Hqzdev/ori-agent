@@ -58,7 +58,7 @@ class V3HttpTest {
   @Test
   void realHttpPersistsCommandsIsolatesOwnersAndDeliversAnActualModelReply() throws Exception {
     var app =
-        new SpringApplication(BlotServer.class, HttpApiTest.Fixtures.class, ModelFixture.class);
+        new SpringApplication(OriServer.class, HttpApiTest.Fixtures.class, ModelFixture.class);
     try (var context =
         app.run(
             "--spring.profiles.active=v3-http-test",
