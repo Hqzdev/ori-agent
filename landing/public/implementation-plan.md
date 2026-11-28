@@ -1,4 +1,4 @@
-# Blot: порядок выполнения задач
+# Ori: порядок выполнения задач
 
 План включает все задачи. Выполняйте сверху вниз: каждая зависимость расположена раньше задачи, которая её использует. Среди независимых задач сначала идут обязательные P0, затем расширения P1. Порядок внутри готовых задач — рекомендуемый, а не дополнительный запрет параллельной работы.
 
@@ -520,9 +520,9 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 ### 12. A2.2: Создать targets приложений macOS и iOS
 
-В apps/Blot.xcodeproj настроить два application target BlotMac/BlotIOS, общие схемы и минимум ОС 26; включить нужную точку входа и shared-ресурсы в каждую сборку.
+В apps/Ori.xcodeproj настроить два application target OriMac/OriIOS, общие схемы и минимум ОС 26; включить нужную точку входа и shared-ресурсы в каждую сборку.
 
-Файлы: `docs/architecture/apple-targets.md`, `apps/Blot.xcodeproj/project.pbxproj`.
+Файлы: `docs/architecture/apple-targets.md`, `apps/Ori.xcodeproj/project.pbxproj`.
 
 Проверка: Собрать оба targets из командной строки.
 
@@ -530,7 +530,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 В четырёх Package.swift указать имя библиотеки, macOS/iOS 26 и зависимости: API→Domain, Graph→Domain+Design; создать Sources/Tests. Эти настройки уже подготовлены. Код для общей основы: в Domain — Codable-модели Project/Run/Task без SwiftUI; в API — типы запросов/ответов и интерфейс клиента; в Design — общие цвета/spacing/шрифты; в Graph — модели GraphNode/GraphEdge. Реальные сетевые запросы относятся к S14, а layout и gestures — к G19. Не добавлять пустые типы ради сборки; проверить реальные пакеты сборкой и импортами.
 
-Файлы: `docs/architecture/swift-packages.md`, `packages/BlotDomain/Package.swift`, `packages/BlotAPI/Package.swift`, `packages/BlotDesign/Package.swift`, `packages/BlotGraph/Package.swift`, `packages/BlotDomain/Sources/BlotDomain/Project.swift`, `packages/BlotDomain/Sources/BlotDomain/Run.swift`, `packages/BlotDomain/Sources/BlotDomain/Task.swift`, `packages/BlotAPI/Sources/BlotAPI/BackendClient.swift`, `packages/BlotDesign/Sources/BlotDesign/DesignTokens.swift`, `packages/BlotGraph/Sources/BlotGraph/GraphNode.swift`, `packages/BlotGraph/Sources/BlotGraph/GraphEdge.swift`.
+Файлы: `docs/architecture/swift-packages.md`, `packages/OriDomain/Package.swift`, `packages/OriAPI/Package.swift`, `packages/OriDesign/Package.swift`, `packages/OriGraph/Package.swift`, `packages/OriDomain/Sources/OriDomain/Project.swift`, `packages/OriDomain/Sources/OriDomain/Run.swift`, `packages/OriDomain/Sources/OriDomain/Task.swift`, `packages/OriAPI/Sources/OriAPI/BackendClient.swift`, `packages/OriDesign/Sources/OriDesign/DesignTokens.swift`, `packages/OriGraph/Sources/OriGraph/GraphNode.swift`, `packages/OriGraph/Sources/OriGraph/GraphEdge.swift`.
 
 Проверка: Проверить отсутствие SwiftUI в Domain и platform leakage.
 
@@ -552,7 +552,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 ### 16. A2.7: Настроить форматирование и проверки границ модулей
 
-Настроить EditorConfig, swift-format и Spotless; добавить проверку, запрещающую UI/SDK/JDBC-импорты в core и SwiftUI в BlotDomain.
+Настроить EditorConfig, swift-format и Spotless; добавить проверку, запрещающую UI/SDK/JDBC-импорты в core и SwiftUI в OriDomain.
 
 Файлы: `docs/architecture/formatting.md`, `.swift-format`.
 
@@ -594,7 +594,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Настроить JSON-логи с временем, уровнем, event, projectId/runId/operationId; написать очистку секретов до записи, ограничение размера и ротацию файлов.
 
-Файлы: `docs/architecture/logging.md`, `backend/infrastructure/src/main/java/dev/blot/logging/LogRedactor.java`.
+Файлы: `docs/architecture/logging.md`, `backend/infrastructure/src/main/java/dev/ori/logging/LogRedactor.java`.
 
 Проверка: Убедиться, что ключ и токен отсутствуют в выводе.
 
@@ -602,7 +602,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать Project, Run, RunStatus и SpecificationRevision. Project хранит id/name/repositoryPath/createdAt; Run — id/projectId/goal/status/version/createdAt; revision — id/runId/revision/content/createdAt. Проверять null, пустой текст, абсолютный путь, неотрицательную version и revision≥1.
 
-Файлы: `backend/core/src/main/java/dev/blot/core/Project.java`, `backend/core/src/main/java/dev/blot/core/Run.java`, `backend/core/src/main/java/dev/blot/core/RunStatus.java`, `backend/core/src/main/java/dev/blot/core/SpecificationRevision.java`.
+Файлы: `backend/core/src/main/java/dev/ori/core/Project.java`, `backend/core/src/main/java/dev/ori/core/Run.java`, `backend/core/src/main/java/dev/ori/core/RunStatus.java`, `backend/core/src/main/java/dev/ori/core/SpecificationRevision.java`.
 
 Проверка: Проверить новую спецификацию без потери предыдущего запуска.
 
@@ -610,7 +610,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать Task, TaskDependency и TaskAttempt. У задачи хранить id/projectId/runId/title/acceptanceCriteria; у зависимости — ID зависимой задачи и необходимой задачи; у попытки — id/taskId/attemptNumber/createdAt. Запретить зависимость от себя и номер попытки меньше 1; сохранить старые попытки.
 
-Файлы: `backend/core/src/main/java/dev/blot/core/Task.java`, `backend/core/src/main/java/dev/blot/core/TaskDependency.java`, `backend/core/src/main/java/dev/blot/core/TaskAttempt.java`.
+Файлы: `backend/core/src/main/java/dev/ori/core/Task.java`, `backend/core/src/main/java/dev/ori/core/TaskDependency.java`, `backend/core/src/main/java/dev/ori/core/TaskAttempt.java`.
 
 Проверка: Вернуть задачу с ревью и сохранить старый артефакт.
 
@@ -618,7 +618,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать AgentProfile с ролью, моделью, инструкцией и возможностями; AgentSession с profileId/runId/status и контекстом конкретной работы. Профиль не должен хранить изменяемое состояние всех своих сессий.
 
-Файлы: `backend/core/src/main/java/dev/blot/core/AgentProfile.java`, `backend/core/src/main/java/dev/blot/core/AgentSession.java`.
+Файлы: `backend/core/src/main/java/dev/ori/core/AgentProfile.java`, `backend/core/src/main/java/dev/ori/core/AgentSession.java`.
 
 Проверка: Создать две сессии одного профиля в разных запусках.
 
@@ -626,7 +626,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать enum статусов и методы переходов Run/Task/AgentSession; задать таблицы допустимых переходов. Для accepted требовать актуальную попытку, неизменяемый результат и независимое принятие; общего setStatus не делать.
 
-Файлы: `backend/core/src/main/java/dev/blot/core/RunStateMachine.java`, `backend/core/src/main/java/dev/blot/core/TaskStateMachine.java`, `backend/core/src/main/java/dev/blot/core/SessionStateMachine.java`.
+Файлы: `backend/core/src/main/java/dev/ori/core/RunStateMachine.java`, `backend/core/src/main/java/dev/ori/core/TaskStateMachine.java`, `backend/core/src/main/java/dev/ori/core/SessionStateMachine.java`.
 
 Проверка: Отклонить accepted без независимого ревью.
 
@@ -634,7 +634,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Написать SQL-миграции таблиц проектов, запусков, требований, задач, зависимостей, попыток, профилей и сессий; добавить внешние ключи и таблицу версии миграций. Выполнять обновление последовательно в транзакции.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/storage/DatabaseMigrator.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/storage/DatabaseMigrator.java`.
 
 Проверка: Обновить старую базу без потери внешних связей.
 
@@ -642,7 +642,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 В core/application объявить repository interfaces для сохранения и поиска сущностей; в infrastructure написать JDBC-реализации с параметризованными запросами, восстановлением данных и явной транзакцией.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/storage/JdbcTaskRepository.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/storage/JdbcTaskRepository.java`.
 
 Проверка: Проверить транзакционный rollback и повторное чтение.
 
@@ -650,7 +650,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Добавить version изменяемым сущностям; UPDATE выполнять по id и expectedVersion, увеличивая version. Если изменено ноль строк, вернуть конфликт, не перезаписать новую запись.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/storage/EntityVersion.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/storage/EntityVersion.java`.
 
 Проверка: Отклонить запись с устаревшей expectedVersion.
 
@@ -658,7 +658,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 В одной транзакции сохранять изменение сущности и outbox-запись события; отдельный обработчик публикует только зафиксированные записи. При rollback не должно оставаться события.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/events/TransactionalOutbox.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/events/TransactionalOutbox.java`.
 
 Проверка: Прервать транзакцию и проверить отсутствие лишнего события.
 
@@ -666,7 +666,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать таблицу и сервис событий: уникальный eventId, монотонный seq, projectId, тип и payload; обеспечить стабильный порядок чтения и запись вместе с изменением.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/events/EventJournal.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/events/EventJournal.java`.
 
 Проверка: Проверить уникальность ID и порядок публикации.
 
@@ -674,7 +674,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Собрать snapshot проекта и watermark из одного согласованного состояния базы; клиент должен получать события строго после возвращённого watermark.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/events/SnapshotService.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/events/SnapshotService.java`.
 
 Проверка: Изменить проект во время snapshot и проверить непрерывность событий.
 
@@ -682,7 +682,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Реализовать чтение событий после cursor с ограничением страницы; обнаруживать отсутствующую историю, возвращать необходимость snapshot и не повторять eventId.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/events/EventReplayService.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/events/EventReplayService.java`.
 
 Проверка: Восстановиться после gap без двойных сообщений.
 
@@ -690,7 +690,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Написать согласованное копирование SQLite через backup API или контролируемый checkpoint; при restore проверить версию схемы, целостность и связи перед заменой рабочей базы.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/storage/BackupService.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/storage/BackupService.java`.
 
 Проверка: Восстановить активную WAL-базу и проверить связи.
 
@@ -698,7 +698,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Обрабатывать SQLITE_FULL, ошибки доступа и записи: остановить новые изменения, сохранить диагностическую причину и не возвращать ложный успех.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/storage/StorageHealth.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/storage/StorageHealth.java`.
 
 Проверка: Заполнить диск и убедиться, что новые изменения не теряются скрыто.
 
@@ -706,7 +706,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Добавить архивирование запуска и правила хранения истории; удалять только разрешённые данные, сохраняя ссылки сообщений, попыток, ревью и артефактов.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/storage/RetentionService.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/storage/RetentionService.java`.
 
 Проверка: Архивировать запуск и открыть его ревью и сообщения.
 
@@ -898,7 +898,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать Capability для каждого конкретного действия инструмента; неизвестное действие по умолчанию запрещать, а чтение, запись, процесс, commit и push различать.
 
-Файлы: `backend/application/src/main/java/dev/blot/permissions/Capability.java`.
+Файлы: `backend/application/src/main/java/dev/ori/permissions/Capability.java`.
 
 Проверка: Проверить, что неизвестный инструмент не получает default allow.
 
@@ -906,7 +906,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать PermissionScope с projectId, ролью, инструментом, допустимыми путями и ref; проверять совпадение проекта и реальный путь внутри разрешённой области.
 
-Файлы: `backend/application/src/main/java/dev/blot/permissions/PermissionScope.java`.
+Файлы: `backend/application/src/main/java/dev/ori/permissions/PermissionScope.java`.
 
 Проверка: Отклонить действие в другом проекте.
 
@@ -914,7 +914,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Написать PolicyService, который принимает проверенную сессию и подготовленное действие; каждый серверный handler обращается к нему до исполнения.
 
-Файлы: `backend/application/src/main/java/dev/blot/permissions/PolicyService.java`.
+Файлы: `backend/application/src/main/java/dev/ori/permissions/PolicyService.java`.
 
 Проверка: Вызвать запрещённый tool напрямую через API.
 
@@ -922,7 +922,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 В api создать SSE endpoint: аутентифицировать клиента, проверить project scope, отправлять события по seq и закрывать поток после отзыва доступа.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/events/SseEndpoint.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/events/SseEndpoint.java`.
 
 Проверка: Отказать неизвестному устройству и закрыть отозванную подписку.
 
@@ -930,7 +930,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Написать ProtectedRefPolicy: определять main и remote default branch и запрещать их изменение независимо от grant и содержимого инструкции агента.
 
-Файлы: `backend/application/src/main/java/dev/blot/permissions/ProtectedRefPolicy.java`.
+Файлы: `backend/application/src/main/java/dev/ori/permissions/ProtectedRefPolicy.java`.
 
 Проверка: Проверить обе ветки при разных именах default ref.
 
@@ -938,7 +938,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Разобрать полный refspec на source/target, удаление и force; проверять конечные refs и непрямые изменения, не ограничиваться текстовым поиском main.
 
-Файлы: `backend/application/src/main/java/dev/blot/permissions/RefspecValidator.java`.
+Файлы: `backend/application/src/main/java/dev/ori/permissions/RefspecValidator.java`.
 
 Проверка: Отклонить push с обходом защиты через crafted target.
 
@@ -946,7 +946,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Сохранять аудит: кто запросил, кто подтвердил, scope, hash, время, итог и operationId; исключить секреты из записываемых аргументов.
 
-Файлы: `backend/application/src/main/java/dev/blot/permissions/PermissionAudit.java`.
+Файлы: `backend/application/src/main/java/dev/ori/permissions/PermissionAudit.java`.
 
 Проверка: Проследить решение до конкретного устройства и операции.
 
@@ -954,7 +954,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 После denied завершать конкретное действие отказом; runtime не должен повторять его другим инструментом или расширять scope.
 
-Файлы: `backend/application/src/main/java/dev/blot/permissions/DeniedAction.java`.
+Файлы: `backend/application/src/main/java/dev/ori/permissions/DeniedAction.java`.
 
 Проверка: Проверить отсутствие скрытого продолжения через другой tool.
 
@@ -962,7 +962,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Написать RepositoryConnector: проверить путь, наличие Git и разрешённый доступ; подключение не должно делать reset/clean или удалять пользовательские файлы.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/tools/RepositoryConnector.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/tools/RepositoryConnector.java`.
 
 Проверка: Добавить repo с незакоммиченными пользовательскими файлами.
 
@@ -970,7 +970,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Снять git status и diff до работы; записать staged/unstaged/untracked состояние и затем проверить, что изменения пользователя сохранены.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/tools/DirtyTreeSnapshot.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/tools/DirtyTreeSnapshot.java`.
 
 Проверка: Проверить, что пользовательский diff остаётся после работы агента.
 
@@ -978,7 +978,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Сохранить base SHA вместе с подготовленным patch/commit; перед применением сравнить текущую базу и отклонить устаревшую операцию.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/tools/BaseRevision.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/tools/BaseRevision.java`.
 
 Проверка: Изменить HEAD и отклонить устаревший patch.
 
@@ -986,7 +986,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать ApprovalRequest с preparedActionId/hash, инициатором, сроком и статусом; решение потребляется один раз и не выполняет действие повторно.
 
-Файлы: `backend/application/src/main/java/dev/blot/permissions/ApprovalRequest.java`.
+Файлы: `backend/application/src/main/java/dev/ori/permissions/ApprovalRequest.java`.
 
 Проверка: Повторить approve и проверить одно исполнение.
 
@@ -994,7 +994,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать ограниченное повторное правило с явно выбранными инструментами/путями/проектом; похожее действие за его пределами требует нового подтверждения.
 
-Файлы: `backend/application/src/main/java/dev/blot/permissions/RecurringGrant.java`.
+Файлы: `backend/application/src/main/java/dev/ori/permissions/RecurringGrant.java`.
 
 Проверка: Отклонить похожее действие вне разрешённого пути.
 
@@ -1002,7 +1002,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Добавить expiresAt, remainingUses и preparedActionHash в grant; проверять и уменьшать счётчик атомарно при разрешённом исполнении.
 
-Файлы: `backend/application/src/main/java/dev/blot/permissions/GrantLimits.java`.
+Файлы: `backend/application/src/main/java/dev/ori/permissions/GrantLimits.java`.
 
 Проверка: Превысить число применений и проверить отказ.
 
@@ -1010,7 +1010,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Написать revoke(grantId) от проверенного пользователя; новое исполнение должно видеть отзыв даже если действие было подготовлено раньше.
 
-Файлы: `backend/application/src/main/java/dev/blot/permissions/GrantRevocation.java`.
+Файлы: `backend/application/src/main/java/dev/ori/permissions/GrantRevocation.java`.
 
 Проверка: Отозвать grant перед следующей операцией.
 
@@ -1018,7 +1018,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Считать hash подготовленного действия из всех значимых аргументов и результата; при изменении diff, SHA, path, remote или refspec старый grant не подходит.
 
-Файлы: `backend/application/src/main/java/dev/blot/permissions/PreparedActionValidator.java`.
+Файлы: `backend/application/src/main/java/dev/ori/permissions/PreparedActionValidator.java`.
 
 Проверка: Изменить diff после approve и запросить новое решение.
 
@@ -1026,7 +1026,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Получать личность подтверждающего из аутентификации; агентская сессия и поле actorId из запроса не могут выдавать пользовательское разрешение.
 
-Файлы: `backend/application/src/main/java/dev/blot/permissions/ApprovalActorPolicy.java`.
+Файлы: `backend/application/src/main/java/dev/ori/permissions/ApprovalActorPolicy.java`.
 
 Проверка: Отправить поддельное решение от имени агента.
 
@@ -1034,7 +1034,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Перед непосредственной записью, запуском процесса или Git повторно проверить grant, версию, hash, scope и срок; закрыть окно между подготовкой и исполнением.
 
-Файлы: `backend/application/src/main/java/dev/blot/permissions/ExecutionAuthorization.java`.
+Файлы: `backend/application/src/main/java/dev/ori/permissions/ExecutionAuthorization.java`.
 
 Проверка: Отозвать разрешение между подготовкой и исполнением.
 
@@ -1042,7 +1042,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Записывать решение approval по версии в транзакции; второе одновременное подтверждение получает прежний результат, а не второй запуск операции.
 
-Файлы: `backend/application/src/main/java/dev/blot/permissions/ApprovalDecisionCoordinator.java`.
+Файлы: `backend/application/src/main/java/dev/ori/permissions/ApprovalDecisionCoordinator.java`.
 
 Проверка: Одновременно подтвердить на Mac и iPhone.
 
@@ -1050,7 +1050,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 При expired/revoked/отсутствующем grant возвращать отдельный отказ и запрос актуального разрешения; не продолжать по старому подтверждению.
 
-Файлы: `backend/application/src/main/java/dev/blot/permissions/GrantExpiration.java`.
+Файлы: `backend/application/src/main/java/dev/ori/permissions/GrantExpiration.java`.
 
 Проверка: Выполнить операцию после expiry.
 
@@ -1058,7 +1058,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Подключить одну PolicyService к loopback, Wi-Fi и BLE handlers; транспорт не должен иметь собственный обход проверок.
 
-Файлы: `backend/application/src/main/java/dev/blot/permissions/TransportPolicy.java`.
+Файлы: `backend/application/src/main/java/dev/ori/permissions/TransportPolicy.java`.
 
 Проверка: Сравнить отказ одной команды на трёх путях.
 
@@ -1066,7 +1066,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создавать worktree на отдельной рабочей ветке для каждой сессии; хранить владельца, путь и base SHA, безопасно освобождать область после завершения.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/tools/WorktreeManager.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/tools/WorktreeManager.java`.
 
 Проверка: Изменять один файл двумя агентами без перезаписи.
 
@@ -1074,7 +1074,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать интеграционную область и закрепить одного integrator; запретить исполнителям менять её файлы напрямую и сериализовать интеграцию.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/tools/IntegrationWorkspace.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/tools/IntegrationWorkspace.java`.
 
 Проверка: Отклонить прямую запись исполнителя в integration workspace.
 
@@ -1082,7 +1082,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Возвращать unified diff, список изменённых файлов, rename и признак binary; ограничить объём большого результата и дать порционное чтение.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/tools/DiffTool.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/tools/DiffTool.java`.
 
 Проверка: Проверить rename, binary file и большой текстовый diff.
 
@@ -1090,7 +1090,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Объявить интерфейс CommandRunner с рабочей папкой, аргументами, окружением и лимитами; результат содержит stdout/stderr, exitCode и состояние операции.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/tools/CommandRunner.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/tools/CommandRunner.java`.
 
 Проверка: Запустить успешную и ошибочную команду с exit code.
 
@@ -1098,7 +1098,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Настроить и проверить runner, который ограничивает файловую систему, сеть и процессы; отдельно доказать ограничения нативного Xcode до допуска его агентам.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/tools/RunnerIsolation.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/tools/RunnerIsolation.java`.
 
 Проверка: Проверить доступ за пределы workspace до допуска native builds.
 
@@ -1106,7 +1106,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Передавать timeout/cancellation процессу; завершать весь процессный потомок и различать пользовательскую отмену и превышение времени.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/tools/ProcessTimeout.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/tools/ProcessTimeout.java`.
 
 Проверка: Остановить зависшую команду и её дочерние процессы.
 
@@ -1114,7 +1114,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Ограничить CPU/память/число процессов/размер вывода средствами выбранного runner; записать факт превышения вместо бесконтрольного накопления stdout.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/tools/ProcessLimits.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/tools/ProcessLimits.java`.
 
 Проверка: Запустить бесконечный вывод и проверить ограничение памяти.
 
@@ -1122,7 +1122,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать разрешённый список переменных окружения; не наследовать ключи и токены родительского приложения в произвольную команду.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/tools/EnvironmentFilter.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/tools/EnvironmentFilter.java`.
 
 Проверка: Проверить отсутствие credentials у дочернего процесса.
 
@@ -1130,7 +1130,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Настроить разрешённые сетевые направления по scope инструмента; проверить блокировку запретного адреса реальным запросом из runner.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/tools/ToolNetworkPolicy.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/tools/ToolNetworkPolicy.java`.
 
 Проверка: Отклонить запрос к неразрешённому endpoint.
 
@@ -1138,7 +1138,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Нормализовать и разрешать реальный путь с учётом symlink; отвергать traversal и выход за project root до чтения или записи.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/tools/CanonicalPathPolicy.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/tools/CanonicalPathPolicy.java`.
 
 Проверка: Попытаться читать внешний файл через symlink и ../.
 
@@ -1146,7 +1146,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Написать отрицательные тесты git -C, aliases, detached HEAD, shell-комбинаций, force/delete refspec и symlink; проверять отсутствие изменений защищённых refs.
 
-Файлы: `backend/infrastructure/src/test/java/dev/blot/permissions/GitBypassCases.java`.
+Файлы: `backend/infrastructure/src/test/java/dev/ori/permissions/GitBypassCases.java`.
 
 Проверка: Проверить git -C, detached HEAD, aliases и crafted refs.
 
@@ -1154,7 +1154,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Написать tool чтения файла и поиска текста с ограничением пути, размера и вывода; различать отсутствие файла и отказ доступа.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/tools/FileSearchTool.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/tools/FileSearchTool.java`.
 
 Проверка: Проверить отсутствующий файл, большой repo и запрещённый путь.
 
@@ -1162,7 +1162,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Готовить patch с base SHA и списком затронутых файлов; проверить применимость целиком до записи и не оставлять половину изменений при отказе.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/tools/PatchTool.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/tools/PatchTool.java`.
 
 Проверка: Проверить mismatch base SHA и частично неприменимый patch.
 
@@ -1170,7 +1170,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Ограничить доступ worktree к общей .git и refs; сериализовать изменение общих метаданных и не считать отдельные папки полноценной изоляцией.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/tools/GitMetadataGuard.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/tools/GitMetadataGuard.java`.
 
 Проверка: Попытаться изменить refs и hooks из worktree.
 
@@ -1178,7 +1178,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Сохранять operationId и состояние до побочного эффекта; после перезапуска сверять файлы, процессы и Git, прежде чем повторять interrupted/unknown действие.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/tools/OperationReconciler.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/tools/OperationReconciler.java`.
 
 Проверка: Перезапустить Java после побочного эффекта до записи ответа.
 
@@ -1186,7 +1186,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Объявить интерфейс ProviderGateway с запросом, потоком ответа, вызовами функций, usage и отменой; типы интерфейса не должны зависеть от SDK GigaChat.
 
-Файлы: `backend/application/src/main/java/dev/blot/provider/ProviderGateway.java`.
+Файлы: `backend/application/src/main/java/dev/ori/provider/ProviderGateway.java`.
 
 Проверка: Выполнить runtime с тестовым provider без SDK-зависимости.
 
@@ -1194,7 +1194,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 В CompositionRoot собрать конкретные repository/provider/tool adapters и передать их сервисам через конструкторы; application должен зависеть от интерфейсов, а не самостоятельно создавать JDBC или GigaChat.
 
-Файлы: `docs/architecture/composition-root.md`, `backend/api/src/main/java/dev/blot/CompositionRoot.java`.
+Файлы: `docs/architecture/composition-root.md`, `backend/api/src/main/java/dev/ori/CompositionRoot.java`.
 
 Проверка: Подменить provider и repository тестовыми adapters.
 
@@ -1202,7 +1202,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Проверить выбранный SDK отдельными вызовами авторизации, списка моделей, streaming и functions; записать версию и поддержанные/отсутствующие возможности, не предполагать их наличие.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/provider/SdkCompatibility.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/provider/SdkCompatibility.java`.
 
 Проверка: Проверить авторизацию, streaming и functions выбранной версии.
 
@@ -1210,7 +1210,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Написать GigaChatAdapter: преобразовать внутренний запрос в API провайдера, выполнить обращение и преобразовать ответ/ошибку обратно в доменные типы.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/provider/GigaChatAdapter.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/provider/GigaChatAdapter.java`.
 
 Проверка: Получить реальный ответ личного API-доступа.
 
@@ -1218,7 +1218,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Написать адаптер потока: собирать частичные текстовые и function-call фрагменты, различать завершение и обрыв; недостающие функции SDK реализовать через официальный API.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/provider/GigaChatStreamAdapter.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/provider/GigaChatStreamAdapter.java`.
 
 Проверка: Проверить частичный function call и корректное завершение потока.
 
@@ -1226,7 +1226,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 На Mac написать обёртку Keychain для записи/чтения/удаления личного ключа; Java получает только разрешённый секрет через bridge, а iOS и файлы проекта его не получают.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/provider/GigaChatCredentials.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/provider/GigaChatCredentials.java`.
 
 Проверка: Проверить отсутствие ключа в args, файлах и iOS.
 
@@ -1234,7 +1234,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Написать SecretBridge между Mac и Java с проверкой локального получателя и ограниченным временем передачи; исключить ключ из аргументов процесса и журналов.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/provider/SecretBridge.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/provider/SecretBridge.java`.
 
 Проверка: Отклонить подключение постороннего локального процесса.
 
@@ -1242,7 +1242,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Написать AccessTokenManager: хранить текущий access token в памяти, срок действия и получать новый до истечения; отдельно обрабатывать отказ авторизации.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/provider/AccessTokenManager.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/provider/AccessTokenManager.java`.
 
 Проверка: Дождаться истечения и успешно обновить токен.
 
@@ -1250,7 +1250,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Сделать один совместно ожидаемый refresh для всех параллельных запросов; ошибка должна завершать ожидание всех клиентов и разрешать следующую контролируемую попытку.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/provider/TokenRefreshCoordinator.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/provider/TokenRefreshCoordinator.java`.
 
 Проверка: Инициировать несколько запросов с истёкшим токеном.
 
@@ -1258,7 +1258,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Написать получение списка доступных моделей и проверку выбранного ID; сохранять только действительную настройку, показывать ошибку недоступной модели.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/provider/ModelCatalog.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/provider/ModelCatalog.java`.
 
 Проверка: Отклонить недоступную модель и сохранить доступную настройку.
 
@@ -1266,7 +1266,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Написать потоковый ответ с текстовыми фрагментами, финальным событием и причиной ошибки; отмена должна закрывать сетевой запрос, а не только скрывать текст в UI.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/provider/ResponseStream.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/provider/ResponseStream.java`.
 
 Проверка: Проверить отмену после нескольких chunks.
 
@@ -1274,7 +1274,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать каталог функций: имя, описание, JSON Schema аргументов и тип результата; передавать только функции, разрешённые текущему вызову.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/provider/FunctionCatalog.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/provider/FunctionCatalog.java`.
 
 Проверка: Получить вызов разрешённой функции реальным API.
 
@@ -1282,7 +1282,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Проверять полученное имя функции, JSON и соответствие схеме; неизвестный инструмент или неправильные аргументы не должны попадать к исполнителю.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/provider/FunctionCallValidator.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/provider/FunctionCallValidator.java`.
 
 Проверка: Отклонить неизвестную функцию и повреждённый JSON.
 
@@ -1290,7 +1290,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Связывать каждый tool result с исходным callId и именем функции; при нескольких вызовах сохранять отдельные результаты и возвращать их в следующем запросе модели.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/provider/FunctionResult.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/provider/FunctionResult.java`.
 
 Проверка: Проверить два tool calls без смешения результатов.
 
@@ -1298,7 +1298,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Сохранять ID генерации, накопленный текст, частичные tool calls и последнее состояние; после обрыва показывать partial result, не считать генерацию завершённой.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/provider/GenerationCheckpoint.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/provider/GenerationCheckpoint.java`.
 
 Проверка: Прервать поток и показать partial result с причиной.
 
@@ -1306,7 +1306,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать типы ошибок auth/network/rate-limit/server/invalid-response; для каждого определить возможность повтора, задержку и понятное сообщение пользователю.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/provider/ProviderErrorClassifier.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/provider/ProviderErrorClassifier.java`.
 
 Проверка: Проверить 401, throttling и потерю сети.
 
@@ -1314,7 +1314,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать справедливую очередь запросов по сессиям с максимум одной активной генерацией; завершение и отмена освобождают слот следующему запросу.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/provider/GenerationQueue.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/provider/GenerationQueue.java`.
 
 Проверка: Запустить несколько агентов и проверить отсутствие параллельной генерации.
 
@@ -1322,7 +1322,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Добавить cancellation token и deadline запросу; убирать отменённый элемент из очереди и останавливать активное обращение по timeout.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/provider/GenerationCancellation.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/provider/GenerationCancellation.java`.
 
 Проверка: Отменить ожидающий и выполняющийся запрос.
 
@@ -1330,7 +1330,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Записывать usage, который вернул API, отдельно от предварительной оценки; связывать расход с projectId/runId/sessionId и не выдумывать отсутствующие значения.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/provider/UsageTracker.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/provider/UsageTracker.java`.
 
 Проверка: Сравнить ответ API с записанным расходом.
 
@@ -1338,7 +1338,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Написать тесты адаптера на общих fixtures: оборванный JSON, неверный callId, отказ refresh и сетевой обрыв; проверять тип ошибки и отсутствие запуска инструмента.
 
-Файлы: `backend/infrastructure/src/test/java/dev/blot/provider/ProviderFixtures.java`.
+Файлы: `backend/infrastructure/src/test/java/dev/ori/provider/ProviderFixtures.java`.
 
 Проверка: Проверить обрыв JSON, неверный call ID и отказ refresh.
 
@@ -1346,7 +1346,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Запустить реальные контрольные запросы GigaChat с streaming и tool calls; сохранить модель, параметры, результат, usage и повторяемые критерии качества.
 
-Файлы: `backend/infrastructure/src/test/java/dev/blot/provider/ProviderEvaluation.java`.
+Файлы: `backend/infrastructure/src/test/java/dev/ori/provider/ProviderEvaluation.java`.
 
 Проверка: Пройти задачу с tool call и сохранить evidence.
 
@@ -1354,7 +1354,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать Channel с projectId/runId, типом general/role/task и участниками; task-channel связывать с конкретной задачей.
 
-Файлы: `backend/application/src/main/java/dev/blot/messaging/Channel.java`.
+Файлы: `backend/application/src/main/java/dev/ori/messaging/Channel.java`.
 
 Проверка: Изолировать сообщения разных проектов.
 
@@ -1362,7 +1362,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать адресное сообщение с senderSessionId и recipient IDs; разобрать @mentions и доставлять только существующим разрешённым сессиям.
 
-Файлы: `backend/application/src/main/java/dev/blot/messaging/DirectMessage.java`.
+Файлы: `backend/application/src/main/java/dev/ori/messaging/DirectMessage.java`.
 
 Проверка: Доставить вопрос выбранному сотруднику.
 
@@ -1370,7 +1370,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать MessageType для text/question/answer/assignment/result; управляющие действия не определять простым поиском слов в тексте.
 
-Файлы: `backend/application/src/main/java/dev/blot/messaging/MessageKind.java`.
+Файлы: `backend/application/src/main/java/dev/ori/messaging/MessageKind.java`.
 
 Проверка: Не исполнить текстовое обсуждение как команду.
 
@@ -1378,7 +1378,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Сохранять messageId, автора из проверенной сессии, получателей и время; изменение профиля не должно менять автора прошлой записи.
 
-Файлы: `backend/application/src/main/java/dev/blot/messaging/MessageRepository.java`.
+Файлы: `backend/application/src/main/java/dev/ori/messaging/MessageRepository.java`.
 
 Проверка: Прочитать переписку после перезапуска.
 
@@ -1386,7 +1386,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Публиковать inbox-событие получателю после сохранения сообщения; повтор доставки по messageId не создаёт второй записи.
 
-Файлы: `backend/application/src/main/java/dev/blot/messaging/InboxNotification.java`.
+Файлы: `backend/application/src/main/java/dev/ori/messaging/InboxNotification.java`.
 
 Проверка: Разбудить ожидающего адресата один раз.
 
@@ -1394,7 +1394,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Разделить handler обычного сообщения и handler команды создания/изменения Run; разговор без явного действия остаётся разговором.
 
-Файлы: `backend/application/src/main/java/dev/blot/messaging/MessageCommandBoundary.java`.
+Файлы: `backend/application/src/main/java/dev/ori/messaging/MessageCommandBoundary.java`.
 
 Проверка: Проверить назначение задачи только через явный use case.
 
@@ -1402,7 +1402,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Не превращать просьбу агента в PermissionGrant; любая запрошенная операция проходит ту же PolicyService и подтверждение пользователя.
 
-Файлы: `backend/application/src/main/java/dev/blot/messaging/MessagePermissionBoundary.java`.
+Файлы: `backend/application/src/main/java/dev/ori/messaging/MessagePermissionBoundary.java`.
 
 Проверка: Отклонить просьбу коллеги сделать запрещённый push.
 
@@ -1410,7 +1410,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Ограничить число сообщений и объём текста на сессию/интервал; при превышении вернуть понятное ограничение и сохранить счётчик.
 
-Файлы: `backend/application/src/main/java/dev/blot/messaging/MessageRateLimit.java`.
+Файлы: `backend/application/src/main/java/dev/ori/messaging/MessageRateLimit.java`.
 
 Проверка: Остановить лавину сообщений без роста памяти.
 
@@ -1418,7 +1418,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Отслеживать повторяющиеся цепочки взаимных сообщений и глубину ответа; останавливать бесконечный обмен и сообщать оркестратору.
 
-Файлы: `backend/application/src/main/java/dev/blot/messaging/ConversationLoopDetector.java`.
+Файлы: `backend/application/src/main/java/dev/ori/messaging/ConversationLoopDetector.java`.
 
 Проверка: Смоделировать взаимные повторные вопросы.
 
@@ -1426,7 +1426,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Сделать поиск сообщений по тексту/каналу/задаче с пагинацией; результат содержит ID для перехода к исходному сообщению.
 
-Файлы: `backend/application/src/main/java/dev/blot/messaging/MessageSearch.java`.
+Файлы: `backend/application/src/main/java/dev/ori/messaging/MessageSearch.java`.
 
 Проверка: Найти старый ответ по тексту и task ID.
 
@@ -1434,7 +1434,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать MemoryEntry с отдельными scope для пользовательской и проектной памяти. Пользовательские записи хранить локально для installationId в SQLite, независимо от projectId; Markdown предоставить как экспорт. Проектные записи читать только в выбранном проекте.
 
-Файлы: `backend/application/src/main/java/dev/blot/memory/ProjectMemory.java`.
+Файлы: `backend/application/src/main/java/dev/ori/memory/ProjectMemory.java`.
 
 Проверка: Сохранить решение архитектуры и прочитать новой сессией.
 
@@ -1442,7 +1442,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Добавить taskId и поиск памяти задачи; не смешивать общие сведения проекта с результатом отдельной попытки.
 
-Файлы: `backend/application/src/main/java/dev/blot/memory/TaskMemory.java`.
+Файлы: `backend/application/src/main/java/dev/ori/memory/TaskMemory.java`.
 
 Проверка: Не подать частное решение в нерелевантную задачу.
 
@@ -1450,7 +1450,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Добавить ownerSessionId для private memory; проверять роль и scope при чтении, чтобы другая сессия не получала закрытый контекст.
 
-Файлы: `backend/application/src/main/java/dev/blot/memory/AgentMemory.java`.
+Файлы: `backend/application/src/main/java/dev/ori/memory/AgentMemory.java`.
 
 Проверка: Проверить доступ профиля к чужому проекту.
 
@@ -1458,7 +1458,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Проверять projectId каждой операции памяти; поиск и экспорт не должны включать записи соседнего проекта.
 
-Файлы: `backend/application/src/main/java/dev/blot/memory/MemoryProjectScope.java`.
+Файлы: `backend/application/src/main/java/dev/ori/memory/MemoryProjectScope.java`.
 
 Проверка: Исключить секреты и факты другого repo.
 
@@ -1466,7 +1466,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать Artifact registry с id/projectId/runId/taskId/attemptId, типом, путём и источником; регистрировать результат только в разрешённой области хранения.
 
-Файлы: `backend/application/src/main/java/dev/blot/artifacts/ArtifactRegistry.java`.
+Файлы: `backend/application/src/main/java/dev/ori/artifacts/ArtifactRegistry.java`.
 
 Проверка: Найти результат по task, автору и инструменту.
 
@@ -1474,7 +1474,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Сохранять результат tool как артефакт с operationId, путями, выводом, exitCode и ограничениями; связать его с текущей попыткой задачи.
 
-Файлы: `backend/infrastructure/src/main/java/dev/blot/tools/ToolArtifactRecorder.java`.
+Файлы: `backend/infrastructure/src/main/java/dev/ori/tools/ToolArtifactRecorder.java`.
 
 Проверка: Связать command, exit code и output с попыткой.
 
@@ -1482,7 +1482,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Добавить taskId/artifactId и ссылки источника сообщения; проверять существование и принадлежность текущему проекту.
 
-Файлы: `backend/application/src/main/java/dev/blot/messaging/MessageReference.java`.
+Файлы: `backend/application/src/main/java/dev/ori/messaging/MessageReference.java`.
 
 Проверка: Открыть исходный артефакт по ссылке.
 
@@ -1490,7 +1490,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Построить связи общения из сохранённых messageId/sender/recipients; каждое ребро графа обязано иметь исходную запись.
 
-Файлы: `backend/application/src/main/java/dev/blot/messaging/CommunicationProjection.java`.
+Файлы: `backend/application/src/main/java/dev/ori/messaging/CommunicationProjection.java`.
 
 Проверка: Сопоставить каждое ребро с message ID.
 
@@ -1498,7 +1498,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Хранить source IDs и ссылки на сообщения, документы или артефакты, подтверждающие запись; факт без источника помечать отдельно.
 
-Файлы: `backend/application/src/main/java/dev/blot/memory/MemoryEvidence.java`.
+Файлы: `backend/application/src/main/java/dev/ori/memory/MemoryEvidence.java`.
 
 Проверка: Открыть сообщение или артефакт, подтверждающий запись.
 
@@ -1506,7 +1506,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Добавить тип confirmed/assumption и основание подтверждения; не повышать предположение до факта по уверенности модели.
 
-Файлы: `backend/application/src/main/java/dev/blot/memory/FactConfidence.java`.
+Файлы: `backend/application/src/main/java/dev/ori/memory/FactConfidence.java`.
 
 Проверка: Не отобразить непроверенное предположение как подтверждённое.
 
@@ -1514,7 +1514,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 При изменении создавать новую revision записи с автором и временем; проверять expectedVersion и сохранять предыдущую версию.
 
-Файлы: `backend/application/src/main/java/dev/blot/memory/MemoryRevision.java`.
+Файлы: `backend/application/src/main/java/dev/ori/memory/MemoryRevision.java`.
 
 Проверка: Сохранить историю исправления факта.
 
@@ -1522,7 +1522,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Искать релевантные записи пользовательской памяти и текущего проекта/задачи; возвращать только подходящие записи вместе с источниками и актуальностью. Не загружать полный архив памяти в контекст.
 
-Файлы: `backend/application/src/main/java/dev/blot/memory/MemorySearch.java`.
+Файлы: `backend/application/src/main/java/dev/ori/memory/MemorySearch.java`.
 
 Проверка: Проверить поиск по task, источнику и ограничению.
 
@@ -1530,7 +1530,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Задать лимит объёма памяти в модельном запросе; включать только выбранные записи, явно отмечать опущенный контекст и не отправлять полный файл Markdown или всю базу.
 
-Файлы: `backend/application/src/main/java/dev/blot/memory/MemoryBudget.java`.
+Файлы: `backend/application/src/main/java/dev/ori/memory/MemoryBudget.java`.
 
 Проверка: Подать длинную историю без превышения лимита.
 
@@ -1538,7 +1538,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 При сокращении контекста всегда сохранять права, ограничения проекта и условия готовности; проверять эти поля после компрессии.
 
-Файлы: `backend/application/src/main/java/dev/blot/memory/ConstraintPreservingSummary.java`.
+Файлы: `backend/application/src/main/java/dev/ori/memory/ConstraintPreservingSummary.java`.
 
 Проверка: Проверить сохранение запрета main после сжатия.
 
@@ -1546,7 +1546,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Помечать запись stale при изменении источника/контракта; перепроверять её и сохранять причину пересмотра.
 
-Файлы: `backend/application/src/main/java/dev/blot/memory/MemoryFreshness.java`.
+Файлы: `backend/application/src/main/java/dev/ori/memory/MemoryFreshness.java`.
 
 Проверка: Изменить контракт и пометить старую запись stale.
 
@@ -1554,7 +1554,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать команды редактирования и экспорта памяти пользователя; экспорт содержит версии/источники и исключает секреты.
 
-Файлы: `backend/application/src/main/java/dev/blot/memory/MemoryEditor.java`.
+Файлы: `backend/application/src/main/java/dev/ori/memory/MemoryEditor.java`.
 
 Проверка: Изменить факт и сверить экспорт с текущей версией.
 
@@ -1562,7 +1562,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Удалять память с учётом ссылок и retention; проверить, что удалённый текст не остаётся в поиске, кэше и последующих контекстах.
 
-Файлы: `backend/application/src/main/java/dev/blot/memory/MemoryDeletion.java`.
+Файлы: `backend/application/src/main/java/dev/ori/memory/MemoryDeletion.java`.
 
 Проверка: Убедиться, что удалённый факт больше не возвращается поиском.
 
@@ -1570,7 +1570,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Сохранить неизменяемый snapshot файлов, content hash, base SHA и автора; изменения создают новый snapshot вместо перезаписи старого.
 
-Файлы: `backend/application/src/main/java/dev/blot/artifacts/ArtifactSnapshot.java`.
+Файлы: `backend/application/src/main/java/dev/ori/artifacts/ArtifactSnapshot.java`.
 
 Проверка: Изменить содержимое и проверить новый hash.
 
@@ -1578,7 +1578,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Построить unified diff между base SHA и snapshot; учитывать новые/удалённые/переименованные и бинарные файлы.
 
-Файлы: `backend/application/src/main/java/dev/blot/artifacts/UnifiedDiff.java`.
+Файлы: `backend/application/src/main/java/dev/ori/artifacts/UnifiedDiff.java`.
 
 Проверка: Проверить добавление, удаление, rename и окончания строк.
 
@@ -1586,7 +1586,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Для каждого изменённого файла вернуть путь, тип изменения и связь с задачей; описание причины не заменяет реальный diff.
 
-Файлы: `backend/application/src/main/java/dev/blot/artifacts/ChangedFileList.java`.
+Файлы: `backend/application/src/main/java/dev/ori/artifacts/ChangedFileList.java`.
 
 Проверка: Связать каждый файл с назначением задачи.
 
@@ -1594,7 +1594,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Подготовить commit из точного набора файлов/index, ветки, base SHA и сообщения; сохранить operation hash до запроса разрешения.
 
-Файлы: `backend/application/src/main/java/dev/blot/artifacts/PreparedCommit.java`.
+Файлы: `backend/application/src/main/java/dev/ori/artifacts/PreparedCommit.java`.
 
 Проверка: Сверить staged diff, branch и base SHA.
 
@@ -1602,7 +1602,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать отдельный ApprovalRequest на подготовленный commit; показать diff, ветку, сообщение и последствия.
 
-Файлы: `backend/application/src/main/java/dev/blot/artifacts/CommitApproval.java`.
+Файлы: `backend/application/src/main/java/dev/ori/artifacts/CommitApproval.java`.
 
 Проверка: Отклонить исполнение без решения пользователя.
 
@@ -1610,7 +1610,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Перед git commit проверить grant/hash/base SHA/ветку и состав index; изменение подготовленных данных требует нового разрешения.
 
-Файлы: `backend/application/src/main/java/dev/blot/artifacts/CommitExecutor.java`.
+Файлы: `backend/application/src/main/java/dev/ori/artifacts/CommitExecutor.java`.
 
 Проверка: Изменить staged diff после approve и отказать.
 
@@ -1618,7 +1618,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 После успешного commit сохранить SHA и operationId атомарно в журнал; при неопределённом исходе сначала сверить Git.
 
-Файлы: `backend/application/src/main/java/dev/blot/artifacts/CommitJournal.java`.
+Файлы: `backend/application/src/main/java/dev/ori/artifacts/CommitJournal.java`.
 
 Проверка: Повторить commandId и получить прежний SHA.
 
@@ -1626,7 +1626,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Подготовить push с remote URL, полным source:target refspec и конкретным commit SHA; не использовать неявные значения Git.
 
-Файлы: `backend/application/src/main/java/dev/blot/artifacts/PreparedPush.java`.
+Файлы: `backend/application/src/main/java/dev/ori/artifacts/PreparedPush.java`.
 
 Проверка: Показать все target refs до запроса разрешения.
 
@@ -1634,7 +1634,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать новое разрешение именно на push; разрешение на commit не позволяет отправку в remote.
 
-Файлы: `backend/application/src/main/java/dev/blot/artifacts/PushApproval.java`.
+Файлы: `backend/application/src/main/java/dev/ori/artifacts/PushApproval.java`.
 
 Проверка: Не использовать commit grant для отправки изменений.
 
@@ -1642,7 +1642,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Перед push повторно проверить branch, remote, конечный target ref и grant; защищённая ветка запрещена независимо от разрешения.
 
-Файлы: `backend/application/src/main/java/dev/blot/artifacts/PushRefPolicy.java`.
+Файлы: `backend/application/src/main/java/dev/ori/artifacts/PushRefPolicy.java`.
 
 Проверка: Отклонить push в main и default branch.
 
@@ -1650,7 +1650,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Различать отклонение remote, сетевую ошибку и unknown после отправки; не объявлять успех без подтверждения удалённого состояния.
 
-Файлы: `backend/application/src/main/java/dev/blot/artifacts/PushFailure.java`.
+Файлы: `backend/application/src/main/java/dev/ori/artifacts/PushFailure.java`.
 
 Проверка: Потерять сеть после возможного принятия remote.
 
@@ -1658,7 +1658,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Сверять local/remote SHA и журнал operationId перед повтором; уже отправленный commit не должен порождать второй побочный эффект.
 
-Файлы: `backend/application/src/main/java/dev/blot/artifacts/GitStateReconcile.java`.
+Файлы: `backend/application/src/main/java/dev/ori/artifacts/GitStateReconcile.java`.
 
 Проверка: Прочитать remote ref до повторного push.
 
@@ -1666,7 +1666,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать ReviewRequest с taskId/attemptId/snapshotId/hash и списком критериев; reviewer получает именно эту неизменяемую версию результата.
 
-Файлы: `backend/application/src/main/java/dev/blot/review/ReviewRequest.java`.
+Файлы: `backend/application/src/main/java/dev/ori/review/ReviewRequest.java`.
 
 Проверка: Зафиксировать artifact hash до назначения reviewer.
 
@@ -1674,7 +1674,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Проверять reviewerSessionId против authorSessionId и участника авторства; автора нельзя назначить обязательным проверяющим собственного результата.
 
-Файлы: `backend/application/src/main/java/dev/blot/review/IndependentReviewerPolicy.java`.
+Файлы: `backend/application/src/main/java/dev/ori/review/IndependentReviewerPolicy.java`.
 
 Проверка: Отклонить self-review обязательного gate.
 
@@ -1682,7 +1682,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Собрать пакет reviewer: цель, acceptanceCriteria, diff, предыдущие findings и реальные результаты команд; дать ссылки на источники.
 
-Файлы: `backend/application/src/main/java/dev/blot/review/ReviewContext.java`.
+Файлы: `backend/application/src/main/java/dev/ori/review/ReviewContext.java`.
 
 Проверка: Проверить доступ к критериям и прошлым findings.
 
@@ -1690,7 +1690,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Принимать review decision только для ожидаемого snapshot/hash; сохранять reviewer, решение и время, отвергать ответ по устаревшему результату.
 
-Файлы: `backend/application/src/main/java/dev/blot/review/ReviewDecision.java`.
+Файлы: `backend/application/src/main/java/dev/ori/review/ReviewDecision.java`.
 
 Проверка: Изменить файл и не переносить старое accepted.
 
@@ -1698,7 +1698,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать Finding с severity, file/line, объяснением и условием исправления; замечание должно быть проверяемым, а не просто «переделать».
 
-Файлы: `backend/application/src/main/java/dev/blot/review/ReviewFinding.java`.
+Файлы: `backend/application/src/main/java/dev/ori/review/ReviewFinding.java`.
 
 Проверка: Создать finding с местом и воспроизводимой проверкой.
 
@@ -1706,7 +1706,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Сохранить VerificationEvidence: команда, cwd, версия инструмента, exitCode, ограниченный вывод и snapshotId; не принимать произвольный текст как выполненную проверку.
 
-Файлы: `backend/application/src/main/java/dev/blot/review/ReviewEvidence.java`.
+Файлы: `backend/application/src/main/java/dev/ori/review/ReviewEvidence.java`.
 
 Проверка: Сопоставить доказательство с проверяемым snapshot.
 
@@ -1714,7 +1714,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 При changes_requested сохранять findings и возвращать задачу исполнителю; явно передавать, что исправить и как подтвердить исправление.
 
-Файлы: `backend/application/src/main/java/dev/blot/review/ChangesRequested.java`.
+Файлы: `backend/application/src/main/java/dev/ori/review/ChangesRequested.java`.
 
 Проверка: Не разрешить интеграцию результата с открытым блокером.
 
@@ -1722,7 +1722,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создавать новый TaskAttempt с следующим номером; не переписывать артефакты и findings предыдущей попытки.
 
-Файлы: `backend/application/src/main/java/dev/blot/review/ReviewAttempt.java`.
+Файлы: `backend/application/src/main/java/dev/ori/review/ReviewAttempt.java`.
 
 Проверка: Сохранить diff первой и второй попыток.
 
@@ -1730,7 +1730,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Определить отдельные capabilities reviewer/integrator; reviewer читает и проверяет, integrator объединяет только принятые результаты.
 
-Файлы: `backend/application/src/main/java/dev/blot/review/ReviewCapabilities.java`.
+Файлы: `backend/application/src/main/java/dev/ori/review/ReviewCapabilities.java`.
 
 Проверка: Запретить reviewer скрытую запись в рабочую ветку.
 
@@ -1738,7 +1738,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать запись эскалации с причиной, спорными findings и ответственным решением; остановить зависимую работу до разрешения обязательного конфликта.
 
-Файлы: `backend/application/src/main/java/dev/blot/review/ReviewEscalation.java`.
+Файлы: `backend/application/src/main/java/dev/ori/review/ReviewEscalation.java`.
 
 Проверка: Передать конфликт Tech Lead с полной историей.
 
@@ -1746,7 +1746,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Собрать принятые snapshots в интеграционной ветке; сохранить список исходных артефактов и итоговый integration hash.
 
-Файлы: `backend/application/src/main/java/dev/blot/review/IntegrationSnapshot.java`.
+Файлы: `backend/application/src/main/java/dev/ori/review/IntegrationSnapshot.java`.
 
 Проверка: Зафиксировать исходные hashes всех включённых patches.
 
@@ -1754,7 +1754,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 При конфликте сохранить обе исходные версии, разрешённый diff и автора решения; после изменения отправить новый результат на проверку.
 
-Файлы: `backend/application/src/main/java/dev/blot/review/IntegrationConflict.java`.
+Файлы: `backend/application/src/main/java/dev/ori/review/IntegrationConflict.java`.
 
 Проверка: Свести два принятых изменения одного файла.
 
@@ -1762,7 +1762,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Запустить сборку и проверки общего результата через runner; привязать exitCode и вывод к integration snapshot.
 
-Файлы: `backend/application/src/main/java/dev/blot/review/IntegrationChecks.java`.
+Файлы: `backend/application/src/main/java/dev/ori/review/IntegrationChecks.java`.
 
 Проверка: Запустить реальные тесты после объединения patches.
 
@@ -1770,7 +1770,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать отдельные security/QA gate decisions для точного integration hash; completed разрешать только после обязательных положительных решений.
 
-Файлы: `backend/application/src/main/java/dev/blot/review/FinalQualityGate.java`.
+Файлы: `backend/application/src/main/java/dev/ori/review/FinalQualityGate.java`.
 
 Проверка: Блокировать итог при непройденном security check.
 
@@ -1778,7 +1778,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Если hash результата изменился, пометить прежнее review invalidated; пересчитать доступность принятия задачи.
 
-Файлы: `backend/application/src/main/java/dev/blot/review/ReviewInvalidation.java`.
+Файлы: `backend/application/src/main/java/dev/ori/review/ReviewInvalidation.java`.
 
 Проверка: Поменять artifact hash после accepted.
 
@@ -1786,7 +1786,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 После исправления создать новый ReviewRequest на новый hash; прежнее принятие не переносить автоматически.
 
-Файлы: `backend/application/src/main/java/dev/blot/review/ReviewRecheck.java`.
+Файлы: `backend/application/src/main/java/dev/ori/review/ReviewRecheck.java`.
 
 Проверка: Не принять исправление без актуального recheck.
 
@@ -1794,7 +1794,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Проверять изменения тестов вместе с исправлением продукта; удалённая проверка или ослабленная assert не являются доказательством устранения дефекта.
 
-Файлы: `backend/application/src/main/java/dev/blot/review/TestIntegrityPolicy.java`.
+Файлы: `backend/application/src/main/java/dev/ori/review/TestIntegrityPolicy.java`.
 
 Проверка: Не принять удаление падающего теста как исправление бага.
 
@@ -1802,7 +1802,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Собрать отчёт из задач, артефактов, findings, проверок и оставшихся ограничений; каждое утверждение о готовности должно иметь ссылку на evidence.
 
-Файлы: `backend/application/src/main/java/dev/blot/review/FinalReport.java`.
+Файлы: `backend/application/src/main/java/dev/ori/review/FinalReport.java`.
 
 Проверка: Сверить каждый заявленный результат с сохранённым артефактом.
 
@@ -1810,7 +1810,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Собрать итоговый комплект: diff, commit SHA, результаты проверок, ссылки ревью и инструкция воспроизведения; связать его с принятой версией запуска.
 
-Файлы: `backend/application/src/main/java/dev/blot/artifacts/DeliveryArtifact.java`.
+Файлы: `backend/application/src/main/java/dev/ori/artifacts/DeliveryArtifact.java`.
 
 Проверка: Открыть переданный пакет без активной сессии.
 
@@ -1818,7 +1818,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать Budget проекта/запуска/сессии с лимитом, резервом и потраченным расходом; определить, какой лимит проверяется перед вызовом.
 
-Файлы: `backend/application/src/main/java/dev/blot/resilience/Budget.java`.
+Файлы: `backend/application/src/main/java/dev/ori/resilience/Budget.java`.
 
 Проверка: Проверить достижение каждого уровня лимита.
 
@@ -1826,7 +1826,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Получать подтверждённые usage значения из ProviderGateway и связывать их с requestId; отсутствие данных хранить как неизвестное значение.
 
-Файлы: `backend/application/src/main/java/dev/blot/resilience/ActualUsage.java`.
+Файлы: `backend/application/src/main/java/dev/ori/resilience/ActualUsage.java`.
 
 Проверка: Сверить сохранённые токены с ответом API.
 
@@ -1834,7 +1834,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Хранить estimated отдельно от actual; стоимость считать только по известной цене и явно помечать оценку.
 
-Файлы: `backend/application/src/main/java/dev/blot/resilience/UsageEstimate.java`.
+Файлы: `backend/application/src/main/java/dev/ori/resilience/UsageEstimate.java`.
 
 Проверка: Показать unknown cost без выдуманного факта.
 
@@ -1842,7 +1842,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 В транзакции резервировать расход до вызова; после ответа списывать фактическое и освобождать остаток, предотвращая перерасход параллельными запросами.
 
-Файлы: `backend/application/src/main/java/dev/blot/resilience/BudgetReservation.java`.
+Файлы: `backend/application/src/main/java/dev/ori/resilience/BudgetReservation.java`.
 
 Проверка: Не допустить гонку двух запросов на остаток бюджета.
 
@@ -1850,7 +1850,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Отказывать новым генерациям при исчерпанном бюджете; существующие результаты сохранить, статус ожидания показывать с причиной.
 
-Файлы: `backend/application/src/main/java/dev/blot/resilience/BudgetExhaustion.java`.
+Файлы: `backend/application/src/main/java/dev/ori/resilience/BudgetExhaustion.java`.
 
 Проверка: Проверить, что ожидающий запрос не стартует после исчерпания.
 
@@ -1858,7 +1858,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать запрос увеличения лимита с текущим расходом и предлагаемым новым значением; изменить бюджет только после проверенного решения пользователя.
 
-Файлы: `backend/application/src/main/java/dev/blot/resilience/BudgetIncrease.java`.
+Файлы: `backend/application/src/main/java/dev/ori/resilience/BudgetIncrease.java`.
 
 Проверка: Продолжить очередь после разрешённого изменения бюджета.
 
@@ -1866,7 +1866,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Записывать heartbeat с последней активностью и причиной ожидания; обнаруживать потерянную сессию по правилам timeout.
 
-Файлы: `backend/application/src/main/java/dev/blot/resilience/Heartbeat.java`.
+Файлы: `backend/application/src/main/java/dev/ori/resilience/Heartbeat.java`.
 
 Проверка: Отключить heartbeat и показать причину ожидания.
 
@@ -1874,7 +1874,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Сохранять checkpoint: текущая задача/попытка, этап runtime, cursor, inbox и незавершённые операции; не записывать секреты.
 
-Файлы: `backend/application/src/main/java/dev/blot/resilience/ExecutionCheckpoint.java`.
+Файлы: `backend/application/src/main/java/dev/ori/resilience/ExecutionCheckpoint.java`.
 
 Проверка: Восстановить план, inbox и cursor после сбоя.
 
@@ -1882,7 +1882,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 При старте загрузить checkpoints, проверить процессы и операции, восстановить inbox и объяснить interrupted состояния до продолжения.
 
-Файлы: `backend/application/src/main/java/dev/blot/resilience/SessionRecovery.java`.
+Файлы: `backend/application/src/main/java/dev/ori/resilience/SessionRecovery.java`.
 
 Проверка: Перезапустить Java во время активной работы.
 
@@ -1890,7 +1890,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Для unknown операции сравнить журнал с реальными процессами, файлами и refs; перевести её в подтверждённый итог до решения о повторе.
 
-Файлы: `backend/application/src/main/java/dev/blot/resilience/UnknownOperationRecovery.java`.
+Файлы: `backend/application/src/main/java/dev/ori/resilience/UnknownOperationRecovery.java`.
 
 Проверка: Не повторить commit до проверки Git.
 
@@ -1898,7 +1898,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать retry policy по типу ошибки и операции; автоматически повторять только доказанно безопасные действия с лимитом попыток.
 
-Файлы: `backend/application/src/main/java/dev/blot/resilience/RetryPolicy.java`.
+Файлы: `backend/application/src/main/java/dev/ori/resilience/RetryPolicy.java`.
 
 Проверка: Различить transient request и побочный эффект.
 
@@ -1906,7 +1906,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Использовать operationId/commandId и атомарную регистрацию исполнения; повтор не должен создавать второй commit, push или внешнее действие.
 
-Файлы: `backend/application/src/main/java/dev/blot/resilience/CommandDeduplication.java`.
+Файлы: `backend/application/src/main/java/dev/ori/resilience/CommandDeduplication.java`.
 
 Проверка: Отправить одну команду через два транспорта.
 
@@ -1914,7 +1914,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Сохранять частичный текст, выполненные tools и точную причину ошибки; результат не должен выглядеть как полностью завершённая задача.
 
-Файлы: `backend/application/src/main/java/dev/blot/resilience/PartialOutput.java`.
+Файлы: `backend/application/src/main/java/dev/ori/resilience/PartialOutput.java`.
 
 Проверка: Прервать процесс и сохранить полученный output.
 
@@ -1922,7 +1922,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Настроить размер/число лог-файлов и период очистки; превышение дискового лимита не должно удалять обязательные данные проекта.
 
-Файлы: `backend/application/src/main/java/dev/blot/resilience/LogRotation.java`.
+Файлы: `backend/application/src/main/java/dev/ori/resilience/LogRotation.java`.
 
 Проверка: Превысить лимит и сохранить актуальную диагностику.
 
@@ -1930,7 +1930,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Экспортировать диагностические версии, журналы и состояния через redactor; проверить архив на ключи, токены и credentials перед выдачей.
 
-Файлы: `backend/application/src/main/java/dev/blot/resilience/DiagnosticExport.java`.
+Файлы: `backend/application/src/main/java/dev/ori/resilience/DiagnosticExport.java`.
 
 Проверка: Просканировать экспорт на ключи, токены и pairing credentials.
 
@@ -1938,7 +1938,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать RoleConfiguration из инструкции, модели, capabilities и лимитов через композицию; не делать отдельную иерархию классов для каждой профессии.
 
-Файлы: `backend/application/src/main/java/dev/blot/agent/RoleConfiguration.java`.
+Файлы: `backend/application/src/main/java/dev/ori/agent/RoleConfiguration.java`.
 
 Проверка: Добавить роль без наследования AgentSession.
 
@@ -1946,7 +1946,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать registry профилей и доступных инструментов; разрешать поиск по ID и валидировать соответствие инструментов capabilities роли.
 
-Файлы: `backend/application/src/main/java/dev/blot/agent/AgentRegistry.java`.
+Файлы: `backend/application/src/main/java/dev/ori/agent/AgentRegistry.java`.
 
 Проверка: Отклонить профиль с неизвестным инструментом.
 
@@ -1954,7 +1954,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создавать AgentSession с profileId/runId/assignmentId и отдельным inbox/context/status; две сессии одного профиля не должны делить изменяемое состояние.
 
-Файлы: `backend/application/src/main/java/dev/blot/agent/SessionFactory.java`.
+Файлы: `backend/application/src/main/java/dev/ori/agent/SessionFactory.java`.
 
 Проверка: Создать двух специалистов одного профиля.
 
@@ -1962,7 +1962,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Собрать контекст из инструкции профиля, цели запуска, конкретной задачи, ограничений и релевантных сообщений; не добавлять всю историю проекта без отбора.
 
-Файлы: `backend/application/src/main/java/dev/blot/agent/ContextAssembler.java`.
+Файлы: `backend/application/src/main/java/dev/ori/agent/ContextAssembler.java`.
 
 Проверка: Проверить отсутствие чужих task instructions.
 
@@ -1970,7 +1970,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Написать runtime-loop: запрос модели, проверка tool call, разрешённое исполнение, сохранение события, возврат tool result и продолжение; завершение и ошибка останавливают цикл.
 
-Файлы: `backend/application/src/main/java/dev/blot/agent/AgentLoop.java`.
+Файлы: `backend/application/src/main/java/dev/ori/agent/AgentLoop.java`.
 
 Проверка: Пройти model → tool → continuation до результата.
 
@@ -1978,7 +1978,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Подключить MemoryService к сборке контекста; выбирать записи текущего проекта/задачи с источниками и соблюдать лимит объёма.
 
-Файлы: `backend/application/src/main/java/dev/blot/agent/MemoryContext.java`.
+Файлы: `backend/application/src/main/java/dev/ori/agent/MemoryContext.java`.
 
 Проверка: Подать факты проекта и исключить чужой проект.
 
@@ -1986,7 +1986,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать inbox с ID сообщений и подтверждением обработки; доставлять новой сессии только адресованные ей сообщения и не терять их при перезапуске.
 
-Файлы: `backend/application/src/main/java/dev/blot/agent/AgentInbox.java`.
+Файлы: `backend/application/src/main/java/dev/ori/agent/AgentInbox.java`.
 
 Проверка: Разблокировать агента ответом коллеги.
 
@@ -1994,7 +1994,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Реализовать pause/resume/stop с допустимыми переходами; pause сохраняет checkpoint, resume продолжает его, stop отменяет активные вызовы и tools.
 
-Файлы: `backend/application/src/main/java/dev/blot/agent/SessionControl.java`.
+Файлы: `backend/application/src/main/java/dev/ori/agent/SessionControl.java`.
 
 Проверка: При паузе не начинать новые операции.
 
@@ -2002,7 +2002,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Архивировать завершённую сессию без удаления её сообщений, назначений, usage и результатов; архив не изменяет статус принятой задачи.
 
-Файлы: `backend/application/src/main/java/dev/blot/agent/SessionArchive.java`.
+Файлы: `backend/application/src/main/java/dev/ori/agent/SessionArchive.java`.
 
 Проверка: Открыть сообщения и артефакты завершённой сессии.
 
@@ -2010,7 +2010,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Разрешать создание специалиста только через проверенный orchestration service; tool call spawn не должен сам выдавать роль и новые права.
 
-Файлы: `backend/application/src/main/java/dev/blot/agent/AuthorizedSpawn.java`.
+Файлы: `backend/application/src/main/java/dev/ori/agent/AuthorizedSpawn.java`.
 
 Проверка: Отклонить spawn вне разрешённой роли.
 
@@ -2018,7 +2018,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создавать подзадачу и новое Assignment с parentTaskId/parentSessionId; результат дочерней работы возвращается родителю с конкретными ссылками.
 
-Файлы: `backend/application/src/main/java/dev/blot/agent/SubtaskAssignment.java`.
+Файлы: `backend/application/src/main/java/dev/ori/agent/SubtaskAssignment.java`.
 
 Проверка: Проследить результат дочерней задачи до родителя.
 
@@ -2026,7 +2026,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Перед модельным вызовом ограничивать размер контекста и резервировать бюджет; превышение возвращает ожидание/отказ, не скрытую генерацию.
 
-Файлы: `backend/application/src/main/java/dev/blot/agent/SessionLimits.java`.
+Файлы: `backend/application/src/main/java/dev/ori/agent/SessionLimits.java`.
 
 Проверка: Превысить context budget без потери ограничений.
 
@@ -2034,7 +2034,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Проверять capabilities каждого tool call по исходной роли и grants; инструкция, skill и ответ модели не могут повысить права сессии.
 
-Файлы: `backend/application/src/main/java/dev/blot/agent/CapabilityCeiling.java`.
+Файлы: `backend/application/src/main/java/dev/ori/agent/CapabilityCeiling.java`.
 
 Проверка: Попробовать выдать себе tool через модельный ответ.
 
@@ -2042,7 +2042,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Возвращать родителю структурированный результат: taskId/attemptId, состояние, артефакты, проверки и блокировки; текст «готово» сам не завершает задачу.
 
-Файлы: `backend/application/src/main/java/dev/blot/agent/SessionResult.java`.
+Файлы: `backend/application/src/main/java/dev/ori/agent/SessionResult.java`.
 
 Проверка: Проверить task ID, artifact hash и причины отказа.
 
@@ -2050,7 +2050,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Хранить отдельно Task.status и AgentSession.status; архивирование сотрудника не означает accepted задачи, а принятие задачи не удаляет историю сессии.
 
-Файлы: `backend/application/src/main/java/dev/blot/agent/SessionCompletion.java`.
+Файлы: `backend/application/src/main/java/dev/ori/agent/SessionCompletion.java`.
 
 Проверка: Завершить задачу и сохранить сотрудника для следующей.
 
@@ -2058,7 +2058,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Добавить watchdog по последней активности сессии; отличать реальное ожидание разрешения/очереди от зависания и не создавать бесконечные перезапуски.
 
-Файлы: `backend/application/src/main/java/dev/blot/agent/SessionWatchdog.java`.
+Файлы: `backend/application/src/main/java/dev/ori/agent/SessionWatchdog.java`.
 
 Проверка: Оборвать heartbeat без повторного побочного эффекта.
 
@@ -2066,7 +2066,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать intake: различать обычный разговор и явную цель работы; только явное задание создаёт Run и первую версию требований.
 
-Файлы: `backend/application/src/main/java/dev/blot/orchestration/ProjectIntake.java`.
+Файлы: `backend/application/src/main/java/dev/ori/orchestration/ProjectIntake.java`.
 
 Проверка: Создать запуск из запроса с выбранным проектом.
 
@@ -2074,7 +2074,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Выделять недостающие существенные требования и задавать конкретный вопрос; не начинать зависимую работу, пока обязательный ответ не получен.
 
-Файлы: `backend/application/src/main/java/dev/blot/orchestration/ClarificationService.java`.
+Файлы: `backend/application/src/main/java/dev/ori/orchestration/ClarificationService.java`.
 
 Проверка: Проверить запрос без критериев и ответ пользователя.
 
@@ -2082,7 +2082,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Сохранять новую SpecificationRevision при уточнении требований; не менять прежний текст и связывать план с использованной версией.
 
-Файлы: `backend/application/src/main/java/dev/blot/orchestration/SpecificationRevision.java`.
+Файлы: `backend/application/src/main/java/dev/ori/orchestration/SpecificationRevision.java`.
 
 Проверка: Изменить цель во время запуска и сохранить обе версии.
 
@@ -2090,7 +2090,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Формировать план из Task, критериев готовности, зависимостей и нужных ролей; ответ модели преобразовывать в проверяемые структуры.
 
-Файлы: `backend/application/src/main/java/dev/blot/orchestration/PlanBuilder.java`.
+Файлы: `backend/application/src/main/java/dev/ori/orchestration/PlanBuilder.java`.
 
 Проверка: Проверить, что у каждой задачи есть критерий принятия.
 
@@ -2098,7 +2098,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Проверять покрытие требований задачами, наличие результата/проверки и доступность инструментов; неполный план возвращать на уточнение.
 
-Файлы: `backend/application/src/main/java/dev/blot/orchestration/PlanValidator.java`.
+Файлы: `backend/application/src/main/java/dev/ori/orchestration/PlanValidator.java`.
 
 Проверка: Отклонить план без обязательного независимого ревью.
 
@@ -2106,7 +2106,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Построить DAG из TaskDependency; проверить существование задач, принадлежность запуску, зависимость от себя и циклы, затем получить порядок готовых узлов.
 
-Файлы: `backend/application/src/main/java/dev/blot/orchestration/TaskDag.java`.
+Файлы: `backend/application/src/main/java/dev/ori/orchestration/TaskDag.java`.
 
 Проверка: Отклонить цикл и неизвестный task ID.
 
@@ -2114,7 +2114,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Выбирать исполнителя по роли, capabilities, загрузке и бюджету; сохранять Assignment и причину выбора конкретной сессии.
 
-Файлы: `backend/application/src/main/java/dev/blot/orchestration/AssignmentService.java`.
+Файлы: `backend/application/src/main/java/dev/ori/orchestration/AssignmentService.java`.
 
 Проверка: Не назначать backend-задачу сотруднику без нужного scope.
 
@@ -2122,7 +2122,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Назначать reviewer, чей ID отличается от автора текущего результата; передавать ему неизменяемый snapshot и отдельные права проверки.
 
-Файлы: `backend/application/src/main/java/dev/blot/orchestration/ReviewerAssignment.java`.
+Файлы: `backend/application/src/main/java/dev/ori/orchestration/ReviewerAssignment.java`.
 
 Проверка: Отклонить автора как обязательного проверяющего.
 
@@ -2130,7 +2130,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Перед запуском проверить слот очереди модели, доступность runner и бюджет; при отсутствии ресурса поставить задачу в объяснимое ожидание.
 
-Файлы: `backend/application/src/main/java/dev/blot/orchestration/ResourceScheduler.java`.
+Файлы: `backend/application/src/main/java/dev/ori/orchestration/ResourceScheduler.java`.
 
 Проверка: Проверить очередь при занятых ресурсах.
 
@@ -2138,7 +2138,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Запускать только задачи с принятыми обязательными зависимостями и действительным назначением; завершение предыдущей задачи разблокирует следующие.
 
-Файлы: `backend/application/src/main/java/dev/blot/orchestration/ReadyTaskScheduler.java`.
+Файлы: `backend/application/src/main/java/dev/ori/orchestration/ReadyTaskScheduler.java`.
 
 Проверка: Не начинать задачу до принятия зависимости.
 
@@ -2146,7 +2146,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Хранить waitingReason отдельно от status: dependency/message/permission/model_queue/runner_resource/host_unavailable; показывать конкретный объект ожидания.
 
-Файлы: `backend/application/src/main/java/dev/blot/orchestration/WaitReason.java`.
+Файлы: `backend/application/src/main/java/dev/ori/orchestration/WaitReason.java`.
 
 Проверка: Различить permission, message, dependency и resource.
 
@@ -2154,7 +2154,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Подписаться на события принятия задачи, нового сообщения, grant и освобождения ресурса; пересчитывать только затронутые блокировки без двойного запуска.
 
-Файлы: `backend/application/src/main/java/dev/blot/orchestration/BlockRelease.java`.
+Файлы: `backend/application/src/main/java/dev/ori/orchestration/BlockRelease.java`.
 
 Проверка: Ответ на вопрос снимает только соответствующую блокировку.
 
@@ -2162,7 +2162,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Менять приоритет и исполнителя через явную команду; отменять старое активное назначение контролируемо и сохранять историю причины.
 
-Файлы: `backend/application/src/main/java/dev/blot/orchestration/PriorityService.java`.
+Файлы: `backend/application/src/main/java/dev/ori/orchestration/PriorityService.java`.
 
 Проверка: Поднять ready-задачу без потери истории прежнего назначения.
 
@@ -2170,7 +2170,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Принимать пользовательское сообщение в активном Run; определять уточнение/отмену/новую цель и сохранять сообщение, не стирая текущую работу.
 
-Файлы: `backend/application/src/main/java/dev/blot/orchestration/UserSteering.java`.
+Файлы: `backend/application/src/main/java/dev/ori/orchestration/UserSteering.java`.
 
 Проверка: Изменить требование до завершения текущей попытки.
 
@@ -2178,7 +2178,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать новую версию плана после уточнения; сохранить старые попытки, принятые результаты и объяснить, какие задачи заменены или отменены.
 
-Файлы: `backend/application/src/main/java/dev/blot/orchestration/ReplanningService.java`.
+Файлы: `backend/application/src/main/java/dev/ori/orchestration/ReplanningService.java`.
 
 Проверка: Сохранить выполненные задачи при перепланировании.
 
@@ -2186,7 +2186,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Разбирать конфликты результатов в интеграционной области; сохранять исходные snapshots и назначать ответственного за разрешение.
 
-Файлы: `backend/application/src/main/java/dev/blot/orchestration/ResultConflictResolver.java`.
+Файлы: `backend/application/src/main/java/dev/ori/orchestration/ResultConflictResolver.java`.
 
 Проверка: Согласовать два изменения одного API-контракта.
 
@@ -2194,7 +2194,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Вычислять прогресс из фактических статусов задач и обязательных gates; не считать ожидание или acknowledgement выполненной работой.
 
-Файлы: `backend/application/src/main/java/dev/blot/orchestration/ProgressProjection.java`.
+Файлы: `backend/application/src/main/java/dev/ori/orchestration/ProgressProjection.java`.
 
 Проверка: Не считать ожидание генерации завершённой работой.
 
@@ -2202,23 +2202,23 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Перед completed проверять принятые обязательные задачи, интеграцию, QA/security gates и наличие финального отчёта; при незавершённом gate запуск остаётся открытым.
 
-Файлы: `backend/application/src/main/java/dev/blot/orchestration/RunCompletionGate.java`.
+Файлы: `backend/application/src/main/java/dev/ori/orchestration/RunCompletionGate.java`.
 
 Проверка: Отклонить completed при непройденном QA gate.
 
 ### 223. S14.1: Создать типизированные модели команд и событий
 
-В BlotDomain создать Codable-модели Project, Run, SpecificationRevision, Task, TaskAttempt, статусов, Command и ProjectEvent. Названия и типы полей согласовать с JSON Java; UUID, seq, version и даты читать без потери значения. SwiftUI сюда не импортировать.
+В OriDomain создать Codable-модели Project, Run, SpecificationRevision, Task, TaskAttempt, статусов, Command и ProjectEvent. Названия и типы полей согласовать с JSON Java; UUID, seq, version и даты читать без потери значения. SwiftUI сюда не импортировать.
 
-Файлы: `packages/BlotDomain/Sources/BlotDomain/CommandModels.swift`.
+Файлы: `packages/OriDomain/Sources/OriDomain/CommandModels.swift`.
 
 Проверка: Декодировать shared fixtures без потери версий и ID.
 
 ### 224. S14.2: Реализовать BackendClient
 
-В BlotAPI написать BackendClient с методами отправки команды, получения snapshot и compatibility; кодировать Codable-запрос, разбирать ответы и типизированные ошибки без зависимости от экранов.
+В OriAPI написать BackendClient с методами отправки команды, получения snapshot и compatibility; кодировать Codable-запрос, разбирать ответы и типизированные ошибки без зависимости от экранов.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/BackendClient.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/BackendClient.swift`.
 
 Проверка: Обработать успех, доменную ошибку и timeout.
 
@@ -2226,7 +2226,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Написать интеграционный сценарий: Backend передаёт контракт Native Frontend, получатель читает его, уточняет вопрос и снимает блокировку только после ответа.
 
-Файлы: `backend/application/src/test/java/dev/blot/messaging/ContractConversation.java`.
+Файлы: `backend/application/src/test/java/dev/ori/messaging/ContractConversation.java`.
 
 Проверка: Вопрос → ответ → применение API снимает блокировку.
 
@@ -2234,7 +2234,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Написать EventStreamClient: открыть аутентифицированный SSE-поток, разбирать границы событий и JSON, отдавать типизированные события, корректно завершать и отменять подписку.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/EventStreamClient.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/EventStreamClient.swift`.
 
 Проверка: Собрать событие из нескольких сетевых chunks.
 
@@ -2242,7 +2242,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Хранить последний применённый seq; при разрыве подключаться с cursor и ограниченным backoff, а при недоступной истории получать свежий snapshot.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/EventReconnect.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/EventReconnect.swift`.
 
 Проверка: Догрузить события после обрыва.
 
@@ -2250,7 +2250,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Написать reducer, который получает текущее состояние и событие и возвращает новое; обновлять сущность по ID/version, не менять UI из сетевого callback напрямую.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/ProjectReducer.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/ProjectReducer.swift`.
 
 Проверка: Применить snapshot и последовательность событий.
 
@@ -2258,7 +2258,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Хранить уже применённые eventId и подтверждённые commandId; повторное событие/ack не добавляет вторую задачу или сообщение.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/EventDeduplicator.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/EventDeduplicator.swift`.
 
 Проверка: Повторить eventId и command acknowledgement.
 
@@ -2266,7 +2266,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Объявить Transport protocol и отдельно ProjectStore; Wi-Fi/BLE реализуют транспорт, а store применяет одинаковые команды/события независимо от способа связи.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/BackendTransport.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/BackendTransport.swift`.
 
 Проверка: Подменить Wi-Fi и BLE без изменения экранов.
 
@@ -2274,7 +2274,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Сделать наблюдаемый ProjectStore на MainActor; сетевые чтение/декодирование выполнять вне UI, а изменения опубликованного состояния доставлять на главный actor.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/ProjectStore.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/ProjectStore.swift`.
 
 Проверка: Проверить события из фонового сетевого потока.
 
@@ -2282,7 +2282,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать Connection/Loading/Error state и понятную ошибку с возможным retry; offline показывает сохранённые данные с пометкой актуальности.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/ConnectionState.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/ConnectionState.swift`.
 
 Проверка: Показать stale snapshot после потери связи.
 
@@ -2290,7 +2290,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Разделить sending, acknowledged и доменный итог операции; HTTP-подтверждение лишь снимает отправку, completed/accepted приходит из состояния сервера.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/CommandReceipt.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/CommandReceipt.swift`.
 
 Проверка: Не отметить задачу выполненной после HTTP 200.
 
@@ -2298,7 +2298,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Разобрать ответ version conflict, получить актуальную сущность и предложить повторное действие; не повторять запись вслепую с устаревшей version.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/VersionConflict.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/VersionConflict.swift`.
 
 Проверка: Перечитать состояние перед новым действием.
 
@@ -2306,7 +2306,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Перед рабочими командами проверить schemaVersion и capabilities сервера; неизвестную обязательную версию показывать как несовместимость.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/CompatibilityCheck.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/CompatibilityCheck.swift`.
 
 Проверка: Отклонить несовместимый Java-сервис.
 
@@ -2314,7 +2314,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать реальные fixtures store для loading/offline/error/ready/conflict и previews экранов на этих данных; не подменять production backend фиктивными ответами.
 
-Файлы: `packages/BlotAPI/Tests/BlotAPITests/PreviewFixtures.swift`.
+Файлы: `packages/OriAPI/Tests/OriAPITests/PreviewFixtures.swift`.
 
 Проверка: Открыть loading, denied, offline и long-text previews.
 
@@ -2330,7 +2330,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Написать JavaProcessSupervisor: запуск из bundle, контролируемое окружение, отслеживание PID/exit, stdout/stderr и остановка; View не управляет Process напрямую.
 
-Файлы: `apps/macos/BlotMac/Services/JavaProcessSupervisor.swift`.
+Файлы: `apps/macos/OriMac/Services/JavaProcessSupervisor.swift`.
 
 Проверка: Проверить запуск, stop и отсутствие orphan process.
 
@@ -2338,7 +2338,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 До рабочих команд ждать health/readiness и проверить API capabilities/schemaVersion; startup timeout показывает ошибку, а не открывает неготовый backend.
 
-Файлы: `apps/macos/BlotMac/Services/BackendReadiness.swift`.
+Файлы: `apps/macos/OriMac/Services/BackendReadiness.swift`.
 
 Проверка: Не открыть рабочие команды до готовности сервиса.
 
@@ -2346,7 +2346,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать restart policy с максимумом попыток и backoff; после повторного сбоя остановить цикл и предложить явное восстановление.
 
-Файлы: `apps/macos/BlotMac/Services/BackendRestartPolicy.swift`.
+Файлы: `apps/macos/OriMac/Services/BackendRestartPolicy.swift`.
 
 Проверка: Повторить сбой и показать восстановимое состояние ошибки.
 
@@ -2354,7 +2354,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать межпроцессный lock на установку; второе окно использует тот же backend, а stale lock проверяется по реальному процессу.
 
-Файлы: `apps/macos/BlotMac/Services/BackendInstanceLock.swift`.
+Файлы: `apps/macos/OriMac/Services/BackendInstanceLock.swift`.
 
 Проверка: Открыть два окна без второго сервера.
 
@@ -2362,7 +2362,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать единый сервис путей Application Support/Blot для базы, артефактов, логов и cache; не писать данные внутрь app bundle.
 
-Файлы: `apps/macos/BlotMac/Services/ApplicationSupportPaths.swift`.
+Файлы: `apps/macos/OriMac/Services/ApplicationSupportPaths.swift`.
 
 Проверка: Переустановить приложение без потери истории.
 
@@ -2370,7 +2370,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Перед quit запросить серверный checkpoint, дождаться ограниченное время и остановить процессы; при сбое сохранить interrupted состояние для следующего старта.
 
-Файлы: `apps/macos/BlotMac/Services/ShutdownCheckpoint.swift`.
+Файлы: `apps/macos/OriMac/Services/ShutdownCheckpoint.swift`.
 
 Проверка: Завершить Mac-приложение в активном запуске.
 
@@ -2378,7 +2378,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 При stop/quit завершать разрешённые дочерние tools по process tree с timeout; не трогать посторонние пользовательские процессы.
 
-Файлы: `apps/macos/BlotMac/Services/ChildProcessShutdown.swift`.
+Файлы: `apps/macos/OriMac/Services/ChildProcessShutdown.swift`.
 
 Проверка: Завершить приложение при работающем дочернем tool.
 
@@ -2402,7 +2402,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 В app entry настроить WindowGroup и Settings; определить владельца общего состояния и отдельное выделение/навигацию каждого окна.
 
-Файлы: `apps/macos/BlotMac/App/BlotMacApp.swift`.
+Файлы: `apps/macos/OriMac/App/OriMacApp.swift`.
 
 Проверка: Открыть несколько окон и сохранить нужный проект.
 
@@ -2410,15 +2410,15 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Различить закрытие последнего окна и quit приложения; реализовать выбранную policy сохранения backend/работы и описать её пользователю.
 
-Файлы: `apps/macos/BlotMac/Services/WindowLifecycle.swift`.
+Файлы: `apps/macos/OriMac/Services/WindowLifecycle.swift`.
 
 Проверка: Закрыть окно и проверить принятую lifecycle policy.
 
 ### 249. M15.2: Перенести design tokens и базовые компоненты
 
-В BlotDesign написать цвета, шрифты, spacing и базовые SwiftUI-компоненты по макетам; поддержать обе темы и системные размеры текста.
+В OriDesign написать цвета, шрифты, spacing и базовые SwiftUI-компоненты по макетам; поддержать обе темы и системные размеры текста.
 
-Файлы: `apps/macos/BlotMac/Design/BlotTheme.swift`.
+Файлы: `apps/macos/OriMac/Design/OriTheme.swift`.
 
 Проверка: Сверить светлую и тёмную темы с макетом.
 
@@ -2426,7 +2426,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать sidebar проектов и команды, выбрать projectId и показать empty/loading/error; выбранный проект хранить в состоянии окна.
 
-Файлы: `apps/macos/BlotMac/Views/Sidebar/ProjectSidebar.swift`.
+Файлы: `apps/macos/OriMac/Views/Sidebar/ProjectSidebar.swift`.
 
 Проверка: Выбрать проект и сохранить выделение после обновления.
 
@@ -2434,7 +2434,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать выбор папки репозитория, передать путь серверу и показать результат проверки/dirty tree; не выполнять reset или Git в View.
 
-Файлы: `apps/macos/BlotMac/Views/Projects/AddRepositoryView.swift`.
+Файлы: `apps/macos/OriMac/Views/Projects/AddRepositoryView.swift`.
 
 Проверка: Отклонить не-repo и сохранить dirty tree.
 
@@ -2442,7 +2442,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать форму цели и условий готовности; проверить пустой ввод и отправить команду создания Run через BackendClient.
 
-Файлы: `apps/macos/BlotMac/Views/Tasks/NewTaskView.swift`.
+Файлы: `apps/macos/OriMac/Views/Tasks/NewTaskView.swift`.
 
 Проверка: Отправить цель с контекстом выбранного проекта.
 
@@ -2450,7 +2450,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать список сообщений, поле ввода, черновик и отправку обычного сообщения; отличать разговор от кнопки начала рабочего задания.
 
-Файлы: `apps/macos/BlotMac/Views/Chat/ChatView.swift`.
+Файлы: `apps/macos/OriMac/Views/Chat/ChatView.swift`.
 
 Проверка: Пройти обычный разговор и рабочий запуск.
 
@@ -2458,7 +2458,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Показывать текстовые chunks, tool calls, результаты и ошибки из событий; не заменять реальный поток заранее написанным ответом.
 
-Файлы: `apps/macos/BlotMac/Views/Chat/ToolResultView.swift`.
+Файлы: `apps/macos/OriMac/Views/Chat/ToolResultView.swift`.
 
 Проверка: Отобразить обрыв потока и ошибочный exit code.
 
@@ -2466,7 +2466,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать Team Workspace со списком сессий, задачами и деталями; состояние каждой панели брать из общего ProjectStore.
 
-Файлы: `apps/macos/BlotMac/Views/Team/TeamWorkspaceView.swift`.
+Файлы: `apps/macos/OriMac/Views/Team/TeamWorkspaceView.swift`.
 
 Проверка: Выбрать специалиста, его задачу и канал.
 
@@ -2474,7 +2474,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать карточку агента с ролью, текущей попыткой, waitingReason, usage и историей; управляющие кнопки отправляют серверные команды.
 
-Файлы: `apps/macos/BlotMac/Views/Team/AgentDetailView.swift`.
+Файлы: `apps/macos/OriMac/Views/Team/AgentDetailView.swift`.
 
 Проверка: Показать причину ожидания и историю попыток.
 
@@ -2482,7 +2482,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать список задач с критериями, зависимостями и попытками; показывать блокировку и открывать необходимую предыдущую задачу.
 
-Файлы: `apps/macos/BlotMac/Views/Tasks/ProjectPlanView.swift`.
+Файлы: `apps/macos/OriMac/Views/Tasks/ProjectPlanView.swift`.
 
 Проверка: Открыть blocked-задачу и её зависимость.
 
@@ -2490,7 +2490,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать каналы, историю с пагинацией, поиск и переход к messageId; при смене проекта очищать чужую выбранную переписку.
 
-Файлы: `apps/macos/BlotMac/Views/Channels/ChannelView.swift`.
+Файлы: `apps/macos/OriMac/Views/Channels/ChannelView.swift`.
 
 Проверка: Найти ответ коллеги и перейти к задаче.
 
@@ -2498,7 +2498,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать timeline по реальным ProjectEvent: время, тип, источник и фильтры; открывать объект по ID события.
 
-Файлы: `apps/macos/BlotMac/Views/Activity/ActivityView.swift`.
+Файлы: `apps/macos/OriMac/Views/Activity/ActivityView.swift`.
 
 Проверка: Открыть artifact и approval из timeline.
 
@@ -2506,7 +2506,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Показать очередь ApprovalRequest и точные подготовленные аргументы/hash; approve/deny отправлять с текущей версией и обрабатывать stale.
 
-Файлы: `apps/macos/BlotMac/Views/Approvals/ApprovalQueueView.swift`.
+Файлы: `apps/macos/OriMac/Views/Approvals/ApprovalQueueView.swift`.
 
 Проверка: Показать pending, denied и expired без ложной отправки.
 
@@ -2514,7 +2514,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать экран reviewer/findings/evidence/hash; открыть старую попытку и отдельно показать принятие текущего результата.
 
-Файлы: `apps/macos/BlotMac/Views/Review/ReviewView.swift`.
+Файлы: `apps/macos/OriMac/Views/Review/ReviewView.swift`.
 
 Проверка: Сверить reviewer и hash текущего diff.
 
@@ -2522,7 +2522,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать diff viewer с добавленными/удалёнными строками, rename/binary и порционной загрузкой больших файлов.
 
-Файлы: `apps/macos/BlotMac/Views/Review/DiffView.swift`.
+Файлы: `apps/macos/OriMac/Views/Review/DiffView.swift`.
 
 Проверка: Прочитать большой файл, rename и binary change.
 
@@ -2530,7 +2530,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Показывать stdout/stderr, exitCode, timeout и truncation tools; не исполнять команды или escape-последовательности из текста вывода.
 
-Файлы: `apps/macos/BlotMac/Views/Terminal/ToolOutputView.swift`.
+Файлы: `apps/macos/OriMac/Views/Terminal/ToolOutputView.swift`.
 
 Проверка: Показать truncated output и exit code.
 
@@ -2538,7 +2538,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Добавить pause/resume/stop по фактическому Run/Session status; отключать недопустимые действия и ждать подтверждённого события сервера.
 
-Файлы: `apps/macos/BlotMac/Views/Controls/RunControlView.swift`.
+Файлы: `apps/macos/OriMac/Views/Controls/RunControlView.swift`.
 
 Проверка: Остановить новые операции и сохранить checkpoint.
 
@@ -2546,7 +2546,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать выбор доступной модели, лимиты бюджета и фактический/оценочный расход; изменение настроек отправлять отдельной командой.
 
-Файлы: `apps/macos/BlotMac/Views/Settings/ModelSettingsView.swift`.
+Файлы: `apps/macos/OriMac/Views/Settings/ModelSettingsView.swift`.
 
 Проверка: Обработать недоступную модель и исчерпанный лимит.
 
@@ -2554,7 +2554,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Показать версии Java/Xcode, readiness runner, ошибки хранения и безопасный diagnostic export; не отображать ключи в диагностике.
 
-Файлы: `apps/macos/BlotMac/Views/Settings/EnvironmentSettingsView.swift`.
+Файлы: `apps/macos/OriMac/Views/Settings/EnvironmentSettingsView.swift`.
 
 Проверка: Показать отсутствие Xcode runner и ошибку Java.
 
@@ -2562,7 +2562,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать command palette с поиском разрешённых действий и переходов; каждое действие вызывает существующую команду приложения.
 
-Файлы: `apps/macos/BlotMac/Views/Commands/CommandPalette.swift`.
+Файлы: `apps/macos/OriMac/Views/Commands/CommandPalette.swift`.
 
 Проверка: Найти команду и перейти к нужному экрану.
 
@@ -2570,7 +2570,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Задать Commands и keyboard shortcuts для навигации, поиска и управления; учитывать фокус поля ввода и недоступные действия.
 
-Файлы: `apps/macos/BlotMac/Commands/BlotCommands.swift`.
+Файлы: `apps/macos/OriMac/Commands/OriCommands.swift`.
 
 Проверка: Пройти новые задачу, поиск и остановку с клавиатуры.
 
@@ -2578,7 +2578,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать настройку remote access с явным включением пользователем; состояние по умолчанию не должно открывать LAN endpoint.
 
-Файлы: `apps/macos/BlotMac/Services/Connectivity/RemoteAccessSettings.swift`.
+Файлы: `apps/macos/OriMac/Services/Connectivity/RemoteAccessSettings.swift`.
 
 Проверка: Проверить отключённую функцию после новой установки.
 
@@ -2602,7 +2602,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать installation ID и ключ/certificate TLS, хранить закрытый ключ защищённо; зафиксировать fingerprint, не доверять любому self-signed сертификату.
 
-Файлы: `apps/macos/BlotMac/Services/Connectivity/InstallationIdentity.swift`.
+Файлы: `apps/macos/OriMac/Services/Connectivity/InstallationIdentity.swift`.
 
 Проверка: Проверить fingerprint при повторном подключении.
 
@@ -2610,7 +2610,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Запускать TLS listener только при включённом remote access; при выключении закрывать listener и активные удалённые подключения по принятой policy.
 
-Файлы: `apps/macos/BlotMac/Services/Connectivity/RemoteEndpointLifecycle.swift`.
+Файлы: `apps/macos/OriMac/Services/Connectivity/RemoteEndpointLifecycle.swift`.
 
 Проверка: Отключить функцию и проверить прекращение новых соединений.
 
@@ -2618,7 +2618,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Публиковать Bonjour-сервис Mac с версией/capabilities и искать его на iPhone; обнаружение не означает доверие устройству.
 
-Файлы: `apps/macos/BlotMac/Services/Connectivity/BonjourService.swift`.
+Файлы: `apps/macos/OriMac/Services/Connectivity/BonjourService.swift`.
 
 Проверка: Найти сервис на физическом iPhone.
 
@@ -2626,7 +2626,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Добавить ввод host/port с валидацией и timeout; ручной адрес проходит ту же проверку identity, что найденный Bonjour.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/Connectivity/ManualEndpoint.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/Connectivity/ManualEndpoint.swift`.
 
 Проверка: Проверить сеть с заблокированным Bonjour.
 
@@ -2634,7 +2634,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать одноразовый pairing challenge с nonce, сроком и identity; QR содержит нужные данные соединения, но не ключ GigaChat.
 
-Файлы: `apps/macos/BlotMac/Services/Connectivity/PairingChallenge.swift`.
+Файлы: `apps/macos/OriMac/Services/Connectivity/PairingChallenge.swift`.
 
 Проверка: Отклонить повтор и истёкший QR.
 
@@ -2642,7 +2642,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 На Mac показать неизвестное устройство и явное accept/deny; до accept не выдавать рабочие credentials.
 
-Файлы: `apps/macos/BlotMac/Views/Settings/DeviceApprovalView.swift`.
+Файлы: `apps/macos/OriMac/Views/Settings/DeviceApprovalView.swift`.
 
 Проверка: Пройти approve и reject нового устройства.
 
@@ -2650,7 +2650,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 На iPhone проверить fingerprint из принятого pairing против подключённого Mac; несовпадение прекращает соединение.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/Connectivity/MacTrustVerifier.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/Connectivity/MacTrustVerifier.swift`.
 
 Проверка: Отклонить другой Mac с тем же именем.
 
@@ -2658,7 +2658,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 После принятия сохранить отзывные device credentials в Keychain; сервер хранит привязку устройства и возможность отзыва, секреты не пишутся в JSON snapshot.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/Connectivity/DeviceCredentialStore.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/Connectivity/DeviceCredentialStore.swift`.
 
 Проверка: Проверить отсутствие credentials в обычном preferences-файле.
 
@@ -2666,7 +2666,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Проверять credentials и project scope каждой команды и SSE-подписки; отзыв должен закрывать уже действующее соединение.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/Connectivity/AuthenticatedTransport.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/Connectivity/AuthenticatedTransport.swift`.
 
 Проверка: Отклонить неизвестное устройство.
 
@@ -2674,7 +2674,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Хранить разрешённые project IDs устройства; сервер запрещает запросы к проекту вне списка независимо от фильтров UI.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/Connectivity/DeviceProjectScope.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/Connectivity/DeviceProjectScope.swift`.
 
 Проверка: Запросить snapshot чужого проекта.
 
@@ -2682,7 +2682,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 После аутентификации получить snapshot/watermark и события после него; reconnect использует cursor вместо потери истории.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/Connectivity/RemoteSnapshotClient.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/Connectivity/RemoteSnapshotClient.swift`.
 
 Проверка: Догрузить события между snapshot и подключением потока.
 
@@ -2690,7 +2690,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Повторять потерянную отправку с прежним commandId и тем же payload; сервер возвращает прежний итог, а не создаёт новый Run.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/Connectivity/RemoteCommandRetry.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/Connectivity/RemoteCommandRetry.swift`.
 
 Проверка: Оборвать ответ сервера после принятой команды.
 
@@ -2698,7 +2698,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 После смены IP повторно найти тот же installation ID, проверить fingerprint и возобновить поток по cursor.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/Connectivity/EndpointRediscovery.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/Connectivity/EndpointRediscovery.swift`.
 
 Проверка: Переподключить Mac к сети с новым адресом.
 
@@ -2706,7 +2706,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать revoke device: удалить/отозвать credential на сервере и завершить подписки; клиент показывает потерю доверия и предлагает новое pairing.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/Connectivity/DeviceRevocation.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/Connectivity/DeviceRevocation.swift`.
 
 Проверка: Прекратить команды и SSE действующего телефона.
 
@@ -2714,7 +2714,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать список grants и доверенных устройств с просмотром scope и отзывом; показывать последствия удаления активного доступа.
 
-Файлы: `apps/macos/BlotMac/Views/Settings/PermissionSettingsView.swift`.
+Файлы: `apps/macos/OriMac/Views/Settings/PermissionSettingsView.swift`.
 
 Проверка: Отозвать grant и доступ iPhone.
 
@@ -2722,7 +2722,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать типизированные denied/timeout/unavailable/incompatible ошибки с конкретным следующим действием; не показывать бесконечный spinner.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/Connectivity/RemoteConnectionError.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/Connectivity/RemoteConnectionError.swift`.
 
 Проверка: Показать понятное действие после ошибки соединения.
 
@@ -2730,7 +2730,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Хранить отдельные авторизованные подключения устройств; всем разрешённым клиентам отправлять одинаковую историю проекта с собственным cursor.
 
-Файлы: `apps/macos/BlotMac/Services/Connectivity/RemoteClientRegistry.swift`.
+Файлы: `apps/macos/OriMac/Services/Connectivity/RemoteClientRegistry.swift`.
 
 Проверка: Получить одинаковые события на двух устройствах.
 
@@ -2738,7 +2738,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Отправлять approval decision с ID/version; сервер атомарно принимает одно решение, второй клиент получает уже сохранённый результат.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/Connectivity/ApprovalSync.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/Connectivity/ApprovalSync.swift`.
 
 Проверка: Одновременно подтвердить один запрос на Mac и iPhone.
 
@@ -2746,7 +2746,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать allowlist полей remote snapshot/event payload; запретить ключ GigaChat, access token и приватные локальные пути, не нужные клиенту.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/Connectivity/RemotePayloadPolicy.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/Connectivity/RemotePayloadPolicy.swift`.
 
 Проверка: Просканировать snapshot и event payload на credentials.
 
@@ -2770,7 +2770,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Определить стабильные UUID services/characteristics, направление write/notify, версии и максимальные размеры; оформить общий GATT profile.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/Bluetooth/GattProfile.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/Bluetooth/GattProfile.swift`.
 
 Проверка: Проверить чтение, запись и notify выбранных UUID.
 
@@ -2778,7 +2778,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Написать CBPeripheralManager сервиса Mac: публиковать characteristics, advertising и принимать/отвечать на запросы после изменения Bluetooth state.
 
-Файлы: `apps/macos/BlotMac/Services/Bluetooth/MacPeripheralService.swift`.
+Файлы: `apps/macos/OriMac/Services/Bluetooth/MacPeripheralService.swift`.
 
 Проверка: Найти Mac после повторного включения Bluetooth.
 
@@ -2786,7 +2786,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Написать CBCentralManager iOS: scan, список найденных Mac, connect, service discovery и подписку notify; обрабатывать отмену/timeout.
 
-Файлы: `apps/ios/BlotIOS/Services/Bluetooth/PhoneCentralService.swift`.
+Файлы: `apps/ios/OriIOS/Services/Bluetooth/PhoneCentralService.swift`.
 
 Проверка: Проверить timeout и несколько найденных устройств.
 
@@ -2794,7 +2794,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Связать BLE connection с той же installation/device identity и подтверждением, что Wi-Fi; найденное устройство без pairing не исполняет команды.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/Bluetooth/BlePairing.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/Bluetooth/BlePairing.swift`.
 
 Проверка: Отклонить телефон без принятого pairing.
 
@@ -2802,7 +2802,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Определить версию envelope, защищённый session и проверку identity/целостности; отвергать неизвестную версию до декодирования команды.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/Bluetooth/BleProtocolVersion.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/Bluetooth/BleProtocolVersion.swift`.
 
 Проверка: Отклонить несовместимую версию и чужую identity.
 
@@ -2810,7 +2810,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Разбивать сообщение по фактическому доступному размеру GATT записи; собирать обратно только полное сообщение с ограничением общего размера.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/Bluetooth/BleFragmenter.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/Bluetooth/BleFragmenter.swift`.
 
 Проверка: Передать сообщение больше одного GATT frame.
 
@@ -2818,7 +2818,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать BleFrame с messageId, индексом, числом фрагментов и длиной; проверять диапазоны, повтор и порядок при сборке.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/Bluetooth/BleFrame.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/Bluetooth/BleFrame.swift`.
 
 Проверка: Проверить переставленные и повреждённые фрагменты.
 
@@ -2826,7 +2826,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Подтверждать принятые фрагменты/сообщение и проверять контроль целостности; повреждённое или неполное сообщение не передавать Java.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/Bluetooth/BleAcknowledgement.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/Bluetooth/BleAcknowledgement.swift`.
 
 Проверка: Потерять фрагмент и не применить неполное сообщение.
 
@@ -2834,7 +2834,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Хранить deadline и ограниченное число повторов фрагмента; duplicate ACK не должен повторно завершать логическую команду.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/Bluetooth/BleRetry.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/Bluetooth/BleRetry.swift`.
 
 Проверка: Отправить duplicate ACK и проверить отсутствие дубля команды.
 
@@ -2842,7 +2842,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Ограничить очередь передачи, число собираемых сообщений и память; замедлять отправителя, освобождать просроченные buffers.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/Bluetooth/BleBackpressure.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/Bluetooth/BleBackpressure.swift`.
 
 Проверка: Передавать большой diff при медленном получателе.
 
@@ -2850,7 +2850,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Кодировать те же domain commands и message IDs в BLE envelope; native bridge передаёт их Java через обычные проверенные handlers.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/Bluetooth/BleCommandCodec.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/Bluetooth/BleCommandCodec.swift`.
 
 Проверка: Отправить задание и проверить Java commandId.
 
@@ -2858,7 +2858,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Кодировать компактный ProjectEvent с исходными eventId/seq/version; после декодирования применять тот же reducer, что Wi-Fi.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/Bluetooth/BleEventCodec.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/Bluetooth/BleEventCodec.swift`.
 
 Проверка: Сверить состояние задачи с Wi-Fi snapshot.
 
@@ -2866,7 +2866,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Запрашивать артефакт порциями по artifactId/offset/limit; хранить прогресс, проверять итоговый hash и возобновлять после разрыва.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/Bluetooth/BleArtifactTransfer.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/Bluetooth/BleArtifactTransfer.swift`.
 
 Проверка: Догрузить большой артефакт после разрыва.
 
@@ -2874,7 +2874,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Ограничивать частоту UI graph updates, объединяя визуальные обновления; не терять события и их исходные seq.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/Bluetooth/BleGraphThrottle.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/Bluetooth/BleGraphThrottle.swift`.
 
 Проверка: Проверить поток событий без перегрузки UI.
 
@@ -2882,7 +2882,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 После reconnect запросить события после сохранённого cursor; при недоступной истории получить snapshot, не делать вид, что данные актуальны.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/Bluetooth/BleReplay.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/Bluetooth/BleReplay.swift`.
 
 Проверка: Восстановить пропущенные события после reconnect.
 
@@ -2890,7 +2890,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Сохранять одну логическую сессию и commandId при выборе Wi-Fi/BLE; pending команда при переключении не создаёт второе исполнение.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/Bluetooth/TransportHandoff.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/Bluetooth/TransportHandoff.swift`.
 
 Проверка: Переключить транспорт во время отправки команды.
 
@@ -2898,7 +2898,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Преобразовать BLE states и permissions в понятное состояние UI; объяснять denied Bluetooth и недоступность Mac без ложного connected.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/Bluetooth/BleConnectionState.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/Bluetooth/BleConnectionState.swift`.
 
 Проверка: Показать denied Bluetooth и unavailable Mac.
 
@@ -2906,7 +2906,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 На физических устройствах проверить lock/unlock, background/resume, radio loss и Bluetooth off/on; записать известные ограничения фоновой работы.
 
-Файлы: `packages/BlotAPI/Sources/BlotAPI/Bluetooth/BleLifecycle.swift`.
+Файлы: `packages/OriAPI/Sources/OriAPI/Bluetooth/BleLifecycle.swift`.
 
 Проверка: Заблокировать iPhone и вернуться после потери сигнала.
 
@@ -2922,7 +2922,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать GraphNode/GraphEdge с ID, типом, sourceEntityId и payload; типы agent/task/message/review различать enum, не строками UI.
 
-Файлы: `packages/BlotGraph/Sources/BlotGraph/GraphNode.swift`.
+Файлы: `packages/OriGraph/Sources/OriGraph/GraphNode.swift`.
 
 Проверка: Декодировать агента, задачу, сообщение и review edge.
 
@@ -2930,7 +2930,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Построить GraphProjection из snapshot и доменных событий; удаление/изменение сущности обновляет соответствующие узлы и связи по ID.
 
-Файлы: `packages/BlotGraph/Sources/BlotGraph/GraphProjection.swift`.
+Файлы: `packages/OriGraph/Sources/OriGraph/GraphProjection.swift`.
 
 Проверка: Проверить source ID каждого ребра.
 
@@ -2938,7 +2938,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Реализовать layout отделов и иерархии с измерением размеров узлов; не допускать пересечений карточек и подписей.
 
-Файлы: `packages/BlotGraph/Sources/BlotGraph/OrganizationLayout.swift`.
+Файлы: `packages/OriGraph/Sources/OriGraph/OrganizationLayout.swift`.
 
 Проверка: Разложить сотрудников по отделам без пересечений.
 
@@ -2946,7 +2946,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Реализовать слои DAG по зависимостям задач и направления рёбер; циклические/невалидные данные показывать как ошибку, не зависать.
 
-Файлы: `packages/BlotGraph/Sources/BlotGraph/DependencyLayout.swift`.
+Файлы: `packages/OriGraph/Sources/OriGraph/DependencyLayout.swift`.
 
 Проверка: Показать несколько уровней и blocked dependency.
 
@@ -2954,7 +2954,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Сохранять координаты существующих узлов при обновлении и размещать новые рядом; выбранный узел не должен прыгать из-за одного события.
 
-Файлы: `packages/BlotGraph/Sources/BlotGraph/StableGraphLayout.swift`.
+Файлы: `packages/OriGraph/Sources/OriGraph/StableGraphLayout.swift`.
 
 Проверка: Добавить событие без скачка выбранного узла.
 
@@ -2962,7 +2962,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать группы/сворачивание подграфа; агрегировать внешние связи и сохранять возможность раскрыть исходные объекты.
 
-Файлы: `packages/BlotGraph/Sources/BlotGraph/GraphGrouping.swift`.
+Файлы: `packages/OriGraph/Sources/OriGraph/GraphGrouping.swift`.
 
 Проверка: Сохранить внешние связи скрытой группы.
 
@@ -2970,7 +2970,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Фильтровать узлы по роли, агенту, задаче и состоянию; убрать рёбра с отсутствующими видимыми концами или явно показать группу.
 
-Файлы: `packages/BlotGraph/Sources/BlotGraph/GraphFilter.swift`.
+Файлы: `packages/OriGraph/Sources/OriGraph/GraphFilter.swift`.
 
 Проверка: Не показать посторонние edges после фильтрации.
 
@@ -2978,7 +2978,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Реализовать ограниченные pan/zoom, масштаб относительно указателя/жеста и reset view; поддержать мышь и touch без конфликта выбора.
 
-Файлы: `packages/BlotGraph/Sources/BlotGraph/GraphGestures.swift`.
+Файлы: `packages/OriGraph/Sources/OriGraph/GraphGestures.swift`.
 
 Проверка: Пройти одинаковый сценарий на Mac и iPhone.
 
@@ -2986,15 +2986,15 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Передавать selection по node/source ID в общий store окна; выбранная карточка и чат должны соответствовать выделенному узлу.
 
-Файлы: `packages/BlotGraph/Sources/BlotGraph/GraphSelection.swift`.
+Файлы: `packages/OriGraph/Sources/OriGraph/GraphSelection.swift`.
 
 Проверка: Выбрать task node и проверить общий selection state.
 
 ### 321. M15.9: Подключить общий граф
 
-Подключить BlotGraph к текущей projection и selection; выбор узла открывает связанную задачу/агента, не создаёт отдельную несогласованную копию данных.
+Подключить OriGraph к текущей projection и selection; выбор узла открывает связанную задачу/агента, не создаёт отдельную несогласованную копию данных.
 
-Файлы: `apps/macos/BlotMac/Views/Team/AgentGraphView.swift`.
+Файлы: `apps/macos/OriMac/Views/Team/AgentGraphView.swift`.
 
 Проверка: Переключить три режима без потери выбранного узла.
 
@@ -3002,7 +3002,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Хранить единый selection state для задачи/агента/графа/чата в окне; переключение одной панели должно согласованно обновлять остальные.
 
-Файлы: `apps/macos/BlotMac/Stores/SelectionStore.swift`.
+Файлы: `apps/macos/OriMac/Stores/SelectionStore.swift`.
 
 Проверка: Выбор в графе обновляет карточку и чат.
 
@@ -3010,7 +3010,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать разрешение source ссылки ребра в message/assignment/dependency/review; открывать существующую запись и показывать ошибку удалённого источника.
 
-Файлы: `packages/BlotGraph/Sources/BlotGraph/GraphEdgeSource.swift`.
+Файлы: `packages/OriGraph/Sources/OriGraph/GraphEdgeSource.swift`.
 
 Проверка: Перейти к сообщению, назначению или review record.
 
@@ -3018,7 +3018,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Показывать передачу только для реального activity event с ID/временем; завершать индикатор по состоянию, не анимировать случайные линии.
 
-Файлы: `packages/BlotGraph/Sources/BlotGraph/GraphTransferState.swift`.
+Файлы: `packages/OriGraph/Sources/OriGraph/GraphTransferState.swift`.
 
 Проверка: Не анимировать передачу без существующего события.
 
@@ -3026,7 +3026,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 При Reduce Motion отключать движение и заменять его статическим признаком активности; сохранять смысл состояний и выбранного узла.
 
-Файлы: `packages/BlotGraph/Sources/BlotGraph/GraphMotionPolicy.swift`.
+Файлы: `packages/OriGraph/Sources/OriGraph/GraphMotionPolicy.swift`.
 
 Проверка: Проверить статическую индикацию активности.
 
@@ -3034,7 +3034,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать список узлов и связей с accessibility actions для тех же переходов; граф не должен быть единственным способом открыть задачу.
 
-Файлы: `packages/BlotGraph/Sources/BlotGraph/GraphAccessibleList.swift`.
+Файлы: `packages/OriGraph/Sources/OriGraph/GraphAccessibleList.swift`.
 
 Проверка: Открыть узел и связь через VoiceOver.
 
@@ -3042,7 +3042,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать большие fixtures с заданным числом узлов/рёбер и измерить layout/update time/память; записать устройство и границы приемлемого размера.
 
-Файлы: `packages/BlotGraph/Tests/BlotGraphTests/GraphPerformanceFixtures.swift`.
+Файлы: `packages/OriGraph/Tests/OriGraphTests/GraphPerformanceFixtures.swift`.
 
 Проверка: Измерить layout и частоту обновления на целевом устройстве.
 
@@ -3050,15 +3050,15 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать вкладки Чат/Команда/Задачи/Активность и отдельную навигацию подключения; выбранный Mac/project сохранять в общем состоянии.
 
-Файлы: `apps/ios/BlotIOS/Navigation/AppTab.swift`.
+Файлы: `apps/ios/OriIOS/Navigation/AppTab.swift`.
 
 Проверка: Проверить переходы и сохранение выбранного проекта.
 
 ### 329. I18.2: Подключить общую дизайн-систему
 
-Использовать BlotDesign на мобильных экранах; адаптировать размеры для touch и Dynamic Type вместо копирования desktop размеров.
+Использовать OriDesign на мобильных экранах; адаптировать размеры для touch и Dynamic Type вместо копирования desktop размеров.
 
-Файлы: `apps/ios/BlotIOS/Design/MobileTheme.swift`.
+Файлы: `apps/ios/OriIOS/Design/MobileTheme.swift`.
 
 Проверка: Сверить компоненты и две темы.
 
@@ -3066,7 +3066,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать список доверенных Mac с installation ID, именем и доступностью; удалённое/отозванное устройство не показывает рабочие команды.
 
-Файлы: `apps/ios/BlotIOS/Views/Connection/ComputerListView.swift`.
+Файлы: `apps/ios/OriIOS/Views/Connection/ComputerListView.swift`.
 
 Проверка: Открыть ранее связанный и удалённый компьютер.
 
@@ -3074,7 +3074,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать discovery UI с загрузкой, найденными Mac, пустым результатом и retry; результат сканирования не должен автоматически доверять Mac.
 
-Файлы: `apps/ios/BlotIOS/Views/Connection/DiscoveryView.swift`.
+Файлы: `apps/ios/OriIOS/Views/Connection/DiscoveryView.swift`.
 
 Проверка: Проверить пустой результат и повторный discovery.
 
@@ -3082,7 +3082,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать QR scanner и ручной адрес; запросить камеру только для сканирования и обработать denied/истёкший challenge.
 
-Файлы: `apps/ios/BlotIOS/Views/Connection/PairingView.swift`.
+Файлы: `apps/ios/OriIOS/Views/Connection/PairingView.swift`.
 
 Проверка: Пройти отказ камеры и истёкший QR.
 
@@ -3090,7 +3090,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Показывать Wi-Fi/BLE/offline/reconnecting и актуальность данных; connected устанавливать после аутентификации, не просто открытия сокета.
 
-Файлы: `apps/ios/BlotIOS/Views/Connection/ConnectionStatusView.swift`.
+Файлы: `apps/ios/OriIOS/Views/Connection/ConnectionStatusView.swift`.
 
 Проверка: Сравнить Wi-Fi, BLE, offline и reconnect.
 
@@ -3098,7 +3098,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Получать проекты выбранного Mac через BackendClient; показывать загрузку, пустой список и серверный отказ доступа.
 
-Файлы: `apps/ios/BlotIOS/Views/Projects/ProjectListView.swift`.
+Файлы: `apps/ios/OriIOS/Views/Projects/ProjectListView.swift`.
 
 Проверка: Выбрать проект без доступа и обработать отказ.
 
@@ -3106,7 +3106,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать мобильный чат с потоковым ответом, черновиком и клавиатурой; текст разговора сам не создаёт рабочий Run.
 
-Файлы: `apps/ios/BlotIOS/Views/Chat/MobileChatView.swift`.
+Файлы: `apps/ios/OriIOS/Views/Chat/MobileChatView.swift`.
 
 Проверка: Прочитать поток ответа и сохранить черновик.
 
@@ -3114,7 +3114,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать форму нового задания и отправку команды с commandId; после ack показывать принятие команды, затем фактический запуск из события.
 
-Файлы: `apps/ios/BlotIOS/Views/Chat/NewRunView.swift`.
+Файлы: `apps/ios/OriIOS/Views/Chat/NewRunView.swift`.
 
 Проверка: Проверить созданную задачу и файл на Mac.
 
@@ -3122,7 +3122,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать выбор сотрудника при @mention и вставку адресата; сервер получает sessionId выбранного специалиста.
 
-Файлы: `apps/ios/BlotIOS/Views/Chat/AgentMentionView.swift`.
+Файлы: `apps/ios/OriIOS/Views/Chat/AgentMentionView.swift`.
 
 Проверка: Доставить вопрос выбранной сессии.
 
@@ -3130,7 +3130,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать список сессий с ролью, текущей задачей и waitingReason; данные брать из того же ProjectStore, что остальные экраны.
 
-Файлы: `apps/ios/BlotIOS/Views/Team/MobileTeamView.swift`.
+Файлы: `apps/ios/OriIOS/Views/Team/MobileTeamView.swift`.
 
 Проверка: Сопоставить статус сотрудников с Mac.
 
@@ -3138,15 +3138,15 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать карточку агента с задачей/попыткой/контекстом истории и разрешёнными действиями; пустой статус не заменять выдуманным результатом.
 
-Файлы: `apps/ios/BlotIOS/Views/Team/MobileAgentView.swift`.
+Файлы: `apps/ios/OriIOS/Views/Team/MobileAgentView.swift`.
 
 Проверка: Показать waiting reason и активную задачу.
 
 ### 340. I18.13: Подключить общий граф с touch gestures
 
-Встроить BlotGraph с pan/zoom/touch selection и доступным списком; выбор узла открывает реальную карточку объекта.
+Встроить OriGraph с pan/zoom/touch selection и доступным списком; выбор узла открывает реальную карточку объекта.
 
-Файлы: `apps/ios/BlotIOS/Views/Team/MobileGraphView.swift`.
+Файлы: `apps/ios/OriIOS/Views/Team/MobileGraphView.swift`.
 
 Проверка: Пройти pan, zoom и выбор узла.
 
@@ -3154,7 +3154,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Написать проверки равенства node/edge/source IDs одного snapshot на Mac/iPhone; различаться может расположение, но не смысл связей.
 
-Файлы: `packages/BlotGraph/Tests/BlotGraphTests/GraphParityTests.swift`.
+Файлы: `packages/OriGraph/Tests/OriGraphTests/GraphParityTests.swift`.
 
 Проверка: Сравнить projection одного snapshot на Mac и iPhone.
 
@@ -3162,7 +3162,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать список/детали задач: критерии, зависимости, попытки, результат и ревью; дать открыть старую попытку без изменения текущей.
 
-Файлы: `apps/ios/BlotIOS/Views/Tasks/MobileTaskView.swift`.
+Файлы: `apps/ios/OriIOS/Views/Tasks/MobileTaskView.swift`.
 
 Проверка: Открыть результат предыдущей попытки.
 
@@ -3170,7 +3170,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать список каналов и сообщения с source task/artifact; поиск и переход используют сохранённый messageId.
 
-Файлы: `apps/ios/BlotIOS/Views/Channels/MobileChannelView.swift`.
+Файлы: `apps/ios/OriIOS/Views/Channels/MobileChannelView.swift`.
 
 Проверка: Найти сообщение Backend и открыть source task.
 
@@ -3178,7 +3178,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать activity list по ProjectEvent с фильтром и переходом к источнику; не показывать синтетические события без записи сервера.
 
-Файлы: `apps/ios/BlotIOS/Views/Activity/MobileActivityView.swift`.
+Файлы: `apps/ios/OriIOS/Views/Activity/MobileActivityView.swift`.
 
 Проверка: Перейти из события к разрешению.
 
@@ -3186,7 +3186,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Показать scope, diff/hash, пути и последствия ApprovalRequest; отправить approve/deny с version и обработать уже решённый/stale запрос.
 
-Файлы: `apps/ios/BlotIOS/Views/Approvals/MobileApprovalView.swift`.
+Файлы: `apps/ios/OriIOS/Views/Approvals/MobileApprovalView.swift`.
 
 Проверка: Подтвердить актуальное и отклонить stale действие.
 
@@ -3194,7 +3194,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать экран ревью с reviewer, findings, evidence и snapshot hash; отделить просмотр от серверного принятия результата.
 
-Файлы: `apps/ios/BlotIOS/Views/Review/MobileReviewView.swift`.
+Файлы: `apps/ios/OriIOS/Views/Review/MobileReviewView.swift`.
 
 Проверка: Сверить hash с текущей версией результата.
 
@@ -3202,7 +3202,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать мобильный diff с порциями, номерами строк, rename/binary и loading/error; для BLE не загружать весь большой файл сразу.
 
-Файлы: `apps/ios/BlotIOS/Views/Review/MobileDiffView.swift`.
+Файлы: `apps/ios/OriIOS/Views/Review/MobileDiffView.swift`.
 
 Проверка: Прочитать большой файл через BLE.
 
@@ -3210,7 +3210,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Добавить pause/resume/stop команды запуска; кнопки отражают серверный status и не меняют Run локально до подтверждения.
 
-Файлы: `apps/ios/BlotIOS/Views/Controls/MobileRunControl.swift`.
+Файлы: `apps/ios/OriIOS/Views/Controls/MobileRunControl.swift`.
 
 Проверка: Проверить реальное состояние Mac после команды.
 
@@ -3218,7 +3218,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Сохранять последний согласованный snapshot/cursor и черновики локально; offline показывает дату данных и не разрешает ложный успех отправки.
 
-Файлы: `apps/ios/BlotIOS/Services/HistoryCache.swift`.
+Файлы: `apps/ios/OriIOS/Services/HistoryCache.swift`.
 
 Проверка: Перезапустить приложение offline без потери текста.
 
@@ -3226,7 +3226,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Хранить sending/acknowledged/domain outcome отдельно по commandId; событие выполнения связывать с исходной командой.
 
-Файлы: `apps/ios/BlotIOS/Stores/CommandReceiptStore.swift`.
+Файлы: `apps/ios/OriIOS/Stores/CommandReceiptStore.swift`.
 
 Проверка: Не показать HTTP acknowledgement как готовую работу.
 
@@ -3234,7 +3234,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 При foreground заново проверить credentials и догрузить события после cursor; во время синхронизации показывать reconnecting/stale.
 
-Файлы: `apps/ios/BlotIOS/Services/AppLifecycleCoordinator.swift`.
+Файлы: `apps/ios/OriIOS/Services/AppLifecycleCoordinator.swift`.
 
 Проверка: Завершить работу на Mac и вернуться в приложение.
 
@@ -3250,7 +3250,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 При потере связи сохранить pending commandId/payload; после восстановления запросить исход или повторить тот же ID, не создавать второй запрос работы.
 
-Файлы: `apps/ios/BlotIOS/Services/CommandRecovery.swift`.
+Файлы: `apps/ios/OriIOS/Services/CommandRecovery.swift`.
 
 Проверка: Повторить commandId и не создать второй запуск.
 
@@ -3258,7 +3258,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Настроить Dynamic Type, accessibility labels/actions и длинные тексты; проверить формы, diff и approvals при максимальном размере шрифта.
 
-Файлы: `apps/ios/BlotIOS/Accessibility/MobileAccessibility.swift`.
+Файлы: `apps/ios/OriIOS/Accessibility/MobileAccessibility.swift`.
 
 Проверка: Пройти основной сценарий при крупном шрифте.
 
@@ -3378,7 +3378,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать каталог AgentProfile с role/model/instructionRevision/capabilities и доступностью; запрещённые модели/инструменты не предлагать.
 
-Файлы: `backend/application/src/main/java/dev/blot/hiring/SpecialistCatalog.java`.
+Файлы: `backend/application/src/main/java/dev/ori/hiring/SpecialistCatalog.java`.
 
 Проверка: Проверить роли, модели и ограничения каждого профиля.
 
@@ -3386,7 +3386,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Выбирать кандидатов по требуемым capabilities, роли и доступной модели; возвращать список и причины исключения остальных.
 
-Файлы: `backend/application/src/main/java/dev/blot/hiring/CandidateSelector.java`.
+Файлы: `backend/application/src/main/java/dev/ori/hiring/CandidateSelector.java`.
 
 Проверка: Исключить профиль без нужной capability.
 
@@ -3394,7 +3394,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Для каждого кандидата сохранить объяснение: совпавшие требования, доступность и ограничения; не выдумывать доказательства качества.
 
-Файлы: `backend/application/src/main/java/dev/blot/hiring/CandidateReason.java`.
+Файлы: `backend/application/src/main/java/dev/ori/hiring/CandidateReason.java`.
 
 Проверка: Показать источник каждой причины рекомендации.
 
@@ -3402,7 +3402,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Принимать явный HiringDecision от пользователя или разрешённой оркестрации; сохранить выбранный profileId, инициатора и основание.
 
-Файлы: `backend/application/src/main/java/dev/blot/hiring/HiringDecision.java`.
+Файлы: `backend/application/src/main/java/dev/ori/hiring/HiringDecision.java`.
 
 Проверка: Принять кандидата и сохранить инициатора решения.
 
@@ -3410,7 +3410,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать PerformanceRecord с sessionId/taskId/attemptId/profileRevision и подтверждёнными метриками; не смешивать разные попытки в одну запись.
 
-Файлы: `backend/application/src/main/java/dev/blot/hiring/PerformanceRecord.java`.
+Файлы: `backend/application/src/main/java/dev/ori/hiring/PerformanceRecord.java`.
 
 Проверка: Связать метрики с task и версией инструкции.
 
@@ -3418,7 +3418,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Считать активное время отдельно от очереди, ожидания разрешения и зависимостей; сохранять интервалы переходов состояния.
 
-Файлы: `backend/application/src/main/java/dev/blot/hiring/WorkDuration.java`.
+Файлы: `backend/application/src/main/java/dev/ori/hiring/WorkDuration.java`.
 
 Проверка: Не учитывать очередь модели как активное выполнение.
 
@@ -3426,7 +3426,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Связать статистику с реальным usage и известной ценой модели; при неизвестной цене показывать отсутствие данных, а не нулевую стоимость.
 
-Файлы: `backend/application/src/main/java/dev/blot/hiring/PerformanceUsage.java`.
+Файлы: `backend/application/src/main/java/dev/ori/hiring/PerformanceUsage.java`.
 
 Проверка: Проверить неизвестную цену без выдуманной метрики.
 
@@ -3434,7 +3434,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Сравнивать качество только на сопоставимой категории/сложности задач и версии проверок; выводить исходные метрики и ограничения сравнения.
 
-Файлы: `backend/application/src/main/java/dev/blot/hiring/QualityComparison.java`.
+Файлы: `backend/application/src/main/java/dev/ori/hiring/QualityComparison.java`.
 
 Проверка: Сравнить задачи одной категории и complexity.
 
@@ -3442,7 +3442,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Показывать число наблюдений и минимальный порог достаточности; один удачный ответ не превращать в доказанный рейтинг специалиста.
 
-Файлы: `backend/application/src/main/java/dev/blot/hiring/SampleSize.java`.
+Файлы: `backend/application/src/main/java/dev/ori/hiring/SampleSize.java`.
 
 Проверка: Показать недостаток данных для одного запуска.
 
@@ -3450,7 +3450,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Сохранять каждое Assignment/reassignment с прежним/новым исполнителем, временем и причиной; историю не переписывать.
 
-Файлы: `backend/application/src/main/java/dev/blot/hiring/AssignmentHistory.java`.
+Файлы: `backend/application/src/main/java/dev/ori/hiring/AssignmentHistory.java`.
 
 Проверка: Проследить смену исполнителя и её причину.
 
@@ -3458,7 +3458,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 При отказе/переназначении указать потерянную capability, загрузку, ошибку или решение пользователя; изменение роли не должно происходить скрыто.
 
-Файлы: `backend/application/src/main/java/dev/blot/hiring/ReassignmentReason.java`.
+Файлы: `backend/application/src/main/java/dev/ori/hiring/ReassignmentReason.java`.
 
 Проверка: Проверить отсутствие скрытой смены роли.
 
@@ -3466,7 +3466,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Версионировать evaluation fixtures и критерии; сравнивать результаты только по совместимым версиям набора.
 
-Файлы: `backend/application/src/main/java/dev/blot/hiring/EvaluationFixtureVersion.java`.
+Файлы: `backend/application/src/main/java/dev/ori/hiring/EvaluationFixtureVersion.java`.
 
 Проверка: Сравнить результаты только совместимых fixtures.
 
@@ -3474,7 +3474,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Хранить неизменяемую ProfileInstructionRevision и её hash; новая инструкция создаёт новую версию, старые сессии сохраняют ссылку на прежнюю.
 
-Файлы: `backend/application/src/main/java/dev/blot/hiring/ProfileInstructionRevision.java`.
+Файлы: `backend/application/src/main/java/dev/ori/hiring/ProfileInstructionRevision.java`.
 
 Проверка: Сохранить старую версию после обновления skill.
 
@@ -3482,7 +3482,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Записывать смену modelId и время; расход и качество до/после изменения хранить отдельно, не терять историю назначений.
 
-Файлы: `backend/application/src/main/java/dev/blot/hiring/ModelChangeHistory.java`.
+Файлы: `backend/application/src/main/java/dev/ori/hiring/ModelChangeHistory.java`.
 
 Проверка: Не смешать usage двух моделей в одном факте.
 
@@ -3490,7 +3490,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать SkillDefinition с schemaVersion/id/revision/instruction/source и условиями применения; проверить обязательные поля и совместимость версии.
 
-Файлы: `backend/application/src/main/java/dev/blot/extensions/SkillDefinition.java`.
+Файлы: `backend/application/src/main/java/dev/ori/extensions/SkillDefinition.java`.
 
 Проверка: Отклонить несовместимую схему инструкции.
 
@@ -3498,7 +3498,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Проверять role/task/project условия skill перед включением в контекст; нерелевантная инструкция не передаётся сессии.
 
-Файлы: `backend/application/src/main/java/dev/blot/extensions/SkillApplicability.java`.
+Файлы: `backend/application/src/main/java/dev/ori/extensions/SkillApplicability.java`.
 
 Проверка: Не подать backend skill нерелевантной сессии.
 
@@ -3506,7 +3506,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать экран действующих skills с источником, версией и точным текстом инструкции; пользователь должен видеть, что включено сейчас.
 
-Файлы: `apps/macos/BlotMac/Views/Extensions/ActiveInstructionView.swift`.
+Файлы: `apps/macos/OriMac/Views/Extensions/ActiveInstructionView.swift`.
 
 Проверка: Открыть текущую версию и источник skill.
 
@@ -3514,7 +3514,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Передавать skill только как инструкцию, не источник прав; требуемые им tools всё равно проходят PolicyService и grants.
 
-Файлы: `backend/application/src/main/java/dev/blot/extensions/SkillPermissionBoundary.java`.
+Файлы: `backend/application/src/main/java/dev/ori/extensions/SkillPermissionBoundary.java`.
 
 Проверка: Отклонить инструкцию, требующую push без grant.
 
@@ -3522,7 +3522,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать настройки enabled skills по проекту/профилю; следующая сборка контекста использует сохранённое состояние, прежние версии остаются в истории.
 
-Файлы: `apps/macos/BlotMac/Views/Extensions/SkillSettingsView.swift`.
+Файлы: `apps/macos/OriMac/Views/Extensions/SkillSettingsView.swift`.
 
 Проверка: Изменить настройку и проверить следующий context assembly.
 
@@ -3530,7 +3530,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать LocalScheduler с сохранёнными расписаниями, следующей датой и привязкой к Run; исполнять только на доступном Mac.
 
-Файлы: `backend/application/src/main/java/dev/blot/extensions/LocalScheduler.java`.
+Файлы: `backend/application/src/main/java/dev/ori/extensions/LocalScheduler.java`.
 
 Проверка: Создать запуск на работающем Mac.
 
@@ -3538,7 +3538,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Хранить IANA timezone и календарное правило; вычислять следующее время по календарю с учётом переходов суток/DST, не прибавлять всегда 24 часа.
 
-Файлы: `backend/application/src/main/java/dev/blot/extensions/ScheduleTimeZone.java`.
+Файлы: `backend/application/src/main/java/dev/ori/extensions/ScheduleTimeZone.java`.
 
 Проверка: Проверить переход дня и смену timezone.
 
@@ -3546,7 +3546,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Использовать уникальный ключ scheduleId+plannedOccurrence для создания Run; два wake события не создают два запуска.
 
-Файлы: `backend/application/src/main/java/dev/blot/extensions/ScheduledRunDedup.java`.
+Файлы: `backend/application/src/main/java/dev/ori/extensions/ScheduledRunDedup.java`.
 
 Проверка: Обработать два одновременных wake events.
 
@@ -3554,7 +3554,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Определить явную политику пропущенных запусков: пропустить/один догоняющий; после sleep не запускать бесконечную очередь старых заданий.
 
-Файлы: `backend/application/src/main/java/dev/blot/extensions/MissedRunPolicy.java`.
+Файлы: `backend/application/src/main/java/dev/ori/extensions/MissedRunPolicy.java`.
 
 Проверка: Разбудить Mac после пропущенного времени.
 
@@ -3562,7 +3562,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать UI каталога специалистов, включения skills и расписаний; изменения проверяются соответствующими серверными сервисами.
 
-Файлы: `apps/macos/BlotMac/Views/Extensions/ExtensionsView.swift`.
+Файлы: `apps/macos/OriMac/Views/Extensions/ExtensionsView.swift`.
 
 Проверка: Включить skill без расширения прав.
 
@@ -3570,7 +3570,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Настроить минимальные размеры, сворачивание sidebar/inspector и длинный текст; прогнать реальные маленькие окна без наложения контролов.
 
-Файлы: `apps/macos/BlotMac/Views/Layout/WorkspaceLayout.swift`.
+Файлы: `apps/macos/OriMac/Views/Layout/WorkspaceLayout.swift`.
 
 Проверка: Уменьшить окно без обрезанных действий.
 
@@ -3578,7 +3578,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Добавить accessibility labels/values/actions, порядок фокуса, клавиатурную навигацию и Reduce Motion; пройти сценарий без мыши и с VoiceOver.
 
-Файлы: `apps/macos/BlotMac/Accessibility/WorkspaceAccessibility.swift`.
+Файлы: `apps/macos/OriMac/Accessibility/WorkspaceAccessibility.swift`.
 
 Проверка: Пройти основные действия без мыши.
 
@@ -3626,7 +3626,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Добавить отдельный Budget автоматизации и резервирование перед генерацией; пользовательский запуск не должен тайно оплачивать её перерасход.
 
-Файлы: `backend/application/src/main/java/dev/blot/extensions/AutomationBudget.java`.
+Файлы: `backend/application/src/main/java/dev/ori/extensions/AutomationBudget.java`.
 
 Проверка: Остановить генерации по исчерпанному бюджету.
 
@@ -3634,7 +3634,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Показать unavailable host, следующую дату и причину missed run; сон Mac не считать выполнением расписания.
 
-Файлы: `apps/macos/BlotMac/Views/Extensions/ScheduleAvailabilityView.swift`.
+Файлы: `apps/macos/OriMac/Views/Extensions/ScheduleAvailabilityView.swift`.
 
 Проверка: Показать unavailable host вместо ложного выполненного запуска.
 
@@ -3642,7 +3642,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Объявить ExternalAdapter с типизированным запросом/результатом/ошибкой и cancellation; домен не должен зависеть от SDK внешнего сервиса.
 
-Файлы: `backend/application/src/main/java/dev/blot/extensions/ExternalAdapter.java`.
+Файлы: `backend/application/src/main/java/dev/ori/extensions/ExternalAdapter.java`.
 
 Проверка: Подменить adapter без изменения domain core.
 
@@ -3650,7 +3650,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Объявить интерфейс создания PR с собственной capability и подготовленным title/body/base/head; не делать реальную публикацию без отдельного разрешения.
 
-Файлы: `backend/application/src/main/java/dev/blot/artifacts/PullRequestAdapter.java`.
+Файлы: `backend/application/src/main/java/dev/ori/artifacts/PullRequestAdapter.java`.
 
 Проверка: Проверить отсутствие создания PR без отдельной capability.
 
@@ -3658,7 +3658,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Создать адаптерный контракт GitHub/CI с отдельными read/write capabilities и тестовым provider; первую проверку выполнять без реальной публикации.
 
-Файлы: `backend/application/src/main/java/dev/blot/extensions/GitHubCiAdapter.java`.
+Файлы: `backend/application/src/main/java/dev/ori/extensions/GitHubCiAdapter.java`.
 
 Проверка: Проверить mock provider без внешней публикации.
 
@@ -3666,7 +3666,7 @@ Java и SwiftUI пишет пользователь. Подготовленны�
 
 Готовить внешнее действие с адресатом/репозиторием/аргументами/hash и отдельным grant; локальное разрешение Git не разрешает сообщение или публикацию PR.
 
-Файлы: `backend/application/src/main/java/dev/blot/extensions/ExternalActionApproval.java`.
+Файлы: `backend/application/src/main/java/dev/ori/extensions/ExternalActionApproval.java`.
 
 Проверка: Не отправить сообщение или PR по локальному Git grant.
 

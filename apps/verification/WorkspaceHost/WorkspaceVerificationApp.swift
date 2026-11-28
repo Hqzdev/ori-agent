@@ -4,6 +4,6 @@ import SwiftUI
 @main
 struct WorkspaceVerificationApp: App {
     var body: some Scene {
-        WindowGroup { Text("Blot workspace verification").padding() }
+        WindowGroup { Text("Ori workspace verification").padding() }
     }
 }

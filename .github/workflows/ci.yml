@@ -63,23 +63,23 @@ jobs:
         with:
           name: http-contract-fixtures
           path: .build/http-fixtures
-      - name: Resolve, build, and test BlotDomain
+      - name: Resolve, build, and test OriDomain
         run: |
-          swift package resolve --package-path packages/BlotDomain
-          swift build --package-path packages/BlotDomain
-          swift test --package-path packages/BlotDomain
-      - name: Resolve, build, and test BlotAPI
+          swift package resolve --package-path packages/OriDomain
+          swift build --package-path packages/OriDomain
+          swift test --package-path packages/OriDomain
+      - name: Resolve, build, and test OriAPI
         env:
           BLOT_HTTP_FIXTURES: ${{ github.workspace }}/.build/http-fixtures
         run: |
-          swift package resolve --package-path packages/BlotAPI
-          swift build --package-path packages/BlotAPI
-          swift test --package-path packages/BlotAPI
-      - name: Resolve, build, and test BlotDesign
+          swift package resolve --package-path packages/OriAPI
+          swift build --package-path packages/OriAPI
+          swift test --package-path packages/OriAPI
+      - name: Resolve, build, and test OriDesign
         run: |
-          swift package resolve --package-path packages/BlotDesign
-          swift build --package-path packages/BlotDesign
-          swift test --package-path packages/BlotDesign
+          swift package resolve --package-path packages/OriDesign
+          swift build --package-path packages/OriDesign
+          swift test --package-path packages/OriDesign
   apple-build:
     runs-on: [self-hosted, macOS, ARM64, xcode-27]
     steps:
@@ -88,5 +88,5 @@ jobs:
         with:
           distribution: temurin
           java-version: '25'
-      - run: xcodebuild -project apps/Blot.xcodeproj -scheme BlotMac -configuration Debug -destination 'platform=macOS' -derivedDataPath .build/xcode CODE_SIGNING_ALLOWED=NO build
-      - run: xcodebuild -project apps/Blot.xcodeproj -scheme BlotIOS -configuration Debug -destination 'generic/platform=iOS' -derivedDataPath .build/xcode-ios CODE_SIGNING_ALLOWED=NO build
+      - run: xcodebuild -project apps/Ori.xcodeproj -scheme OriMac -configuration Debug -destination 'platform=macOS' -derivedDataPath .build/xcode CODE_SIGNING_ALLOWED=NO build
+      - run: xcodebuild -project apps/Ori.xcodeproj -scheme OriIOS -configuration Debug -destination 'generic/platform=iOS' -derivedDataPath .build/xcode-ios CODE_SIGNING_ALLOWED=NO build

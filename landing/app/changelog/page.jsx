@@ -7,7 +7,7 @@ export const metadata = { title: `${betaRelease.version} · Changelog — Ori` }
 export default function ChangelogPage() {
   return <PageFrame eyebrow="Changelog" title="What’s new in Ori." intro="Download macOS and iPhone builds from GitHub. Android and Windows are coming soon.">
     <article className="site-release"><time dateTime={betaRelease.date}><SiteText>November 26, 2026</SiteText></time><div className="site-prose">
-      <span className="site-tag">{betaRelease.version}</span><h2><SiteText>Blot is now Ori.</SiteText></h2>
+      <span className="site-tag">{betaRelease.version}</span><h2><SiteText>Ori is now Ori.</SiteText></h2>
       <p><SiteText>This beta updates the chat and workspace on Mac and iPhone.</SiteText></p>
       <PageLink href={betaRelease.url}><SiteText>GitHub release and checksums</SiteText></PageLink>
     </div></article>

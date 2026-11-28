@@ -1,4 +1,4 @@
-import BlotDesign
+import OriDesign
 import SwiftUI
 
 struct WorkspacePresenceDot: View {
@@ -23,7 +23,7 @@ struct WorkspaceUnreadBadge: View {
             Text(count, format: .number).font(.system(size: size * 0.58, weight: .semibold)).monospacedDigit()
                 .foregroundStyle(.white).padding(.horizontal, 6).frame(minWidth: size, minHeight: size)
                 .background(muted ? WorkspaceStyle.secondary : Color.blue, in: Capsule())
-                .contentTransition(.numericText()).animation(.easeOut(duration: 0.18), value: count)
+                .contentTransition(.numericText()).kAnimation(KMotion.quick, value: count)
                 .accessibilityLabel(store.t("Unread messages") + ": \(count)")
         }
     }
@@ -44,7 +44,7 @@ struct WorkspaceTypingIndicator: View {
     var size: CGFloat = 6
     @Environment(\.accessibilityReduceMotion) private var systemReduceMotion
     @Environment(\.scenePhase) private var scenePhase
-    @Environment(\.blotReduceMotion) private var reduceMotion
+    @Environment(\.oriReduceMotion) private var reduceMotion
 
     private var active: Bool { !systemReduceMotion && !reduceMotion && scenePhase == .active }
 

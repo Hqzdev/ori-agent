@@ -124,7 +124,7 @@ export default function Workspace() {
           <div className="ws-eyebrow"><span /> ОТ КОНЦЕПЦИИ ДО РЕЛИЗА</div>
           <h1>Рабочая среда.</h1>
           <p>План команды агентов для macOS и Windows.<br className="ws-desktop-break" /> Чаты, расписания и подтверждения — на iOS и Android.</p>
-          <a className="ws-download" href="/BLOT_TECHNICAL_SPECIFICATION.md" download><ArrowDownToLine size={16} /> Скачать полное ТЗ <span>MD</span></a>
+          <a className="ws-download" href="/ORI_TECHNICAL_SPECIFICATION.md" download><ArrowDownToLine size={16} /> Скачать полное ТЗ <span>MD</span></a>
         </div>
         <div className="ws-dates" aria-label="Контрольные даты">
           <div><span className="ws-date-number">01<span> / 12</span></span><div><strong>Функции готовы</strong><span>Сквозная beta · {schedule.featureReady.slice(0, 4)}</span></div></div>

@@ -1,13 +1,13 @@
-import BlotDomain
+import OriDomain
 import Foundation
 import XCTest
 
 @MainActor
 final class PhoneOverviewContentTests: XCTestCase {
     func testWorkFromDifferentChatsAppearsAndCanceledWorkStaysOut() throws {
-        let tasks = try BlotV3.TaskState.allCases.map { state in
+        let tasks = try OriV3.TaskState.allCases.map { state in
             let id = UUID()
-            return try BlotV3.Task(metadata: metadata(id: id),
+            return try OriV3.Task(metadata: metadata(id: id),
                 execution: .init(executorDeviceId: UUID(), originDeviceId: UUID(), taskId: id, revision: 1),
                 conversationId: UUID(), goal: state.rawValue, state: state, plan: [])
         }
@@ -34,12 +34,12 @@ final class PhoneOverviewContentTests: XCTestCase {
         XCTAssertEqual(content.upcoming.map { $0.date.timeIntervalSince(now) }, [1800, 3600])
     }
 
-    private func metadata(id: UUID = UUID()) throws -> BlotV3.RecordMetadata {
+    private func metadata(id: UUID = UUID()) throws -> OriV3.RecordMetadata {
         try .init(id: id, ownerId: UUID(), version: 1, createdAt: .now, updatedAt: .now)
     }
 
     private func schedule(_ name: String, time: String, timezone: String, enabled: Bool = true,
-                          scheduledAt: Date? = nil) throws -> BlotV3.Automation {
+                          scheduledAt: Date? = nil) throws -> OriV3.Automation {
         try .init(metadata: metadata(), kind: .task, name: name, goal: "Prepare report", timezone: timezone,
                   localTime: time, weekdays: [1, 2, 3, 4, 5, 6, 7], missedRunPolicy: .coalesce,
                   enabled: enabled, scheduledAt: scheduledAt)

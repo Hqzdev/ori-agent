@@ -1,6 +1,6 @@
-diff --git a/apps/ios/BlotIOS/Features/Chat/PhoneChatsView.swift b/apps/ios/BlotIOS/Features/Chat/PhoneChatsView.swift
---- a/apps/ios/BlotIOS/Features/Chat/PhoneChatsView.swift
-+++ b/apps/ios/BlotIOS/Features/Chat/PhoneChatsView.swift
+diff --git a/apps/ios/oriIOS/Features/Chat/PhoneChatsView.swift b/apps/ios/oriIOS/Features/Chat/PhoneChatsView.swift
+--- a/apps/ios/oriIOS/Features/Chat/PhoneChatsView.swift
++++ b/apps/ios/oriIOS/Features/Chat/PhoneChatsView.swift
 @@ -18,6 +18,9 @@
              }
          }
@@ -50,12 +50,12 @@ diff --git a/apps/ios/BlotIOS/Features/Chat/PhoneChatsView.swift b/apps/ios/Blot
          }
      }
  
-diff --git a/apps/ios/BlotIOS/Features/Chat/PhoneCreationMenu.swift b/apps/ios/BlotIOS/Features/Chat/PhoneCreationMenu.swift
+diff --git a/apps/ios/oriIOS/Features/Chat/PhoneCreationMenu.swift b/apps/ios/oriIOS/Features/Chat/PhoneCreationMenu.swift
 new file mode 100644
 --- /dev/null
-+++ b/apps/ios/BlotIOS/Features/Chat/PhoneCreationMenu.swift
++++ b/apps/ios/oriIOS/Features/Chat/PhoneCreationMenu.swift
 @@ -0,0 +1,29 @@
-+import BlotDesign
++import oriDesign
 +import SwiftUI
 +
 +struct PhoneCreationMenu: View {
@@ -84,21 +84,21 @@ new file mode 100644
 +        .presentationDetents([.medium]).presentationDragIndicator(.visible)
 +    }
 +}
-diff --git a/apps/ios/BlotIOS/Features/Files/PhoneFilesContent.swift b/apps/ios/BlotIOS/Features/Files/PhoneFilesContent.swift
---- a/apps/ios/BlotIOS/Features/Files/PhoneFilesContent.swift
-+++ b/apps/ios/BlotIOS/Features/Files/PhoneFilesContent.swift
+diff --git a/apps/ios/oriIOS/Features/Files/PhoneFilesContent.swift b/apps/ios/oriIOS/Features/Files/PhoneFilesContent.swift
+--- a/apps/ios/oriIOS/Features/Files/PhoneFilesContent.swift
++++ b/apps/ios/oriIOS/Features/Files/PhoneFilesContent.swift
 @@ -45,18 +45,6 @@
  
      private var search: some View {
          @Bindable var navigation = store.navigation
 -        return HStack(spacing: 10) {
--            BlotIcon(symbol: "magnifyingglass").foregroundStyle(WorkspaceStyle.secondary)
+-            oriIcon(symbol: "magnifyingglass").foregroundStyle(WorkspaceStyle.secondary)
 -            TextField(store.t("Search files"), text: $navigation.filesQuery)
 -                .textFieldStyle(.plain).autocorrectionDisabled().textInputAutocapitalization(.never)
 -                .submitLabel(.search).accessibilityLabel(store.t("Search files"))
 -            if !store.navigation.filesQuery.isEmpty {
 -                Button { store.navigation.filesQuery = "" } label: {
--                    BlotIcon(symbol: "xmark.circle.fill", size: 17).foregroundStyle(WorkspaceStyle.secondary)
+-                    oriIcon(symbol: "xmark.circle.fill", size: 17).foregroundStyle(WorkspaceStyle.secondary)
 -                }.buttonStyle(.plain).accessibilityLabel(store.t("Clear search"))
 -            }
 -        }
@@ -107,9 +107,9 @@ diff --git a/apps/ios/BlotIOS/Features/Files/PhoneFilesContent.swift b/apps/ios/
 +        return PhonePageSearchField(placeholder: store.t("Search files"), text: $navigation.filesQuery)
      }
  }
-diff --git a/apps/ios/BlotIOS/Features/Files/PhoneWorkspaceFileView.swift b/apps/ios/BlotIOS/Features/Files/PhoneWorkspaceFileView.swift
---- a/apps/ios/BlotIOS/Features/Files/PhoneWorkspaceFileView.swift
-+++ b/apps/ios/BlotIOS/Features/Files/PhoneWorkspaceFileView.swift
+diff --git a/apps/ios/oriIOS/Features/Files/PhoneWorkspaceFileView.swift b/apps/ios/oriIOS/Features/Files/PhoneWorkspaceFileView.swift
+--- a/apps/ios/oriIOS/Features/Files/PhoneWorkspaceFileView.swift
++++ b/apps/ios/oriIOS/Features/Files/PhoneWorkspaceFileView.swift
 @@ -33,11 +33,10 @@
              }
          }
@@ -118,16 +118,16 @@ diff --git a/apps/ios/BlotIOS/Features/Files/PhoneWorkspaceFileView.swift b/apps
 +        .safeAreaInset(edge: .bottom, spacing: 0) {
              if let url {
 -                ToolbarItem(placement: .topBarTrailing) {
--                    ShareLink(item: url) { BlotIcon(.share) }.accessibilityLabel(store.t("Share"))
+-                    ShareLink(item: url) { oriIcon(.share) }.accessibilityLabel(store.t("Share"))
 -                }
-+                ShareLink(item: url) { BlotLabel(store.t("Share"), symbol: "square.and.arrow.up") }
++                ShareLink(item: url) { oriLabel(store.t("Share"), symbol: "square.and.arrow.up") }
 +                    .buttonStyle(WorkspaceButtonStyle(.secondary)).padding(PhonePageLayout.inset)
              }
          }
          .task(id: store.selectedFile?.metadata.id) { await load() }
-diff --git a/apps/ios/BlotIOS/Features/Onboarding/PhoneAgentCreationView.swift b/apps/ios/BlotIOS/Features/Onboarding/PhoneAgentCreationView.swift
---- a/apps/ios/BlotIOS/Features/Onboarding/PhoneAgentCreationView.swift
-+++ b/apps/ios/BlotIOS/Features/Onboarding/PhoneAgentCreationView.swift
+diff --git a/apps/ios/oriIOS/Features/Onboarding/PhoneAgentCreationView.swift b/apps/ios/oriIOS/Features/Onboarding/PhoneAgentCreationView.swift
+--- a/apps/ios/oriIOS/Features/Onboarding/PhoneAgentCreationView.swift
++++ b/apps/ios/oriIOS/Features/Onboarding/PhoneAgentCreationView.swift
 @@ -3,7 +3,6 @@
  
  struct PhoneAgentCreationView: View {
@@ -142,7 +142,7 @@ diff --git a/apps/ios/BlotIOS/Features/Onboarding/PhoneAgentCreationView.swift b
                  VStack(spacing: 0) {
 -                    HStack(spacing: 12) {
 -                        Button { close() } label: {
--                            BlotIcon(symbol: "xmark").font(.body)
+-                            oriIcon(symbol: "xmark").font(.body)
 -                                .frame(width: 32, height: 32)
 -                                .background(WorkspaceStyle.secondary.opacity(0.08), in: Circle())
 -                        }.buttonStyle(.plain).accessibilityLabel(store.t("Close"))
@@ -205,10 +205,10 @@ diff --git a/apps/ios/BlotIOS/Features/Onboarding/PhoneAgentCreationView.swift b
          .sensoryFeedback(.selection, trigger: store.form.agent.shape)
          .sensoryFeedback(.selection, trigger: store.form.agent.color)
      }
-diff --git a/apps/ios/BlotIOS/Features/Onboarding/PhoneAgentDefaults.swift b/apps/ios/BlotIOS/Features/Onboarding/PhoneAgentDefaults.swift
+diff --git a/apps/ios/oriIOS/Features/Onboarding/PhoneAgentDefaults.swift b/apps/ios/oriIOS/Features/Onboarding/PhoneAgentDefaults.swift
 new file mode 100644
 --- /dev/null
-+++ b/apps/ios/BlotIOS/Features/Onboarding/PhoneAgentDefaults.swift
++++ b/apps/ios/oriIOS/Features/Onboarding/PhoneAgentDefaults.swift
 @@ -0,0 +1,7 @@
 +enum PhoneAgentDefaults {
 +    static let tools = ["file_read", "document_create", "memory_candidate"]
@@ -217,9 +217,9 @@ new file mode 100644
 +        Array(Set(tools).union(Self.tools)).sorted()
 +    }
 +}
-diff --git a/apps/ios/BlotIOS/Features/Onboarding/PhoneFirstAgentView.swift b/apps/ios/BlotIOS/Features/Onboarding/PhoneFirstAgentView.swift
---- a/apps/ios/BlotIOS/Features/Onboarding/PhoneFirstAgentView.swift
-+++ b/apps/ios/BlotIOS/Features/Onboarding/PhoneFirstAgentView.swift
+diff --git a/apps/ios/oriIOS/Features/Onboarding/PhoneFirstAgentView.swift b/apps/ios/oriIOS/Features/Onboarding/PhoneFirstAgentView.swift
+--- a/apps/ios/oriIOS/Features/Onboarding/PhoneFirstAgentView.swift
++++ b/apps/ios/oriIOS/Features/Onboarding/PhoneFirstAgentView.swift
 @@ -28,10 +28,6 @@
          GeometryReader { geometry in
              ScrollView {
@@ -243,31 +243,31 @@ diff --git a/apps/ios/BlotIOS/Features/Onboarding/PhoneFirstAgentView.swift b/ap
          }
          .safeAreaInset(edge: .bottom, spacing: 0) { footer }
          .sensoryFeedback(.selection, trigger: selectedIndex)
-diff --git a/apps/ios/BlotIOS/Features/Overview/PhoneOverviewContent.swift b/apps/ios/BlotIOS/Features/Overview/PhoneOverviewContent.swift
+diff --git a/apps/ios/oriIOS/Features/Overview/PhoneOverviewContent.swift b/apps/ios/oriIOS/Features/Overview/PhoneOverviewContent.swift
 new file mode 100644
 --- /dev/null
-+++ b/apps/ios/BlotIOS/Features/Overview/PhoneOverviewContent.swift
++++ b/apps/ios/oriIOS/Features/Overview/PhoneOverviewContent.swift
 @@ -0,0 +1,31 @@
-+import BlotDomain
-+import BlotWorkspace
++import oriDomain
++import oriWorkspace
 +import Foundation
 +
 +struct PhoneOverviewContent {
 +    struct Upcoming: Identifiable {
-+        let schedule: BlotV3.Automation
++        let schedule: oriV3.Automation
 +        let date: Date
 +        var id: UUID { schedule.metadata.id }
 +    }
 +
-+    let attention: [BlotV3.Task]
-+    let active: [BlotV3.Task]
-+    let completed: [BlotV3.Task]
++    let attention: [oriV3.Task]
++    let active: [oriV3.Task]
++    let completed: [oriV3.Task]
 +    let upcoming: [Upcoming]
-+    let files: [BlotV3.Artifact]
++    let files: [oriV3.Artifact]
 +
 +    init(snapshot: WorkspaceSnapshot, now: Date) {
 +        let tasks = (snapshot.tasks ?? []).sorted { $0.metadata.updatedAt > $1.metadata.updatedAt }
-+        let attentionStates: Set<BlotV3.TaskState> = [.waiting_approval, .waiting_user, .interrupted, .failed]
++        let attentionStates: Set<oriV3.TaskState> = [.waiting_approval, .waiting_user, .interrupted, .failed]
 +        attention = tasks.filter { attentionStates.contains($0.state) }
 +        active = tasks.filter { [.planning, .queued, .running, .paused, .draft].contains($0.state) }
 +        completed = Array(tasks.filter { $0.state == .completed }.prefix(3))
@@ -279,13 +279,13 @@ new file mode 100644
 +        files = Array(snapshot.artifacts.sorted { $0.metadata.updatedAt > $1.metadata.updatedAt }.prefix(3))
 +    }
 +}
-diff --git a/apps/ios/BlotIOS/Features/Overview/PhoneOverviewView.swift b/apps/ios/BlotIOS/Features/Overview/PhoneOverviewView.swift
+diff --git a/apps/ios/oriIOS/Features/Overview/PhoneOverviewView.swift b/apps/ios/oriIOS/Features/Overview/PhoneOverviewView.swift
 new file mode 100644
 --- /dev/null
-+++ b/apps/ios/BlotIOS/Features/Overview/PhoneOverviewView.swift
++++ b/apps/ios/oriIOS/Features/Overview/PhoneOverviewView.swift
 @@ -0,0 +1,89 @@
-+import BlotDesign
-+import BlotDomain
++import oriDesign
++import oriDomain
 +import SwiftUI
 +
 +struct PhoneOverviewView: View {
@@ -346,7 +346,7 @@ new file mode 100644
 +        }
 +    }
 +
-+    private func taskSection(_ title: String, tasks: [BlotV3.Task]) -> some View {
++    private func taskSection(_ title: String, tasks: [oriV3.Task]) -> some View {
 +        PhoneSettingsGroup(title: title) { taskRows(tasks) }
 +    }
 +
@@ -354,7 +354,7 @@ new file mode 100644
 +        date.formatted(.dateTime.day().month(.abbreviated).hour().minute().locale(locale))
 +    }
 +
-+    private func taskRows(_ tasks: [BlotV3.Task]) -> some View {
++    private func taskRows(_ tasks: [oriV3.Task]) -> some View {
 +        ForEach(Array(tasks.enumerated()), id: \.element.metadata.id) { index, task in
 +            if index > 0 { PhoneSettingsDivider() }
 +            Button {
@@ -367,15 +367,15 @@ new file mode 100644
 +                        Text(task.goal).font(.subheadline).lineLimit(2)
 +                        WorkspaceTaskStateLabel(state: task.state).font(.footnote).foregroundStyle(WorkspaceStyle.secondary)
 +                    }.frame(maxWidth: .infinity, alignment: .leading)
-+                    BlotIcon(.chevronRight, size: 11).foregroundStyle(WorkspaceStyle.secondary)
++                    oriIcon(.chevronRight, size: 11).foregroundStyle(WorkspaceStyle.secondary)
 +                }.padding(PhonePageLayout.rowInset).frame(minHeight: 56).contentShape(Rectangle())
 +            }.buttonStyle(.plain)
 +        }
 +    }
 +}
-diff --git a/apps/ios/BlotIOS/Features/Plugins/PhonePluginConnectionView.swift b/apps/ios/BlotIOS/Features/Plugins/PhonePluginConnectionView.swift
---- a/apps/ios/BlotIOS/Features/Plugins/PhonePluginConnectionView.swift
-+++ b/apps/ios/BlotIOS/Features/Plugins/PhonePluginConnectionView.swift
+diff --git a/apps/ios/oriIOS/Features/Plugins/PhonePluginConnectionView.swift b/apps/ios/oriIOS/Features/Plugins/PhonePluginConnectionView.swift
+--- a/apps/ios/oriIOS/Features/Plugins/PhonePluginConnectionView.swift
++++ b/apps/ios/oriIOS/Features/Plugins/PhonePluginConnectionView.swift
 @@ -6,6 +6,7 @@
  struct PhonePluginConnectionView: View {
      let plugin: PhonePlugin
@@ -418,9 +418,9 @@ diff --git a/apps/ios/BlotIOS/Features/Plugins/PhonePluginConnectionView.swift b
          }
          .safeAreaInset(edge: .bottom) {
              Button(store.t(connected ? "Connected" : "Connect")) { confirmingDisconnect = true }
-diff --git a/apps/ios/BlotIOS/Features/Plugins/PhonePluginsView.swift b/apps/ios/BlotIOS/Features/Plugins/PhonePluginsView.swift
---- a/apps/ios/BlotIOS/Features/Plugins/PhonePluginsView.swift
-+++ b/apps/ios/BlotIOS/Features/Plugins/PhonePluginsView.swift
+diff --git a/apps/ios/oriIOS/Features/Plugins/PhonePluginsView.swift b/apps/ios/oriIOS/Features/Plugins/PhonePluginsView.swift
+--- a/apps/ios/oriIOS/Features/Plugins/PhonePluginsView.swift
++++ b/apps/ios/oriIOS/Features/Plugins/PhonePluginsView.swift
 @@ -14,13 +14,13 @@
  
      var body: some View {
@@ -469,7 +469,7 @@ diff --git a/apps/ios/BlotIOS/Features/Plugins/PhonePluginsView.swift b/apps/ios
      private var search: some View {
          HStack(spacing: 8) {
 -            HStack(spacing: 8) {
--                BlotIcon(symbol: "magnifyingglass").foregroundStyle(WorkspaceStyle.secondary)
+-                oriIcon(symbol: "magnifyingglass").foregroundStyle(WorkspaceStyle.secondary)
 -                TextField(store.t("Search plugins"), text: $query).font(.subheadline).textFieldStyle(.plain)
 -                    .autocorrectionDisabled().textInputAutocapitalization(.never)
 -                    .accessibilityLabel(store.t("Search plugins"))
@@ -480,15 +480,15 @@ diff --git a/apps/ios/BlotIOS/Features/Plugins/PhonePluginsView.swift b/apps/ios
                      ForEach(Filter.allCases, id: \.self) { Text(store.t($0.rawValue)).tag($0) }
                  }
              } label: {
-                 BlotIcon(symbol: "line.3.horizontal.decrease").font(.body)
+                 oriIcon(symbol: "line.3.horizontal.decrease").font(.body)
 -                    .frame(width: 40, height: 40).glassEffect(.regular.interactive(), in: .circle)
 +                    .frame(width: 44, height: 44).glassEffect(.regular.interactive(), in: .circle)
              }.accessibilityLabel(store.t("Filter"))
          }
      }
-diff --git a/apps/ios/BlotIOS/Features/Root/PhoneTabBar.swift b/apps/ios/BlotIOS/Features/Root/PhoneTabBar.swift
---- a/apps/ios/BlotIOS/Features/Root/PhoneTabBar.swift
-+++ b/apps/ios/BlotIOS/Features/Root/PhoneTabBar.swift
+diff --git a/apps/ios/oriIOS/Features/Root/PhoneTabBar.swift b/apps/ios/oriIOS/Features/Root/PhoneTabBar.swift
+--- a/apps/ios/oriIOS/Features/Root/PhoneTabBar.swift
++++ b/apps/ios/oriIOS/Features/Root/PhoneTabBar.swift
 @@ -11,8 +11,8 @@
  
      private static let items: [Item] = [
@@ -513,7 +513,7 @@ diff --git a/apps/ios/BlotIOS/Features/Root/PhoneTabBar.swift b/apps/ios/BlotIOS
              if dynamicTypeSize.isAccessibilitySize,
                 let selected = Self.items.first(where: { $0.route == store.tab }) {
 @@ -61,15 +62,21 @@
-         .animation(reduceMotion || systemReduceMotion ? nil : BlotInterfaceMotion.standard, value: store.tab)
+         .animation(reduceMotion || systemReduceMotion ? nil : oriInterfaceMotion.standard, value: store.tab)
      }
  
 -    private func tab(_ item: Item) -> some View {
@@ -529,7 +529,7 @@ diff --git a/apps/ios/BlotIOS/Features/Root/PhoneTabBar.swift b/apps/ios/BlotIOS
 +        let showsTitle = showsTitles && selected && !dynamicTypeSize.isAccessibilitySize
          return Button { store.selectTab(item.route) } label: {
              HStack(spacing: 9) {
-                 BlotIcon(symbol: item.symbol, size: 22)
+                 oriIcon(symbol: item.symbol, size: 22)
                  if showsTitle {
                      Text(store.t(item.title)).font(.subheadline.weight(.medium))
 -                        .lineLimit(1).minimumScaleFactor(0.8).transition(.opacity)
@@ -537,13 +537,13 @@ diff --git a/apps/ios/BlotIOS/Features/Root/PhoneTabBar.swift b/apps/ios/BlotIOS
                  }
              }
              .padding(.horizontal, showsTitle ? 14 : 0)
-diff --git a/apps/ios/BlotIOS/Features/Root/PhoneWorkspacePageHeader.swift b/apps/ios/BlotIOS/Features/Root/PhoneWorkspacePageHeader.swift
+diff --git a/apps/ios/oriIOS/Features/Root/PhoneWorkspacePageHeader.swift b/apps/ios/oriIOS/Features/Root/PhoneWorkspacePageHeader.swift
 new file mode 100644
 --- /dev/null
-+++ b/apps/ios/BlotIOS/Features/Root/PhoneWorkspacePageHeader.swift
++++ b/apps/ios/oriIOS/Features/Root/PhoneWorkspacePageHeader.swift
 @@ -0,0 +1,47 @@
-+import BlotDomain
-+import BlotDesign
++import oriDomain
++import oriDesign
 +import SwiftUI
 +
 +struct PhoneWorkspacePageHeader: View {
@@ -583,15 +583,15 @@ new file mode 100644
 +                    Button(store.t("Result")) { store.navigate(.result) }
 +                    Button(store.t("View browser")) { store.navigate(.browser) }
 +                } label: {
-+                    BlotIcon(symbol: "ellipsis").frame(width: 44, height: 44)
++                    oriIcon(symbol: "ellipsis").frame(width: 44, height: 44)
 +                }.accessibilityLabel(store.t("More options"))
 +            }
 +        }
 +    }
 +}
-diff --git a/apps/ios/BlotIOS/Features/Root/PhoneWorkspaceScreen.swift b/apps/ios/BlotIOS/Features/Root/PhoneWorkspaceScreen.swift
---- a/apps/ios/BlotIOS/Features/Root/PhoneWorkspaceScreen.swift
-+++ b/apps/ios/BlotIOS/Features/Root/PhoneWorkspaceScreen.swift
+diff --git a/apps/ios/oriIOS/Features/Root/PhoneWorkspaceScreen.swift b/apps/ios/oriIOS/Features/Root/PhoneWorkspaceScreen.swift
+--- a/apps/ios/oriIOS/Features/Root/PhoneWorkspaceScreen.swift
++++ b/apps/ios/oriIOS/Features/Root/PhoneWorkspaceScreen.swift
 @@ -27,6 +27,8 @@
                  case .search: PhoneSearchView()
                  case .newChat: PhoneNewChatView()
@@ -601,12 +601,12 @@ diff --git a/apps/ios/BlotIOS/Features/Root/PhoneWorkspaceScreen.swift b/apps/io
                  case .appSettings, .language: PhoneGeneralSettingsView()
                  case .appearance: PhoneAppearanceSettingsView()
                  case .settingsProfile, .account, .usage: PhoneSettingsProfileView()
-diff --git a/apps/ios/BlotIOS/Features/Schedules/PhoneScheduleCalendar.swift b/apps/ios/BlotIOS/Features/Schedules/PhoneScheduleCalendar.swift
+diff --git a/apps/ios/oriIOS/Features/Schedules/PhoneScheduleCalendar.swift b/apps/ios/oriIOS/Features/Schedules/PhoneScheduleCalendar.swift
 new file mode 100644
 --- /dev/null
-+++ b/apps/ios/BlotIOS/Features/Schedules/PhoneScheduleCalendar.swift
++++ b/apps/ios/oriIOS/Features/Schedules/PhoneScheduleCalendar.swift
 @@ -0,0 +1,59 @@
-+import BlotDesign
++import oriDesign
 +import SwiftUI
 +
 +struct PhoneScheduleCalendar: View {
@@ -644,12 +644,12 @@ new file mode 100644
 +            VStack(spacing: 8) {
 +                Text(date, format: .dateTime.weekday(.narrow)).font(.caption)
 +                Text(date, format: .dateTime.day()).font(.body.weight(.medium))
-+                Circle().fill(calendar.isDateInToday(date) ? (selected ? BlotColor.onInverse : WorkspaceStyle.ink) : .clear)
++                Circle().fill(calendar.isDateInToday(date) ? (selected ? oriColor.onInverse : WorkspaceStyle.ink) : .clear)
 +                    .frame(width: 4, height: 4)
 +            }
 +            .frame(minWidth: 44, maxWidth: .infinity, minHeight: dayHeight)
-+            .foregroundStyle(selected ? BlotColor.onInverse : WorkspaceStyle.ink)
-+            .background(selected ? BlotColor.inverse : PhoneSettingsStyle.row,
++            .foregroundStyle(selected ? oriColor.onInverse : WorkspaceStyle.ink)
++            .background(selected ? oriColor.inverse : PhoneSettingsStyle.row,
 +                        in: RoundedRectangle(cornerRadius: PhonePageLayout.radius))
 +            .contentShape(Rectangle())
 +        }.buttonStyle(.plain)
@@ -661,35 +661,35 @@ new file mode 100644
 +    private func weekButton(_ symbol: String, title: String, offset: Int) -> some View {
 +        Button {
 +            if let date = calendar.date(byAdding: .weekOfYear, value: offset, to: selectedDate) { selectedDate = date }
-+        } label: { BlotIcon(symbol: symbol, size: 18).frame(width: 44, height: 44) }
++        } label: { oriIcon(symbol: symbol, size: 18).frame(width: 44, height: 44) }
 +            .buttonStyle(.plain).accessibilityLabel(store.t(title))
 +    }
 +}
-diff --git a/apps/ios/BlotIOS/Features/Schedules/PhoneScheduleDayContent.swift b/apps/ios/BlotIOS/Features/Schedules/PhoneScheduleDayContent.swift
+diff --git a/apps/ios/oriIOS/Features/Schedules/PhoneScheduleDayContent.swift b/apps/ios/oriIOS/Features/Schedules/PhoneScheduleDayContent.swift
 new file mode 100644
 --- /dev/null
-+++ b/apps/ios/BlotIOS/Features/Schedules/PhoneScheduleDayContent.swift
++++ b/apps/ios/oriIOS/Features/Schedules/PhoneScheduleDayContent.swift
 @@ -0,0 +1,32 @@
-+import BlotDomain
-+import BlotWorkspace
++import oriDomain
++import oriWorkspace
 +import Foundation
 +
 +struct PhoneScheduleDayContent {
 +    struct Run: Identifiable {
-+        let schedule: BlotV3.Automation
++        let schedule: oriV3.Automation
 +        let date: Date
 +        var id: UUID { schedule.metadata.id }
 +    }
 +
 +    let runs: [Run]
 +
-+    init(schedules: [BlotV3.Automation], day: Date, calendar: Calendar) {
++    init(schedules: [oriV3.Automation], day: Date, calendar: Calendar) {
 +        let start = calendar.startOfDay(for: day)
 +        let end = calendar.date(byAdding: .day, value: 1, to: start) ?? start
 +        let calculator = WorkspaceScheduleCalculator()
 +        runs = schedules.compactMap { schedule in
 +            // Paused schedules remain visible on their scheduled day.
-+            let display = try? BlotV3.Automation(metadata: schedule.metadata, kind: schedule.kind,
++            let display = try? oriV3.Automation(metadata: schedule.metadata, kind: schedule.kind,
 +                executorDeviceId: schedule.executorDeviceId, agentId: schedule.agentId,
 +                name: schedule.name, goal: schedule.goal, timezone: schedule.timezone,
 +                localTime: schedule.localTime, weekdays: schedule.weekdays,
@@ -702,9 +702,9 @@ new file mode 100644
 +        }.sorted { $0.date < $1.date }
 +    }
 +}
-diff --git a/apps/ios/BlotIOS/Features/Schedules/PhoneScheduleEditor.swift b/apps/ios/BlotIOS/Features/Schedules/PhoneScheduleEditor.swift
---- a/apps/ios/BlotIOS/Features/Schedules/PhoneScheduleEditor.swift
-+++ b/apps/ios/BlotIOS/Features/Schedules/PhoneScheduleEditor.swift
+diff --git a/apps/ios/oriIOS/Features/Schedules/PhoneScheduleEditor.swift b/apps/ios/oriIOS/Features/Schedules/PhoneScheduleEditor.swift
+--- a/apps/ios/oriIOS/Features/Schedules/PhoneScheduleEditor.swift
++++ b/apps/ios/oriIOS/Features/Schedules/PhoneScheduleEditor.swift
 @@ -8,66 +8,74 @@
  
      var body: some View {
@@ -733,8 +733,8 @@ diff --git a/apps/ios/BlotIOS/Features/Schedules/PhoneScheduleEditor.swift b/app
 -                        } label: {
 -                            Text(dayName(weekday)).font(.caption.weight(.medium))
 -                                .frame(maxWidth: .infinity, minHeight: 44)
--                                .foregroundStyle(store.form.schedule.weekdays.contains(weekday) ? BlotColor.onInverse : WorkspaceStyle.ink)
--                                .background(store.form.schedule.weekdays.contains(weekday) ? BlotColor.inverse : WorkspaceStyle.surface, in: Capsule())
+-                                .foregroundStyle(store.form.schedule.weekdays.contains(weekday) ? oriColor.onInverse : WorkspaceStyle.ink)
+-                                .background(store.form.schedule.weekdays.contains(weekday) ? oriColor.inverse : WorkspaceStyle.surface, in: Capsule())
 -                        }.buttonStyle(.plain)
 -                            .accessibilityAddTraits(store.form.schedule.weekdays.contains(weekday) ? .isSelected : [])
 +            PhoneSettingsGroup(title: "Schedules") {
@@ -751,8 +751,8 @@ diff --git a/apps/ios/BlotIOS/Features/Schedules/PhoneScheduleEditor.swift b/app
 +                            } label: {
 +                                Text(dayName(weekday)).font(.caption.weight(.medium))
 +                                    .frame(maxWidth: .infinity, minHeight: 44)
-+                                    .foregroundStyle(store.form.schedule.weekdays.contains(weekday) ? BlotColor.onInverse : WorkspaceStyle.ink)
-+                                    .background(store.form.schedule.weekdays.contains(weekday) ? BlotColor.inverse : WorkspaceStyle.surface, in: Capsule())
++                                    .foregroundStyle(store.form.schedule.weekdays.contains(weekday) ? oriColor.onInverse : WorkspaceStyle.ink)
++                                    .background(store.form.schedule.weekdays.contains(weekday) ? oriColor.inverse : WorkspaceStyle.surface, in: Capsule())
 +                            }.buttonStyle(.plain)
 +                                .accessibilityAddTraits(store.form.schedule.weekdays.contains(weekday) ? .isSelected : [])
 +                        }
@@ -761,11 +761,11 @@ diff --git a/apps/ios/BlotIOS/Features/Schedules/PhoneScheduleEditor.swift b/app
 -                if store.mode == .live {
 -                    TextField(store.t("Time zone"), text: $store.form.schedule.timezone).autocorrectionDisabled().textInputAutocapitalization(.never)
 -                    Picker(store.t("Missed runs"), selection: $store.form.schedule.missedRunPolicy) {
--                        ForEach(BlotV3.MissedRunPolicy.allCases, id: \.self) { policy in WorkspaceSchedulePolicyLabel(policy: policy).tag(policy) }
+-                        ForEach(oriV3.MissedRunPolicy.allCases, id: \.self) { policy in WorkspaceSchedulePolicyLabel(policy: policy).tag(policy) }
 +                    if store.mode == .live {
 +                        TextField(store.t("Time zone"), text: $store.form.schedule.timezone).autocorrectionDisabled().textInputAutocapitalization(.never)
 +                        Picker(store.t("Missed runs"), selection: $store.form.schedule.missedRunPolicy) {
-+                            ForEach(BlotV3.MissedRunPolicy.allCases, id: \.self) { policy in WorkspaceSchedulePolicyLabel(policy: policy).tag(policy) }
++                            ForEach(oriV3.MissedRunPolicy.allCases, id: \.self) { policy in WorkspaceSchedulePolicyLabel(policy: policy).tag(policy) }
 +                        }
 +                        if store.form.schedule.missedRunPolicy == .catch_up {
 +                            Stepper(store.t("Maximum catch-up runs") + ": \(store.form.schedule.maximumCatchUpRuns)", value: $store.form.schedule.maximumCatchUpRuns, in: 1...100)
@@ -830,13 +830,13 @@ diff --git a/apps/ios/BlotIOS/Features/Schedules/PhoneScheduleEditor.swift b/app
      }
  
      private func dayName(_ weekday: Int) -> String {
-diff --git a/apps/ios/BlotIOS/Features/Schedules/PhoneSchedulesView.swift b/apps/ios/BlotIOS/Features/Schedules/PhoneSchedulesView.swift
+diff --git a/apps/ios/oriIOS/Features/Schedules/PhoneSchedulesView.swift b/apps/ios/oriIOS/Features/Schedules/PhoneSchedulesView.swift
 new file mode 100644
 --- /dev/null
-+++ b/apps/ios/BlotIOS/Features/Schedules/PhoneSchedulesView.swift
++++ b/apps/ios/oriIOS/Features/Schedules/PhoneSchedulesView.swift
 @@ -0,0 +1,73 @@
-+import BlotDesign
-+import BlotDomain
++import oriDesign
++import oriDomain
 +import SwiftUI
 +
 +struct PhoneSchedulesView: View {
@@ -868,7 +868,7 @@ new file mode 100644
 +                }
 +            }
 +            Button { store.navigate(.createSchedule) } label: {
-+                BlotLabel(store.t("New schedule"), symbol: "plus").frame(maxWidth: .infinity)
++                oriLabel(store.t("New schedule"), symbol: "plus").frame(maxWidth: .infinity)
 +            }.buttonStyle(WorkspaceButtonStyle(.secondary))
 +            WorkspaceFeedback()
 +            if store.mode == .live {
@@ -893,7 +893,7 @@ new file mode 100644
 +                })).labelsHidden().disabled(store.busy).accessibilityLabel(store.t(schedule.name))
 +            }
 +            Text(store.t(schedule.goal)).font(.subheadline).foregroundStyle(WorkspaceStyle.secondary)
-+            BlotLabel(executorName(schedule), symbol: schedule.executorDeviceId == store.snapshot.localDeviceID ? "iphone" : "desktopcomputer")
++            oriLabel(executorName(schedule), symbol: schedule.executorDeviceId == store.snapshot.localDeviceID ? "iphone" : "desktopcomputer")
 +                .font(.footnote).foregroundStyle(WorkspaceStyle.secondary)
 +            if store.mode == .live {
 +                WorkspaceScheduleRunSummary(schedule: schedule)
@@ -903,14 +903,14 @@ new file mode 100644
 +        }.padding(PhonePageLayout.rowInset)
 +    }
 +
-+    private func executorName(_ schedule: BlotV3.Automation) -> String {
++    private func executorName(_ schedule: oriV3.Automation) -> String {
 +        if schedule.executorDeviceId == store.snapshot.localDeviceID { return store.t("This device") }
 +        return store.snapshot.devices.first { $0.metadata.id == schedule.executorDeviceId }?.name ?? store.t("Selected computer")
 +    }
 +}
-diff --git a/apps/ios/BlotIOS/Features/Settings/PhoneEmailEditor.swift b/apps/ios/BlotIOS/Features/Settings/PhoneEmailEditor.swift
---- a/apps/ios/BlotIOS/Features/Settings/PhoneEmailEditor.swift
-+++ b/apps/ios/BlotIOS/Features/Settings/PhoneEmailEditor.swift
+diff --git a/apps/ios/oriIOS/Features/Settings/PhoneEmailEditor.swift b/apps/ios/oriIOS/Features/Settings/PhoneEmailEditor.swift
+--- a/apps/ios/oriIOS/Features/Settings/PhoneEmailEditor.swift
++++ b/apps/ios/oriIOS/Features/Settings/PhoneEmailEditor.swift
 @@ -12,22 +12,23 @@
  
      var body: some View {
@@ -943,9 +943,9 @@ diff --git a/apps/ios/BlotIOS/Features/Settings/PhoneEmailEditor.swift b/apps/io
          }.interactiveDismissDisabled(saving)
          .onAppear { email = store.profile.contactEmail ?? store.form.account.email; store.error = nil; focused = true }
      }
-diff --git a/apps/ios/BlotIOS/Features/Settings/PhonePasswordEditor.swift b/apps/ios/BlotIOS/Features/Settings/PhonePasswordEditor.swift
---- a/apps/ios/BlotIOS/Features/Settings/PhonePasswordEditor.swift
-+++ b/apps/ios/BlotIOS/Features/Settings/PhonePasswordEditor.swift
+diff --git a/apps/ios/oriIOS/Features/Settings/PhonePasswordEditor.swift b/apps/ios/oriIOS/Features/Settings/PhonePasswordEditor.swift
+--- a/apps/ios/oriIOS/Features/Settings/PhonePasswordEditor.swift
++++ b/apps/ios/oriIOS/Features/Settings/PhonePasswordEditor.swift
 @@ -32,8 +32,10 @@
                  }
                  WorkspaceFeedback()
@@ -959,9 +959,9 @@ diff --git a/apps/ios/BlotIOS/Features/Settings/PhonePasswordEditor.swift b/apps
          }.interactiveDismissDisabled(submitting)
      }
      private func requestCode() {
-diff --git a/apps/ios/BlotIOS/Features/Settings/PhoneSettingsCatalog.swift b/apps/ios/BlotIOS/Features/Settings/PhoneSettingsCatalog.swift
---- a/apps/ios/BlotIOS/Features/Settings/PhoneSettingsCatalog.swift
-+++ b/apps/ios/BlotIOS/Features/Settings/PhoneSettingsCatalog.swift
+diff --git a/apps/ios/oriIOS/Features/Settings/PhoneSettingsCatalog.swift b/apps/ios/oriIOS/Features/Settings/PhoneSettingsCatalog.swift
+--- a/apps/ios/oriIOS/Features/Settings/PhoneSettingsCatalog.swift
++++ b/apps/ios/oriIOS/Features/Settings/PhoneSettingsCatalog.swift
 @@ -9,17 +9,17 @@
          let group: String
          var id: WorkspaceRoute { route }
@@ -983,17 +983,17 @@ diff --git a/apps/ios/BlotIOS/Features/Settings/PhoneSettingsCatalog.swift b/app
          .init(route: .devices, title: "Computers", detail: "Devices connected to your workspace.", symbol: "desktopcomputer", group: "Workspace"),
          .init(route: .connections, title: "Applications", detail: "Your services and accounts for the team.", symbol: "puzzlepiece.extension", group: "Integrations"),
          .init(route: .mcp, title: "MCP servers", detail: "External tools for your agents.", symbol: "network", group: "Integrations"),
-diff --git a/apps/ios/BlotIOS/Features/Settings/PhoneSettingsGroup.swift b/apps/ios/BlotIOS/Features/Settings/PhoneSettingsGroup.swift
---- a/apps/ios/BlotIOS/Features/Settings/PhoneSettingsGroup.swift
-+++ b/apps/ios/BlotIOS/Features/Settings/PhoneSettingsGroup.swift
+diff --git a/apps/ios/oriIOS/Features/Settings/PhoneSettingsGroup.swift b/apps/ios/oriIOS/Features/Settings/PhoneSettingsGroup.swift
+--- a/apps/ios/oriIOS/Features/Settings/PhoneSettingsGroup.swift
++++ b/apps/ios/oriIOS/Features/Settings/PhoneSettingsGroup.swift
 @@ -2,22 +2,17 @@
  import SwiftUI
  
  enum PhoneSettingsStyle {
--    static var canvas: Color { BlotColor.dynamic(.init(light: 0xFCFCFCFF, dark: 0x101010FF)) }
+-    static var canvas: Color { oriColor.dynamic(.init(light: 0xFCFCFCFF, dark: 0x101010FF)) }
 +    static var canvas: Color { WorkspaceStyle.canvas }
-     static var row: Color { BlotColor.dynamic(.init(light: 0xFFFFFFFF, dark: 0x191919FF)) }
-     static var edge: Color { BlotColor.dynamic(.init(light: 0xE7E7E5FF, dark: 0x2B2B2BFF)) }
+     static var row: Color { oriColor.dynamic(.init(light: 0xFFFFFFFF, dark: 0x191919FF)) }
+     static var edge: Color { oriColor.dynamic(.init(light: 0xE7E7E5FF, dark: 0x2B2B2BFF)) }
      static let accent = Color(red: 0.43, green: 0.41, blue: 0.88)
 -    static let radius: CGFloat = 16
 +    static let radius = PhonePageLayout.radius
@@ -1012,9 +1012,9 @@ diff --git a/apps/ios/BlotIOS/Features/Settings/PhoneSettingsGroup.swift b/apps/
          .tint(PhoneSettingsStyle.accent)
      }
  }
-diff --git a/apps/ios/BlotIOS/Features/Settings/PhoneSettingsMenuView.swift b/apps/ios/BlotIOS/Features/Settings/PhoneSettingsMenuView.swift
---- a/apps/ios/BlotIOS/Features/Settings/PhoneSettingsMenuView.swift
-+++ b/apps/ios/BlotIOS/Features/Settings/PhoneSettingsMenuView.swift
+diff --git a/apps/ios/oriIOS/Features/Settings/PhoneSettingsMenuView.swift b/apps/ios/oriIOS/Features/Settings/PhoneSettingsMenuView.swift
+--- a/apps/ios/oriIOS/Features/Settings/PhoneSettingsMenuView.swift
++++ b/apps/ios/oriIOS/Features/Settings/PhoneSettingsMenuView.swift
 @@ -12,22 +12,8 @@
      }
      var body: some View {
@@ -1026,11 +1026,11 @@ diff --git a/apps/ios/BlotIOS/Features/Settings/PhoneSettingsMenuView.swift b/ap
 -                    .buttonStyle(.plain).accessibilityLabel(store.settingsText("Profile"))
 -            }
 -            HStack(spacing: 9) {
--                BlotIcon(.search, size: 17).foregroundStyle(WorkspaceStyle.secondary)
+-                oriIcon(.search, size: 17).foregroundStyle(WorkspaceStyle.secondary)
 -                TextField(store.settingsText("Search settings"), text: $query).font(.subheadline).textFieldStyle(.plain)
 -                    .autocorrectionDisabled().accessibilityIdentifier("workspace.settings.search")
 -                if !query.isEmpty {
--                    Button { query = "" } label: { BlotIcon(symbol: "xmark.circle.fill", size: 16) }
+-                    Button { query = "" } label: { oriIcon(symbol: "xmark.circle.fill", size: 16) }
 -                        .buttonStyle(.plain).accessibilityLabel(store.t("Clear search"))
 -                }
 -            }.padding(.horizontal, 14).frame(minHeight: 44)
@@ -1041,7 +1041,7 @@ diff --git a/apps/ios/BlotIOS/Features/Settings/PhoneSettingsMenuView.swift b/ap
                  Button { store.conflictsVisible = true } label: {
                      PhoneSettingsRow(title: "Review conflicting changes", symbol: "arrow.triangle.branch")
 @@ -55,14 +41,6 @@
-             Text("Blot · " + (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0"))
+             Text("ori · " + (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0"))
                  .font(.footnote).foregroundStyle(WorkspaceStyle.secondary).frame(maxWidth: .infinity)
          }
 -        .safeAreaInset(edge: .top, spacing: 0) {
@@ -1055,12 +1055,12 @@ diff --git a/apps/ios/BlotIOS/Features/Settings/PhoneSettingsMenuView.swift b/ap
          .scrollPosition(store.navigation.position(for: .settings))
          .onAppear { store.navigation.restorePosition(for: .settings) }
          .onScrollGeometryChange(for: CGFloat.self) { max(0, $0.contentOffset.y + $0.contentInsets.top) } action: { old, new in
-diff --git a/apps/ios/BlotIOS/Features/Shared/PhonePageLayout.swift b/apps/ios/BlotIOS/Features/Shared/PhonePageLayout.swift
+diff --git a/apps/ios/oriIOS/Features/Shared/PhonePageLayout.swift b/apps/ios/oriIOS/Features/Shared/PhonePageLayout.swift
 new file mode 100644
 --- /dev/null
-+++ b/apps/ios/BlotIOS/Features/Shared/PhonePageLayout.swift
++++ b/apps/ios/oriIOS/Features/Shared/PhonePageLayout.swift
 @@ -0,0 +1,57 @@
-+import BlotDesign
++import oriDesign
 +import SwiftUI
 +
 +enum PhonePageLayout {
@@ -1117,12 +1117,12 @@ new file mode 100644
 +        .background(WorkspaceStyle.canvas.ignoresSafeArea())
 +    }
 +}
-diff --git a/apps/ios/BlotIOS/Features/Shared/PhonePageSearchField.swift b/apps/ios/BlotIOS/Features/Shared/PhonePageSearchField.swift
+diff --git a/apps/ios/oriIOS/Features/Shared/PhonePageSearchField.swift b/apps/ios/oriIOS/Features/Shared/PhonePageSearchField.swift
 new file mode 100644
 --- /dev/null
-+++ b/apps/ios/BlotIOS/Features/Shared/PhonePageSearchField.swift
++++ b/apps/ios/oriIOS/Features/Shared/PhonePageSearchField.swift
 @@ -0,0 +1,26 @@
-+import BlotDesign
++import oriDesign
 +import SwiftUI
 +
 +struct PhonePageSearchField: View {
@@ -1132,13 +1132,13 @@ new file mode 100644
 +
 +    var body: some View {
 +        HStack(spacing: 10) {
-+            BlotIcon(.search, size: 18).foregroundStyle(WorkspaceStyle.secondary)
++            oriIcon(.search, size: 18).foregroundStyle(WorkspaceStyle.secondary)
 +            TextField(placeholder, text: $text).font(.subheadline).textFieldStyle(.plain)
 +                .autocorrectionDisabled().textInputAutocapitalization(.never)
 +                .submitLabel(.search).accessibilityLabel(placeholder)
 +            if !text.isEmpty {
 +                Button { text = "" } label: {
-+                    BlotIcon(symbol: "xmark.circle.fill", size: 18)
++                    oriIcon(symbol: "xmark.circle.fill", size: 18)
 +                        .frame(width: 44, height: 44).foregroundStyle(WorkspaceStyle.secondary)
 +                }.buttonStyle(.plain).accessibilityLabel(store.t("Clear search"))
 +            }
@@ -1148,9 +1148,9 @@ new file mode 100644
 +        .overlay(RoundedRectangle(cornerRadius: PhonePageLayout.radius).strokeBorder(PhoneSettingsStyle.edge))
 +    }
 +}
-diff --git a/apps/ios/BlotIOS/Features/Widgets/PhoneWidgetNavigation.swift b/apps/ios/BlotIOS/Features/Widgets/PhoneWidgetNavigation.swift
---- a/apps/ios/BlotIOS/Features/Widgets/PhoneWidgetNavigation.swift
-+++ b/apps/ios/BlotIOS/Features/Widgets/PhoneWidgetNavigation.swift
+diff --git a/apps/ios/oriIOS/Features/Widgets/PhoneWidgetNavigation.swift b/apps/ios/oriIOS/Features/Widgets/PhoneWidgetNavigation.swift
+--- a/apps/ios/oriIOS/Features/Widgets/PhoneWidgetNavigation.swift
++++ b/apps/ios/oriIOS/Features/Widgets/PhoneWidgetNavigation.swift
 @@ -13,18 +13,18 @@
              case .compose:
                  await startNewChat()
@@ -1174,9 +1174,9 @@ diff --git a/apps/ios/BlotIOS/Features/Widgets/PhoneWidgetNavigation.swift b/app
                  await openAgentChat(id)
              }
          }
-diff --git a/apps/ios/BlotIOS/Services/PhoneWorkspaceNavigation.swift b/apps/ios/BlotIOS/Services/PhoneWorkspaceNavigation.swift
---- a/apps/ios/BlotIOS/Services/PhoneWorkspaceNavigation.swift
-+++ b/apps/ios/BlotIOS/Services/PhoneWorkspaceNavigation.swift
+diff --git a/apps/ios/oriIOS/Services/PhoneWorkspaceNavigation.swift b/apps/ios/oriIOS/Services/PhoneWorkspaceNavigation.swift
+--- a/apps/ios/oriIOS/Services/PhoneWorkspaceNavigation.swift
++++ b/apps/ios/oriIOS/Services/PhoneWorkspaceNavigation.swift
 @@ -5,6 +5,7 @@
  @MainActor @Observable
  final class PhoneWorkspaceNavigation {
@@ -1984,7 +1984,7 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceRootView.swift b/apps/shared/Works
 -            .toolbar {
 -                ToolbarItemGroup(placement: .topBarTrailing) {
 -                    if !floating && [.agents, .schedules].contains(route) {
--                        BlotIconButton(store.t("Create"), symbol: "plus") {
+-                        oriIconButton(store.t("Create"), symbol: "plus") {
 -                            if route == .agents { store.beginAgentCreation() }
 -                            else { store.navigate(.createSchedule) }
 -                        }.labelStyle(.iconOnly)
@@ -1994,7 +1994,7 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceRootView.swift b/apps/shared/Works
 -                            Button(store.t("Review prepared action")) { store.navigate(.approval) }
 -                            Button(store.t("Result")) { store.navigate(.result) }
 -                            Button(store.t("View browser")) { store.navigate(.browser) }
--                        } label: { BlotIcon(symbol: "ellipsis") }
+-                        } label: { oriIcon(symbol: "ellipsis") }
 -                    }
 -                }
 -            }
@@ -2093,7 +2093,7 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceTaskExecutionView.swift b/apps/sha
 @@ -6,8 +6,12 @@
      @Environment(WorkspaceStore.self) private var store
      @State private var goal = ""
-     private var tasks: [BlotV3.Task] {
+     private var tasks: [oriV3.Task] {
 -        (store.snapshot.tasks ?? []).filter { $0.conversationId == store.selectedConversationID }
 +        let tasks = (store.snapshot.tasks ?? []).filter { $0.conversationId == store.selectedConversationID }
              .sorted { $0.metadata.createdAt > $1.metadata.createdAt }
@@ -2143,16 +2143,16 @@ new file mode 100644
 --- /dev/null
 +++ b/apps/verification/WorkspacePresentationTests/PhoneOverviewContentTests.swift
 @@ -0,0 +1,47 @@
-+import BlotDomain
++import oriDomain
 +import Foundation
 +import XCTest
 +
 +@MainActor
 +final class PhoneOverviewContentTests: XCTestCase {
 +    func testWorkFromDifferentChatsAppearsAndCanceledWorkStaysOut() throws {
-+        let tasks = try BlotV3.TaskState.allCases.map { state in
++        let tasks = try oriV3.TaskState.allCases.map { state in
 +            let id = UUID()
-+            return try BlotV3.Task(metadata: metadata(id: id),
++            return try oriV3.Task(metadata: metadata(id: id),
 +                execution: .init(executorDeviceId: UUID(), originDeviceId: UUID(), taskId: id, revision: 1),
 +                conversationId: UUID(), goal: state.rawValue, state: state, plan: [])
 +        }
@@ -2179,12 +2179,12 @@ new file mode 100644
 +        XCTAssertEqual(content.upcoming.map { $0.date.timeIntervalSince(now) }, [1800, 3600])
 +    }
 +
-+    private func metadata(id: UUID = UUID()) throws -> BlotV3.RecordMetadata {
++    private func metadata(id: UUID = UUID()) throws -> oriV3.RecordMetadata {
 +        try .init(id: id, ownerId: UUID(), version: 1, createdAt: .now, updatedAt: .now)
 +    }
 +
 +    private func schedule(_ name: String, time: String, timezone: String, enabled: Bool = true,
-+                          scheduledAt: Date? = nil) throws -> BlotV3.Automation {
++                          scheduledAt: Date? = nil) throws -> oriV3.Automation {
 +        try .init(metadata: metadata(), kind: .task, name: name, goal: "Prepare report", timezone: timezone,
 +                  localTime: time, weekdays: [1, 2, 3, 4, 5, 6, 7], missedRunPolicy: .coalesce,
 +                  enabled: enabled, scheduledAt: scheduledAt)
@@ -2238,7 +2238,7 @@ new file mode 100644
 --- /dev/null
 +++ b/apps/verification/WorkspacePresentationTests/PhoneScheduleDayContentTests.swift
 @@ -0,0 +1,36 @@
-+import BlotDomain
++import oriDomain
 +import Foundation
 +import XCTest
 +
@@ -2268,7 +2268,7 @@ new file mode 100644
 +    }
 +
 +    private func schedule(_ name: String, weekdays: [Int], enabled: Bool = true, time: String = "08:30",
-+                          timezone: String = "Asia/Yekaterinburg") throws -> BlotV3.Automation {
++                          timezone: String = "Asia/Yekaterinburg") throws -> oriV3.Automation {
 +        try .init(metadata: .init(id: UUID(), ownerId: UUID(), version: 1, createdAt: .now, updatedAt: .now),
 +                  kind: .task, name: name, goal: "Report", timezone: timezone, localTime: time,
 +                  weekdays: weekdays, missedRunPolicy: .coalesce, enabled: enabled)

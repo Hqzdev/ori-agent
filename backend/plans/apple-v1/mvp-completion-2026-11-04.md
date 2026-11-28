@@ -47,8 +47,8 @@ Usage хранится один раз на ModelStep; отсутствие сч
 
 ## Доказательства
 
-- 45 Swift component tests BlotWorkspace: typed SSE/function formats, реальный tool loop с сохранённым результатом и usage, строгая проверка аргументов, process lock, браузерный state/PKCE, account identity, прямой snapshot exchange и существующие repository/permission/sync tests.
-- 5 BlotDomain tests и 167 JSON fixtures проходят проверку схем. Java V3ContractTest проходит с новыми ModelStep/ExecutionMode.
+- 45 Swift component tests OriWorkspace: typed SSE/function formats, реальный tool loop с сохранённым результатом и usage, строгая проверка аргументов, process lock, браузерный state/PKCE, account identity, прямой snapshot exchange и существующие repository/permission/sync tests.
+- 5 OriDomain tests и 167 JSON fixtures проходят проверку схем. Java V3ContractTest проходит с новыми ModelStep/ExecutionMode.
 - Java account/cloud tests проходят, включая неправильный verifier/client/callback, срок и повтор browser code.
 - 6 Python configuration tests: Release gate, отсутствие SMTP в native config, dotenv без выполнения shell, обязательные поля и Google clients.
 - UI-store harness: 53 references, отсутствие авторизационного обхода, форма/навигация, SQLite/stream/retry/cancel/reopen с внедрённой тестовой моделью.
@@ -59,7 +59,7 @@ Usage хранится один раз на ModelStep; отсутствие сч
 
 ## Что не принято
 
-Обновление 4 ноября: причина `503 auth_service_unconfigured` устранена. Создана отдельная Neon PostgreSQL `blot-accounts`, подключена к Production/Preview проекта Vercel `landing`. Account API перенесён в Node.js-обработчики сайта с сохранением native PKCE-контракта. Production deployment `dpl_6fQ5TBVLP6PiSW7MQNprb1Eytjqh` опубликован на `blot-agent.vercel.app`. Восемь live-проверок подтвердили работу API и базы, проверку неправильных credentials, CSRF, Google redirect и отказ неавторизованному чтению резервных копий. SMTP TLS и авторизация Gmail отдельно проверены из Vercel без отправки письма. Прошли 11 JS/PostgreSQL tests, два Swift backup tests и сборка Mac. Реальное получение письма, Google consent и полный путь «сайт → приложение → ответ модели → перезапуск» пока не приняты.
+Обновление 4 ноября: причина `503 auth_service_unconfigured` устранена. Создана отдельная Neon PostgreSQL `ori-accounts`, подключена к Production/Preview проекта Vercel `landing`. Account API перенесён в Node.js-обработчики сайта с сохранением native PKCE-контракта. Production deployment `dpl_6fQ5TBVLP6PiSW7MQNprb1Eytjqh` опубликован на `blot-agent.vercel.app`. Восемь live-проверок подтвердили работу API и базы, проверку неправильных credentials, CSRF, Google redirect и отказ неавторизованному чтению резервных копий. SMTP TLS и авторизация Gmail отдельно проверены из Vercel без отправки письма. Прошли 11 JS/PostgreSQL tests, два Swift backup tests и сборка Mac. Реальное получение письма, Google consent и полный путь «сайт → приложение → ответ модели → перезапуск» пока не приняты.
 
 `WorkspaceCloudBackup` подключён к жизненному циклу аккаунта: чаты, сообщения и записи проектов сохраняются снимками в PostgreSQL, загружаются частями по 512 KiB и сливаются существующим causal merge при восстановлении. Проверены несколько частей, восстановление проекта/чата, offline edits и повтор после потерянного ответа commit. Файловые байты вложений и локальные credentials не входят в снимки. Сервер читает содержимое этих HTTPS-backups; E2E peer-шифрование для них не заявляется. Код сайта сохранён в PR #11; native изменения остаются в локальной рабочей папке.
 
@@ -67,6 +67,6 @@ Usage хранится один раз на ModelStep; отсутствие сч
 
 Не подменять эти пункты результатами unit tests или заранее подготовленными preview-ответами. Полный MVP не завершён.
 
-Подписанные Debug-сборки Mac и iPhone проходят `codesign --verify --strict` с доступом к системной trust-службе. macOS процесс запущен штатным `script/build_and_run.sh --verify` без передачи `.env` на вход. Визуальная проверка CUA не выполнена: доступ к интерфейсу Blot не был предоставлен. Это не основание отмечать UI-приёмку успешной.
+Подписанные Debug-сборки Mac и iPhone проходят `codesign --verify --strict` с доступом к системной trust-службе. macOS процесс запущен штатным `script/build_and_run.sh --verify` без передачи `.env` на вход. Визуальная проверка CUA не выполнена: доступ к интерфейсу Ori не был предоставлен. Это не основание отмечать UI-приёмку успешной.
 
-Машинный отчёт этого среза: [verification-mvp-progress-2026-11-04.json](verification-mvp-progress-2026-11-04.json). Локальные архивы `.build/artifacts/Blot-Mac-personal-dev.zip` и `.build/artifacts/Blot-iPhone-personal-dev.ipa` проверены на целостность; хеши и точные пути включены в отчёт. Содержимое исходного `.env`, SMTP и рабочие SQLite-базы в архивы не включаются. Встроенный GigaChat key присутствует согласно принятому personal-dev профилю.
+Машинный отчёт этого среза: [verification-mvp-progress-2026-11-04.json](verification-mvp-progress-2026-11-04.json). Локальные архивы `.build/artifacts/Ori-Mac-personal-dev.zip` и `.build/artifacts/Ori-iPhone-personal-dev.ipa` проверены на целостность; хеши и точные пути включены в отчёт. Содержимое исходного `.env`, SMTP и рабочие SQLite-базы в архивы не включаются. Встроенный GigaChat key присутствует согласно принятому personal-dev профилю.

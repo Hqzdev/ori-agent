@@ -71,7 +71,7 @@ diff --git a/scripts/check-chat-performance.sh b/scripts/check-chat-performance.
 +if [[ "${1:-}" == --scroll-baseline ]]; then text_root="$PWD/.build/chat-scroll-baseline"; fi
  arguments+=("$text_root/apps/shared/WorkspaceV3/WorkspacePluginReference.swift" "$text_root/apps/shared/WorkspaceV3/WorkspaceMessageText.swift")
  xcrun swiftc -parse-as-library -swift-version 5 -default-isolation MainActor -module-cache-path "$checks/cache" \
-     -I "$products" -I packages/BlotWorkspace/Sources/CSQLite \
+     -I "$products" -I packages/oriWorkspace/Sources/CSQLite \
 diff --git a/scripts/verify-chat-performance.swift b/scripts/verify-chat-performance.swift
 --- a/scripts/verify-chat-performance.swift
 +++ b/scripts/verify-chat-performance.swift
@@ -80,10 +80,10 @@ diff --git a/scripts/verify-chat-performance.swift b/scripts/verify-chat-perform
          print("BADGE BENCHMARK: 400 lookups with a 16 KB tool log; uncached=\(uncachedBadges), cached=\(cachedStart.duration(to: badgeClock.now))")
  
 -        let sample = Array(snapshot.messages.suffix(40))
-+        let dense = ProcessInfo.processInfo.environment["BLOT_CHAT_DENSE"] == "1"
++        let dense = ProcessInfo.processInfo.environment["ori_CHAT_DENSE"] == "1"
 +        let sample = try snapshot.messages.suffix(40).map { message in
 +            guard dense else { return message }
-+            return try BlotV3.Message(metadata: message.metadata, conversationId: conversation, role: message.role,
++            return try oriV3.Message(metadata: message.metadata, conversationId: conversation, role: message.role,
 +                content: String(repeating: "**Result** from @Architect and @Reviewer; use @Mail. Unicode 👋. ", count: 12),
 +                delivery: message.delivery, commandId: message.commandId, artifactIds: [])
 +        }

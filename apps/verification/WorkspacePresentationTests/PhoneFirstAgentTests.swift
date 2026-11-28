@@ -1,11 +1,11 @@
-import BlotWorkspace
+import OriWorkspace
 import SwiftUI
 import UIKit
 import XCTest
 
 @MainActor
 final class PhoneFirstAgentTests: XCTestCase {
-    func testEmptyAccountRequiresFirstBlotAndReturningAccountOpensChats() async throws {
+    func testEmptyAccountRequiresFirstOriAndReturningAccountOpensChats() async throws {
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         let local = try LocalWorkspaceService(databaseURL: directory.appendingPathComponent("workspace.sqlite"))
         let store = WorkspaceStore(mode: .live, service: local)
@@ -84,7 +84,7 @@ final class PhoneFirstAgentTests: XCTestCase {
         XCTAssertFalse(setup.canContinue)
     }
 
-    func testRetryAfterChatFailureReusesSavedBlotAndAcceptsEdits() async throws {
+    func testRetryAfterChatFailureReusesSavedOriAndAcceptsEdits() async throws {
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         let local = try LocalWorkspaceService(databaseURL: directory.appendingPathComponent("workspace.sqlite"))
         let service = FailingFirstAgentService(local: local)
@@ -117,7 +117,7 @@ final class PhoneFirstAgentTests: XCTestCase {
         try FileManager.default.removeItem(at: directory)
     }
 
-    func testFirstBlotScreensRenderOnPhysicalPhone() async throws {
+    func testFirstOriScreensRenderOnPhysicalPhone() async throws {
         let scene = try XCTUnwrap(UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.first)
         let previous = scene.windows.first(where: \.isKeyWindow)
         let window = UIWindow(windowScene: scene)
@@ -134,7 +134,7 @@ final class PhoneFirstAgentTests: XCTestCase {
                 window.drawHierarchy(in: window.bounds, afterScreenUpdates: true)
             }
             let attachment = XCTAttachment(image: image)
-            attachment.name = "First blot - \(step)"
+            attachment.name = "First ori - \(step)"
             attachment.lifetime = .keepAlways
             add(attachment)
             if step == .name { setup.draft.name = "Искра" }

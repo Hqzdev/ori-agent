@@ -1,15 +1,15 @@
 #!/bin/sh
 set -eu
 cd "$(dirname "$0")/.."
-products="${1:-$PWD/packages/BlotWorkspace/.build/out/Products/Debug}"
+products="${1:-$PWD/packages/OriWorkspace/.build/out/Products/Debug}"
 build="$PWD/.build/native-xpc-verification"
 app="$build/NativeVerification.app"
 mkdir -p "$app/Contents/MacOS" "$build/cache"
-xcrun swiftc -parse-as-library -swift-version 6 -module-cache-path "$build/cache" -I "$products" -I packages/BlotWorkspace/Sources/CSQLite \
-    "$products/BlotDomain.o" "$products/BlotWorkspace.o" -lsqlite3 scripts/verify-native-xpc.swift -o "$app/Contents/MacOS/NativeVerification"
+xcrun swiftc -parse-as-library -swift-version 6 -module-cache-path "$build/cache" -I "$products" -I packages/OriWorkspace/Sources/CSQLite \
+    "$products/OriDomain.o" "$products/OriWorkspace.o" -lsqlite3 scripts/verify-native-xpc.swift -o "$app/Contents/MacOS/NativeVerification"
 cat > "$app/Contents/Info.plist" <<'PLIST'
 <?xml version="1.0" encoding="UTF-8"?><plist version="1.0"><dict>
-<key>CFBundleIdentifier</key><string>dev.blot.native-verification</string>
+<key>CFBundleIdentifier</key><string>dev.ori.native-verification</string>
 <key>CFBundleExecutable</key><string>NativeVerification</string>
 <key>CFBundlePackageType</key><string>APPL</string>
 </dict></plist>

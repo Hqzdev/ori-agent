@@ -1,4 +1,4 @@
-import BlotDomain
+import OriDomain
 import Foundation
 import XCTest
 
@@ -30,18 +30,18 @@ final class PhoneSearchResultsTests: XCTestCase {
 
     private struct Fixture {
         let snapshot: WorkspaceSnapshot
-        let group: BlotV3.Conversation
-        let archived: BlotV3.Conversation
+        let group: OriV3.Conversation
+        let archived: OriV3.Conversation
         init() throws {
-            func metadata() throws -> BlotV3.RecordMetadata {
+            func metadata() throws -> OriV3.RecordMetadata {
                 try .init(id: UUID(), ownerId: UUID(), version: 1, createdAt: Date(), updatedAt: Date())
             }
-            func agent(_ name: String, instructions: String = "Help") throws -> BlotV3.AgentProfile {
+            func agent(_ name: String, instructions: String = "Help") throws -> OriV3.AgentProfile {
                 try .init(metadata: metadata(), name: name, roleId: "assistant", avatarShape: "cloud", avatarColor: "purple",
                           instructions: instructions, modelId: "gigachat", accessMode: .ask_first)
             }
             let agents = try [agent("CEO"), agent("Writer", instructions: "Editorial work"), agent("Reviewer")]
-            func conversation(_ title: String, group: Bool = true, archived: Bool = false) throws -> BlotV3.Conversation {
+            func conversation(_ title: String, group: Bool = true, archived: Bool = false) throws -> OriV3.Conversation {
                 try .init(metadata: metadata(), agentId: agents[0].metadata.id, title: title, mobileOwned: true,
                           pinned: false, archived: archived, kind: group ? .group : .direct)
             }

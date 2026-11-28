@@ -1,18 +1,18 @@
-import BlotDesign
-import BlotDomain
-import BlotWorkspace
+import OriDesign
+import OriDomain
+import OriWorkspace
 import SwiftUI
 
 struct WorkspaceGroupPlanCard: View {
     let plan: WorkspaceGroupPlanProgress
-    let agents: [BlotV3.AgentProfile]
-    var skills: [BlotV3.Skill] = []
+    let agents: [OriV3.AgentProfile]
+    var skills: [OriV3.Skill] = []
     var russian = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack(spacing: 10) {
-                Image(systemName: "list.bullet.rectangle").foregroundStyle(.secondary)
+                OriIcon(symbol: "list.bullet.rectangle").foregroundStyle(.secondary)
                 Text(russian ? "План работы" : "Work plan").font(.headline)
                 Spacer(minLength: 12)
                 Text("\(plan.completedCount)/\(plan.steps.count)").font(.caption.monospacedDigit()).foregroundStyle(.secondary)
@@ -22,7 +22,7 @@ struct WorkspaceGroupPlanCard: View {
             }
             ForEach(Array(plan.steps.enumerated()), id: \.offset) { index, step in
                 HStack(alignment: .top, spacing: 12) {
-                    Image(systemName: step.completed ? "checkmark.circle.fill" : "circle")
+                    OriIcon(symbol: step.completed ? "checkmark.circle.fill" : "circle")
                         .font(.system(size: 21)).foregroundStyle(step.completed ? Color.green : .secondary)
                         .accessibilityHidden(true)
                     VStack(alignment: .leading, spacing: 6) {

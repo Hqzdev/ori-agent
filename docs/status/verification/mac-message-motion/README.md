@@ -20,8 +20,8 @@
 ```sh
 mkdir -p .build/mac-demo-check/module-cache
 xcrun swiftc -parse-as-library -module-cache-path .build/mac-demo-check/module-cache \
-  apps/macos/BlotMac/Features/TeamDesign/Domain/MacDemoModels.swift \
-  apps/macos/BlotMac/Features/TeamDesign/MacTeamMessageTimeline.swift \
+  apps/macos/OriMac/Features/TeamDesign/Domain/MacDemoModels.swift \
+  apps/macos/OriMac/Features/TeamDesign/MacTeamMessageTimeline.swift \
   scripts/verify-mac-message-timeline.swift -o .build/mac-demo-check/message-timeline
 .build/mac-demo-check/message-timeline
 ```

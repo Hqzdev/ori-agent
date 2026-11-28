@@ -1,5 +1,5 @@
-import BlotDomain
-import BlotWorkspace
+import OriDomain
+import OriWorkspace
 import Foundation
 
 /// Uses durable model steps to bound the entire round and each individual model loop.

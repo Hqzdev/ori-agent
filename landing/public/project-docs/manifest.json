@@ -4,12 +4,75 @@
   "completedTasks": 12,
   "documents": [
     {
+      "id": "workspace-workflows",
+      "taskId": null,
+      "source": "docs/implementation/workspace-workflows.md",
+      "downloadUrl": "/project-docs/implementation/workspace-workflows.md",
+      "sha256": "fdb2bb68f580b1c3dced2cfaea41343226279f454ead99723639bf69c1c04aab",
+      "bytes": 14886,
+      "taskCompleted": false
+    },
+    {
+      "id": "web-same-domain",
+      "taskId": null,
+      "source": "docs/status/web-same-domain.md",
+      "downloadUrl": "/project-docs/status/web-same-domain.md",
+      "sha256": "086772f1048270585cd386cd9deb2268292069c67a51a08844a29de299d59405",
+      "bytes": 6643,
+      "taskCompleted": false
+    },
+    {
+      "id": "ori-unification-plan",
+      "taskId": null,
+      "source": "docs/product/ori-unification-plan.md",
+      "downloadUrl": "/project-docs/product/ori-unification-plan.md",
+      "sha256": "e1160089995aa1df622a05f952caf9c0101e5e4ccd0df3221da49bf16bfbdf5c",
+      "bytes": 35099,
+      "taskCompleted": false
+    },
+    {
+      "id": "web-terminal-import",
+      "taskId": null,
+      "source": "docs/status/web-terminal-import.md",
+      "downloadUrl": "/project-docs/status/web-terminal-import.md",
+      "sha256": "9a09347346f82fddd898353f6bb7bcc979276d764255ca929500473a603f9699",
+      "bytes": 8400,
+      "taskCompleted": false
+    },
+    {
+      "id": "web-ori-auth",
+      "taskId": null,
+      "source": "docs/status/web-ori-auth.md",
+      "downloadUrl": "/project-docs/status/web-ori-auth.md",
+      "sha256": "0a9c75d134177a0d06cccd8cad6dffb9163eb15c7925e2f729b23027d2ee2431",
+      "bytes": 8601,
+      "taskCompleted": false
+    },
+    {
+      "id": "web-postgres-release",
+      "taskId": null,
+      "source": "docs/status/web-postgres-release.md",
+      "downloadUrl": "/project-docs/status/web-postgres-release.md",
+      "sha256": "23e331899f177dee370750588a0e7998ef9aca58b6df8b642c06de02c9ad5f8c",
+      "bytes": 9607,
+      "taskCompleted": false
+    },
+    {
+      "id": "shared-chat-history",
+      "taskId": null,
+      "source": "docs/status/shared-chat-history.md",
+      "downloadUrl": "/project-docs/status/shared-chat-history.md",
+      "sha256": "371c048d4754df4838eb6cf2a1ae5fe483fa1698de37b761b49935b2f3ce4b16",
+      "bytes": 10490,
+      "taskCompleted": false
+    },
+    {
       "id": "apple-apps",
       "taskId": null,
       "source": "docs/integrations/apple-apps.md",
       "downloadUrl": "/project-docs/integrations/apple-apps.md",
-      "sha256": "b8cab970084474862eb9faeb3f31845d0847a1b0fd293d62f591c243a4bea3f5",
-      "bytes": 12996,
+      "sha256": "05aacc35df9a72d44541c49e6d70855e2d164c7c3baff260e08723341dea3ce4",
+      "bytes": 12989,
       "taskCompleted": false
     },
     {
@@ -17,8 +80,8 @@
       "taskId": null,
       "source": "docs/status/apple-v3-implementation.md",
       "downloadUrl": "/project-docs/status/apple-v3-implementation.md",
-      "sha256": "57792b0daf08e516fd3bb1f33b1064bd9d44a6f333668a231d2f75ab88e12c28",
-      "bytes": 4121,
+      "sha256": "37a83d4be6c06b76c87957dfe2997b25a01ac0931facdfb9ed4f7967de522f02",
+      "bytes": 4120,
       "taskCompleted": false
     },
     {
@@ -26,8 +89,8 @@
       "taskId": null,
       "source": "docs/architecture/module-map.md",
       "downloadUrl": "/project-docs/architecture/module-map.md",
-      "sha256": "ed4c4bb5cbf98443ee606d0c54966b5c64b9bb7cc33915c362253e5fd4dd5a1a",
-      "bytes": 23731,
+      "sha256": "74e5bd401a341af2e633a0becf28af1ba9aca9cacd85ef93a389db939384dce2",
+      "bytes": 23723,
       "taskCompleted": false
     },
     {
@@ -35,8 +98,8 @@
       "taskId": null,
       "source": "docs/architecture/domain-model.md",
       "downloadUrl": "/project-docs/architecture/domain-model.md",
-      "sha256": "ebeeb67cf10999a09a509f9dd4bf8161b5d47319691038c165ebb278d8959329",
-      "bytes": 22802,
+      "sha256": "b720197906d38a71bef38b83d848adab858878af96bcefb9387f04477a3e154a",
+      "bytes": 22798,
       "taskCompleted": false
     },
     {
@@ -44,26 +107,35 @@
       "taskId": null,
       "source": "docs/design/grok-bot-character-catalog.md",
       "downloadUrl": "/project-docs/design/grok-bot-character-catalog.md",
-      "sha256": "4264b6547837a10e78e3d4bfef54e2109afbf5e2e20a8173111b0b4237670336",
-      "bytes": 10234,
+      "sha256": "387dbc864a90f3ca7437b0cdc76551dd6547f576a4116e190a12ade8b9ca89d7",
+      "bytes": 10221,
       "taskCompleted": false
     },
     {
-      "id": "blot-product-plan",
+      "id": "ori-product-plan",
       "taskId": null,
-      "source": "docs/product/blot-product-plan.md",
-      "downloadUrl": "/project-docs/product/blot-product-plan.md",
-      "sha256": "6b3c1edc332e71fd12de11f2911947121a1266f641059e99e0d0878057d2001c",
-      "bytes": 16670,
+      "source": "docs/product/ori-product-plan.md",
+      "downloadUrl": "/project-docs/product/ori-product-plan.md",
+      "sha256": "22395cb2f07fff5abfe0674d00951d0526ede7f0cf6a794904bcf274e43c1045",
+      "bytes": 17208,
       "taskCompleted": false
     },
     {
-      "id": "blot-technical-specification",
+      "id": "ori-defense-specification",
       "taskId": null,
-      "source": "docs/product/blot-technical-specification.md",
-      "downloadUrl": "/project-docs/product/blot-technical-specification.md",
-      "sha256": "7f1c1326d59608b1bf0b6ba008b5dfe31db2398ea0791711ec4a9b8a5b41c4d9",
-      "bytes": 90317,
+      "source": "docs/product/ori-defense-specification.md",
+      "downloadUrl": "/project-docs/product/ori-defense-specification.md",
+      "sha256": "66d04ae49e3ef20d7416bd8eb66f843a4f95d382ae93d8cee9486d0c51961430",
+      "bytes": 6758,
+      "taskCompleted": false
+    },
+    {
+      "id": "ori-technical-specification",
+      "taskId": null,
+      "source": "docs/product/ori-technical-specification.md",
+      "downloadUrl": "/project-docs/product/ori-technical-specification.md",
+      "sha256": "aa0ec9e4893d8c94a8130cbc2e7a7fb325e9356b801cc656d78df3d201aeecb5",
+      "bytes": 90427,
       "taskCompleted": false
     },
     {
@@ -71,8 +143,8 @@
       "taskId": null,
       "source": "docs/integrations/mcp-developer-guide.md",
       "downloadUrl": "/project-docs/integrations/mcp-developer-guide.md",
-      "sha256": "c60bc32553674807eacaf5902131fa0056f3b971bfc3f6251d0d8dd5992a0568",
-      "bytes": 14230,
+      "sha256": "3fb18d1f45ec52d1764edc1c8cbc79763c2f833712d8ad796a6fb6c862240e89",
+      "bytes": 14215,
       "taskCompleted": false
     },
     {
@@ -80,8 +152,8 @@
       "taskId": null,
       "source": "docs/status/native-terminal-git.md",
       "downloadUrl": "/project-docs/status/native-terminal-git.md",
-      "sha256": "759e6a7f0ac4ed909a76b1e3b0609d71b9c02827b5d1f8b3dc07801e6539cab9",
-      "bytes": 17056,
+      "sha256": "224ac8c75753e8389c626e55f145d15a2cb333ff82912f2fd34db0b6ec09dba9",
+      "bytes": 17053,
       "taskCompleted": false
     },
     {
@@ -89,8 +161,8 @@
       "taskId": "P0.1",
       "source": "docs/archive/product-scope.md",
       "downloadUrl": "/project-docs/archive/product-scope.md",
-      "sha256": "81f5fd47e888068144d49aab6f8ffbe5d7ac8ddd0c701c0d2892ef24b3fe8392",
-      "bytes": 10320,
+      "sha256": "ad765bfc8d0a1429bc1e39ea57678edeac915ddd43fef21d9ebb4cf62d29986c",
+      "bytes": 10313,
       "taskCompleted": true
     },
     {
@@ -98,8 +170,8 @@
       "taskId": "P0.2",
       "source": "docs/rules/domain-glossary.md",
       "downloadUrl": "/project-docs/rules/domain-glossary.md",
-      "sha256": "0c2a34aba27cf9f2b411a6e984a1f7413659f6b3bc52548e33dac9291f329b92",
-      "bytes": 9406,
+      "sha256": "242806c0e6644490552d0757217df5471843d3baa7415afc5ba07381be0284ce",
+      "bytes": 9404,
       "taskCompleted": true
     },
     {
@@ -107,8 +179,8 @@
       "taskId": "P0.3",
       "source": "docs/rules/chat-to-run.md",
       "downloadUrl": "/project-docs/rules/chat-to-run.md",
-      "sha256": "163247550ef74372a0dd4e74ed6ff7a4275dbb7e87c3977dfbc75b50ad22673a",
-      "bytes": 6230,
+      "sha256": "1c9217622f6441601e1c81b0b91d690ad7e1dfecc3f011afa2369595cd0abb9f",
+      "bytes": 6225,
       "taskCompleted": true
     },
     {
@@ -116,8 +188,8 @@
       "taskId": "P0.4",
       "source": "docs/rules/roles-and-gates.md",
       "downloadUrl": "/project-docs/rules/roles-and-gates.md",
-      "sha256": "f361308d546b5e22af38314bd4c75069f9ac7b21f1c3394890c273ef35c558a3",
-      "bytes": 7239,
+      "sha256": "b9b5577f5aa9ccf978cf0875fa4128ebffa5fe68b1f76250f53d86277d58bc1b",
+      "bytes": 7237,
       "taskCompleted": true
     },
     {
@@ -125,8 +197,8 @@
       "taskId": "P0.5",
       "source": "docs/rules/permission-policy.md",
       "downloadUrl": "/project-docs/rules/permission-policy.md",
-      "sha256": "640a4be29b8f7a5a18c28f4a5397a58c2fffcde059892421e467eafa14c41112",
-      "bytes": 7154,
+      "sha256": "253c27b4d6cccfe08e968581eaa2fbdcf1925970c27ae10c2e6839d449efddb9",
+      "bytes": 7152,
       "taskCompleted": true
     },
     {
@@ -134,8 +206,8 @@
       "taskId": "P0.6",
       "source": "docs/rules/supported-projects.md",
       "downloadUrl": "/project-docs/rules/supported-projects.md",
-      "sha256": "c66af2dec7e2b77e90736bb48459b39cb1418afd5e2ffe14c353c2e56832b8d6",
-      "bytes": 6646,
+      "sha256": "c09d6b77c4b2cad070082b890e89ec8f3953d6c122e545b7b68a82715894f9ab",
+      "bytes": 6642,
       "taskCompleted": true
     },
     {
@@ -143,8 +215,8 @@
       "taskId": "P0.7",
       "source": "docs/rules/platform-matrix.md",
       "downloadUrl": "/project-docs/rules/platform-matrix.md",
-      "sha256": "0b83c7b208fef58fa8e29d2d212bd348c891b04bed9edf79144fb47390c33388",
-      "bytes": 5677,
+      "sha256": "ef456e8d590bb09108c6b7b86443317a6a3d5c58fdb1fc0ed101b7d89f6bc04f",
+      "bytes": 5674,
       "taskCompleted": true
     },
     {
@@ -152,8 +224,8 @@
       "taskId": "P0.8",
       "source": "docs/rules/tool-boundaries.md",
       "downloadUrl": "/project-docs/rules/tool-boundaries.md",
-      "sha256": "4a490bdbf8ef7b1cfee75671b0871986d0b57af6e802a08bad745f0b58c19d57",
-      "bytes": 9794,
+      "sha256": "b4aa0850bb4b76e6678c1b88e261d8c3398582ccea0fe64ecac04e0dcd8cc395",
+      "bytes": 9792,
       "taskCompleted": true
     },
     {
@@ -161,8 +233,8 @@
       "taskId": "P0.9",
       "source": "docs/rules/data-lifecycle.md",
       "downloadUrl": "/project-docs/rules/data-lifecycle.md",
-      "sha256": "6fc2a7ba60a5e7be34520b23950838e900f681a38fe1476308b397f2f42c7d5d",
-      "bytes": 8786,
+      "sha256": "fb19d46655f771c51e2b087ced946322735861e1b347d472e4292d949085dbb5",
+      "bytes": 8781,
       "taskCompleted": true
     },
     {
@@ -170,8 +242,8 @@
       "taskId": "P0.10",
       "source": "docs/archive/acceptance-matrix.md",
       "downloadUrl": "/project-docs/archive/acceptance-matrix.md",
-      "sha256": "6a15c6dfb295405919b580169b1dd7bb5421caf4dd10d55e652e2afcad3525d6",
-      "bytes": 8401,
+      "sha256": "436f87844ebd309e4220eceeb934b2bef4b99df7690d107408cddd39a846af09",
+      "bytes": 8399,
       "taskCompleted": true
     },
     {
@@ -179,8 +251,8 @@
       "taskId": "A2.1",
       "source": "docs/architecture/repo-policy.md",
       "downloadUrl": "/project-docs/architecture/repo-policy.md",
-      "sha256": "2968bb220c913439c59070e45d1e8c92352d5657d723a7f444155c85f4bc1cad",
-      "bytes": 6811,
+      "sha256": "36958edae3198dd3144aadb551ca0df4c8a734ca99ffa7c7683e080e4afb12db",
+      "bytes": 6803,
       "taskCompleted": true
     },
     {
@@ -188,8 +260,8 @@
       "taskId": "A2.2",
       "source": "docs/architecture/apple-targets.md",
       "downloadUrl": "/project-docs/architecture/apple-targets.md",
-      "sha256": "7ef6b3d8a7e8ab3eae419dc95f9d539a67cb4d0144a63e9f0185849e765fedbf",
-      "bytes": 7295,
+      "sha256": "5645aa1021e94765a93ed0aa4cf65a7a9490e3b5e69e5d36f1380dd8b025b6e2",
+      "bytes": 7269,
       "taskCompleted": true
     },
     {
@@ -197,8 +269,8 @@
       "taskId": "A2.3",
       "source": "docs/architecture/swift-packages.md",
       "downloadUrl": "/project-docs/architecture/swift-packages.md",
-      "sha256": "f24e9addf3f98fe7d69a356e7729eb7bb28a5bacf7254afc1c43e93459560f8b",
-      "bytes": 5301,
+      "sha256": "aeca17997c2138f6d7f92bdb541435e92417c3172e7ded9fb45fe4187a864dae",
+      "bytes": 5276,
       "taskCompleted": false
     },
     {
@@ -206,8 +278,8 @@
       "taskId": "A2.4",
       "source": "docs/architecture/java-modules.md",
       "downloadUrl": "/project-docs/architecture/java-modules.md",
-      "sha256": "87903932f97eeee6c58169b08cb09b1a15ee1b42ab47d7dd608e37b01a6ade41",
-      "bytes": 5593,
+      "sha256": "a961cfaec3624a3db7795c4c5c3149e2590258f9329ba3147bacadbf083db0d2",
+      "bytes": 5591,
       "taskCompleted": false
     },
     {
@@ -215,8 +287,8 @@
       "taskId": "A2.5",
       "source": "docs/architecture/composition-root.md",
       "downloadUrl": "/project-docs/architecture/composition-root.md",
-      "sha256": "20905902bab002a7ff72276d668d252e3e4310d72a05a09c6823f61db4d2ae57",
-      "bytes": 6469,
+      "sha256": "8ef9c059155d46f662c4813a2f8139f5a4a7a25fcab4e50c44b9ba06e63681bf",
+      "bytes": 6467,
       "taskCompleted": false
     },
     {
@@ -224,8 +296,8 @@
       "taskId": "A2.6",
       "source": "docs/architecture/toolchain.md",
       "downloadUrl": "/project-docs/architecture/toolchain.md",
-      "sha256": "e6143679d2286452e7c944b204c666aa79b84e22aaa37bfbb13bda4cbe270e87",
-      "bytes": 5324,
+      "sha256": "3d46ba445b8b113ad8264e3672b13bf7c47d253beb056ca721645b4db761f2dc",
+      "bytes": 5323,
       "taskCompleted": false
     },
     {
@@ -233,8 +305,8 @@
       "taskId": "A2.7",
       "source": "docs/architecture/formatting.md",
       "downloadUrl": "/project-docs/architecture/formatting.md",
-      "sha256": "c7d9dae82e8fb59dce17d07fcbd6e15db242f7fdac4cb6537dc94d66f6432035",
-      "bytes": 5121,
+      "sha256": "ace1df5305c584a05cc62175cdd60a0c6a3cc2897366cfda3ae601232b5cb662",
+      "bytes": 5119,
       "taskCompleted": false
     },
     {
@@ -242,8 +314,8 @@
       "taskId": "A2.8",
       "source": "docs/architecture/build-commands.md",
       "downloadUrl": "/project-docs/architecture/build-commands.md",
-      "sha256": "baaa99dd9e88302774f9935f43f50a3dc03d059ce33f747a59f87216640c326a",
-      "bytes": 4245,
+      "sha256": "ed195aedb9fd1f7a2cf451e6996d476db26b0c779317bdbdb1d9483bcc8a3426",
+      "bytes": 4234,
       "taskCompleted": false
     },
     {
@@ -251,8 +323,8 @@
       "taskId": "A2.9",
       "source": "docs/architecture/ci.md",
       "downloadUrl": "/project-docs/architecture/ci.md",
-      "sha256": "7154dbafddb9dbe1f978d2c0fcbbc6b27ad50ac4ec58dae23b5192240083125c",
-      "bytes": 5138,
+      "sha256": "a4e498585560c04d268c7594f25f5119874dfff84011ef9f0e8bfc02ae034c3e",
+      "bytes": 5137,
       "taskCompleted": false
     },
     {
@@ -260,8 +332,8 @@
       "taskId": "A2.10",
       "source": "docs/architecture/fixtures.md",
       "downloadUrl": "/project-docs/architecture/fixtures.md",
-      "sha256": "c5d31b036f00ee70051177043105b52962c349b8cc28cb5a13b82e03a6cf6b0e",
-      "bytes": 5731,
+      "sha256": "23a406c3647b768562f3c5e58abbeb43e93ebc58d5357f4f2113235bf455f2e2",
+      "bytes": 5730,
       "taskCompleted": false
     },
     {
@@ -269,8 +341,8 @@
       "taskId": "A2.11",
       "source": "docs/architecture/contracts.md",
       "downloadUrl": "/project-docs/architecture/contracts.md",
-      "sha256": "8526ac2929dfe08bd574f3d32ba4959cf30bb70abc4816aaf1d077421fc90a50",
-      "bytes": 7659,
+      "sha256": "eace81971f0f4fa010a4c0b7c57a3de09272622cc554034ccdf492d6df8d1b6c",
+      "bytes": 7658,
       "taskCompleted": false
     },
     {
@@ -278,8 +350,8 @@
       "taskId": "A2.12",
       "source": "docs/architecture/logging.md",
       "downloadUrl": "/project-docs/architecture/logging.md",
-      "sha256": "0aa299fa65576c06499744def466e73a7808a75f322aa9058e1f87c80feca346",
-      "bytes": 5991,
+      "sha256": "be991e972588da1ebb1a89e17b80cb11a0e91c54487160a47f22f88fb779918a",
+      "bytes": 5989,
       "taskCompleted": false
     },
     {
@@ -287,8 +359,8 @@
       "taskId": null,
       "source": "docs/README.md",
       "downloadUrl": "/project-docs/README.md",
-      "sha256": "3ba2c58f74b09bbfaf0a2e1d55405d79c7115e10a4fd4df21c656697f8fdc94c",
-      "bytes": 8488,
+      "sha256": "604dff84ad7168588961a233dd4dbb07059524a4d50f5510418e750b99c8316c",
+      "bytes": 12512,
       "taskCompleted": false
     },
     {
@@ -296,8 +368,8 @@
       "taskId": null,
       "source": "docs/status/documentation-review.md",
       "downloadUrl": "/project-docs/status/documentation-review.md",
-      "sha256": "d27243cfc4017b386f51b6e013ee3517956efb8f6ee29adf884c0686e2aac23a",
-      "bytes": 5261,
+      "sha256": "afe210b79855684d58685c16d9408a890e6145c09c736c1315fd228f88796f28",
+      "bytes": 5256,
       "taskCompleted": false
     },
     {
@@ -305,8 +377,8 @@
       "taskId": null,
       "source": "docs/archive/implementation-plan.md",
       "downloadUrl": "/project-docs/archive/implementation-plan.md",
-      "sha256": "2b684ac6537a7b7cde33a401d22a4fd8ef8e1a2cc9dd76847a637bedc80ad38a",
-      "bytes": 270730,
+      "sha256": "a1fb6d995827fe4b00239ffaa11d6a670377b0da06d2406367a11634bd45f14f",
+      "bytes": 270299,
       "taskCompleted": false
     },
     {
@@ -314,8 +386,8 @@
       "taskId": null,
       "source": "docs/agents/orchestrator.md",
       "downloadUrl": "/project-docs/agents/orchestrator.md",
-      "sha256": "b5368c613abd7980b5b2cb6831c6b78912f0ed1af8cedda4adc2adfcad998916",
-      "bytes": 13400,
+      "sha256": "aa2d06d538f5f0b6d17742687e6c746f8f7eb66630d81687e831fa55d1638cbd",
+      "bytes": 13398,
       "taskCompleted": false
     },
     {
@@ -323,8 +395,8 @@
       "taskId": null,
       "source": "docs/agents/orchestrator-commands.md",
       "downloadUrl": "/project-docs/agents/orchestrator-commands.md",
-      "sha256": "08ecfe8acaf362f1ca0bae2809d73c5c6e457e7333b1dfde7d59bc6edba58afa",
-      "bytes": 31532,
+      "sha256": "eb75c71d6c6b8afdf5b3f8ad3a90d22d8567e8b717c6a32afacd2cd47ba4b572",
+      "bytes": 31530,
       "taskCompleted": false
     },
     {
@@ -332,8 +404,8 @@
       "taskId": null,
       "source": "docs/agents/agent-types.md",
       "downloadUrl": "/project-docs/agents/agent-types.md",
-      "sha256": "68569d3a519f7ecc601dfb8a5223cb58748dbf56b9cae48ee736389b48bda58d",
-      "bytes": 12384,
+      "sha256": "72ba98d90a754093a1664d10cb24ca8dff0bb8541342639e156eed948c0cf138",
+      "bytes": 12380,
       "taskCompleted": false
     },
     {
@@ -341,8 +413,8 @@
       "taskId": null,
       "source": "docs/agents/agent-system-prompts.md",
       "downloadUrl": "/project-docs/agents/agent-system-prompts.md",
-      "sha256": "d84b5044134803115c6c1c817671e12e10648783864a9ff0a793f096759f4911",
-      "bytes": 34402,
+      "sha256": "6b3224980c593e8b246eac3e4478739e39bc49fd99b4252942f08dd4721ee95d",
+      "bytes": 34400,
       "taskCompleted": false
     },
     {
@@ -350,8 +422,8 @@
       "taskId": null,
       "source": "docs/agents/agent-capabilities.md",
       "downloadUrl": "/project-docs/agents/agent-capabilities.md",
-      "sha256": "3118e72f49d41d86a9c6f4ba3ddc035c27147fa0411a76db1d0bfc8005203f25",
-      "bytes": 18085,
+      "sha256": "0dbbed337f17de74e2497586e8db74ba7d457e6948cf29dfb27bc3b4e35a0fce",
+      "bytes": 18075,
       "taskCompleted": false
     },
     {
@@ -359,8 +431,8 @@
       "taskId": null,
       "source": "docs/agents/motes.md",
       "downloadUrl": "/project-docs/agents/motes.md",
-      "sha256": "287f7b8b71050ef9f5fd45c5f3f78ef3abe23594ecc88368c076fb9fd1af9e7e",
-      "bytes": 10058,
+      "sha256": "6e4ebc0ff3f38470abf84236ceea5787f9b72abda6dd580c2e266b470b96aec3",
+      "bytes": 10045,
       "taskCompleted": false
     },
     {
@@ -368,8 +440,8 @@
       "taskId": null,
       "source": "docs/rules/optimization.md",
       "downloadUrl": "/project-docs/rules/optimization.md",
-      "sha256": "e15bed2ed5132035620e4278abab7277c8535360a1546a0dff9807fe41c5057a",
-      "bytes": 8096,
+      "sha256": "c7ccb1c80f9cb3aab8c9205a17a4390908731b2cfcd4287baafbba3a538cfb08",
+      "bytes": 8092,
       "taskCompleted": false
     },
     {
@@ -377,8 +449,8 @@
       "taskId": null,
       "source": "docs/integrations/google-workspace.md",
       "downloadUrl": "/project-docs/integrations/google-workspace.md",
-      "sha256": "695c6f3dbc8e507cdde777de6701dbcc2204b849eb75c6a5aa7216ed943618b8",
-      "bytes": 8683,
+      "sha256": "be99322004e6210a7fe3f2004154b4e9f578a4b4d2f4106affc1c242ace68382",
+      "bytes": 6803,
       "taskCompleted": false
     }
   ]

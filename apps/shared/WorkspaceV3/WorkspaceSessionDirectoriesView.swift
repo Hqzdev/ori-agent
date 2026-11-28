@@ -1,5 +1,5 @@
-import BlotWorkspace
-import BlotDomain
+import OriWorkspace
+import OriDomain
 import SwiftUI
 
 /// Optional owner controls; normal file work needs no visit to this screen.
@@ -12,8 +12,8 @@ struct WorkspaceSessionDirectoriesView: View {
     var body: some View {
         if store.sessionFileService?.automaticSessionFiles == true {
             VStack(alignment: .leading, spacing: 12) {
-                Text(ru ? "Рабочая папка Blot" : "Blot working folder").font(.headline)
-                Text(ru ? "~/Blot создаётся автоматически. У каждого чата — своя папка с историей и рабочими файлами. Доступ к другим папкам агент запрашивает прямо из чата." : "~/Blot is created automatically. Each chat has its own history and working files. Agents request access to other folders directly from the chat.")
+                Text(ru ? "Рабочая папка Ori" : "Ori working folder").font(.headline)
+                Text(ru ? "Ori автоматически создаёт рабочую папку в вашем домашнем каталоге. У каждого чата — своя папка с историей и рабочими файлами. Доступ к другим папкам агент запрашивает прямо из чата." : "Ori automatically creates a working folder in your home directory. Each chat has its own history and working files. Agents request access to other folders directly from the chat.")
                 ForEach(directories) { directory in
                     HStack {
                         VStack(alignment: .leading) {
@@ -34,13 +34,13 @@ struct WorkspaceSessionDirectoriesView: View {
                 if let error { Text(error).font(.caption).foregroundStyle(.red) }
             }
             .task { await refresh() }
-            .confirmationDialog(ru ? "Подтвердите проверенный результат" : "Confirm the verified outcome", isPresented: Binding(get: { resolving != nil }, set: { if !$0 { resolving = nil } }), titleVisibility: .visible) {
+            .workspaceConfirmationDialog(ru ? "Подтвердите проверенный результат" : "Confirm the verified outcome", isPresented: Binding(get: { resolving != nil }, set: { if !$0 { resolving = nil } }), titleVisibility: .visible) {
                 Button(ru ? "Выполнено" : "Completed") { resolve(true) }
                 Button(ru ? "Не выполнено" : "Not completed") { resolve(false) }
             }
         }
     }
-    private var unknownActions: [BlotDomain.BlotV3.ToolInvocation] {
+    private var unknownActions: [OriDomain.OriV3.ToolInvocation] {
         let ids = Set((store.snapshot.preparedActions ?? []).filter { $0.toolId.hasPrefix("workspace_") }.map(\.metadata.id))
         return (store.snapshot.toolInvocations ?? []).filter { $0.state == .unknown && $0.execution.executorDeviceId == store.snapshot.localDeviceID && ids.contains($0.preparedActionId) }
     }

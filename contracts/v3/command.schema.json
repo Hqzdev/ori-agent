@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://blot.app/contracts/v3/command.schema.json",
-  "title": "Blot v3 command",
+  "title": "Ori v3 command",
   "type": "object",
   "additionalProperties": false,
   "required": [

@@ -1,5 +1,5 @@
-import BlotDomain
-import BlotWorkspace
+import OriDomain
+import OriWorkspace
 import SwiftUI
 import UIKit
 import XCTest

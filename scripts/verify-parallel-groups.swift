@@ -1,5 +1,5 @@
-import BlotDomain
-import BlotWorkspace
+import OriDomain
+import OriWorkspace
 import Foundation
 
 private actor ParallelGroupModel: ChatModel {
@@ -60,7 +60,7 @@ private actor ParallelGroupModel: ChatModel {
         }
         let chat = try await WorkspaceGroupService(repository: repository, identity: identity).create(commandID: UUID(), title: "Parallel checks", agentIDs: ids)
         let id = try await WorkspaceChatService(repository: repository, identity: identity).sendMessage(commandID: UUID(), conversationID: chat, content: "Run two separate checks and report the results")
-        let source = try await repository.record(BlotV3.Message.self, id: id, workspaceID: identity.workspaceID)!
+        let source = try await repository.record(OriV3.Message.self, id: id, workspaceID: identity.workspaceID)!
         let model = ParallelGroupModel(ids, scenario: scenario)
         let service = try LocalWorkspaceService(databaseURL: directory.appendingPathComponent("group.sqlite"), repository: repository, identity: identity, maximumOutputTokens: 128, makeModel: { _ in model })
         _ = try await service.load()

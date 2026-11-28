@@ -7,6 +7,6 @@ dependencies {
     implementation(libs.jackson)
 }
 tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
-    archiveFileName.set("blot-cloud.jar")
+    archiveFileName.set("ori-cloud.jar")
 }
 tasks.withType<JavaExec>().configureEach { jvmArgs("--enable-native-access=ALL-UNNAMED") }

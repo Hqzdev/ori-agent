@@ -1,6 +1,6 @@
 import AppKit
-import BlotDomain
-import BlotWorkspace
+import OriDomain
+import OriWorkspace
 import Foundation
 
 private actor SessionVerificationCredentials: WorkspaceCredentialStore {
@@ -33,14 +33,14 @@ private struct SessionVerificationModel: ChatModel {
                 if let directoryID { arguments["directory_id"] = directoryID }
                 let call: ChatToolCall
                 if picker, result("workspace_request_directory") == nil {
-                    call = .init(id: "directory-request", name: "workspace_request_directory", arguments: .object(["purpose": .string("Проверка Blot: создать тестовую папку и записать в неё файл. Выберите только подготовленный тестовый каталог."), "folder_name": .string("ApprovedFolder")]))
+                    call = .init(id: "directory-request", name: "workspace_request_directory", arguments: .object(["purpose": .string("Проверка Ori: создать тестовую папку и записать в неё файл. Выберите только подготовленный тестовый каталог."), "folder_name": .string("ApprovedFolder")]))
                 } else if !picker, result("workspace_directory") == nil {
                     call = .init(id: "directory", name: "workspace_directory", arguments: .object([:]))
                 } else if result("workspace_create_directory") == nil {
                     arguments["path"] = .string("Reports")
                     call = .init(id: "mkdir", name: "workspace_create_directory", arguments: .object(arguments))
                 } else if result("workspace_write_file") == nil {
-                    arguments["path"] = .string(filename); arguments["content"] = .string("Created by Blot\n"); arguments["expected_hash"] = .string("missing")
+                    arguments["path"] = .string(filename); arguments["content"] = .string("Created by Ori\n"); arguments["expected_hash"] = .string("missing")
                     call = .init(id: "write", name: "workspace_write_file", arguments: .object(arguments))
                 } else if result("workspace_read_file") == nil {
                     arguments["path"] = .string(filename)
@@ -48,7 +48,7 @@ private struct SessionVerificationModel: ChatModel {
                 } else if !picker && !queued && result("document_create") == nil {
                     call = .init(id: "pdf", name: "document_create", arguments: .object(["name": .string("Summary"), "format": .string("pdf"), "content": .string("Generated session document")]))
                 } else {
-                    precondition(result("workspace_read_file")?["content"] == .string("Created by Blot\n"))
+                    precondition(result("workspace_read_file")?["content"] == .string("Created by Ori\n"))
                     continuation.yield(.text("File created and verified inside the approved directory.")); continuation.yield(.finished(.stop)); continuation.finish(); return
                 }
                 precondition(request.tools.contains { $0.name == call.name })
@@ -70,7 +70,7 @@ struct VerifySessionFiles {
                 if picker {
                     try await verify(group: false, picker: true)
                     let window = NSWindow(contentRect: CGRect(x: 150, y: 150, width: 620, height: 180), styleMask: [.titled, .closable], backing: .buffered, defer: false)
-                    window.title = "Blot — проверка доступа к папке завершена"
+                    window.title = "Ori — проверка доступа к папке завершена"
                     let text = NSTextField(wrappingLabelWithString: "Папка создана после выбора родительского каталога. Файл записан и прочитан через сохранённый bookmark. Тестовая сессия удалена; посторонние данные не затронуты.")
                     text.frame = CGRect(x: 24, y: 24, width: 570, height: 110); window.contentView?.addSubview(text)
                     completionWindow = window; window.makeKeyAndOrderFront(nil); app.activate(ignoringOtherApps: true)
@@ -84,7 +84,7 @@ struct VerifySessionFiles {
         app.run()
     }
     static func verify(group: Bool, picker: Bool) async throws {
-        let directory = FileManager.default.temporaryDirectory.appendingPathComponent("BlotFileVerification-" + UUID().uuidString)
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent("OriFileVerification-" + UUID().uuidString)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: directory) }
         let repository = try WorkspaceRepository(url: directory.appendingPathComponent("workspace.sqlite")), identity = try await repository.localIdentity()
@@ -108,15 +108,15 @@ struct VerifySessionFiles {
             print("PICKER_PARENT=" + session + "/PickerParent")
         }
         let sourceID = try await WorkspaceChatService(repository: repository, identity: identity).sendMessage(commandID: UUID(), conversationID: conversation,
-            content: picker ? "Create a folder elsewhere and write the verification file after I choose its parent" : "Create a Reports directory in Blot and write result.txt there")
-        let source = try await repository.record(BlotV3.Message.self, id: sourceID, workspaceID: identity.workspaceID)!
+            content: picker ? "Create a folder elsewhere and write the verification file after I choose its parent" : "Create a Reports directory in Ori and write result.txt there")
+        let source = try await repository.record(OriV3.Message.self, id: sourceID, workspaceID: identity.workspaceID)!
         for try await _ in try await service.responses(to: source) {}
         let snapshot = try await service.currentSnapshot()
         precondition(snapshot.messages.contains { $0.role == .assistant && $0.content.contains("File created and verified") })
         precondition(snapshot.connections.isEmpty)
         if !picker {
             let read = try await files.request(.workspaceRead, root: root, parameters: ["path": "Reports/result.txt"])
-            precondition(read.fields["content"] == .string("Created by Blot\n"))
+            precondition(read.fields["content"] == .string("Created by Ori\n"))
         }
         await service.sessionMirror?.synchronize()
         let mirrorError = await service.sessionMirror?.lastError
@@ -135,13 +135,13 @@ struct VerifySessionFiles {
                 agentID: agent, goal: "Queued file task: create queued.txt in Reports", executorDeviceID: identity.deviceID)
             let deadline = ContinuousClock.now.advanced(by: .seconds(20))
             while ContinuousClock.now < deadline {
-                let state = try await repository.record(BlotV3.Task.self, id: task, workspaceID: identity.workspaceID)!.state
+                let state = try await repository.record(OriV3.Task.self, id: task, workspaceID: identity.workspaceID)!.state
                 if state == .completed { break }
                 if [.failed, .interrupted].contains(state) { throw NativeExecutionError.unknown }
                 try await _Concurrency.Task.sleep(for: .milliseconds(20))
             }
             let read = try await files.request(.workspaceRead, root: root, parameters: ["path": "Reports/queued.txt"])
-            precondition(read.fields["content"] == .string("Created by Blot\n"))
+            precondition(read.fields["content"] == .string("Created by Ori\n"))
             print("PASS: queued task uses the same automatic session files without plugin assignment")
         }
         try await service.close()

@@ -1,4 +1,4 @@
-import BlotDomain
+import OriDomain
 import Foundation
 import XCTest
 
@@ -28,7 +28,7 @@ final class PhoneScheduleDayContentTests: XCTestCase {
     }
 
     private func schedule(_ name: String, weekdays: [Int], enabled: Bool = true, time: String = "08:30",
-                          timezone: String = "Asia/Yekaterinburg") throws -> BlotV3.Automation {
+                          timezone: String = "Asia/Yekaterinburg") throws -> OriV3.Automation {
         try .init(metadata: .init(id: UUID(), ownerId: UUID(), version: 1, createdAt: .now, updatedAt: .now),
                   kind: .task, name: name, goal: "Report", timezone: timezone, localTime: time,
                   weekdays: weekdays, missedRunPolicy: .coalesce, enabled: enabled)

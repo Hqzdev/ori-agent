@@ -1,4 +1,4 @@
-import BlotDesign
+import OriDesign
 import SwiftUI
 
 #if os(macOS)
@@ -14,7 +14,7 @@ struct WorkspaceSettingsPanel: View {
         HStack(spacing: 0) {
             VStack(alignment: .leading, spacing: 12) {
                 HStack(spacing: 8) {
-                    BlotIcon(.settings, size: 16)
+                    OriIcon(.settings, size: 16)
                     Text(store.t("Settings")).font(.system(size: 14, weight: .semibold))
                 }.padding(.horizontal, 4)
                 searchField
@@ -23,17 +23,17 @@ struct WorkspaceSettingsPanel: View {
                         ForEach(entries) { item in
                             Button { select(item.route) } label: {
                                 HStack(spacing: 9) {
-                                    BlotIcon(item.glyph, size: 15).frame(width: 17)
+                                    OriIcon(item.glyph, size: 15).frame(width: 17)
                                     Text(store.t(item.route.title)).lineLimit(1)
                                     Spacer(minLength: 0)
                                 }.frame(minHeight: 32).padding(.horizontal, 8)
-                                    .background(route == item.route ? BlotColor.selected : .clear, in: RoundedRectangle(cornerRadius: BlotRadius.control))
+                                    .background(route == item.route ? OriColor.selected : .clear, in: RoundedRectangle(cornerRadius: OriRadius.control))
                                     .contentShape(Rectangle())
                             }.buttonStyle(.plain).help(store.t(item.route.title))
                                 .accessibilityAddTraits(route == item.route ? .isSelected : [])
                         }
                         if entries.isEmpty {
-                            BlotLabel(store.t("No results"), symbol: "magnifyingglass", size: 15)
+                            OriLabel(store.t("No results"), symbol: "magnifyingglass", size: 15)
                                 .font(MacWorkspaceStyle.caption).foregroundStyle(WorkspaceStyle.secondary)
                                 .frame(maxWidth: .infinity).padding(.vertical, 20)
                         }
@@ -44,17 +44,17 @@ struct WorkspaceSettingsPanel: View {
                 Button {
                     if store.settingsRoute != nil { store.settingsRoute = nil }
                     else { store.navigate(.chat) }
-                } label: { BlotIcon(.close, size: 14).frame(width: 32, height: 32) }
+                } label: { OriIcon(.close, size: 14).frame(width: 32, height: 32) }
                     .buttonStyle(.plain).accessibilityLabel(store.t("Close"))
                 ScrollView { WorkspaceSettingsView(route: route).padding(24) }
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
         }.font(MacWorkspaceStyle.body).background(WorkspaceStyle.canvas).foregroundStyle(WorkspaceStyle.ink)
-            .clipShape(RoundedRectangle(cornerRadius: BlotRadius.panel, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: OriRadius.panel, style: .continuous))
     }
 
     private var searchField: some View {
         HStack(spacing: 6) {
-            Button { searchFocused = true } label: { BlotIcon(.search, size: 13) }
+            Button { searchFocused = true } label: { OriIcon(.search, size: 13) }
                 .buttonStyle(.plain).keyboardShortcut("f", modifiers: .command)
                 .accessibilityLabel(store.t("Search settings"))
             TextField(store.t("Search settings"), text: $query)
@@ -64,13 +64,13 @@ struct WorkspaceSettingsPanel: View {
                 .onSubmit { if let first = entries.first { select(first.route) } }
                 .onExitCommand { query = ""; searchFocused = false }
             if !query.isEmpty {
-                Button { query = ""; searchFocused = true } label: { BlotIcon(.closeCircle, size: 13) }
+                Button { query = ""; searchFocused = true } label: { OriIcon(.closeCircle, size: 13) }
                     .buttonStyle(.plain).accessibilityLabel(store.t("Clear search"))
             }
         }.foregroundStyle(WorkspaceStyle.secondary)
             .padding(.horizontal, 8).frame(height: 30)
-            .background(WorkspaceStyle.canvas, in: RoundedRectangle(cornerRadius: BlotRadius.control))
-            .overlay(RoundedRectangle(cornerRadius: BlotRadius.control).strokeBorder(MacWorkspaceStyle.edge))
+            .background(WorkspaceStyle.canvas, in: RoundedRectangle(cornerRadius: OriRadius.control))
+            .overlay(RoundedRectangle(cornerRadius: OriRadius.control).strokeBorder(MacWorkspaceStyle.edge))
     }
 
     private func select(_ destination: WorkspaceRoute) {

@@ -1,4 +1,5 @@
-import BlotDomain
+import OriWorkspace
+import OriDomain
 import Foundation
 
 struct WorkspaceAccountForm {
@@ -23,10 +24,13 @@ struct WorkspaceAgentForm {
     var color = "orange"
 }
 struct WorkspaceScheduleForm {
+    var recordID: UUID?
+    var version = 0
+    var enabled = true
     var skillRevisionID: UUID?
     var timezone = TimeZone.current.identifier
     var oneTime = false
-    var missedRunPolicy: BlotV3.MissedRunPolicy = .coalesce
+    var missedRunPolicy: OriV3.MissedRunPolicy = .coalesce
     var maximumCatchUpRuns = 1
     var agentID: UUID?
     var deviceID: UUID?
@@ -60,13 +64,14 @@ struct WorkspacePairForm { var code = "" }
 nonisolated struct WorkspaceComposerForm: Codable, Sendable {
     var draft = ""
     var attachments: [URL] = []
+    var inferenceProfile: OriInferenceProfile?
     var replyToMessageID: UUID?
     var projectID: UUID? = nil
 }
 struct WorkspaceSearchForm { var query = "" }
 struct WorkspacePreferencesForm {
     var backgroundWork = false
-    var accessMode: BlotV3.AccessMode = .ask_first
+    var accessMode: OriV3.AccessMode = .ask_first
 }
 
 /// Each feature owns its draft. Navigation never reuses another form's name, code or content.

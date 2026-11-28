@@ -9,7 +9,7 @@ import { menuGroups } from "@/lib/landing/content";
 
 export function Logo({ onNavigate }) {
   const { t } = useLocale();
-  return <Link href="/" onClick={onNavigate} className="blot-logo" aria-label={t("Ori home")}>Ori</Link>;
+  return <Link href="/" onClick={onNavigate} className="ori-logo" aria-label={t("Ori home")}>Ori</Link>;
 }
 
 export function Navigation() {
@@ -30,7 +30,7 @@ export function Navigation() {
   useEffect(() => {
     const close = (event) => { if (!ref.current?.contains(event.target)) setOpen(null); };
     const keyboard = (event) => {
-      if (event.key === "Escape") { setOpen(null); setMobile(false); ref.current?.querySelector(".blot-mobile-toggle")?.focus(); }
+      if (event.key === "Escape") { setOpen(null); setMobile(false); ref.current?.querySelector(".ori-mobile-toggle")?.focus(); }
       if (event.key !== "Tab" || !mobile) return;
       const nodes = [...menuRef.current.querySelectorAll("a, button")].filter((el) => el.getClientRects().length);
       const first = nodes[0], last = nodes.at(-1);
@@ -45,30 +45,30 @@ export function Navigation() {
   const closeMenus = () => { setMobile(false); setOpen(null); };
 
   return (
-    <header className="blot-header" ref={ref}>
-      <div className="blot-header-inner">
+    <header className="ori-header" ref={ref}>
+      <div className="ori-header-inner">
         <Logo />
-        <nav className="blot-desktop-nav" aria-label={t("Main navigation")}>
-          {Object.entries(menuGroups).map(([name, links]) => <div className="blot-nav-group" key={name} onMouseEnter={() => setOpen(name)} onMouseLeave={() => setOpen(null)}>
-            <button aria-expanded={open === name} aria-controls={`blot-menu-${name}`} onClick={() => setOpen(name)}>{t(name)}<ChevronDown size={12} /></button>
-            <AnimatePresence>{open === name && <motion.div id={`blot-menu-${name}`} className="blot-nav-popover" initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -5 }} transition={{ duration: 0.16 }}>
+        <nav className="ori-desktop-nav" aria-label={t("Main navigation")}>
+          {Object.entries(menuGroups).map(([name, links]) => <div className="ori-nav-group" key={name} onMouseEnter={() => setOpen(name)} onMouseLeave={() => setOpen(null)}>
+            <button aria-expanded={open === name} aria-controls={`ori-menu-${name}`} onClick={() => setOpen(name)}>{t(name)}<ChevronDown size={12} /></button>
+            <AnimatePresence>{open === name && <motion.div id={`ori-menu-${name}`} className="ori-nav-popover" initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -5 }} transition={{ duration: 0.16 }}>
               {links.map(([label, href]) => <Link href={href} key={label} onClick={closeMenus}>{t(label)}<ArrowUpRight size={14} /></Link>)}
             </motion.div>}</AnimatePresence>
           </div>)}
           <Link href="/#pricing">{t("Pricing")}</Link><Link href="/changelog">{t("News")}</Link>
         </nav>
-        <LanguageSwitcher /><div className="blot-header-actions"><Link className="blot-button blot-button-small blot-button-soft" href="/login">{t("Sign in")}</Link><Link className="blot-button blot-button-small" href="/#download">{t("Download")}<ArrowDown size={14} /></Link></div>
-        <button className="blot-mobile-toggle" aria-label={t("Open menu")} aria-expanded={mobile} aria-controls="blot-mobile-menu" onClick={() => setMobile(true)}><Menu size={22} /></button>
+        <LanguageSwitcher /><div className="ori-header-actions"><a className="ori-button ori-button-small ori-button-soft" href="/login">{t("Sign in")}</a><Link className="ori-button ori-button-small" href="/#download">{t("Download")}<ArrowDown size={14} /></Link></div>
+        <button className="ori-mobile-toggle" aria-label={t("Open menu")} aria-expanded={mobile} aria-controls="ori-mobile-menu" onClick={() => setMobile(true)}><Menu size={22} /></button>
       </div>
-      <AnimatePresence>{mobile && <motion.div className="blot-mobile-menu" id="blot-mobile-menu" role="dialog" aria-modal="true" aria-label={t("Navigation menu")} ref={menuRef} initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.24 }}>
-        <div className="blot-mobile-bar"><Logo onNavigate={closeMenus} /><LanguageSwitcher /><button aria-label={t("Close menu")} onClick={closeMenus}><X size={22} /></button></div>
+      <AnimatePresence>{mobile && <motion.div className="ori-mobile-menu" id="ori-mobile-menu" role="dialog" aria-modal="true" aria-label={t("Navigation menu")} ref={menuRef} initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.24 }}>
+        <div className="ori-mobile-bar"><Logo onNavigate={closeMenus} /><LanguageSwitcher /><button aria-label={t("Close menu")} onClick={closeMenus}><X size={22} /></button></div>
         <nav aria-label={t("Mobile navigation")}>
-          {Object.entries(menuGroups).map(([name, links]) => <div key={name} className="blot-mobile-group"><button onClick={() => setOpen(open === name ? null : name)} aria-expanded={open === name}>{t(name)}<ChevronDown size={18} /></button>
-            {open === name && <div className="blot-mobile-submenu">{links.map(([label, href]) => <Link key={label} href={href} onClick={closeMenus}>{t(label)}</Link>)}</div>}
+          {Object.entries(menuGroups).map(([name, links]) => <div key={name} className="ori-mobile-group"><button onClick={() => setOpen(open === name ? null : name)} aria-expanded={open === name}>{t(name)}<ChevronDown size={18} /></button>
+            {open === name && <div className="ori-mobile-submenu">{links.map(([label, href]) => <Link key={label} href={href} onClick={closeMenus}>{t(label)}</Link>)}</div>}
           </div>)}
-          <Link href="/#pricing" onClick={closeMenus}>{t("Pricing")}</Link><Link href="/changelog" onClick={closeMenus}>{t("News")}</Link><Link href="/login" onClick={closeMenus}>{t("Sign in")}</Link>
+          <Link href="/#pricing" onClick={closeMenus}>{t("Pricing")}</Link><Link href="/changelog" onClick={closeMenus}>{t("News")}</Link><a href="/login" onClick={closeMenus}>{t("Sign in")}</a>
         </nav>
-        <div className="blot-mobile-bottom"><Link className="blot-button" href="/#download" onClick={closeMenus}>{t("Download")}</Link><div><Link href="/contact">{t("Contact")}</Link><Link href="/privacy">{t("Privacy")}</Link><Link href="/changelog">{t("News")}</Link></div></div>
+        <div className="ori-mobile-bottom"><Link className="ori-button" href="/#download" onClick={closeMenus}>{t("Download")}</Link><div><Link href="/contact">{t("Contact")}</Link><Link href="/privacy">{t("Privacy")}</Link><Link href="/changelog">{t("News")}</Link></div></div>
       </motion.div>}</AnimatePresence>
     </header>
   );

@@ -24,7 +24,7 @@ Run the regression check:
 
 ```sh
 xcrun swiftc -parse-as-library -module-cache-path .build/mac-press-check/module-cache \
-  apps/macos/BlotMac/Features/TeamDesign/MacTeamPressState.swift \
+  apps/macos/OriMac/Features/TeamDesign/MacTeamPressState.swift \
   scripts/verify-mac-press-activation.swift -o .build/mac-press-check/verify
 .build/mac-press-check/verify
 ```
