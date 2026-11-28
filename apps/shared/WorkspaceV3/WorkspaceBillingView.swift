@@ -1,6 +1,6 @@
-import BlotDesign
-import BlotDomain
-import BlotWorkspace
+import OriDesign
+import OriDomain
+import OriWorkspace
 import SwiftUI
 #if os(macOS)
 import AppKit
@@ -48,7 +48,7 @@ struct WorkspaceBillingView: View {
                     Label {
                         Text(store.language == "ru" ? "Повторить загрузку подписки" : "Retry loading subscription")
                     } icon: {
-                        BlotIcon(.refresh, size: BlotIconSize.control)
+                        OriIcon(.refresh, size: OriIconSize.control)
                     }
                 }
             } else if store.billingCommands != nil {

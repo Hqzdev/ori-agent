@@ -1,9 +1,9 @@
 import AppKit
-import BlotAppleIntegrations
-import BlotDomain
-import BlotWorkspace
+import OriAppleIntegrations
+import OriDomain
+import OriWorkspace
 import Foundation
-@testable import Blot
+@testable import Ori
 
 @MainActor private final class ChatVoiceInput: VoiceRecognizing {
     var active = false
@@ -39,12 +39,12 @@ private struct ChatVoiceModel: ChatModel {
 
 @MainActor @main private enum VoiceChatVerification {
     static func main() async throws {
-        let root = FileManager.default.temporaryDirectory.appendingPathComponent("blot-voice-chat-" + UUID().uuidString)
+        let root = FileManager.default.temporaryDirectory.appendingPathComponent("ori-voice-chat-" + UUID().uuidString)
         defer { try? FileManager.default.removeItem(at: root) }
         let local = try LocalWorkspaceService(databaseURL: root.appendingPathComponent("workspace.sqlite"), makeModel: { _ in ChatVoiceModel() })
         let input = ChatVoiceInput(), output = ChatVoiceOutput()
         let voice = VoiceConversationSession(input: input, output: output)
-        let suite = "dev.blot.voice-preferences-fixture." + UUID().uuidString
+        let suite = "dev.ori.voice-preferences-fixture." + UUID().uuidString
         let defaults = UserDefaults(suiteName: suite)!
         defer { defaults.removePersistentDomain(forName: suite) }
         let preferences = WorkspaceVoicePreferences(defaults: defaults)

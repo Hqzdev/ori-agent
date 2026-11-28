@@ -1,6 +1,6 @@
-import BlotDesign
+import OriDesign
 import AuthenticationServices
-import BlotWorkspace
+import OriWorkspace
 import SwiftUI
 #if os(macOS)
 import AppKit
@@ -56,7 +56,7 @@ struct WorkspaceMCPOAuthButton: View {
                 Text(russian ? "Необязательно: оставьте пустым для автоматической регистрации, если сервер её поддерживает." : "Optional: leave empty for automatic registration when supported by the server.").font(.caption).foregroundStyle(.secondary)
             }
             if working { ProgressView() }
-            if configuration.oauth != nil { BlotLabel(russian ? "OAuth подключён" : "OAuth connected", symbol: "checkmark.shield").font(.caption).foregroundStyle(.green) }
+            if configuration.oauth != nil { OriLabel(russian ? "OAuth подключён" : "OAuth connected", symbol: "checkmark.shield").font(.caption).foregroundStyle(.green) }
             if let failure { Text(failure).font(.caption).foregroundStyle(.red) }
         }
     }

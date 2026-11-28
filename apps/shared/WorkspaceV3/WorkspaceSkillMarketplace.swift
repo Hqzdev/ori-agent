@@ -1,6 +1,6 @@
-import BlotDesign
-import BlotDomain
-import BlotWorkspace
+import OriDesign
+import OriDomain
+import OriWorkspace
 import SwiftUI
 import UniformTypeIdentifiers
 
@@ -8,7 +8,7 @@ struct WorkspaceSkillMarketplaceButton: View {
     @Environment(WorkspaceStore.self) private var store
     @State private var showing = false
     var body: some View {
-        Button { showing = true } label: { BlotLabel("Marketplace", symbol: "square.grid.2x2") }
+        Button { showing = true } label: { OriLabel("Marketplace", symbol: "square.grid.2x2") }
             .workspacePanelSheet(isPresented: $showing) { WorkspaceSkillMarketplace().environment(store) }
     }
 }
@@ -77,13 +77,13 @@ struct WorkspaceSkillExport: Transferable {
 }
 
 struct WorkspaceSkillShareButton: View {
-    let skill: BlotV3.Skill
-    let revision: BlotV3.SkillRevision
+    let skill: OriV3.Skill
+    let revision: OriV3.SkillRevision
     var body: some View {
         if let parameters = try? WorkspaceSkillService.parameters(revision),
            let data = try? JSONEncoder().encode(WorkspaceSkillBundle(name: skill.name, instructions: revision.instructions, parameters: parameters, tools: revision.toolIds)) {
             WorkspacePublishButton(kind: "skill", title: skill.name, data: data)
-            ShareLink(item: WorkspaceSkillExport(data: data), preview: SharePreview(skill.name)) { BlotLabel("Share", symbol: "square.and.arrow.up") }
+            ShareLink(item: WorkspaceSkillExport(data: data), preview: SharePreview(skill.name)) { OriLabel("Share", symbol: "square.and.arrow.up") }
         }
     }
 }

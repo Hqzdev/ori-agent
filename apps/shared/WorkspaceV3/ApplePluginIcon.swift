@@ -1,4 +1,4 @@
-import BlotAppleIntegrations
+import OriAppleIntegrations
 import SwiftUI
 #if os(macOS)
 import AppKit

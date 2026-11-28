@@ -4,7 +4,7 @@ The user reported that the Mac browser sign-in page closed but the account never
 
 ## Confirmed native cause
 
-The app received the browser callback, then failed in the token-exchange stage while clearing/replacing the account credential. A synthetic check inside the actual Apple Development-signed Blot bundle reproduced `WorkspaceCredentialError.unavailable(-34018)`. The bundle had sandbox entitlements but no Data Protection Keychain identity/profile.
+The app received the browser callback, then failed in the token-exchange stage while clearing/replacing the account credential. A synthetic check inside the actual Apple Development-signed Ori bundle reproduced `WorkspaceCredentialError.unavailable(-34018)`. The bundle had sandbox entitlements but no Data Protection Keychain identity/profile.
 
 Adding a private Keychain group would require a Mac App Development provisioning profile; Xcode could not provision one because no Apple account was available in its Accounts settings. No restricted entitlement was left in the app and sandboxing remains enabled.
 

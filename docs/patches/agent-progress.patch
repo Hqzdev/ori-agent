@@ -1,6 +1,6 @@
-diff --git a/apps/ios/BlotIOS/Features/Chat/PhoneConversationView.swift b/apps/ios/BlotIOS/Features/Chat/PhoneConversationView.swift
---- a/apps/ios/BlotIOS/Features/Chat/PhoneConversationView.swift
-+++ b/apps/ios/BlotIOS/Features/Chat/PhoneConversationView.swift
+diff --git a/apps/ios/oriIOS/Features/Chat/PhoneConversationView.swift b/apps/ios/oriIOS/Features/Chat/PhoneConversationView.swift
+--- a/apps/ios/oriIOS/Features/Chat/PhoneConversationView.swift
++++ b/apps/ios/oriIOS/Features/Chat/PhoneConversationView.swift
 @@ -26,3 +26,3 @@
      var body: some View {
 -        let rows = PhoneMessageTimeline.rows(in: Array(history.messages(in: store.currentVisibleMessages)))
@@ -33,18 +33,18 @@ diff --git a/apps/ios/BlotIOS/Features/Chat/PhoneConversationView.swift b/apps/i
 +            }
 +            WorkspaceToolActivityView(message: message).padding(.trailing, isUser ? 0 : 44)
              if let reaction = metadata?.reaction {
-diff --git a/apps/ios/BlotIOS/Features/Chat/PhoneMessageTimeline.swift b/apps/ios/BlotIOS/Features/Chat/PhoneMessageTimeline.swift
---- a/apps/ios/BlotIOS/Features/Chat/PhoneMessageTimeline.swift
-+++ b/apps/ios/BlotIOS/Features/Chat/PhoneMessageTimeline.swift
+diff --git a/apps/ios/oriIOS/Features/Chat/PhoneMessageTimeline.swift b/apps/ios/oriIOS/Features/Chat/PhoneMessageTimeline.swift
+--- a/apps/ios/oriIOS/Features/Chat/PhoneMessageTimeline.swift
++++ b/apps/ios/oriIOS/Features/Chat/PhoneMessageTimeline.swift
 @@ -9,2 +9,3 @@
          let showsDelivery: Bool
 +        let showsAuthor: Bool
          var id: UUID { message.metadata.id }
 @@ -12,4 +13,4 @@
 
--    static func rows(in messages: [BlotV3.Message]) -> [Row] {
+-    static func rows(in messages: [oriV3.Message]) -> [Row] {
 -        let visible = messages.filter(WorkspaceMessagePresentation.isVisible)
-+    static func rows(in messages: [BlotV3.Message], activityMessageIDs: Set<UUID> = []) -> [Row] {
++    static func rows(in messages: [oriV3.Message], activityMessageIDs: Set<UUID> = []) -> [Row] {
 +        let visible = messages.filter { WorkspaceMessagePresentation.isVisible($0) || activityMessageIDs.contains($0.metadata.id) }
          return visible.enumerated().map { index, message in
 @@ -19,3 +20,4 @@
@@ -57,9 +57,9 @@ diff --git a/apps/ios/BlotIOS/Features/Chat/PhoneMessageTimeline.swift b/apps/io
          guard let previous else { return 0 }
 +        if message.role == .assistant, !WorkspaceMessageSeries.starts(message, after: previous) { return 12 }
          if consecutive(previous, message) { return 4 }
-diff --git a/apps/macos/BlotMac/Features/Chat/MacMessageBubble.swift b/apps/macos/BlotMac/Features/Chat/MacMessageBubble.swift
---- a/apps/macos/BlotMac/Features/Chat/MacMessageBubble.swift
-+++ b/apps/macos/BlotMac/Features/Chat/MacMessageBubble.swift
+diff --git a/apps/macos/oriMac/Features/Chat/MacMessageBubble.swift b/apps/macos/oriMac/Features/Chat/MacMessageBubble.swift
+--- a/apps/macos/oriMac/Features/Chat/MacMessageBubble.swift
++++ b/apps/macos/oriMac/Features/Chat/MacMessageBubble.swift
 @@ -22,2 +22,3 @@
                  }
 +                if !message.content.isEmpty || !message.artifactIds.isEmpty {
@@ -71,9 +71,9 @@ diff --git a/apps/macos/BlotMac/Features/Chat/MacMessageBubble.swift b/apps/maco
 +                if store.chatContent.activities(for: message).isEmpty { WorkspaceMessagePlugins(message: message).padding(.horizontal, 12) }
 +                WorkspaceToolActivityView(message: message)
                  if let reaction = metadata?.reaction {
-diff --git a/apps/macos/BlotMac/Features/Workspace/MacLiveTeamConversation.swift b/apps/macos/BlotMac/Features/Workspace/MacLiveTeamConversation.swift
---- a/apps/macos/BlotMac/Features/Workspace/MacLiveTeamConversation.swift
-+++ b/apps/macos/BlotMac/Features/Workspace/MacLiveTeamConversation.swift
+diff --git a/apps/macos/oriMac/Features/Workspace/MacLiveTeamConversation.swift b/apps/macos/oriMac/Features/Workspace/MacLiveTeamConversation.swift
+--- a/apps/macos/oriMac/Features/Workspace/MacLiveTeamConversation.swift
++++ b/apps/macos/oriMac/Features/Workspace/MacLiveTeamConversation.swift
 @@ -40,2 +40,4 @@
      var body: some View {
 +        let visibleMessages = messages.filter { timeline.visibleIDs.contains($0.metadata.id.uuidString) }
@@ -119,12 +119,12 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceChatPresentation.swift b/apps/shar
 @@ -19,2 +19,8 @@
      private var toolRevision = 0
 +    private(set) var activityMessageIDs: Set<UUID> = []
-+    @ObservationIgnored private var actionRecords: [UUID: BlotV3.PreparedAction] = [:]
-+    @ObservationIgnored private var invocationRecords: [UUID: BlotV3.ToolInvocation] = [:]
-+    @ObservationIgnored private var mcpConnections: [BlotV3.McpConnection] = []
++    @ObservationIgnored private var actionRecords: [UUID: oriV3.PreparedAction] = [:]
++    @ObservationIgnored private var invocationRecords: [UUID: oriV3.ToolInvocation] = [:]
++    @ObservationIgnored private var mcpConnections: [oriV3.McpConnection] = []
 +    @ObservationIgnored private var callPresence: [UUID: (raw: String, present: Bool)] = [:]
 +    @ObservationIgnored private let activityCache = NSCache<NSUUID, ActivityResult>()
-     @ObservationIgnored private var steps: [UUID: [BlotV3.ModelStep]] = [:]
+     @ObservationIgnored private var steps: [UUID: [oriV3.ModelStep]] = [:]
 @@ -24,2 +30,3 @@
      init() {
 +        activityCache.countLimit = 128; activityCache.totalCostLimit = 4 * 1024 * 1024
@@ -157,7 +157,7 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceChatPresentation.swift b/apps/shar
          if snapshot.tasks != previous.tasks || snapshot.localDeviceID != previous.localDeviceID {
 @@ -83,2 +110,31 @@
 
-+    func activities(for message: BlotV3.Message) -> [WorkspaceToolActivity] {
++    func activities(for message: oriV3.Message) -> [WorkspaceToolActivity] {
 +        guard message.role == .assistant else { return [] }
 +        _ = toolRevision
 +        let matching = steps[message.metadata.id] ?? []
@@ -172,14 +172,14 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceChatPresentation.swift b/apps/shar
 +        return result.rows
 +    }
 +    private final class ActivityResult {
-+        let steps: [BlotV3.ModelStep]
++        let steps: [oriV3.ModelStep]
 +        let rows: [WorkspaceToolActivity]
 +        let dependencies: Set<UUID>
-+        let actions: [UUID: BlotV3.PreparedAction]
-+        let invocations: [UUID: BlotV3.ToolInvocation]
-+        let connections: [BlotV3.McpConnection]
-+        init(steps: [BlotV3.ModelStep], result: WorkspaceToolActivityBuilder.Result, actions: [UUID: BlotV3.PreparedAction],
-+             invocations: [UUID: BlotV3.ToolInvocation], connections: [BlotV3.McpConnection]) {
++        let actions: [UUID: oriV3.PreparedAction]
++        let invocations: [UUID: oriV3.ToolInvocation]
++        let connections: [oriV3.McpConnection]
++        init(steps: [oriV3.ModelStep], result: WorkspaceToolActivityBuilder.Result, actions: [UUID: oriV3.PreparedAction],
++             invocations: [UUID: oriV3.ToolInvocation], connections: [oriV3.McpConnection]) {
 +            self.steps = steps; self.rows = result.rows; self.dependencies = result.dependencies
 +            self.actions = actions.filter { result.dependencies.contains($0.key) }
 +            self.invocations = invocations.filter { result.dependencies.contains($0.key) }; self.connections = connections
@@ -192,8 +192,8 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceMessageIndex.swift b/apps/shared/W
 +++ b/apps/shared/WorkspaceV3/WorkspaceMessageIndex.swift
 @@ -13,5 +13,5 @@
 
--    init(_ messages: [BlotV3.Message] = []) {
-+    init(_ messages: [BlotV3.Message] = [], activityMessageIDs: Set<UUID> = []) {
+-    init(_ messages: [oriV3.Message] = []) {
++    init(_ messages: [oriV3.Message] = [], activityMessageIDs: Set<UUID> = []) {
          conversations = Dictionary(grouping: messages, by: \.conversationId).mapValues(WorkspaceMessageOrder.ordered)
 -        visible = conversations.mapValues { $0.filter(WorkspaceMessagePresentation.isVisible) }
 +        visible = conversations.mapValues { $0.filter { WorkspaceMessagePresentation.isVisible($0) || activityMessageIDs.contains($0.metadata.id) } }
@@ -220,33 +220,33 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceStore.swift b/apps/shared/Workspac
 +        if let latest = currentVisibleMessages.last, latest.commandId == source.commandId,
 +           chatContent.activities(for: latest).contains(where: { $0.state == .running || $0.state == .approval }) { return nil }
          let responses = messageIndex.activeResponses(in: id)
-diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceBrowserTools.swift b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceBrowserTools.swift
---- a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceBrowserTools.swift
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceBrowserTools.swift
+diff --git a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceBrowserTools.swift b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceBrowserTools.swift
+--- a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceBrowserTools.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceBrowserTools.swift
 @@ -25,3 +25,3 @@
          let authorized = try await service.authorize(call.name, context: context)
 -        let actionID = WorkspaceLogicalID.make(kind: "BrowserAction", workspaceID: identity.workspaceID, parts: [context.sourceMessageID.uuidString, call.id])
 +        let actionID = WorkspaceToolCallIdentity.actionID(workspaceID: identity.workspaceID, sourceID: context.sourceMessageID, callID: call.id, scope: .browser)
          let command = WorkspaceBrowserCommand(id: actionID, name: call.name, arguments: call.arguments, scope: authorized.scope, origins: authorized.origins)
-diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceModelRuntime.swift b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceModelRuntime.swift
---- a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceModelRuntime.swift
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceModelRuntime.swift
+diff --git a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceModelRuntime.swift b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceModelRuntime.swift
+--- a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceModelRuntime.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceModelRuntime.swift
 @@ -35,3 +35,3 @@
                      "For quick tool actions, call the tool directly and report the result once. " +
 -                    "Give a short progress update only for longer work or required user interaction; do not repeat acknowledgements on each tool turn. " +
 +                    "For multi-step work, give brief updates with tool calls as findings change, then verified results. No repeated names or logs. " +
                      "Never claim an action succeeded before its tool result confirms success. " +
-diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceSessionFileTools.swift b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceSessionFileTools.swift
---- a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceSessionFileTools.swift
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceSessionFileTools.swift
+diff --git a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceSessionFileTools.swift b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceSessionFileTools.swift
+--- a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceSessionFileTools.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceSessionFileTools.swift
 @@ -23,3 +23,3 @@
          let conversation = try await service.authorize(call.name, context: context)
 -        let actionID = WorkspaceLogicalID.make(kind: "SessionFileAction", workspaceID: identity.workspaceID, parts: [context.sourceMessageID.uuidString, call.id])
 +        let actionID = WorkspaceToolCallIdentity.actionID(workspaceID: identity.workspaceID, sourceID: context.sourceMessageID, callID: call.id, scope: .sessionFile)
          if !WorkspaceSessionFileCatalog.writes(call.name) { return try await service.perform(call, context: context, actionID: actionID) }
-diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceToolCallIdentity.swift b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceToolCallIdentity.swift
---- a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceToolCallIdentity.swift
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceToolCallIdentity.swift
+diff --git a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceToolCallIdentity.swift b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceToolCallIdentity.swift
+--- a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceToolCallIdentity.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceToolCallIdentity.swift
 @@ -5,3 +5,9 @@
  public enum WorkspaceToolCallIdentity {
 -    public static func actionID(workspaceID: UUID, sourceID: UUID, callID: String) -> UUID {
@@ -271,19 +271,19 @@ new file mode 100644
 --- /dev/null
 +++ b/apps/shared/WorkspaceV3/WorkspaceMessageSeries.swift
 @@ -0,0 +1,19 @@
-+import BlotDomain
++import oriDomain
 +import Foundation
 +
 +/// A reply remains one author series across long tool calls, but never across another speaker or request.
 +nonisolated enum WorkspaceMessageSeries {
-+    static func starts(_ message: BlotV3.Message, after previous: BlotV3.Message?) -> Bool {
++    static func starts(_ message: oriV3.Message, after previous: oriV3.Message?) -> Bool {
 +        guard message.role == .assistant else { return false }
 +        guard let previous else { return true }
 +        return previous.role != .assistant || previous.authorAgentId != message.authorAgentId
 +            || previous.commandId != message.commandId || previous.conversationId != message.conversationId
 +    }
-+    static func authorIDs(in messages: [BlotV3.Message]) -> Set<UUID> {
-+        var previous: BlotV3.Message?
++    static func authorIDs(in messages: [oriV3.Message]) -> Set<UUID> {
++        var previous: oriV3.Message?
 +        return Set(messages.compactMap { message in
 +            defer { previous = message }
 +            return starts(message, after: previous) ? message.metadata.id : nil
@@ -295,9 +295,9 @@ new file mode 100644
 --- /dev/null
 +++ b/apps/shared/WorkspaceV3/WorkspaceToolActivity.swift
 @@ -0,0 +1,191 @@
-+import BlotAppleIntegrations
-+import BlotDomain
-+import BlotWorkspace
++import oriAppleIntegrations
++import oriDomain
++import oriWorkspace
 +import Foundation
 +
 +struct WorkspaceToolActivity: Identifiable {
@@ -331,8 +331,8 @@ new file mode 100644
 +struct WorkspaceToolActivityBuilder {
 +    private typealias State = WorkspaceToolActivity.State
 +    struct Result { var rows: [WorkspaceToolActivity]; let dependencies: Set<UUID> }
-+    func build(steps: [BlotV3.ModelStep], actions: [UUID: BlotV3.PreparedAction], invocations: [UUID: BlotV3.ToolInvocation],
-+               connections: [BlotV3.McpConnection]) -> Result {
++    func build(steps: [oriV3.ModelStep], actions: [UUID: oriV3.PreparedAction], invocations: [UUID: oriV3.ToolInvocation],
++               connections: [oriV3.McpConnection]) -> Result {
 +        var rows: [WorkspaceToolActivity] = [], dependencies: Set<UUID> = []
 +        var positions: [String: Int] = [:]
 +        for step in steps.sorted(by: { $0.stepIndex < $1.stepIndex }) {
@@ -365,13 +365,13 @@ new file mode 100644
 +        }
 +        return Result(rows: Array(rows.suffix(64)), dependencies: dependencies)
 +    }
-+    private func actionIDs(_ step: BlotV3.ModelStep, call: ChatToolCall) -> [UUID] {
++    private func actionIDs(_ step: oriV3.ModelStep, call: ChatToolCall) -> [UUID] {
 +        guard let workspace = step.metadata.workspaceId else { return [] }
 +        return [WorkspaceToolCallIdentity.actionID(workspaceID: workspace, sourceID: step.sourceMessageId, callID: call.id),
 +                WorkspaceToolCallIdentity.actionID(workspaceID: workspace, sourceID: step.sourceMessageId, callID: call.id, scope: .browser),
 +                WorkspaceToolCallIdentity.actionID(workspaceID: workspace, sourceID: step.sourceMessageId, callID: call.id, scope: .sessionFile)]
 +    }
-+    private func state(step: BlotV3.ModelStep, result: ChatJSON?, action: BlotV3.PreparedAction?, invocation: BlotV3.ToolInvocation?, queued: Bool) -> State {
++    private func state(step: oriV3.ModelStep, result: ChatJSON?, action: oriV3.PreparedAction?, invocation: oriV3.ToolInvocation?, queued: Bool) -> State {
 +        switch invocation?.state ?? action?.state {
 +        case .unknown: return .unknown
 +        case .denied, .expired: return .denied
@@ -491,12 +491,12 @@ new file mode 100644
 --- /dev/null
 +++ b/apps/shared/WorkspaceV3/WorkspaceToolActivityView.swift
 @@ -0,0 +1,85 @@
-+import BlotDesign
-+import BlotDomain
++import oriDesign
++import oriDomain
 +import SwiftUI
 +
 +struct WorkspaceToolActivityView: View {
-+    let message: BlotV3.Message
++    let message: oriV3.Message
 +    @Environment(WorkspaceStore.self) private var store
 +    @State private var showsAll = false
 +    private var russian: Bool { store.language == "ru" }
@@ -589,14 +589,14 @@ new file mode 100755
 +mkdir -p "$checks/cache"
 +python3 - <<'PY'
 +from pathlib import Path
-+objects=Path('.build/xcode/Build/Intermediates.noindex/Blot.build/Debug/Blot.build/Objects-normal/arm64')
-+items=sorted(p.resolve() for p in objects.glob('*.o') if p.name != 'BlotMacApp.o')
++objects=Path('.build/xcode/Build/Intermediates.noindex/ori.build/Debug/ori.build/Objects-normal/arm64')
++items=sorted(p.resolve() for p in objects.glob('*.o') if p.name != 'oriMacApp.o')
 +assert items and all('"' not in str(p) for p in items)
 +Path('.build/agent-progress/harness/objects.txt').write_text('\n'.join('"'+str(p)+'"' for p in items)+'\n')
 +PY
 +xcrun swiftc -parse-as-library -swift-version 5 -default-isolation MainActor -module-cache-path "$checks/cache" \
-+    -I "$products" -I packages/BlotWorkspace/Sources/CSQLite \
-+    "$products/BlotDomain.o" "$products/BlotWorkspace.o" "$products/BlotAppleIntegrations.o" "$products/BlotDesign.o" "$products/BlotAPI.o" \
++    -I "$products" -I packages/oriWorkspace/Sources/CSQLite \
++    "$products/oriDomain.o" "$products/oriWorkspace.o" "$products/oriAppleIntegrations.o" "$products/oriDesign.o" "$products/oriAPI.o" \
 +    @"$checks/objects.txt" -lsqlite3 scripts/verify-agent-progress.swift -o "$checks/verify"
 +"$checks/verify"
 diff --git a/scripts/verify-agent-progress.swift b/scripts/verify-agent-progress.swift
@@ -605,37 +605,37 @@ new file mode 100644
 +++ b/scripts/verify-agent-progress.swift
 @@ -0,0 +1,163 @@
 +import AppKit
-+import BlotAppleIntegrations
-+import BlotDomain
-+import BlotWorkspace
++import oriAppleIntegrations
++import oriDomain
++import oriWorkspace
 +import Foundation
 +import Observation
 +import Synchronization
-+@testable import Blot
++@testable import ori
 +
 +@MainActor private struct ActivityFixture {
 +    let owner = UUID(), conversation = UUID(), source = UUID(), response = UUID(), agent = UUID(), command = UUID()
-+    func metadata(_ id: UUID) throws -> BlotV3.RecordMetadata {
++    func metadata(_ id: UUID) throws -> oriV3.RecordMetadata {
 +        try .init(id: id, ownerId: owner, workspaceId: owner, version: 1, createdAt: Date(timeIntervalSince1970: 1000), updatedAt: Date(timeIntervalSince1970: 1000))
 +    }
-+    func message(_ id: UUID? = nil, role: BlotV3.MessageRole = .assistant, author: UUID? = nil, commandID: UUID? = nil,
-+                 content: String = "Проверю документацию.", delivery: BlotV3.DeliveryState = .completed, age: TimeInterval = 0) throws -> BlotV3.Message {
++    func message(_ id: UUID? = nil, role: oriV3.MessageRole = .assistant, author: UUID? = nil, commandID: UUID? = nil,
++                 content: String = "Проверю документацию.", delivery: oriV3.DeliveryState = .completed, age: TimeInterval = 0) throws -> oriV3.Message {
 +        let id = id ?? response
 +        return try .init(metadata: .init(id: id, ownerId: owner, workspaceId: owner, version: 1, createdAt: Date(timeIntervalSince1970: 1000 + age), updatedAt: Date(timeIntervalSince1970: 1000 + age)),
 +            conversationId: conversation, role: role, content: content, delivery: delivery, commandId: commandID ?? command, artifactIds: [], authorAgentId: role == .assistant ? (author ?? agent) : nil)
 +    }
 +    func call(_ name: String, _ id: String = "call", arguments: [String: ChatJSON] = [:]) -> ChatToolCall { .init(id: id, name: name, arguments: .object(arguments)) }
-+    func step(_ calls: [ChatToolCall], results: [String: ChatJSON] = [:], state: BlotV3.ModelStepState = .waiting_tools, index: Int = 0, id: UUID = UUID()) throws -> BlotV3.ModelStep {
++    func step(_ calls: [ChatToolCall], results: [String: ChatJSON] = [:], state: oriV3.ModelStepState = .waiting_tools, index: Int = 0, id: UUID = UUID()) throws -> oriV3.ModelStep {
 +        try .init(metadata: metadata(id), conversationId: conversation, sourceMessageId: source, responseMessageId: response,
 +            executorDeviceId: owner, originDeviceId: owner, executionMode: .local_owned, stepIndex: index, modelId: "compatible", budgetTokenLimit: 20000,
 +            requestJSON: "secret old context must never become an activity row", toolCallsJSON: String(decoding: try JSONEncoder().encode(calls), as: UTF8.self),
 +            toolResultsJSON: results.isEmpty ? nil : String(decoding: try JSONEncoder().encode(results), as: UTF8.self), state: state)
 +    }
-+    func action(_ tool: String, state: BlotV3.ActionState, scope: WorkspaceToolCallIdentity.Scope = .tool) throws -> BlotV3.PreparedAction {
++    func action(_ tool: String, state: oriV3.ActionState, scope: WorkspaceToolCallIdentity.Scope = .tool) throws -> oriV3.PreparedAction {
 +        try .init(metadata: metadata(WorkspaceToolCallIdentity.actionID(workspaceID: owner, sourceID: source, callID: "call", scope: scope)),
 +            execution: .init(executorDeviceId: owner, originDeviceId: owner, taskId: UUID(), revision: 1), toolId: tool, resource: "fixture", parameters: "{}", digest: "fixture", consequences: "fixture", expiresAt: Date().addingTimeInterval(600), state: state)
 +    }
-+    func snapshot(_ steps: [BlotV3.ModelStep], actions: [BlotV3.PreparedAction] = [], invocations: [BlotV3.ToolInvocation] = []) throws -> WorkspaceSnapshot {
++    func snapshot(_ steps: [oriV3.ModelStep], actions: [oriV3.PreparedAction] = [], invocations: [oriV3.ToolInvocation] = []) throws -> WorkspaceSnapshot {
 +        var value = WorkspaceSnapshot(); value.ownerID = owner; value.localDeviceID = owner
 +        value.messages = [try message(source, role: .user, content: "Проверь сайт"), try message(content: "", delivery: .running)]
 +        value.modelSteps = steps; value.preparedActions = actions; value.toolInvocations = invocations
@@ -674,13 +674,13 @@ new file mode 100644
 +    let step = try f.step([f.call("browser_click")])
 +    let previous = value; value = try f.snapshot([step], actions: [action]); content.update(value, previous: previous)
 +    precondition(content.activities(for: pending).first?.state == .approval)
-+    let uncertain = try BlotV3.ToolInvocation(metadata: f.metadata(UUID()), execution: action.execution, preparedActionId: action.metadata.id, state: .unknown)
++    let uncertain = try oriV3.ToolInvocation(metadata: f.metadata(UUID()), execution: action.execution, preparedActionId: action.metadata.id, state: .unknown)
 +    let before = value; value.toolInvocations = [uncertain]
 +    let authorsChanged = Mutex(false)
 +    withObservationTracking { _ = content.agents; _ = content.conversations; _ = content.artifacts } onChange: { authorsChanged.withLock { $0 = true } }
 +    content.update(value, previous: before)
 +    precondition(content.activities(for: pending).first?.state == .unknown && !authorsChanged.withLock { $0 })
-+    let finished = try BlotV3.ToolInvocation(metadata: uncertain.metadata, execution: action.execution, preparedActionId: action.metadata.id, state: .succeeded, result: "{\"state\":\"succeeded\"}")
++    let finished = try oriV3.ToolInvocation(metadata: uncertain.metadata, execution: action.execution, preparedActionId: action.metadata.id, state: .succeeded, result: "{\"state\":\"succeeded\"}")
 +    let beforeFinished = value; value.toolInvocations = [finished]; content.update(value, previous: beforeFinished)
 +    precondition(content.activities(for: pending).first?.state == .succeeded)
 +    print("PASS: exact browser action tracks approval → unknown → reconciled success without invalidating message identity")
@@ -690,7 +690,7 @@ new file mode 100644
 +    content.update(deniedSnapshot, previous: value)
 +    precondition(content.activities(for: pending).first?.state == .denied)
 +    let builder = WorkspaceToolActivityBuilder()
-+    for (state, expected) in [(BlotV3.ModelStepState.canceled, WorkspaceToolActivity.State.stopped), (.interrupted, .unknown), (.completed, .unknown)] {
++    for (state, expected) in [(oriV3.ModelStepState.canceled, WorkspaceToolActivity.State.stopped), (.interrupted, .unknown), (.completed, .unknown)] {
 +        let terminalStep = try f.step([f.call("git_push")], state: state)
 +        precondition(builder.build(steps: [terminalStep], actions: [:], invocations: [:], connections: []).rows.first?.state == expected)
 +    }
@@ -738,7 +738,7 @@ new file mode 100644
 +@MainActor @main enum AgentProgressVerification {
 +    static func main() async throws {
 +        try verifyPresentation()
-+        let root = FileManager.default.temporaryDirectory.appendingPathComponent("blot-progress-" + UUID().uuidString)
++        let root = FileManager.default.temporaryDirectory.appendingPathComponent("ori-progress-" + UUID().uuidString)
 +        defer { try? FileManager.default.removeItem(at: root) }
 +        let local = try LocalWorkspaceService(databaseURL: root.appendingPathComponent("workspace.sqlite"), makeModel: { _ in ProgressModel() })
 +        let store = WorkspaceStore(mode: .live, service: local)

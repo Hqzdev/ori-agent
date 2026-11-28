@@ -1,6 +1,6 @@
 # iPhone widgets
 
-Implemented in `ios/widgets`, based on `origin/ios/main`. The editable design remains in `agent.pen`, in the **Blot · iOS · Widgets · Light / Dark** frames.
+Implemented in `ios/widgets`, based on `origin/ios/main`. The editable design remains in `agent.pen`, in the **Ori · iOS · Widgets · Light / Dark** frames.
 
 ## Included widgets
 
@@ -17,7 +17,7 @@ The extension supports system light/dark backgrounds and accented rendering. Sta
 
 ## Data and compatibility
 
-- `BlotWidgets` is embedded only in `BlotIOS`. Minimum iOS remains 26.
+- `OriWidgets` is embedded only in `OriIOS`. Minimum iOS remains 26.
 - Both targets use `group.yaroslavstrelkov.blot-agent.ios`. The provisioning profiles must authorize this App Group.
 - The app writes `WidgetSnapshot.json` atomically with file protection until first device unlock. The extension has no database or credential access. It reads bounded titles, avatar properties, states, pending-decision expirations and upcoming schedule times.
 - Snapshot version is 1. Unsupported/corrupt data produces an unavailable state. Leaving the account immediately replaces the cached snapshot with an empty one. Preview stores never publish to the group.
@@ -29,10 +29,10 @@ The extension supports system light/dark backgrounds and accented rendering. Sta
 ## Verification
 
 ```sh
-swift test --package-path packages/BlotWidgetSupport
-swift test --package-path packages/BlotDesign
+swift test --package-path packages/OriWidgetSupport
+swift test --package-path packages/OriDesign
 BLOT_ENV_FILE=/absolute/path/to/.env xcodebuild \
-  -project apps/Blot.xcodeproj -scheme BlotIOS -configuration Debug \
+  -project apps/Ori.xcodeproj -scheme OriIOS -configuration Debug \
   -sdk iphoneos -destination 'generic/platform=iOS' \
   -derivedDataPath .build/widgets-signed -allowProvisioningUpdates build
 ```
@@ -41,10 +41,10 @@ On 2026-11-05: 9 widget-support tests and 24 design tests passed on the physical
 
 The registered physical iPhone was unavailable. Device installation, the widget gallery, App Group handoff on iPhone and cold/warm tap navigation still need on-device verification. No simulator or emulator was used.
 
-With the connected physical iPhone selected, build/run `BlotIOS`, sign in, then add the six Blot widgets through the Home Screen widget gallery. Check each link, change chat/task data, background Blot and check the published snapshot; sign out and verify private titles disappear. Repeat with light, dark and tinted appearances and large text. Check that expired decisions disappear and a removed chat falls back to the chats list.
+With the connected physical iPhone selected, build/run `OriIOS`, sign in, then add the six Ori widgets through the Home Screen widget gallery. Check each link, change chat/task data, background Ori and check the published snapshot; sign out and verify private titles disappear. Repeat with light, dark and tinted appearances and large text. Check that expired decisions disappear and a removed chat falls back to the chats list.
 
 ## Current-project integration — 2026-11-06
 
 Integrated the widget extension and glass tab bar into the primary `klin-agent` working project, preserving existing Apple integrations, message pins, settings and profile changes. The test-project generator now links both Apple integrations and widget support with distinct Xcode object identifiers. Language publication follows the current language preferences instead of replacing their implementation.
 
-The current project passes the 9 widget-support tests and 24 design tests, and both signed iOS and macOS builds. The iPhone app embeds `BlotWidgets.appex`; both provisioning profiles authorize the same App Group. Installed this current-project build in place on the connected physical iPhone 13 Pro Max and verified that the installed app reports the App Group. Launch was denied because the phone was locked; manual app opening, widget gallery selection and runtime data/deep-link validation remain unverified. No simulator was used. The optional existing schema check could not run because `jsonschema` is absent; this integration does not change contracts or generated schemas.
+The current project passes the 9 widget-support tests and 24 design tests, and both signed iOS and macOS builds. The iPhone app embeds `OriWidgets.appex`; both provisioning profiles authorize the same App Group. Installed this current-project build in place on the connected physical iPhone 13 Pro Max and verified that the installed app reports the App Group. Launch was denied because the phone was locked; manual app opening, widget gallery selection and runtime data/deep-link validation remain unverified. No simulator was used. The optional existing schema check could not run because `jsonschema` is absent; this integration does not change contracts or generated schemas.

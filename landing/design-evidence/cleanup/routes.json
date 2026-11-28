@@ -44,11 +44,11 @@
     "status": 200
   },
   {
-    "path": "/workspace/documents/blot-product-plan",
+    "path": "/workspace/documents/ori-product-plan",
     "status": 200
   },
   {
-    "path": "/workspace/documents/blot-technical-specification",
+    "path": "/workspace/documents/ori-technical-specification",
     "status": 200
   },
   {
@@ -192,11 +192,11 @@
     "status": 200
   },
   {
-    "path": "/project-docs/blot-product-plan.md",
+    "path": "/project-docs/ori-product-plan.md",
     "status": 200
   },
   {
-    "path": "/project-docs/blot-technical-specification.md",
+    "path": "/project-docs/ori-technical-specification.md",
     "status": 200
   },
   {

@@ -1,3 +1,3 @@
 pluginManagement { repositories { gradlePluginPortal(); mavenCentral() } }
-rootProject.name = "blot-backend"
+rootProject.name = "ori-backend"
 include("core", "application", "infrastructure", "api", "cloud")

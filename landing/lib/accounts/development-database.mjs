@@ -24,6 +24,6 @@ export function developmentDatabase() {
   if (process.env.NODE_ENV !== "development" || process.env.BLOT_LOCAL_ACCOUNTS !== "1") throw new Error("Local accounts require development mode");
   // Next compiles routes separately; share one database connection throughout this process.
   mkdirSync(".build", { recursive: true });
-  globalThis.__blotDevelopmentDatabase ??= new AccountDatabase(new DevelopmentPostgresPool(".build/accounts"));
-  return globalThis.__blotDevelopmentDatabase;
+  globalThis.__oriDevelopmentDatabase ??= new AccountDatabase(new DevelopmentPostgresPool(".build/accounts"));
+  return globalThis.__oriDevelopmentDatabase;
 }

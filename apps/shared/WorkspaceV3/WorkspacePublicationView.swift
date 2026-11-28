@@ -1,5 +1,5 @@
-import BlotDesign
-import BlotWorkspace
+import OriDesign
+import OriWorkspace
 import SwiftUI
 
 @MainActor protocol WorkspaceCollaborationProviding {
@@ -15,7 +15,7 @@ struct WorkspacePublishButton: View {
     @Environment(WorkspaceStore.self) private var store
     @State private var showing = false
     var body: some View {
-        Button { showing = true } label: { BlotLabel(store.language == "ru" ? "Ссылка на снимок" : "Share snapshot link", symbol: "link") }
+        Button { showing = true } label: { OriLabel(store.language == "ru" ? "Ссылка на снимок" : "Share snapshot link", symbol: "link") }
             .disabled(store.collaborationCommands == nil)
             .workspacePanelSheet(isPresented: $showing) { WorkspacePublishView(kind: kind, title: title, data: data).environment(store) }
     }

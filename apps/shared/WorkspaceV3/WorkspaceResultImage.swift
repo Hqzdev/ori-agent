@@ -1,10 +1,10 @@
-import BlotDesign
-import BlotDomain
+import OriDesign
+import OriDomain
 import ImageIO
 import SwiftUI
 
 struct WorkspaceResultImage: View {
-    let file: BlotV3.Artifact
+    let file: OriV3.Artifact
     @Environment(WorkspaceStore.self) private var store
     @State private var thumbnail: CGImage?
     var body: some View {

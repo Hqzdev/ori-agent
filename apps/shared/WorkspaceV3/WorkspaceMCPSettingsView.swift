@@ -1,6 +1,6 @@
-import BlotDesign
-import BlotDomain
-import BlotWorkspace
+import OriDesign
+import OriDomain
+import OriWorkspace
 import SwiftUI
 
 struct WorkspaceMCPSettingsView: View {
@@ -9,7 +9,7 @@ struct WorkspaceMCPSettingsView: View {
     @State private var sheet: MCPSettingsSheet?
     @State private var error: String?
     @State private var busy = false
-    @State private var resolving: BlotV3.ToolInvocation?
+    @State private var resolving: OriV3.ToolInvocation?
     private var russian: Bool { store.language == "ru" }
     private func text(_ ru: String, _ en: String) -> String { russian ? ru : en }
     var body: some View {
@@ -55,7 +55,7 @@ struct WorkspaceMCPSettingsView: View {
                 Button(text("Отмена", "Cancel"), role: .cancel) { resolving = nil }
             }
     }
-    private func unknown(_ id: UUID) -> [BlotV3.ToolInvocation] {
+    private func unknown(_ id: UUID) -> [OriV3.ToolInvocation] {
         let actions = Set((store.snapshot.preparedActions ?? []).filter { $0.resource == id.uuidString && $0.toolId.hasPrefix("mcp_") }.map(\.metadata.id))
         return (store.snapshot.toolInvocations ?? []).filter { $0.state == .unknown && $0.execution.executorDeviceId == store.snapshot.localDeviceID && actions.contains($0.preparedActionId) }
     }

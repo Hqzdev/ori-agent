@@ -1,7 +1,7 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Blot v3 target local API",
+    "title": "Ori v3 target local API",
     "version": "3.0.0",
     "description": "Contract for November clients. Runtime implementation is pending; v2 is not v3 compatible."
   },

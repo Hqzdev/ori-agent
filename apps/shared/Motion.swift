@@ -8,10 +8,10 @@
 //  repeats an action mid-flight. Movement is limited to short shifts and fades.
 //
 
-import BlotDesign
+import OriDesign
 import SwiftUI
 
-typealias KMotion = BlotInterfaceMotion
+typealias KMotion = OriInterfaceMotion
 
 extension AnyTransition {
     /// Fade with a short shift that starts on the side of `edge` and ends in place.
@@ -37,7 +37,7 @@ extension AnyTransition {
 // MARK: - Reduce Motion
 
 extension View {
-    /// Root of a window: publishes `blotReduceMotion` and, when it is on, removes every animation
+    /// Root of a window: publishes `oriReduceMotion` and, when it is on, removes every animation
     /// below so state changes apply instantly. `preference` is the in-app Reduce motion setting.
     func kMotionRoot(reduceMotion preference: Bool = false) -> some View {
         modifier(KMotionRoot(preference: preference))
@@ -57,12 +57,12 @@ private struct KMotionRoot: ViewModifier {
         let reduced = system || preference
         content
             .transaction { if reduced { $0.animation = nil; $0.disablesAnimations = true } }
-            .environment(\.blotReduceMotion, reduced)
+            .environment(\.oriReduceMotion, reduced)
     }
 }
 
 private struct KAnimationModifier<V: Equatable>: ViewModifier {
-    @Environment(\.blotReduceMotion) private var reduceMotion
+    @Environment(\.oriReduceMotion) private var reduceMotion
     let animation: Animation
     let value: V
 

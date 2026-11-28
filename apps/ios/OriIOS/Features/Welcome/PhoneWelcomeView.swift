@@ -1,0 +1,44 @@
+import OriDesign
+import SwiftUI
+
+struct PhoneWelcomeView: View {
+    @Environment(WorkspaceStore.self) private var store
+    @ScaledMetric(relativeTo: .largeTitle) private var titleSize = 36
+
+    var body: some View {
+        GeometryReader { geometry in
+            ZStack {
+                PhoneWelcomeOrbit()
+                VStack(spacing: 12) {
+                    Text("Ori")
+                        .font(.system(size: titleSize, weight: .medium))
+                        .accessibilityAddTraits(.isHeader)
+                    Text(store.t("Your team of always-on agents\nthat finish the work."))
+                        .font(.body).foregroundStyle(WorkspaceStyle.secondary)
+                        .multilineTextAlignment(.center).fixedSize(horizontal: false, vertical: true)
+                        .frame(maxWidth: 310)
+                }
+                .padding(.horizontal, 32)
+                .position(x: geometry.size.width / 2, y: geometry.size.height * 0.44)
+                VStack {
+                    Spacer(minLength: 0)
+                    footer
+                }.padding(.horizontal, 30)
+            }
+            .frame(width: geometry.size.width, height: geometry.size.height)
+            .clipped()
+        }
+        .background(OriColor.dynamic(.init(light: 0xFCFCFCFF, dark: 0x111111FF)).ignoresSafeArea())
+    }
+
+    private var footer: some View {
+        VStack(spacing: 18) {
+            PhoneBrowserSignInButton()
+            if store.error != nil || store.notice != nil { WorkspaceFeedback() }
+            Text(store.t("By continuing, you accept the Terms and Privacy Policy."))
+                .font(.system(size: 11)).foregroundStyle(WorkspaceStyle.secondary.opacity(0.6))
+                .multilineTextAlignment(.center).fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: 290)
+        }.padding(.bottom, 2)
+    }
+}

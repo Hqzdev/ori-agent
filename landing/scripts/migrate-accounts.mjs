@@ -8,7 +8,7 @@ if (!connectionString) throw new Error("Account database is not configured");
 const pool = new Pool({ ...accountConnectionOptions(connectionString), max: 1, connectionTimeoutMillis: 10_000 });
 try {
   await new AccountDatabase(pool).initialize();
-  console.log("Blot account database migrations applied");
+  console.log("Ori account database migrations applied");
 } catch {
   process.exitCode = 1;
 } finally {

@@ -1,4 +1,4 @@
-import BlotDesign
+import OriDesign
 import SwiftUI
 import UIKit
 import XCTest

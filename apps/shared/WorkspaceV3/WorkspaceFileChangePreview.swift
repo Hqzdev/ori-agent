@@ -1,5 +1,5 @@
-import BlotDesign
-import BlotWorkspace
+import OriDesign
+import OriWorkspace
 import SwiftUI
 
 struct WorkspaceFileChangePreview: View {
@@ -11,7 +11,7 @@ struct WorkspaceFileChangePreview: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
-                BlotIcon(symbol: "doc.text", size: 18)
+                OriIcon(symbol: "doc.text", size: 18)
                 Text(name).font(.system(size: 14, weight: .medium)).lineLimit(2)
                 Spacer(minLength: 4)
             }

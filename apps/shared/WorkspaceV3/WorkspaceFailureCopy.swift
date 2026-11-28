@@ -1,4 +1,4 @@
-import BlotWorkspace
+import OriWorkspace
 import Foundation
 
 /// Product errors contain no remote response bodies, tokens, addresses or secret values.

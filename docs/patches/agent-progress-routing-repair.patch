@@ -91,7 +91,7 @@ diff --git a/scripts/verify-group-routing.swift b/scripts/verify-group-routing.s
 -                : scenario == "conversation-tool" ? "Создай тестовый документ" : scenario == "specialist" ? "Проанализируй данные" : scenario == "malformed" ? "Кратко объясни, что такое выручка"
 +                : ["conversation-tool", "repaired-tool-route", "malformed"].contains(scenario) ? "Создай тестовый документ" : scenario == "specialist" ? "Проанализируй данные"
                  : scenario == "addressed" ? "Analyst — Analyze the data. Manager — Create a Markdown table using Analyst's results." : "Проанализируй данные и подготовь таблицу")
-         let source = try await repository.record(BlotV3.Message.self, id: sourceID, workspaceID: identity.workspaceID)!
+         let source = try await repository.record(oriV3.Message.self, id: sourceID, workspaceID: identity.workspaceID)!
          let model = ScriptedGroupModel(scenario, ids: ids)
 @@ -117,6 +119,16 @@
                  }

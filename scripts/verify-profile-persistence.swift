@@ -1,4 +1,4 @@
-import BlotWorkspace
+import OriWorkspace
 import Foundation
 
 /// Uses the production presentation state, writer and SQLite repository without an app or account session.

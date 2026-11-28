@@ -1,28 +1,36 @@
 import { createHash } from "node:crypto";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
-import { dirname, resolve } from "node:path";
+import { mkdir, readFile, stat, writeFile } from "node:fs/promises";
+import { dirname, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { documents, architectureDocuments } from "../lib/workspace/documentation.mjs";
 
 const projectRoot = fileURLToPath(new URL("../", import.meta.url));
 const repositoryRoot = fileURLToPath(new URL("../../", import.meta.url));
+const repositoryBrowser = "https://github.com/Hqzdev/ori-agent/blob/main/";
 
 export async function publishDocumentation() {
   const knownPaths = new Set(documents.map((item) => resolve(repositoryRoot, item.path)));
   const manifest = [];
   for (const document of documents) {
     const sourcePath = resolve(repositoryRoot, document.path);
-    const content = await readFile(sourcePath, "utf8");
+    const source = await readFile(sourcePath, "utf8");
+    let content = source;
     if (!content.startsWith("# ") || content.trim().length < 700) throw new Error(`Incomplete document: ${document.path}`);
     if (document.taskId && !content.includes(`Задача: ${document.taskId}.`)) throw new Error(`Missing task identity: ${document.path}`);
     const fenceCount = content.split("\n").filter((line) => line.startsWith("```")).length;
     if (fenceCount % 2) throw new Error(`Unclosed code fence: ${document.path}`);
     for (const match of content.matchAll(/```json\s*\n([\s\S]*?)\n```/g)) JSON.parse(match[1]);
-    for (const match of content.matchAll(/\[[^\]]+\]\(([^)]+)\)/g)) {
-      const href = match[1].split("#")[0];
+    for (const match of source.matchAll(/\[([^\]]+)\]\(([^)]+)\)/g)) {
+      const [href, anchor] = match[2].split("#");
       if (!href || /^https?:\/\//.test(href)) continue;
       const linkedPath = resolve(dirname(sourcePath), href);
-      if (!knownPaths.has(linkedPath)) throw new Error(`Unknown document link: ${document.path} → ${href}`);
+      if (knownPaths.has(linkedPath)) continue;
+      const parts = relative(repositoryRoot, linkedPath).split(sep);
+      const unpublishedDocument = parts[0] === "docs" && linkedPath.endsWith(".md")
+        && (await stat(linkedPath, { throwIfNoEntry: false }))?.isFile();
+      if (!unpublishedDocument) throw new Error(`Unknown document link: ${document.path} → ${href}`);
+      const external = repositoryBrowser + parts.map(encodeURIComponent).join("/") + (anchor ? `#${anchor}` : "");
+      content = content.replace(match[0], `[${match[1]}](${external})`);
     }
     const destination = resolve(projectRoot, "public", document.downloadUrl.slice(1));
     await mkdir(dirname(destination), { recursive: true });

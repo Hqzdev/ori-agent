@@ -57,7 +57,7 @@ def main():
     env["GRADLE_USER_HOME"] = str(BUILD / "gradle-home")
     env["CLANG_MODULE_CACHE_PATH"] = str(BUILD / "apple-module-cache")
     env["SWIFTPM_MODULECACHE_OVERRIDE"] = str(BUILD / "apple-module-cache")
-    swift = ["swift", "build", "--disable-sandbox", "--package-path", "packages/BlotWorkspace/Integration", "--scratch-path", ".build/apple-v1-wire"]
+    swift = ["swift", "build", "--disable-sandbox", "--package-path", "packages/OriWorkspace/Integration", "--scratch-path", ".build/apple-v1-wire"]
     if not args.skip_build:
         run(["backend/gradlew", "--offline", "--no-daemon", "-p", "backend", ":cloud:bootJar"], env, BUILD / "apple-v1-cloud-build.log")
         run(swift, env, BUILD / "apple-v1-wire-build.log")
@@ -75,7 +75,7 @@ def main():
         env.pop("BLOT_CLOUD_CHALLENGE_KEY_FILE", None)
         with (BUILD / "apple-v1-cloud-wire-server.log").open("w") as server_log:
             server = subprocess.Popen([str(Path(env["JAVA_HOME"]) / "bin/java"), "--enable-native-access=ALL-UNNAMED", "-jar",
-                                       str(ROOT / "backend/cloud/build/libs/blot-cloud.jar")], cwd=directory, env=env,
+                                       str(ROOT / "backend/cloud/build/libs/ori-cloud.jar")], cwd=directory, env=env,
                                       stdout=server_log, stderr=subprocess.STDOUT)
             try:
                 for _ in range(200):
@@ -83,7 +83,7 @@ def main():
                         raise RuntimeError("Cloud process exited; inspect .build/apple-v1-cloud-wire-server.log")
                     try:
                         with urllib.request.urlopen(origin + "/v1/health", timeout=1) as response:
-                            if json.load(response)["service"] == "blot-cloud":
+                            if json.load(response)["service"] == "ori-cloud":
                                 break
                     except (urllib.error.URLError, TimeoutError):
                         time.sleep(0.1)

@@ -17,8 +17,8 @@ subprojects {
         if (project.name in listOf("infrastructure", "api", "cloud")) {
             jvmArgs("--enable-native-access=ALL-UNNAMED")
         }
-        systemProperty("blot.httpFixtures", rootProject.file("../.build/http-fixtures").absolutePath)
-        systemProperty("blot.fixtures", rootProject.file("../fixtures/contracts").absolutePath)
+        systemProperty("ori.httpFixtures", rootProject.file("../.build/http-fixtures").absolutePath)
+        systemProperty("ori.fixtures", rootProject.file("../fixtures/contracts").absolutePath)
     }
     configure<com.diffplug.gradle.spotless.SpotlessExtension> {
         java { googleJavaFormat("1.28.0") }

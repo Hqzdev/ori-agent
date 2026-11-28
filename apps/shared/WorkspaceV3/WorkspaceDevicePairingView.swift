@@ -1,6 +1,6 @@
-import BlotDesign
-import BlotDomain
-import BlotWorkspace
+import OriDesign
+import OriDomain
+import OriWorkspace
 import SwiftUI
 
 struct WorkspaceDevicePairingView: View {
@@ -15,7 +15,7 @@ struct WorkspaceDevicePairingView: View {
     var body: some View {
         VStack(spacing: 22) {
             if pairing.phase == .complete {
-                BlotIcon(.shieldCheck, size: 48).foregroundStyle(.green).accessibilityHidden(true)
+                OriIcon(.shieldCheck, size: 48).foregroundStyle(.green).accessibilityHidden(true)
                 Text(ru ? "Устройства подключены" : "Devices connected").font(.title2.bold())
                 Text(pairing.peerName).foregroundStyle(.secondary)
                 #if os(macOS)
@@ -102,7 +102,7 @@ struct WorkspaceDevicePairingView: View {
     #else
     @ViewBuilder private var phone: some View {
         if pairing.phase == .enteringCode || pairing.phase == .confirming || pairing.phase == .finishing {
-            BlotIcon(.computer, size: 48).accessibilityHidden(true)
+            OriIcon(.computer, size: 48).accessibilityHidden(true)
             Text(ru ? "Введите код с компьютера" : "Enter the code from your computer").font(.title2.bold())
             Text(pairing.peerName).foregroundStyle(.secondary)
             TextField("000000", text: $pairing.code)
@@ -123,7 +123,7 @@ struct WorkspaceDevicePairingView: View {
             ProgressView()
             Text(ru ? "Подключаемся к компьютеру…" : "Connecting to your computer…").font(.headline)
         } else {
-            BlotIcon(.qr, size: 64).accessibilityHidden(true)
+            OriIcon(.qr, size: 64).accessibilityHidden(true)
             Text(ru ? "Подключить компьютер" : "Connect computer").font(.title2.bold())
             Text(ru ? "Откройте «Устройства» в Ori на компьютере и отсканируйте QR-код." : "Open Devices in Ori on your computer and scan its QR code.")
                 .foregroundStyle(.secondary)

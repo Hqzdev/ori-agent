@@ -1,8 +1,8 @@
 import AppKit
-import BlotAppleIntegrations
-import BlotDesign
-import BlotDomain
-import BlotWorkspace
+import OriAppleIntegrations
+import OriDesign
+import OriDomain
+import OriWorkspace
 import SwiftUI
 
 @MainActor
@@ -14,22 +14,22 @@ enum VerifyMacChatInterface {
         var snapshot = base.snapshot
         snapshot.messages = []; snapshot.cards = []; snapshot.tasks = []; snapshot.preparedActions = []
         snapshot.ownerID = chat.metadata.ownerId; snapshot.localDeviceID = ConversationCardSamples.device
-        func metadata(_ id: UUID, _ offset: TimeInterval = 0) throws -> BlotV3.RecordMetadata {
+        func metadata(_ id: UUID, _ offset: TimeInterval = 0) throws -> OriV3.RecordMetadata {
             let date = Date(timeIntervalSince1970: 1_794_909_600).addingTimeInterval(offset)
             return try .init(id: id, ownerId: chat.metadata.ownerId, workspaceId: chat.metadata.workspaceId, version: 1, createdAt: date, updatedAt: date)
         }
-        let user = try BlotV3.Message(metadata: metadata(UUID()), conversationId: chat.metadata.id, role: .user,
+        let user = try OriV3.Message(metadata: metadata(UUID()), conversationId: chat.metadata.id, role: .user,
             content: "What are the main takeaways from today’s design sync?", delivery: .completed, commandId: UUID(), artifactIds: [])
-        let assistant = try BlotV3.Message(metadata: metadata(UUID(), 20), conversationId: chat.metadata.id, role: .assistant,
+        let assistant = try OriV3.Message(metadata: metadata(UUID(), 20), conversationId: chat.metadata.id, role: .assistant,
             content: "The team reviewed the onboarding flow and agreed on three changes.\n\nI’ll update the screens, check the narrow layout, and share the results with @" + agent.name + ".",
             delivery: .completed, commandId: user.commandId, artifactIds: [], authorAgentId: agent.metadata.id, replyToMessageId: user.metadata.id)
-        let explicit = try BlotV3.Message(metadata: metadata(UUID(), 40), conversationId: chat.metadata.id, role: .user,
+        let explicit = try OriV3.Message(metadata: metadata(UUID(), 40), conversationId: chat.metadata.id, role: .user,
             content: "Please start with the first one.", delivery: .completed, commandId: UUID(), artifactIds: [], replyToMessageId: assistant.metadata.id)
         precondition(MacChatMessageContext.quoteID(assistant) == nil, "Technical reply linkage must not render as a quote")
         precondition(MacChatMessageContext.quoteID(explicit) == assistant.metadata.id, "An explicit user Reply must retain its target")
         precondition(!MacChatMessageContext.startsDate(assistant, after: user))
         precondition(MacChatMessageContext.startsDate(user, after: nil))
-        let states: [(BlotV3.TaskState?, Bool, Bool, MacChatAgentActivity)] = [
+        let states: [(OriV3.TaskState?, Bool, Bool, MacChatAgentActivity)] = [
             (nil, false, false, .idle), (.running, false, false, .working), (.waiting_user, false, false, .waiting),
             (.failed, false, false, .blocked), (.planning, false, false, .thinking), (.completed, false, false, .done),
             (.running, true, true, .waiting), (nil, false, true, .thinking)]
@@ -47,18 +47,18 @@ enum VerifyMacChatInterface {
         }
         if snapshot.agents.count >= 3 {
             let designer = snapshot.agents[1], researcher = snapshot.agents[2]
-            let group = try BlotV3.Conversation(metadata: metadata(UUID()), agentId: agent.metadata.id, title: "Design review", mobileOwned: false, pinned: false, archived: false, kind: .group)
+            let group = try OriV3.Conversation(metadata: metadata(UUID()), agentId: agent.metadata.id, title: "Design review", mobileOwned: false, pinned: false, archived: false, kind: .group)
             var grouped = snapshot
             grouped.conversations.append(group)
             grouped.participants = try [designer, researcher].map {
                 try .init(metadata: metadata(UUID()), conversationId: group.metadata.id, participantId: $0.metadata.id, kind: .agent, removed: false)
             }
-            let request = try BlotV3.Message(metadata: metadata(UUID()), conversationId: group.metadata.id, role: .user,
+            let request = try OriV3.Message(metadata: metadata(UUID()), conversationId: group.metadata.id, role: .user,
                 content: "Please review the onboarding screens together.", delivery: .completed, commandId: UUID(), artifactIds: [])
-            let first = try BlotV3.Message(metadata: metadata(UUID(), 20), conversationId: group.metadata.id, role: .assistant,
+            let first = try OriV3.Message(metadata: metadata(UUID(), 20), conversationId: group.metadata.id, role: .assistant,
                 content: "@" + researcher.name + ", can you check the source material? I’ll update the layout.", delivery: .completed,
                 commandId: request.commandId, artifactIds: [], authorAgentId: designer.metadata.id, replyToMessageId: request.metadata.id)
-            let second = try BlotV3.Message(metadata: metadata(UUID(), 40), conversationId: group.metadata.id, role: .assistant,
+            let second = try OriV3.Message(metadata: metadata(UUID(), 40), conversationId: group.metadata.id, role: .assistant,
                 content: "On it, @" + designer.name + ". I’ll compare the current screens and report any differences.", delivery: .completed,
                 commandId: request.commandId, artifactIds: [], authorAgentId: researcher.metadata.id, replyToMessageId: request.metadata.id)
             grouped.messages = [request, first, second]
@@ -70,7 +70,7 @@ enum VerifyMacChatInterface {
         for (index, sample) in try ConversationCardSamples.samples().enumerated() {
             var sampleSnapshot = snapshot
             let original = try ConversationCardSamples.card(sample, index: index)
-            let message = try BlotV3.Message(metadata: metadata(original.messageId, 30), conversationId: chat.metadata.id, role: .assistant,
+            let message = try OriV3.Message(metadata: metadata(original.messageId, 30), conversationId: chat.metadata.id, role: .assistant,
                 content: sample.content.fallback, delivery: .completed, commandId: original.operationId, artifactIds: [], authorAgentId: agent.metadata.id)
             sampleSnapshot.messages = [user, message]
             sampleSnapshot.cards = [original]
@@ -80,7 +80,7 @@ enum VerifyMacChatInterface {
             }
         }
         var continued = snapshot
-        let followup = try BlotV3.Message(metadata: metadata(UUID(), 25), conversationId: chat.metadata.id, role: .assistant,
+        let followup = try OriV3.Message(metadata: metadata(UUID(), 25), conversationId: chat.metadata.id, role: .assistant,
             content: "The changes are ready. I’ll continue with the remaining screens.", delivery: .completed,
             commandId: user.commandId, artifactIds: [], authorAgentId: agent.metadata.id, replyToMessageId: user.metadata.id)
         continued.messages = [user, assistant, followup]
@@ -104,12 +104,12 @@ enum VerifyMacChatInterface {
         try JSONSerialization.data(withJSONObject: manifest, options: [.prettyPrinted, .sortedKeys]).write(to: directory.appendingPathComponent("manifest.json"))
         print("PASS: native chat, computer-panel toggle and resizing; \(manifest.count) complete native chat frames.")
     }
-    private static func frame(snapshot: WorkspaceSnapshot, chat: BlotV3.Conversation, agent: BlotV3.AgentProfile,
+    private static func frame(snapshot: WorkspaceSnapshot, chat: OriV3.Conversation, agent: OriV3.AgentProfile,
                               dark: Bool, width: CGFloat, height: CGFloat, filename: String, directory: URL, manifest: inout [[String: String]],
                               panelWidths: (Double, Double)? = nil, thinking: Bool = false) async throws {
         let store = WorkspaceStore(mode: .preview, route: .chat, previewSnapshot: snapshot)
         store.language = "en"; store.selectedConversationID = chat.metadata.id; store.selectedAgentID = agent.metadata.id
-        let suite = "Blot.GrokGlass.Validation"
+        let suite = "Ori.GrokGlass.Validation"
         guard let defaults = UserDefaults(suiteName: suite) else { throw CocoaError(.coderInvalidValue) }
         defaults.removePersistentDomain(forName: suite)
         defer { defaults.removePersistentDomain(forName: suite); store.chatActivity.cancelAll() }
@@ -123,7 +123,7 @@ enum VerifyMacChatInterface {
             store.chatActivity.enqueue(message: message, replies: ["Verification response"], onRead: {}, complete: { _, _ in })
             try await _Concurrency.Task.sleep(for: .milliseconds(1400))
         }
-        let root = MacLiveTeamWorkspace().environment(store).blotTheme(dark ? .dark : .light)
+        let root = MacLiveTeamWorkspace().environment(store).oriTheme(dark ? .dark : .light)
             .defaultAppStorage(defaults)
             .environment(\.colorScheme, dark ? .dark : .light)
             .kMotionRoot(reduceMotion: !thinking && panelWidths == nil)
@@ -183,12 +183,12 @@ enum VerifyMacChatInterface {
         }
     }
 
-    private static func copy(_ agent: BlotV3.AgentProfile, color: String) throws -> BlotV3.AgentProfile {
+    private static func copy(_ agent: OriV3.AgentProfile, color: String) throws -> OriV3.AgentProfile {
         try .init(metadata: agent.metadata, name: agent.name, roleId: agent.roleId, avatarShape: agent.avatarShape,
             avatarColor: color, instructions: agent.instructions, modelId: agent.modelId, accessMode: agent.accessMode)
     }
 
-    private static func verifyMessageColors(agent: BlotV3.AgentProfile) throws {
+    private static func verifyMessageColors(agent: OriV3.AgentProfile) throws {
         for scheme in [ColorScheme.light, .dark] {
             var environment = EnvironmentValues(); environment.colorScheme = scheme
             for key in ["white", "brown", "red", "blue", "pink", "orange", "green", "amber", "gray", "purple", "teal", "black", "#FFFFFF", "#18F5C3"] {

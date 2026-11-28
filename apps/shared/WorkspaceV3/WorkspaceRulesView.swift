@@ -1,6 +1,6 @@
-import BlotDesign
-import BlotDomain
-import BlotWorkspace
+import OriDesign
+import OriDomain
+import OriWorkspace
 import SwiftUI
 
 @MainActor protocol WorkspaceRuleProviding { func ruleService() async throws -> WorkspaceRuleService }

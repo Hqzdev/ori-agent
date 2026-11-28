@@ -1,6 +1,6 @@
-diff --git a/apps/macos/BlotMac/Features/Agents/MacAgentCreationView.swift b/apps/macos/BlotMac/Features/Agents/MacAgentCreationView.swift
---- a/apps/macos/BlotMac/Features/Agents/MacAgentCreationView.swift
-+++ b/apps/macos/BlotMac/Features/Agents/MacAgentCreationView.swift
+diff --git a/apps/macos/oriMac/Features/Agents/MacAgentCreationView.swift b/apps/macos/oriMac/Features/Agents/MacAgentCreationView.swift
+--- a/apps/macos/oriMac/Features/Agents/MacAgentCreationView.swift
++++ b/apps/macos/oriMac/Features/Agents/MacAgentCreationView.swift
 @@ -37,7 +37,7 @@
                  Label(store.language == "ru" ? "Случайный вариант" : "Randomize", systemImage: "shuffle")
                      .font(MacWorkspaceStyle.caption)
@@ -10,9 +10,9 @@ diff --git a/apps/macos/BlotMac/Features/Agents/MacAgentCreationView.swift b/app
              .disabled(store.busy)
              .help(store.language == "ru" ? "Выбрать случайные имя, цвет и форму" : "Choose a random name, color and shape")
              LazyVGrid(columns: [GridItem(.adaptive(minimum: 30), spacing: 12)], spacing: 10) {
-diff --git a/apps/macos/BlotMac/Features/TeamDesign/MacTeamComponents.swift b/apps/macos/BlotMac/Features/TeamDesign/MacTeamComponents.swift
---- a/apps/macos/BlotMac/Features/TeamDesign/MacTeamComponents.swift
-+++ b/apps/macos/BlotMac/Features/TeamDesign/MacTeamComponents.swift
+diff --git a/apps/macos/oriMac/Features/TeamDesign/MacTeamComponents.swift b/apps/macos/oriMac/Features/TeamDesign/MacTeamComponents.swift
+--- a/apps/macos/oriMac/Features/TeamDesign/MacTeamComponents.swift
++++ b/apps/macos/oriMac/Features/TeamDesign/MacTeamComponents.swift
 @@ -76,7 +76,7 @@
 
  struct MacTeamSheetHeader: View {
@@ -22,9 +22,9 @@ diff --git a/apps/macos/BlotMac/Features/TeamDesign/MacTeamComponents.swift b/ap
      var body: some View {
          HStack {
              WorkspaceLocalizedText(title).font(.system(size: 16, weight: .semibold))
-diff --git a/apps/macos/BlotMac/Features/Workspace/MacBrowserSplitView.swift b/apps/macos/BlotMac/Features/Workspace/MacBrowserSplitView.swift
---- a/apps/macos/BlotMac/Features/Workspace/MacBrowserSplitView.swift
-+++ b/apps/macos/BlotMac/Features/Workspace/MacBrowserSplitView.swift
+diff --git a/apps/macos/oriMac/Features/Workspace/MacBrowserSplitView.swift b/apps/macos/oriMac/Features/Workspace/MacBrowserSplitView.swift
+--- a/apps/macos/oriMac/Features/Workspace/MacBrowserSplitView.swift
++++ b/apps/macos/oriMac/Features/Workspace/MacBrowserSplitView.swift
 @@ -4,11 +4,11 @@
  /// Bounds both panes, including when the window shrinks after a drag.
  struct MacBrowserSplitLayout {
@@ -39,9 +39,9 @@ diff --git a/apps/macos/BlotMac/Features/Workspace/MacBrowserSplitView.swift b/a
          return min(maximum, max(min(300, maximum), requested.isFinite ? requested : 500))
      }
  }
-diff --git a/apps/macos/BlotMac/Features/Workspace/MacLiveTeamWorkspace.swift b/apps/macos/BlotMac/Features/Workspace/MacLiveTeamWorkspace.swift
---- a/apps/macos/BlotMac/Features/Workspace/MacLiveTeamWorkspace.swift
-+++ b/apps/macos/BlotMac/Features/Workspace/MacLiveTeamWorkspace.swift
+diff --git a/apps/macos/oriMac/Features/Workspace/MacLiveTeamWorkspace.swift b/apps/macos/oriMac/Features/Workspace/MacLiveTeamWorkspace.swift
+--- a/apps/macos/oriMac/Features/Workspace/MacLiveTeamWorkspace.swift
++++ b/apps/macos/oriMac/Features/Workspace/MacLiveTeamWorkspace.swift
 @@ -48,7 +48,7 @@
 
      private func workspace(layout: MacWorkspaceLayout) -> some View {
@@ -68,7 +68,7 @@ diff --git a/apps/macos/BlotMac/Features/Workspace/MacLiveTeamWorkspace.swift b/
 +                        } else {
 +                            if store.currentConversation?.kind == .group { MacLiveTeamGroupAvatar(agents: members, size: 36) }
 +                            else if let agent { WorkspaceAvatarView(agent: agent, size: 36) }
-+                            Text(store.currentConversation?.title ?? agent?.name ?? "Blot")
++                            Text(store.currentConversation?.title ?? agent?.name ?? "ori")
 +                                .font(.system(size: 17, weight: .semibold)).lineLimit(1)
 +                                .padding(.horizontal, 16).padding(.vertical, 6)
 +                                .glassEffect(.regular, in: .capsule)
@@ -77,7 +77,7 @@ diff --git a/apps/macos/BlotMac/Features/Workspace/MacLiveTeamWorkspace.swift b/
 +                    if isConversation {
                          if store.currentConversation?.kind == .group { MacLiveTeamGroupAvatar(agents: members, size: 36) }
                          else if let agent { WorkspaceAvatarView(agent: agent, size: 36) }
--                        Text(store.currentConversation?.title ?? agent?.name ?? "Blot")
+-                        Text(store.currentConversation?.title ?? agent?.name ?? "ori")
 -                            .font(.system(size: 17, weight: .semibold)).lineLimit(1)
 -                            .padding(.horizontal, 16).padding(.vertical, 6)
 -                            .glassEffect(.regular, in: .capsule)
@@ -99,9 +99,9 @@ diff --git a/apps/macos/BlotMac/Features/Workspace/MacLiveTeamWorkspace.swift b/
                          }
                      }
                  }.padding(.leading, showsSidebar ? 18 : 108).padding(.trailing, 18)
-diff --git a/apps/macos/BlotMac/Features/Workspace/MacMarketplacePluginDetail.swift b/apps/macos/BlotMac/Features/Workspace/MacMarketplacePluginDetail.swift
---- a/apps/macos/BlotMac/Features/Workspace/MacMarketplacePluginDetail.swift
-+++ b/apps/macos/BlotMac/Features/Workspace/MacMarketplacePluginDetail.swift
+diff --git a/apps/macos/oriMac/Features/Workspace/MacMarketplacePluginDetail.swift b/apps/macos/oriMac/Features/Workspace/MacMarketplacePluginDetail.swift
+--- a/apps/macos/oriMac/Features/Workspace/MacMarketplacePluginDetail.swift
++++ b/apps/macos/oriMac/Features/Workspace/MacMarketplacePluginDetail.swift
 @@ -6,7 +6,7 @@
  struct MacMarketplacePluginDetail: View {
      let plugin: MacTeamPlugin
@@ -120,9 +120,9 @@ diff --git a/apps/macos/BlotMac/Features/Workspace/MacMarketplacePluginDetail.sw
                      .tint(accounts.isEmpty ? WorkspaceStyle.ink : .green)
                      .disabled(accounts.isEmpty || store.busy || disconnecting)
                  Spacer()
-diff --git a/apps/macos/BlotMac/Features/Workspace/MacMarketplaceTemplateDetail.swift b/apps/macos/BlotMac/Features/Workspace/MacMarketplaceTemplateDetail.swift
---- a/apps/macos/BlotMac/Features/Workspace/MacMarketplaceTemplateDetail.swift
-+++ b/apps/macos/BlotMac/Features/Workspace/MacMarketplaceTemplateDetail.swift
+diff --git a/apps/macos/oriMac/Features/Workspace/MacMarketplaceTemplateDetail.swift b/apps/macos/oriMac/Features/Workspace/MacMarketplaceTemplateDetail.swift
+--- a/apps/macos/oriMac/Features/Workspace/MacMarketplaceTemplateDetail.swift
++++ b/apps/macos/oriMac/Features/Workspace/MacMarketplaceTemplateDetail.swift
 @@ -4,7 +4,7 @@
  struct MacMarketplaceTemplateDetail: View {
      let template: MacDemoTemplate
@@ -190,7 +190,7 @@ diff --git a/apps/shared/WorkspaceV3/MCPConfigurationFields.swift b/apps/shared/
                  SecureField(text("Bearer-токен (если нужен)", "Bearer token (optional)"), text: $configuration.bearerToken)
 @@ -36,7 +38,7 @@
                  Toggle(text("Я доверяю этой программе", "I trust this executable"), isOn: $configuration.trustedLocalProcess)
-                 Text(text("Программа получает только заданные переменные среды и доступ в рамках системной песочницы Blot. MCP сам по себе не изолирует программу.", "The executable receives only the specified environment and access allowed by Blot’s system sandbox. MCP itself does not isolate a process.")).font(.caption).foregroundStyle(.secondary)
+                 Text(text("Программа получает только заданные переменные среды и доступ в рамках системной песочницы ori. MCP сам по себе не изолирует программу.", "The executable receives only the specified environment and access allowed by ori’s system sandbox. MCP itself does not isolate a process.")).font(.caption).foregroundStyle(.secondary)
              }
 -            Stepper(value: $configuration.timeout, in: 5...300, step: 5) { Text(text("Таймаут: ", "Timeout: ") + String(Int(configuration.timeout)) + text(" с", " s")) }
 +            WorkspaceCounter(title: text("Таймаут, с", "Timeout, s"), value: Binding(get: { Int(configuration.timeout) }, set: { configuration.timeout = Double($0) }), range: 5...300, step: 5)
@@ -217,10 +217,10 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceBrowserSettingsView.swift b/apps/s
 --- a/apps/shared/WorkspaceV3/WorkspaceBrowserSettingsView.swift
 +++ b/apps/shared/WorkspaceV3/WorkspaceBrowserSettingsView.swift
 @@ -1,4 +1,5 @@
- import BlotDomain
-+import BlotDesign
- import BlotAppleIntegrations
- import BlotWorkspace
+ import oriDomain
++import oriDesign
+ import oriAppleIntegrations
+ import oriWorkspace
  import SwiftUI
 @@ -42,7 +43,8 @@
              Text(ru ? "Сайты открываются внутри приложения. Разрешения ниже действуют только для агентов на этом устройстве. Нажатия и ввод подтверждаются отдельно." : "Websites open inside the app. These agent permissions apply only on this device. Clicks and typing require separate confirmation.").foregroundStyle(.secondary)
@@ -387,9 +387,9 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceBrowserStore.swift b/apps/shared/W
 --- a/apps/shared/WorkspaceV3/WorkspaceBrowserStore.swift
 +++ b/apps/shared/WorkspaceV3/WorkspaceBrowserStore.swift
 @@ -1,24 +1,39 @@
- import BlotAppleIntegrations
-+import BlotDomain
- import BlotWorkspace
+ import oriAppleIntegrations
++import oriDomain
+ import oriWorkspace
  import Foundation
 
  @MainActor
@@ -481,7 +481,7 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceBrowserView.swift b/apps/shared/Wo
 +        .alert(text("Системный вход", "System sign-in"), isPresented: $systemAuthentication) {
 +            Button(text("Открыть внешний браузер", "Open external browser")) { openSystemAuthentication() }
 +            Button(text("Отмена", "Cancel"), role: .cancel) {}
-+        } message: { Text(text("Будет открыт браузер macOS/iOS только для этого входа. Его cookies не копируются в Blot.", "The system browser will open for this sign-in. Its cookies are not copied into Blot.")) }
++        } message: { Text(text("Будет открыт браузер macOS/iOS только для этого входа. Его cookies не копируются в ori.", "The system browser will open for this sign-in. Its cookies are not copied into ori.")) }
 +        .alert(controller.dialog?.origin ?? "", isPresented: Binding(get: { controller.dialog != nil }, set: { if !$0 { controller.dialog?.finish(accepted: false) } })) {
 +            if let dialog = controller.dialog {
 +                if dialog.kind == .prompt { TextField(text("Ответ", "Response"), text: Binding(get: { dialog.input }, set: { dialog.input = $0 })) }
@@ -520,7 +520,7 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceBrowserView.swift b/apps/shared/Wo
 -        .alert(text("Системный вход", "System sign-in"), isPresented: $systemAuthentication) {
 -            Button(text("Открыть внешний браузер", "Open external browser")) { openSystemAuthentication() }
 -            Button(text("Отмена", "Cancel"), role: .cancel) {}
--        } message: { Text(text("Будет открыт браузер macOS/iOS только для этого входа. Его cookies не копируются в Blot.", "The system browser will open for this sign-in. Its cookies are not copied into Blot.")) }
+-        } message: { Text(text("Будет открыт браузер macOS/iOS только для этого входа. Его cookies не копируются в ori.", "The system browser will open for this sign-in. Its cookies are not copied into ori.")) }
 -        .alert(controller.dialog?.origin ?? "", isPresented: Binding(get: { controller.dialog != nil }, set: { if !$0 { controller.dialog?.finish(accepted: false) } })) {
 -            if let dialog = controller.dialog {
 -                if dialog.kind == .prompt { TextField(text("Ответ", "Response"), text: Binding(get: { dialog.input }, set: { dialog.input = $0 })) }
@@ -690,7 +690,7 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceMCPSettingsView.swift b/apps/share
 --- a/apps/shared/WorkspaceV3/WorkspaceMCPSettingsView.swift
 +++ b/apps/shared/WorkspaceV3/WorkspaceMCPSettingsView.swift
 @@ -87,7 +87,7 @@
-     let agents: [BlotV3.AgentProfile]
+     let agents: [oriV3.AgentProfile]
      let russian: Bool
      let commands: (any WorkspaceMCPProviding)?
 -    @Environment(\.dismiss) private var dismiss
@@ -734,7 +734,7 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceNativeProjectsView.swift b/apps/sh
              }
              ForEach(projects) { project in
 @@ -180,7 +178,7 @@
-     let agents: [BlotV3.AgentProfile]
+     let agents: [oriV3.AgentProfile]
      let russian: Bool
      let commands: (any WorkspaceNativeProviding)?
 -    @Environment(\.dismiss) private var dismiss
@@ -867,7 +867,7 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceSchedulePolicyLabel.swift b/apps/s
 -        let russian = store.language == "ru"
 +        Self.title(policy, russian: store.language == "ru")
 +    }
-+    static func title(_ policy: BlotV3.MissedRunPolicy, russian: Bool) -> String {
++    static func title(_ policy: oriV3.MissedRunPolicy, russian: Bool) -> String {
          switch policy {
          case .coalesce: return russian ? "Один запуск за всё пропущенное" : "One combined missed run"
          case .catch_up: return russian ? "Догнать пропущенные запуски" : "Catch up missed runs"
@@ -879,9 +879,9 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceSettingsViews.swift b/apps/shared/
              WorkspaceCard {
                  Text(store.t("Default mode")).font(.headline)
 -                Picker(store.t("Access mode"), selection: $store.form.preferences.accessMode) {
--                    Text(store.t("Observe")).tag(BlotV3.AccessMode.observe)
--                    Text(store.t("Ask first")).tag(BlotV3.AccessMode.ask_first)
--                    Text(store.t("Trusted scope")).tag(BlotV3.AccessMode.trusted_scope)
+-                    Text(store.t("Observe")).tag(oriV3.AccessMode.observe)
+-                    Text(store.t("Ask first")).tag(oriV3.AccessMode.ask_first)
+-                    Text(store.t("Trusted scope")).tag(oriV3.AccessMode.trusted_scope)
 -                }.pickerStyle(.segmented)
 +                WorkspaceChoice(title: store.t("Access mode"), selection: $store.form.preferences.accessMode,
 +                    options: [.init(.observe, store.t("Observe")), .init(.ask_first, store.t("Ask first")), .init(.trusted_scope, store.t("Trusted scope"))])
@@ -893,7 +893,7 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceSkillRunner.swift b/apps/shared/Wo
 +++ b/apps/shared/WorkspaceV3/WorkspaceSkillRunner.swift
 @@ -5,7 +5,7 @@
  struct WorkspaceSkillRunner: View {
-     let skill: BlotV3.Skill
+     let skill: oriV3.Skill
      @Environment(WorkspaceStore.self) private var store
 -    @Environment(\.dismiss) private var dismiss
 +    @WorkspacePresentationDismiss private var dismiss
@@ -936,9 +936,9 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceSkillsView.swift b/apps/shared/Wor
 --- a/apps/shared/WorkspaceV3/WorkspaceSkillsView.swift
 +++ b/apps/shared/WorkspaceV3/WorkspaceSkillsView.swift
 @@ -1,3 +1,4 @@
-+import BlotDesign
- import BlotDomain
- import BlotWorkspace
++import oriDesign
+ import oriDomain
+ import oriWorkspace
  import SwiftUI
 @@ -26,8 +27,8 @@
                  Button { editor = .init(skill: nil) } label: { Label(ru ? "Создать" : "Create", systemImage: "plus") }
@@ -962,7 +962,7 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceSkillsView.swift b/apps/shared/Wor
          }
 @@ -52,7 +53,7 @@
  struct WorkspaceSkillEditor: View {
-     let skill: BlotV3.Skill?
+     let skill: oriV3.Skill?
      @Environment(WorkspaceStore.self) private var store
 -    @Environment(\.dismiss) private var dismiss
 +    @WorkspacePresentationDismiss private var dismiss
@@ -1039,7 +1039,7 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceStore.swift b/apps/shared/Workspac
      let voicePreferences: WorkspaceVoicePreferences
      var nativeCommands: (any WorkspaceNativeProviding)? { service as? any WorkspaceNativeProviding }
 @@ -86,7 +87,7 @@
-     @ObservationIgnored private let authenticationLog = Logger(subsystem: "dev.blot.authentication", category: "BrowserHandoff")
+     @ObservationIgnored private let authenticationLog = Logger(subsystem: "dev.ori.authentication", category: "BrowserHandoff")
      private(set) var snapshot = WorkspaceSnapshot() {
          didSet {
 -            if snapshot.ownerID != oldValue.ownerID { voice.end(); guestBrowser.controller?.shutdown(); guestBrowser.controller = nil }
@@ -1132,23 +1132,23 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceTeamViews.swift b/apps/shared/Work
 -                    ForEach(store.snapshot.devices, id: \.metadata.id) { device in Text(device.name).tag(Optional(device.metadata.id)) }
 -                }
 -                Picker(store.t("Missed runs"), selection: $store.form.schedule.missedRunPolicy) {
--                    ForEach(BlotV3.MissedRunPolicy.allCases, id: \.self) { policy in WorkspaceSchedulePolicyLabel(policy: policy).tag(policy) }
+-                    ForEach(oriV3.MissedRunPolicy.allCases, id: \.self) { policy in WorkspaceSchedulePolicyLabel(policy: policy).tag(policy) }
 -                }
 +                WorkspaceChoice(title: store.t("Agent"), selection: $store.form.schedule.agentID,
 +                    options: [.init(nil, store.t("Not selected"))] + store.snapshot.agents.map { .init(Optional($0.metadata.id), $0.name) })
 +                WorkspaceChoice(title: store.t("Run tasks on"), selection: $store.form.schedule.deviceID,
 +                    options: [.init(nil, store.t("Not selected"))] + (store.snapshot.localDeviceID.map { [.init(Optional($0), store.t("This device"))] } ?? []) + store.snapshot.devices.filter { $0.metadata.id != store.snapshot.localDeviceID }.map { .init(Optional($0.metadata.id), $0.name) })
 +                WorkspaceChoice(title: store.t("Missed runs"), selection: $store.form.schedule.missedRunPolicy,
-+                    options: BlotV3.MissedRunPolicy.allCases.map { .init($0, WorkspaceSchedulePolicyLabel.title($0, russian: store.language == "ru")) })
++                    options: oriV3.MissedRunPolicy.allCases.map { .init($0, WorkspaceSchedulePolicyLabel.title($0, russian: store.language == "ru")) })
                  if store.form.schedule.missedRunPolicy == .catch_up {
 -                    Stepper(store.t("Maximum catch-up runs") + ": \(store.form.schedule.maximumCatchUpRuns)", value: $store.form.schedule.maximumCatchUpRuns, in: 1...100)
 +                    WorkspaceCounter(title: store.t("Maximum catch-up runs"), value: $store.form.schedule.maximumCatchUpRuns, range: 1...100)
                  }
              }
              WorkspaceCard { WorkspaceLink(title: "Agent", route: .agents); WorkspaceLink(title: "Computer", route: .devices)
-diff --git a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/BrowserDialog.swift b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/BrowserDialog.swift
---- a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/BrowserDialog.swift
-+++ b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/BrowserDialog.swift
+diff --git a/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/BrowserDialog.swift b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/BrowserDialog.swift
+--- a/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/BrowserDialog.swift
++++ b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/BrowserDialog.swift
 @@ -19,15 +19,15 @@
 
  extension BrowserPage {
@@ -1168,9 +1168,9 @@ diff --git a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/Browse
          owner.dialog = BrowserDialog(kind: .prompt, message: prompt, origin: frame.securityOrigin.host, input: defaultText ?? "") { [weak owner] value in owner?.dialog = nil; completionHandler(value) }
      }
  }
-diff --git a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/BrowserExecution.swift b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/BrowserExecution.swift
---- a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/BrowserExecution.swift
-+++ b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/BrowserExecution.swift
+diff --git a/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/BrowserExecution.swift b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/BrowserExecution.swift
+--- a/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/BrowserExecution.swift
++++ b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/BrowserExecution.swift
 @@ -17,14 +17,14 @@
              let origin = try WorkspaceBrowserURL.origin(url)
              guard command.origins.contains("*") || command.origins.contains(origin) else { throw WorkspaceBrowserError.denied }
@@ -1224,9 +1224,9 @@ diff --git a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/Browse
                (tab.scope == command.scope || (tab.scope == nil && (selectedID == id || automaticRead) && command.name == "browser_snapshot") || (selectedID == id && automaticRead)),
                (!tab.stopped || automaticRead), let url = tab.url,
                (try command.origins.contains("*") || command.origins.contains(WorkspaceBrowserURL.origin(url))) else { throw WorkspaceBrowserError.denied }
-diff --git a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/BrowserPage.swift b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/BrowserPage.swift
---- a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/BrowserPage.swift
-+++ b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/BrowserPage.swift
+diff --git a/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/BrowserPage.swift b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/BrowserPage.swift
+--- a/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/BrowserPage.swift
++++ b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/BrowserPage.swift
 @@ -159,7 +159,7 @@
      func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
          guard let url = navigationAction.request.url, let owner, owner.permits(url, tab: tab) else { return nil }
@@ -1236,9 +1236,9 @@ diff --git a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/Browse
              try owner.createPage(child); owner.tabsAppend(child); owner.pages[child.id]?.load(url)
          } catch { tab.error = error.localizedDescription }
          return nil
-diff --git a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/BrowserTab.swift b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/BrowserTab.swift
---- a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/BrowserTab.swift
-+++ b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/BrowserTab.swift
+diff --git a/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/BrowserTab.swift b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/BrowserTab.swift
+--- a/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/BrowserTab.swift
++++ b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/BrowserTab.swift
 @@ -6,6 +6,8 @@
  @MainActor @Observable
  public final class BrowserTab: Identifiable {
@@ -1272,9 +1272,9 @@ diff --git a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/Browse
 -    init(_ download: WKDownload, tabID: UUID) { self.download = download; self.tabID = tabID }
 +    init(_ download: WKDownload, tabID: UUID, sessionKey: WorkspaceBrowserSessionKey) { self.download = download; self.tabID = tabID; self.sessionKey = sessionKey }
  }
-diff --git a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/WorkspaceBrowserController.swift b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/WorkspaceBrowserController.swift
---- a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/WorkspaceBrowserController.swift
-+++ b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/WorkspaceBrowserController.swift
+diff --git a/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/WorkspaceBrowserController.swift b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/WorkspaceBrowserController.swift
+--- a/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/WorkspaceBrowserController.swift
++++ b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/WorkspaceBrowserController.swift
 @@ -6,7 +6,11 @@
  @MainActor @Observable
  public final class WorkspaceBrowserController: WorkspaceBrowserExecuting {
@@ -1291,7 +1291,7 @@ diff --git a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/Worksp
 @@ -31,33 +35,64 @@
          dataStore = ephemeral ? .nonPersistent() : WKWebsiteDataStore(forIdentifier: profileID)
          stateURL = directory?.appendingPathComponent("BrowserTabs.json")
-         downloadsDirectory = (directory ?? FileManager.default.temporaryDirectory.appendingPathComponent("BlotBrowser-" + profileID.uuidString)).appendingPathComponent("Downloads", isDirectory: true)
+         downloadsDirectory = (directory ?? FileManager.default.temporaryDirectory.appendingPathComponent("oriBrowser-" + profileID.uuidString)).appendingPathComponent("Downloads", isDirectory: true)
 -        if let stateURL, let data = try? Data(contentsOf: stateURL), data.count <= 128 * 1024, let urls = try? JSONDecoder().decode([URL].self, from: data) {
 -            tabs = urls.prefix(32).compactMap { url in (try? WorkspaceBrowserURL.validated(url.absoluteString)).map { BrowserTab(url: $0) } }
 -            selectedID = tabs.first?.id
@@ -1444,9 +1444,9 @@ diff --git a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/Worksp
 +    }
 +    struct Selection: Codable { let key: WorkspaceBrowserSessionKey; let tabID: UUID }
 +}
-diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceBrowserService.swift b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceBrowserService.swift
---- a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceBrowserService.swift
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceBrowserService.swift
+diff --git a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceBrowserService.swift b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceBrowserService.swift
+--- a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceBrowserService.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceBrowserService.swift
 @@ -50,6 +50,7 @@
          let scope: WorkspaceBrowserScope
          let origins: Set<String>
@@ -1475,9 +1475,9 @@ diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceBrowserServic
      }
      public func prepare(_ command: WorkspaceBrowserCommand) async throws -> WorkspaceBrowserBinding { try await driver.prepare(command) }
      public func perform(_ command: WorkspaceBrowserCommand, binding: WorkspaceBrowserBinding) async throws -> WorkspaceBrowserResult {
-diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceBrowserTools.swift b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceBrowserTools.swift
---- a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceBrowserTools.swift
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceBrowserTools.swift
+diff --git a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceBrowserTools.swift b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceBrowserTools.swift
+--- a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceBrowserTools.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceBrowserTools.swift
 @@ -24,7 +24,7 @@
      private func perform(_ call: ChatToolCall, context: WorkspaceToolContext) async throws -> ChatJSON {
          let authorized = try await service.authorize(call.name, context: context)
@@ -1487,9 +1487,9 @@ diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceBrowserTools.
          if !WorkspaceBrowserCatalog.requiresConfirmation(call.name) {
              let binding = try await service.prepare(command)
              return try await result(service.perform(command, binding: binding), call: call, context: context)
-diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceBrowserTypes.swift b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceBrowserTypes.swift
---- a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceBrowserTypes.swift
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceBrowserTypes.swift
+diff --git a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceBrowserTypes.swift b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceBrowserTypes.swift
+--- a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceBrowserTypes.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceBrowserTypes.swift
 @@ -67,14 +67,19 @@
      public let agentID: UUID
      public init(sourceID: UUID, taskID: UUID?, agentID: UUID) { self.sourceID = sourceID; self.taskID = taskID; self.agentID = agentID }
@@ -1512,9 +1512,9 @@ diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceBrowserTypes.
      }
  }
  public struct WorkspaceBrowserBinding: Codable, Equatable, Sendable {
-diff --git a/packages/BlotWorkspace/Tests/BlotWorkspaceTests/WorkspaceBrowserTests.swift b/packages/BlotWorkspace/Tests/BlotWorkspaceTests/WorkspaceBrowserTests.swift
---- a/packages/BlotWorkspace/Tests/BlotWorkspaceTests/WorkspaceBrowserTests.swift
-+++ b/packages/BlotWorkspace/Tests/BlotWorkspaceTests/WorkspaceBrowserTests.swift
+diff --git a/packages/oriWorkspace/Tests/oriWorkspaceTests/WorkspaceBrowserTests.swift b/packages/oriWorkspace/Tests/oriWorkspaceTests/WorkspaceBrowserTests.swift
+--- a/packages/oriWorkspace/Tests/oriWorkspaceTests/WorkspaceBrowserTests.swift
++++ b/packages/oriWorkspace/Tests/oriWorkspaceTests/WorkspaceBrowserTests.swift
 @@ -140,3 +140,15 @@
      #expect(tools.contains { $0.name == "browser_snapshot" })
      await automatic.suspend(); await f.service.suspend()
@@ -1577,11 +1577,11 @@ diff --git a/scripts/verify-browser-execution.swift b/scripts/verify-browser-exe
 +        print("PASS: browser divider bounds preserve at least 336 points for the chat across window sizes and extreme saved widths")
          guard CommandLine.arguments.count == 2 else { throw WorkspaceBrowserError.invalidURL }
          let origin = "http://127.0.0.1:" + CommandLine.arguments[1]
-         let directory = FileManager.default.temporaryDirectory.appendingPathComponent("BlotBrowserVerification-" + UUID().uuidString)
+         let directory = FileManager.default.temporaryDirectory.appendingPathComponent("oriBrowserVerification-" + UUID().uuidString)
 @@ -122,6 +147,10 @@
          try await wait { browser.downloads.contains { $0.state == "completed" } }
          let downloaded = try String(contentsOf: downloadURL, encoding: .utf8)
-         precondition(downloaded == "Blot browser download verified\n")
+         precondition(downloaded == "ori browser download verified\n")
 +        precondition(!browser.sessionDownloads.isEmpty)
 +        browser.activateSession(.agent(UUID()))
 +        precondition(browser.sessionDownloads.isEmpty)
@@ -1607,7 +1607,7 @@ diff --git a/scripts/verify-browser-model.swift b/scripts/verify-browser-model.s
 +        service.workspaceBrowser.activateSession(.agent(agent))
          if !automatic { try await service.browserService().configure(agents: [agent], origins: [origin]) }
          let sourceID = try await WorkspaceChatService(repository: repository, identity: identity).sendMessage(commandID: UUID(), conversationID: conversation, content: "Open the approved test page and click Change status after confirmation")
-         let source = try await repository.record(BlotV3.Message.self, id: sourceID, workspaceID: identity.workspaceID)!
+         let source = try await repository.record(oriV3.Message.self, id: sourceID, workspaceID: identity.workspaceID)!
 @@ -89,6 +90,7 @@
              mcpCredentials: BrowserModelCredentials(), makeBrowser: { id, folder in WorkspaceBrowserController(profileID: id, directory: folder, ephemeral: true) },
              automaticBrowserAccess: automatic, makeModel: { _ in SelectedBrowserVerificationModel() })
@@ -1621,10 +1621,10 @@ new file mode 100644
 --- /dev/null
 +++ b/apps/shared/WorkspaceV3/WorkspacePanelControls.swift
 @@ -0,0 +1,124 @@
-+import BlotDesign
++import oriDesign
 +import SwiftUI
 +
-+/// Forms share Blot's surfaces and spacing while retaining native text editing and accessibility.
++/// Forms share ori's surfaces and spacing while retaining native text editing and accessibility.
 +struct WorkspacePanelForm<Content: View>: View {
 +    @ViewBuilder let content: Content
 +    @Environment(\.workspacePanelNavigation) private var panel
@@ -1705,7 +1705,7 @@ new file mode 100644
 +                    Image(systemName: "chevron.up.chevron.down").font(.system(size: 10, weight: .medium)).foregroundStyle(WorkspaceStyle.secondary)
 +                }.padding(12).frame(maxWidth: .infinity, minHeight: 38, alignment: .leading)
 +                    .background(WorkspaceStyle.canvas, in: RoundedRectangle(cornerRadius: 12))
-+                    .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(BlotColor.edge))
++                    .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(oriColor.edge))
 +                    .contentShape(RoundedRectangle(cornerRadius: 12))
 +            }.buttonStyle(.plain).opacity(enabled ? 1 : 0.45)
 +                .accessibilityLabel(title).accessibilityValue(options.first { $0.value == selection }?.title ?? "—")
@@ -1750,7 +1750,7 @@ new file mode 100644
 --- /dev/null
 +++ b/apps/shared/WorkspaceV3/WorkspacePanelDateField.swift
 @@ -0,0 +1,68 @@
-+import BlotDesign
++import oriDesign
 +import SwiftUI
 +
 +/// Compact date and time entry uses the same choices and calendar surface as the pane.
@@ -1799,8 +1799,8 @@ new file mode 100644
 +                    if let day {
 +                        Button { select(day) } label: {
 +                            Text(calendar.component(.day, from: day).formatted()).monospacedDigit().frame(width: 30, height: 30)
-+                                .foregroundStyle(calendar.isDate(day, inSameDayAs: date) ? BlotColor.onInverse : WorkspaceStyle.ink)
-+                                .background(calendar.isDate(day, inSameDayAs: date) ? BlotColor.inverse : .clear, in: Circle())
++                                .foregroundStyle(calendar.isDate(day, inSameDayAs: date) ? oriColor.onInverse : WorkspaceStyle.ink)
++                                .background(calendar.isDate(day, inSameDayAs: date) ? oriColor.inverse : .clear, in: Circle())
 +                        }.buttonStyle(.plain).accessibilityLabel(day.formatted(.dateTime.weekday(.wide).day().month(.wide).year().locale(Locale(identifier: store.language))))
 +                    } else { Color.clear.frame(width: 30, height: 30) }
 +                }
@@ -1818,18 +1818,18 @@ new file mode 100644
 +        if let next = calendar.date(bySettingHour: time.hour ?? 0, minute: time.minute ?? 0, second: 0, of: day) { date = next; expanded = false }
 +    }
 +}
-diff --git a/packages/BlotAppleIntegrations/Tests/BlotAppleIntegrationsTests/BrowserSessionTests.swift b/packages/BlotAppleIntegrations/Tests/BlotAppleIntegrationsTests/BrowserSessionTests.swift
+diff --git a/packages/oriAppleIntegrations/Tests/oriAppleIntegrationsTests/BrowserSessionTests.swift b/packages/oriAppleIntegrations/Tests/oriAppleIntegrationsTests/BrowserSessionTests.swift
 new file mode 100644
 --- /dev/null
-+++ b/packages/BlotAppleIntegrations/Tests/BlotAppleIntegrationsTests/BrowserSessionTests.swift
++++ b/packages/oriAppleIntegrations/Tests/oriAppleIntegrationsTests/BrowserSessionTests.swift
 @@ -0,0 +1,57 @@
-+import BlotWorkspace
++import oriWorkspace
 +import Foundation
 +import Testing
-+@testable import BlotAppleIntegrations
++@testable import oriAppleIntegrations
 +
 +@Test @MainActor func agentTabsRestoreSelectionAndNeverMixWithOtherAgentsOrGroups() throws {
-+    let folder = FileManager.default.temporaryDirectory.appendingPathComponent("blot-session-" + UUID().uuidString)
++    let folder = FileManager.default.temporaryDirectory.appendingPathComponent("ori-session-" + UUID().uuidString)
 +    defer { try? FileManager.default.removeItem(at: folder) }
 +    let first = WorkspaceBrowserSessionKey.agent(UUID()), second = WorkspaceBrowserSessionKey.agent(UUID()), group = WorkspaceBrowserSessionKey.group(UUID())
 +    let browser = WorkspaceBrowserController(profileID: UUID(), directory: folder, ephemeral: true)
@@ -1864,7 +1864,7 @@ new file mode 100644
 +}
 +
 +@Test @MainActor func legacyTabHistoryIsAdoptedOnceWithoutLeakingToEveryAgent() throws {
-+    let folder = FileManager.default.temporaryDirectory.appendingPathComponent("blot-legacy-tabs-" + UUID().uuidString)
++    let folder = FileManager.default.temporaryDirectory.appendingPathComponent("ori-legacy-tabs-" + UUID().uuidString)
 +    defer { try? FileManager.default.removeItem(at: folder) }
 +    try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
 +    try JSONEncoder().encode([URL(string: "https://example.com/docs")!]).write(to: folder.appendingPathComponent("BrowserTabs.json"))

@@ -1,7 +1,7 @@
-import BlotAppleIntegrations
-import BlotDesign
-import BlotDomain
-import BlotWorkspace
+import OriAppleIntegrations
+import OriDesign
+import OriDomain
+import OriWorkspace
 import SwiftUI
 #if os(macOS)
 import AppKit
@@ -12,7 +12,7 @@ extension EnvironmentValues {
 }
 
 struct WorkspaceConversationCards: View {
-    let message: BlotV3.Message
+    let message: OriV3.Message
     @Environment(WorkspaceStore.self) private var store
     var body: some View {
         ForEach(store.chatContent.cards[message.metadata.id] ?? [], id: \.metadata.id) { card in
@@ -23,7 +23,7 @@ struct WorkspaceConversationCards: View {
 
 /// The same content components adapt to a desktop column and the full iPhone chat width.
 struct WorkspaceConversationCardView: View {
-    let card: BlotV3.ConversationCard
+    let card: OriV3.ConversationCard
     let fallback: String
     @Environment(WorkspaceStore.self) private var store
     @Environment(\.colorScheme) private var colorScheme
@@ -41,7 +41,7 @@ struct WorkspaceConversationCardView: View {
     private var ru: Bool { store.language == "ru" }
     private var content: WorkspaceCardContent? { try? JSONDecoder().decode(WorkspaceCardContent.self, from: Data(card.payloadJSON.utf8)) }
     private var response: WorkspaceCardResponse? { card.responseJSON.flatMap { try? JSONDecoder().decode(WorkspaceCardResponse.self, from: Data($0.utf8)) } }
-    private var action: BlotV3.PreparedAction? { store.snapshot.preparedActions?.first { $0.metadata.id == card.operationId } }
+    private var action: OriV3.PreparedAction? { store.snapshot.preparedActions?.first { $0.metadata.id == card.operationId } }
     private var active: Bool { card.state == "pending" && !expired && (card.expiresAt.map { $0 > Date() } ?? true) }
     private var field: Color { colorScheme == .dark ? Color.white.opacity(0.055) : Color.white.opacity(0.8) }
 
@@ -57,12 +57,12 @@ struct WorkspaceConversationCardView: View {
             } else {
                 Text(fallback).textSelection(.enabled)
             }
-            if let failure { BlotLabel(failure, symbol: "exclamationmark.circle").font(secondaryFont).foregroundStyle(.red).accessibilityAddTraits(.updatesFrequently) }
+            if let failure { OriLabel(failure, symbol: "exclamationmark.circle").font(secondaryFont).foregroundStyle(.red).accessibilityAddTraits(.updatesFrequently) }
         }
         .font(cardFont)
         .padding(12)
         .frame(maxWidth: 560, alignment: .leading)
-        .blotPanel(fill: WorkspaceStyle.surface, radius: 22)
+        .oriPanel(fill: WorkspaceStyle.surface, radius: 22)
         }
         .kAnimation(KMotion.standard, value: selection)
         .kAnimation(KMotion.panel, value: card.state)
@@ -122,8 +122,8 @@ struct WorkspaceConversationCardView: View {
             Text(title(content)).font(cardFont)
             Spacer(minLength: 0)
             if case .question = content, active {
-                Button { respond("dismiss") } label: { BlotIcon(symbol: "xmark").font(secondaryFont).frame(width: 20, height: 20).blotHitArea() }
-                    .buttonStyle(BlotHitTargetButtonStyle(expansion: 12)).foregroundStyle(.secondary).disabled(submitting).accessibilityLabel(text("Закрыть вопрос", "Dismiss question"))
+                Button { respond("dismiss") } label: { OriIcon(symbol: "xmark").font(secondaryFont).frame(width: 20, height: 20).oriHitArea() }
+                    .buttonStyle(OriHitTargetButtonStyle(expansion: 12)).foregroundStyle(.secondary).disabled(submitting).accessibilityLabel(text("Закрыть вопрос", "Dismiss question"))
             } else {
             Text(status).font(badgeFont).foregroundStyle(statusColor).multilineTextAlignment(.trailing)
                 .padding(.horizontal, 6).padding(.vertical, 3).background(WorkspaceStyle.ink.opacity(0.035), in: Capsule())
@@ -190,10 +190,10 @@ struct WorkspaceConversationCardView: View {
                                     .font(.caption2).foregroundStyle(.secondary).frame(width: 20, height: 20)
                                     .background(WorkspaceStyle.ink.opacity(0.055), in: RoundedRectangle(cornerRadius: 8))
                                 Text(choice).frame(maxWidth: .infinity, alignment: .leading)
-                                if selection == choice { BlotIcon(symbol: "checkmark").accessibilityHidden(true) }
+                                if selection == choice { OriIcon(symbol: "checkmark").accessibilityHidden(true) }
                             }.padding(.horizontal, 10).padding(.vertical, 8).frame(minHeight: minimumHeight)
                                 .background(selection == choice ? WorkspaceStyle.ink.opacity(0.06) : .clear).contentShape(Rectangle())
-                        }.buttonStyle(BlotPlainButtonStyle()).disabled(!active || submitting).accessibilityAddTraits(selection == choice ? .isSelected : [])
+                        }.buttonStyle(OriPlainButtonStyle()).disabled(!active || submitting).accessibilityAddTraits(selection == choice ? .isSelected : [])
                     }
                 }.background(field, in: RoundedRectangle(cornerRadius: 14)).clipShape(RoundedRectangle(cornerRadius: 14))
                 ViewThatFits(in: .horizontal) {
@@ -271,10 +271,10 @@ struct WorkspaceConversationCardView: View {
             if card.executorDeviceId != store.snapshot.localDeviceID { Text(text("Завершите этот шаг на устройстве выполнения.", "Finish this step on the executor device.")).font(secondaryFont).foregroundStyle(.secondary) }
         case .task(let result):
             Text(result.title).font(cardFont).textSelection(.enabled)
-            if let branch = result.branch { BlotLabel(branch, symbol: "arrow.triangle.branch").font(secondaryFont).foregroundStyle(.purple).textSelection(.enabled) }
+            if let branch = result.branch { OriLabel(branch, symbol: "arrow.triangle.branch").font(secondaryFont).foregroundStyle(.purple).textSelection(.enabled) }
             if !result.files.isEmpty {
                 DisclosureGroup("\(result.files.count) " + text("изменённых файлов", "files changed")) {
-                    ForEach(result.files, id: \.self) { file in BlotLabel(file, symbol: "doc.text").font(secondaryFont).textSelection(.enabled) }
+                    ForEach(result.files, id: \.self) { file in OriLabel(file, symbol: "doc.text").font(secondaryFont).textSelection(.enabled) }
                 }.font(secondaryFont)
             }
             if let added = result.additions, let deleted = result.deletions {
@@ -309,7 +309,7 @@ struct WorkspaceConversationCardView: View {
                     HStack(spacing: 8) { credentialActions(credential) }
                     VStack(alignment: .leading, spacing: 8) { credentialActions(credential) }
                 }
-                BlotLabel(text("Хранится в Связке ключей устройства выполнения.", "Stored in the executor device's Keychain."), symbol: "checkmark.shield").font(secondaryFont).foregroundStyle(.secondary)
+                OriLabel(text("Хранится в Связке ключей устройства выполнения.", "Stored in the executor device's Keychain."), symbol: "checkmark.shield").font(secondaryFont).foregroundStyle(.secondary)
                 if card.executorDeviceId != store.snapshot.localDeviceID {
                     Text(text("Откройте эту карточку на устройстве выполнения.", "Open this card on the executor device.")).font(secondaryFont).foregroundStyle(.secondary)
                 }
@@ -328,7 +328,7 @@ struct WorkspaceConversationCardView: View {
                 }
             }
         case .mailFailure(let failure):
-            BlotLabel(failure.detail, symbol: "exclamationmark.circle").foregroundStyle(.red)
+            OriLabel(failure.detail, symbol: "exclamationmark.circle").foregroundStyle(.red)
             DisclosureGroup(text("Черновик сохранён", "Your draft is saved")) { mail(failure.draft) }.font(secondaryFont)
             Text(failure.outcomeUnknown ? text("Перед повтором проверьте «Отправленные» в Почте.", "Check Mail's Sent folder before retrying.") : text("Проверьте подключение к Почте.", "Check your Mail connection.")).font(secondaryFont).foregroundStyle(.secondary)
             if active {
@@ -347,8 +347,8 @@ struct WorkspaceConversationCardView: View {
                         catch { self.failure = text("Не удалось повторить. Проверьте подключение Почты.", "Couldn't retry. Check your Mail connection.") }
                     }
                 } label: {
-                    Text(text("Повторить отправку", "Try again")).frame(minHeight: minimumHeight).blotHitArea()
-                }.buttonStyle(BlotHitTargetButtonStyle(expansion: 3)).disabled(submitting || card.executorDeviceId != store.snapshot.localDeviceID)
+                    Text(text("Повторить отправку", "Try again")).frame(minHeight: minimumHeight).oriHitArea()
+                }.buttonStyle(OriHitTargetButtonStyle(expansion: 3)).disabled(submitting || card.executorDeviceId != store.snapshot.localDeviceID)
             }
         }
     }
@@ -541,7 +541,7 @@ struct WorkspaceConversationCardView: View {
                 if ["notion", "slack"].contains(plugin.name.lowercased()) {
                     Image(plugin.name.lowercased() == "notion" ? "PluginNotion" : "PluginSlack")
                         .resizable().scaledToFit().frame(width: 32, height: 32).accessibilityHidden(true)
-                } else { BlotIcon(symbol: "app.connected.to.app.below.fill").font(.title2).accessibilityHidden(true) }
+                } else { OriIcon(symbol: "app.connected.to.app.below.fill").font(.title2).accessibilityHidden(true) }
                 VStack(alignment: .leading, spacing: 4) {
                     Text(plugin.name).font(cardFont)
                     if !plugin.detail.isEmpty { Text(plugin.detail).font(secondaryFont).foregroundStyle(.secondary) }
@@ -553,7 +553,7 @@ struct WorkspaceConversationCardView: View {
             }.contentShape(Rectangle())
         }.buttonStyle(.plain).accessibilityHint(text("Открыть настройки подключения", "Open connection settings"))
     }
-    private func connectionTitle(_ state: BlotV3.ConnectionState?) -> String {
+    private func connectionTitle(_ state: OriV3.ConnectionState?) -> String {
         switch state {
         case .connected: text("Подключено", "Connected")
         case .connecting: text("Подключение…", "Connecting…")

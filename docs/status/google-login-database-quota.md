@@ -22,4 +22,4 @@ The read-only deployment check validates connection availability and required ac
 
 `npm run test:auth`: 40 passed, including new shared-initialization/retry and diagnostic redaction checks. `git diff --check` passed. These local changes have not been published to production. Google consent and successful native handoff remain unverified until the database is available.
 
-After restoring the existing Neon database, verify that `/v1/auth/me` without credentials returns the expected HTTP 401 `session_required`, then have the user retry Google sign-in from Blot and verify the native PKCE handoff. Do not create a replacement empty database: existing accounts and chat data must remain attached to their owners.
+After restoring the existing Neon database, verify that `/v1/auth/me` without credentials returns the expected HTTP 401 `session_required`, then have the user retry Google sign-in from Ori and verify the native PKCE handoff. Do not create a replacement empty database: existing accounts and chat data must remain attached to their owners.

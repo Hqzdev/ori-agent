@@ -1,45 +1,45 @@
-diff --git a/apps/Blot.xcodeproj/project.pbxproj b/apps/Blot.xcodeproj/project.pbxproj
---- a/apps/Blot.xcodeproj/project.pbxproj
-+++ b/apps/Blot.xcodeproj/project.pbxproj
+diff --git a/apps/ori.xcodeproj/project.pbxproj b/apps/ori.xcodeproj/project.pbxproj
+--- a/apps/ori.xcodeproj/project.pbxproj
++++ b/apps/ori.xcodeproj/project.pbxproj
 @@ -507,6 +507,8 @@
- 				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "Blot reads and updates the calendars you connect for your agents.";
+ 				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "ori reads and updates the calendars you connect for your agents.";
  				INFOPLIST_KEY_NSCameraUsageDescription = "Scan the pairing QR code displayed by your Mac.";
- 				INFOPLIST_KEY_NSContactsUsageDescription = "Blot finds and updates contacts you allow your agents to use.";
-+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Blot uses the microphone only during a voice conversation you start.";
-+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Blot transcribes your speech into chat messages during a voice conversation.";
- 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Blot connects your iPhone to the agent running on your Mac.";
- 				INFOPLIST_KEY_NSRemindersFullAccessUsageDescription = "Blot manages reminders in the lists you connect.";
+ 				INFOPLIST_KEY_NSContactsUsageDescription = "ori finds and updates contacts you allow your agents to use.";
++				INFOPLIST_KEY_NSMicrophoneUsageDescription = "ori uses the microphone only during a voice conversation you start.";
++				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "ori transcribes your speech into chat messages during a voice conversation.";
+ 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "ori connects your iPhone to the agent running on your Mac.";
+ 				INFOPLIST_KEY_NSRemindersFullAccessUsageDescription = "ori manages reminders in the lists you connect.";
  				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 @@ -552,6 +554,8 @@
- 				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "Blot reads and updates the calendars you connect for your agents.";
+ 				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "ori reads and updates the calendars you connect for your agents.";
  				INFOPLIST_KEY_NSCameraUsageDescription = "Scan the pairing QR code displayed by your Mac.";
- 				INFOPLIST_KEY_NSContactsUsageDescription = "Blot finds and updates contacts you allow your agents to use.";
-+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Blot uses the microphone only during a voice conversation you start.";
-+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Blot transcribes your speech into chat messages during a voice conversation.";
- 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Blot connects your iPhone to the agent running on your Mac.";
- 				INFOPLIST_KEY_NSRemindersFullAccessUsageDescription = "Blot manages reminders in the lists you connect.";
+ 				INFOPLIST_KEY_NSContactsUsageDescription = "ori finds and updates contacts you allow your agents to use.";
++				INFOPLIST_KEY_NSMicrophoneUsageDescription = "ori uses the microphone only during a voice conversation you start.";
++				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "ori transcribes your speech into chat messages during a voice conversation.";
+ 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "ori connects your iPhone to the agent running on your Mac.";
+ 				INFOPLIST_KEY_NSRemindersFullAccessUsageDescription = "ori manages reminders in the lists you connect.";
  				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 @@ -591,6 +595,8 @@
- 				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "Blot reads and updates the calendars you connect for your agents.";
- 				INFOPLIST_KEY_NSCameraUsageDescription = "Blot uses the camera to attach photos and scan pairing QR codes.";
- 				INFOPLIST_KEY_NSContactsUsageDescription = "Blot finds and updates contacts you allow your agents to use.";
-+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Blot uses the microphone only during a voice conversation you start.";
-+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Blot transcribes your speech into chat messages during a voice conversation.";
- 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Blot connects your iPhone to the agent running on your Mac.";
- 				INFOPLIST_KEY_NSRemindersFullAccessUsageDescription = "Blot manages reminders in the lists you connect.";
+ 				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "ori reads and updates the calendars you connect for your agents.";
+ 				INFOPLIST_KEY_NSCameraUsageDescription = "ori uses the camera to attach photos and scan pairing QR codes.";
+ 				INFOPLIST_KEY_NSContactsUsageDescription = "ori finds and updates contacts you allow your agents to use.";
++				INFOPLIST_KEY_NSMicrophoneUsageDescription = "ori uses the microphone only during a voice conversation you start.";
++				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "ori transcribes your speech into chat messages during a voice conversation.";
+ 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "ori connects your iPhone to the agent running on your Mac.";
+ 				INFOPLIST_KEY_NSRemindersFullAccessUsageDescription = "ori manages reminders in the lists you connect.";
  				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 @@ -644,6 +650,8 @@
- 				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "Blot reads and updates the calendars you connect for your agents.";
- 				INFOPLIST_KEY_NSCameraUsageDescription = "Blot uses the camera to attach photos and scan pairing QR codes.";
- 				INFOPLIST_KEY_NSContactsUsageDescription = "Blot finds and updates contacts you allow your agents to use.";
-+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Blot uses the microphone only during a voice conversation you start.";
-+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Blot transcribes your speech into chat messages during a voice conversation.";
- 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Blot connects your iPhone to the agent running on your Mac.";
- 				INFOPLIST_KEY_NSRemindersFullAccessUsageDescription = "Blot manages reminders in the lists you connect.";
+ 				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "ori reads and updates the calendars you connect for your agents.";
+ 				INFOPLIST_KEY_NSCameraUsageDescription = "ori uses the camera to attach photos and scan pairing QR codes.";
+ 				INFOPLIST_KEY_NSContactsUsageDescription = "ori finds and updates contacts you allow your agents to use.";
++				INFOPLIST_KEY_NSMicrophoneUsageDescription = "ori uses the microphone only during a voice conversation you start.";
++				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "ori transcribes your speech into chat messages during a voice conversation.";
+ 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "ori connects your iPhone to the agent running on your Mac.";
+ 				INFOPLIST_KEY_NSRemindersFullAccessUsageDescription = "ori manages reminders in the lists you connect.";
  				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-diff --git a/apps/ios/BlotIOS/Features/Chat/PhoneConversationView.swift b/apps/ios/BlotIOS/Features/Chat/PhoneConversationView.swift
---- a/apps/ios/BlotIOS/Features/Chat/PhoneConversationView.swift
-+++ b/apps/ios/BlotIOS/Features/Chat/PhoneConversationView.swift
+diff --git a/apps/ios/oriIOS/Features/Chat/PhoneConversationView.swift b/apps/ios/oriIOS/Features/Chat/PhoneConversationView.swift
+--- a/apps/ios/oriIOS/Features/Chat/PhoneConversationView.swift
++++ b/apps/ios/oriIOS/Features/Chat/PhoneConversationView.swift
 @@ -129,7 +129,10 @@
              }.padding(.horizontal, 18).padding(.top, 6).padding(.bottom, 8)
          }
@@ -59,10 +59,10 @@ diff --git a/apps/ios/BlotIOS/Features/Chat/PhoneConversationView.swift b/apps/i
 +            WorkspaceVoiceButton()
              Menu {
                  Button { store.showBrowser() } label: { Label(store.language == "ru" ? "Браузер" : "Browser", systemImage: "globe") }
-                 BlotIconButton(store.t("Skills"), symbol: "shippingbox") { store.navigate(.skills) }
-diff --git a/apps/macos/BlotMac/BlotMac.entitlements b/apps/macos/BlotMac/BlotMac.entitlements
---- a/apps/macos/BlotMac/BlotMac.entitlements
-+++ b/apps/macos/BlotMac/BlotMac.entitlements
+                 oriIconButton(store.t("Skills"), symbol: "shippingbox") { store.navigate(.skills) }
+diff --git a/apps/macos/oriMac/oriMac.entitlements b/apps/macos/oriMac/oriMac.entitlements
+--- a/apps/macos/oriMac/oriMac.entitlements
++++ b/apps/macos/oriMac/oriMac.entitlements
 @@ -2,6 +2,7 @@
  <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
  <plist version="1.0"><dict>
@@ -71,9 +71,9 @@ diff --git a/apps/macos/BlotMac/BlotMac.entitlements b/apps/macos/BlotMac/BlotMa
  <key>com.apple.security.virtualization</key><true/>
  <key>com.apple.security.network.client</key><true/>
  <key>com.apple.security.network.server</key><true/>
-diff --git a/apps/macos/BlotMac/Features/Workspace/MacLiveTeamConversation.swift b/apps/macos/BlotMac/Features/Workspace/MacLiveTeamConversation.swift
---- a/apps/macos/BlotMac/Features/Workspace/MacLiveTeamConversation.swift
-+++ b/apps/macos/BlotMac/Features/Workspace/MacLiveTeamConversation.swift
+diff --git a/apps/macos/oriMac/Features/Workspace/MacLiveTeamConversation.swift b/apps/macos/oriMac/Features/Workspace/MacLiveTeamConversation.swift
+--- a/apps/macos/oriMac/Features/Workspace/MacLiveTeamConversation.swift
++++ b/apps/macos/oriMac/Features/Workspace/MacLiveTeamConversation.swift
 @@ -144,6 +144,7 @@
          .safeAreaInset(edge: .top, spacing: 0) { WorkspacePinnedGroupPlan().padding(.horizontal, 24).padding(.top, 6) }
          .safeAreaInset(edge: .bottom, spacing: 0) {
@@ -82,9 +82,9 @@ diff --git a/apps/macos/BlotMac/Features/Workspace/MacLiveTeamConversation.swift
                  WorkspaceFeedback()
                  MacWorkspaceComposer(teamLayout: true, onInputFrameChange: { inputFrame = $0 }, onSend: { sendInputFrame = inputFrame })
              }.frame(maxWidth: 730).padding(.horizontal, 24).padding(.bottom, 18).padding(.top, 8)
-diff --git a/apps/macos/BlotMac/Features/Workspace/MacLiveTeamWorkspace.swift b/apps/macos/BlotMac/Features/Workspace/MacLiveTeamWorkspace.swift
---- a/apps/macos/BlotMac/Features/Workspace/MacLiveTeamWorkspace.swift
-+++ b/apps/macos/BlotMac/Features/Workspace/MacLiveTeamWorkspace.swift
+diff --git a/apps/macos/oriMac/Features/Workspace/MacLiveTeamWorkspace.swift b/apps/macos/oriMac/Features/Workspace/MacLiveTeamWorkspace.swift
+--- a/apps/macos/oriMac/Features/Workspace/MacLiveTeamWorkspace.swift
++++ b/apps/macos/oriMac/Features/Workspace/MacLiveTeamWorkspace.swift
 @@ -130,6 +130,7 @@
                              }.frame(width: 36, height: 36)
                          }
@@ -116,7 +116,7 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceStore.swift b/apps/shared/Workspac
      var mcpCommands: (any WorkspaceMCPProviding)? { service as? any WorkspaceMCPProviding }
      func refreshMCP() async throws {
 @@ -84,7 +85,7 @@
-     @ObservationIgnored private let authenticationLog = Logger(subsystem: "dev.blot.authentication", category: "BrowserHandoff")
+     @ObservationIgnored private let authenticationLog = Logger(subsystem: "dev.ori.authentication", category: "BrowserHandoff")
      private(set) var snapshot = WorkspaceSnapshot() {
          didSet {
 -            if snapshot.ownerID != oldValue.ownerID { guestBrowser.controller?.shutdown(); guestBrowser.controller = nil }
@@ -216,10 +216,10 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceStore.swift b/apps/shared/Workspac
          persistChatState(immediately: true)
          busy = true
          sessionGeneration = UUID()
-diff --git a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/VoiceInterfaces.swift b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/VoiceInterfaces.swift
+diff --git a/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/VoiceInterfaces.swift b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/VoiceInterfaces.swift
 new file mode 100644
 --- /dev/null
-+++ b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/VoiceInterfaces.swift
++++ b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/VoiceInterfaces.swift
 @@ -0,0 +1,69 @@
 +import Foundation
 +
@@ -227,7 +227,7 @@ new file mode 100644
 +    case microphoneDenied, languageUnavailable, voiceUnavailable, audioUnavailable, audioOverrun, interrupted, emptyResponse
 +    public var errorDescription: String? {
 +        switch self {
-+        case .microphoneDenied: "Разрешите микрофон для Blot в системных настройках."
++        case .microphoneDenied: "Разрешите микрофон для ori в системных настройках."
 +        case .languageUnavailable: "Локальное распознавание этого языка недоступно на устройстве."
 +        case .voiceUnavailable: "На устройстве нет голоса для выбранного языка."
 +        case .audioUnavailable: "Не удалось включить аудиоустройство. Проверьте микрофон и наушники."
@@ -290,10 +290,10 @@ new file mode 100644
 +        return value
 +    }
 +}
-diff --git a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/AppleVoiceInput.swift b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/AppleVoiceInput.swift
+diff --git a/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/AppleVoiceInput.swift b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/AppleVoiceInput.swift
 new file mode 100644
 --- /dev/null
-+++ b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/AppleVoiceInput.swift
++++ b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/AppleVoiceInput.swift
 @@ -0,0 +1,122 @@
 +import AVFoundation
 +import Foundation
@@ -417,10 +417,10 @@ new file mode 100644
 +        #endif
 +    }
 +}
-diff --git a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/AppleVoiceOutput.swift b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/AppleVoiceOutput.swift
+diff --git a/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/AppleVoiceOutput.swift b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/AppleVoiceOutput.swift
 new file mode 100644
 --- /dev/null
-+++ b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/AppleVoiceOutput.swift
++++ b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/AppleVoiceOutput.swift
 @@ -0,0 +1,54 @@
 +import AVFoundation
 +import Foundation
@@ -476,10 +476,10 @@ new file mode 100644
 +        utterance = nil; let reply = completion; completion = nil; reply?.resume()
 +    }
 +}
-diff --git a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/VoiceAudioCapture.swift b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/VoiceAudioCapture.swift
+diff --git a/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/VoiceAudioCapture.swift b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/VoiceAudioCapture.swift
 new file mode 100644
 --- /dev/null
-+++ b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/VoiceAudioCapture.swift
++++ b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/VoiceAudioCapture.swift
 @@ -0,0 +1,49 @@
 +import AVFoundation
 +import Foundation
@@ -530,10 +530,10 @@ new file mode 100644
 +    private func fail(_ error: Error) { closed = true; continuation.finish(throwing: error) }
 +    func finish() { lock.lock(); defer { lock.unlock() }; closed = true; continuation.finish() }
 +}
-diff --git a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/VoiceConversationSession.swift b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/VoiceConversationSession.swift
+diff --git a/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/VoiceConversationSession.swift b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/VoiceConversationSession.swift
 new file mode 100644
 --- /dev/null
-+++ b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/VoiceConversationSession.swift
++++ b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/VoiceConversationSession.swift
 @@ -0,0 +1,141 @@
 +import Foundation
 +import Observation
@@ -676,16 +676,16 @@ new file mode 100644
 +        phase = .failed
 +    }
 +}
-diff --git a/packages/BlotAppleIntegrations/Tests/BlotAppleIntegrationsTests/VoiceTests.swift b/packages/BlotAppleIntegrations/Tests/BlotAppleIntegrationsTests/VoiceTests.swift
+diff --git a/packages/oriAppleIntegrations/Tests/oriAppleIntegrationsTests/VoiceTests.swift b/packages/oriAppleIntegrations/Tests/oriAppleIntegrationsTests/VoiceTests.swift
 new file mode 100644
 --- /dev/null
-+++ b/packages/BlotAppleIntegrations/Tests/BlotAppleIntegrationsTests/VoiceTests.swift
++++ b/packages/oriAppleIntegrations/Tests/oriAppleIntegrationsTests/VoiceTests.swift
 @@ -0,0 +1,151 @@
 +import AVFoundation
 +import Speech
 +import Foundation
 +import Testing
-+@testable import BlotAppleIntegrations
++@testable import oriAppleIntegrations
 +
 +@Test func voiceTranscriptRevisionsDoNotDuplicateWords() {
 +    var value = VoiceTranscript()
@@ -838,8 +838,8 @@ new file mode 100644
 +++ b/apps/shared/WorkspaceV3/WorkspaceVoiceView.swift
 @@ -0,0 +1,93 @@
 +import AVFoundation
-+import BlotAppleIntegrations
-+import BlotDesign
++import oriAppleIntegrations
++import oriDesign
 +import SwiftUI
 +
 +struct WorkspaceVoiceButton: View {
@@ -944,18 +944,18 @@ new file mode 100755
 +mkdir -p "$app/Contents/MacOS" "$app/Contents/Resources" "$checks/cache"
 +/usr/bin/say -v Milena -o "$app/Contents/Resources/RussianFixture.aiff" "Привет. Это проверка голосового режима. Создай папку для отчёта."
 +xcrun swiftc -parse-as-library -swift-version 6 -module-cache-path "$checks/cache" \
-+    -I "$products" -I packages/BlotWorkspace/Sources/CSQLite \
-+    "$products/BlotDomain.o" "$products/BlotWorkspace.o" "$products/BlotAppleIntegrations.o" -lsqlite3 \
++    -I "$products" -I packages/oriWorkspace/Sources/CSQLite \
++    "$products/oriDomain.o" "$products/oriWorkspace.o" "$products/oriAppleIntegrations.o" -lsqlite3 \
 +    scripts/verify-voice.swift -o "$checks/VoiceVerification.new"
 +mv "$checks/VoiceVerification.new" "$app/Contents/MacOS/VoiceVerification"
 +cat > "$app/Contents/Info.plist" <<'PLIST'
 +<?xml version="1.0" encoding="UTF-8"?><plist version="1.0"><dict>
-+<key>CFBundleIdentifier</key><string>dev.blot.voice-verification</string>
++<key>CFBundleIdentifier</key><string>dev.ori.voice-verification</string>
 +<key>CFBundleExecutable</key><string>VoiceVerification</string><key>CFBundlePackageType</key><string>APPL</string>
-+<key>CFBundleName</key><string>Blot Voice Verification</string><key>CFBundleVersion</key><string>1</string>
++<key>CFBundleName</key><string>ori Voice Verification</string><key>CFBundleVersion</key><string>1</string>
 +<key>NSPrincipalClass</key><string>NSApplication</string>
-+<key>NSMicrophoneUsageDescription</key><string>Проверка голосового разговора Blot по вашему запросу.</string>
-+<key>NSSpeechRecognitionUsageDescription</key><string>Проверка локального распознавания речи для Blot.</string>
++<key>NSMicrophoneUsageDescription</key><string>Проверка голосового разговора ori по вашему запросу.</string>
++<key>NSSpeechRecognitionUsageDescription</key><string>Проверка локального распознавания речи для ori.</string>
 +</dict></plist>
 +PLIST
 +cat > "$checks/Voice.entitlements" <<'PLIST'
@@ -972,7 +972,7 @@ new file mode 100755
 +else
 +    log="$checks/${mode#--}.log"
 +    /usr/bin/open -n -W "$app" --args "$mode"
-+    cp "$HOME/Library/Containers/dev.blot.voice-verification/Data/Library/Caches/VoiceVerification.log" "$log"
++    cp "$HOME/Library/Containers/dev.ori.voice-verification/Data/Library/Caches/VoiceVerification.log" "$log"
 +    cat "$log"
 +    if [[ "$mode" == --capture-smoke ]]; then rg -q '^PASS: real microphone verification completed$' "$log"
 +    else rg -q '^PASS: native voice round trip completed$' "$log"; fi
@@ -984,7 +984,7 @@ new file mode 100644
 @@ -0,0 +1,118 @@
 +import AppKit
 +import AVFoundation
-+import BlotAppleIntegrations
++import oriAppleIntegrations
 +import Foundation
 +import Speech
 +import SwiftUI
@@ -1047,7 +1047,7 @@ new file mode 100644
 +    private let id = UUID()
 +    var body: some View {
 +        VStack(alignment: .leading, spacing: 18) {
-+            Text("Blot — проверка голоса").font(.title2.bold())
++            Text("ori — проверка голоса").font(.title2.bold())
 +            Text("Изолированная проверка микрофона и русского голоса. Произнесённый текст не отправляется в ИИ и не записывается в аккаунт.")
 +                .foregroundStyle(.secondary)
 +            Text(String(describing: voice.phase)).font(.headline)
@@ -1093,7 +1093,7 @@ new file mode 100644
 +            Task { try? await Task.sleep(for: .seconds(35)); diagnostic("FAIL: native voice verification timed out"); exit(2) }
 +        } else {
 +            let value = NSWindow(contentRect: CGRect(x: 200, y: 200, width: 640, height: 360), styleMask: [.titled, .closable, .miniaturizable], backing: .buffered, defer: false)
-+            value.title = "Blot — проверка голоса"
++            value.title = "ori — проверка голоса"
 +            value.contentView = NSHostingView(rootView: VoiceProbeView())
 +            window = value; value.makeKeyAndOrderFront(nil); application.activate(ignoringOtherApps: true)
 +        }
@@ -1114,14 +1114,14 @@ new file mode 100755
 +# Reuse the exact compiled app implementation, excluding only its @main entry.
 +python3 - <<'PY'
 +from pathlib import Path
-+objects=Path('.build/xcode/Build/Intermediates.noindex/Blot.build/Debug/Blot.build/Objects-normal/arm64')
-+items=sorted(p.resolve() for p in objects.glob('*.o') if p.name != 'BlotMacApp.o')
++objects=Path('.build/xcode/Build/Intermediates.noindex/ori.build/Debug/ori.build/Objects-normal/arm64')
++items=sorted(p.resolve() for p in objects.glob('*.o') if p.name != 'oriMacApp.o')
 +assert items and all('"' not in str(p) for p in items)
 +Path('.build/voice/chat/objects.txt').write_text('\n'.join('"'+str(p)+'"' for p in items)+'\n')
 +PY
 +xcrun swiftc -parse-as-library -swift-version 5 -default-isolation MainActor -module-cache-path "$checks/cache" \
-+    -I "$products" -I packages/BlotWorkspace/Sources/CSQLite \
-+    "$products/BlotDomain.o" "$products/BlotWorkspace.o" "$products/BlotAppleIntegrations.o" "$products/BlotDesign.o" "$products/BlotAPI.o" \
++    -I "$products" -I packages/oriWorkspace/Sources/CSQLite \
++    "$products/oriDomain.o" "$products/oriWorkspace.o" "$products/oriAppleIntegrations.o" "$products/oriDesign.o" "$products/oriAPI.o" \
 +    @"$checks/objects.txt" -lsqlite3 scripts/verify-voice-chat.swift -o "$checks/verify"
 +"$checks/verify"
 diff --git a/scripts/verify-voice-chat.swift b/scripts/verify-voice-chat.swift
@@ -1130,11 +1130,11 @@ new file mode 100644
 +++ b/scripts/verify-voice-chat.swift
 @@ -0,0 +1,79 @@
 +import AppKit
-+import BlotAppleIntegrations
-+import BlotDomain
-+import BlotWorkspace
++import oriAppleIntegrations
++import oriDomain
++import oriWorkspace
 +import Foundation
-+@testable import Blot
++@testable import ori
 +
 +@MainActor private final class ChatVoiceInput: VoiceRecognizing {
 +    var active = false
@@ -1168,7 +1168,7 @@ new file mode 100644
 +
 +@MainActor @main private enum VoiceChatVerification {
 +    static func main() async throws {
-+        let root = FileManager.default.temporaryDirectory.appendingPathComponent("blot-voice-chat-" + UUID().uuidString)
++        let root = FileManager.default.temporaryDirectory.appendingPathComponent("ori-voice-chat-" + UUID().uuidString)
 +        defer { try? FileManager.default.removeItem(at: root) }
 +        let local = try LocalWorkspaceService(databaseURL: root.appendingPathComponent("workspace.sqlite"), makeModel: { _ in ChatVoiceModel() })
 +        let input = ChatVoiceInput(), output = ChatVoiceOutput()

@@ -8,7 +8,7 @@ import { publishDocumentation } from "./publish-documentation.mjs";
 const tableText = (text) => String(text).replaceAll("|", "\\|").replaceAll("\n", " ");
 
 const executionLines = [
-  "# Blot: порядок выполнения задач",
+  "# Ori: порядок выполнения задач",
   "",
   "План включает все задачи. Выполняйте сверху вниз: каждая зависимость расположена раньше задачи, которая её использует. Среди независимых задач сначала идут обязательные P0, затем расширения P1. Порядок внутри готовых задач — рекомендуемый, а не дополнительный запрет параллельной работы.",
   "",
@@ -110,6 +110,6 @@ for (const document of documents) {
 
 const outputDirectory = new URL("../public/", import.meta.url);
 await mkdir(outputDirectory, { recursive: true });
-const outputFile = new URL("BLOT_TECHNICAL_SPECIFICATION.md", outputDirectory);
+const outputFile = new URL("ORI_TECHNICAL_SPECIFICATION.md", outputDirectory);
 await writeFile(outputFile, `${lines.join("\n")}\n`, "utf8");
 console.log(`Saved ${fileURLToPath(outputFile)} (${projectPlan.tasks.length} detailed tasks, ${epics.reduce((total, epic) => total + epic.tasks.length, 0)} decomposition items).`);

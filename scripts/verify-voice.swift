@@ -1,6 +1,6 @@
 import AppKit
 import AVFoundation
-import BlotAppleIntegrations
+import OriAppleIntegrations
 import Foundation
 import Speech
 import SwiftUI
@@ -63,7 +63,7 @@ private struct VoiceProbeView: View {
     private let id = UUID()
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
-            Text("Blot — проверка голоса").font(.title2.bold())
+            Text("Ori — проверка голоса").font(.title2.bold())
             Text("Изолированная проверка микрофона и русского голоса. Произнесённый текст не отправляется в ИИ и не записывается в аккаунт.")
                 .foregroundStyle(.secondary)
             Text(String(describing: voice.phase)).font(.headline)
@@ -109,7 +109,7 @@ private struct VoiceProbeView: View {
             Task { try? await Task.sleep(for: .seconds(35)); diagnostic("FAIL: native voice verification timed out"); exit(2) }
         } else {
             let value = NSWindow(contentRect: CGRect(x: 200, y: 200, width: 640, height: 360), styleMask: [.titled, .closable, .miniaturizable], backing: .buffered, defer: false)
-            value.title = "Blot — проверка голоса"
+            value.title = "Ori — проверка голоса"
             value.contentView = NSHostingView(rootView: VoiceProbeView())
             window = value; value.makeKeyAndOrderFront(nil); application.activate(ignoringOtherApps: true)
         }

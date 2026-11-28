@@ -1,4 +1,4 @@
-import BlotDesign
+import OriDesign
 import SwiftUI
 
 /// Compact date and time entry uses the same choices and calendar surface as the pane.
@@ -16,10 +16,10 @@ struct WorkspacePanelDateField: View {
     var body: some View {
         if calendarOnly {
             Button { month = date; expanded = true } label: {
-                HStack { Text(title); Spacer(); Text(date, format: .dateTime.day().month().year()); BlotIcon(.calendar, size: 18) }
+                HStack { Text(title); Spacer(); Text(date, format: .dateTime.day().month().year()); OriIcon(.calendar, size: 18) }
                     .padding(12).frame(maxWidth: .infinity, minHeight: 44).background(WorkspaceStyle.canvas, in: RoundedRectangle(cornerRadius: 16))
-                    .overlay(RoundedRectangle(cornerRadius: 16).strokeBorder(BlotColor.edge))
-            }.buttonStyle(BlotPlainButtonStyle()).blotFocusRing(radius: 16).popover(isPresented: $expanded, arrowEdge: .bottom) { calendarPage }
+                    .overlay(RoundedRectangle(cornerRadius: 16).strokeBorder(OriColor.edge))
+            }.buttonStyle(OriPlainButtonStyle()).oriFocusRing(radius: 16).popover(isPresented: $expanded, arrowEdge: .bottom) { calendarPage }
         } else {
             HStack(alignment: .top, spacing: 10) {
                 WorkspaceChoice(title: title, selection: component(.hour), options: (0..<24).map { .init($0, String(format: "%02d", $0)) })
@@ -33,11 +33,11 @@ struct WorkspacePanelDateField: View {
     private var calendarPage: some View {
         VStack(spacing: 16) {
             HStack {
-                Button { moveMonth(-1) } label: { BlotIcon(.chevronLeft, size: 18).frame(width: 44, height: 44) }.buttonStyle(BlotPlainButtonStyle()).accessibilityLabel(ru ? "Предыдущий месяц" : "Previous month")
+                Button { moveMonth(-1) } label: { OriIcon(.chevronLeft, size: 18).frame(width: 44, height: 44) }.buttonStyle(OriPlainButtonStyle()).accessibilityLabel(ru ? "Предыдущий месяц" : "Previous month")
                 Spacer()
                 Text(month.formatted(.dateTime.month(.wide).year().locale(Locale(identifier: store.language)))).font(.headline)
                 Spacer()
-                Button { moveMonth(1) } label: { BlotIcon(.chevronRight, size: 18).frame(width: 44, height: 44) }.buttonStyle(BlotPlainButtonStyle()).accessibilityLabel(ru ? "Следующий месяц" : "Next month")
+                Button { moveMonth(1) } label: { OriIcon(.chevronRight, size: 18).frame(width: 44, height: 44) }.buttonStyle(OriPlainButtonStyle()).accessibilityLabel(ru ? "Следующий месяц" : "Next month")
             }
             LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 4), count: 7), spacing: 4) {
                 ForEach(0..<7, id: \.self) { index in
@@ -47,9 +47,9 @@ struct WorkspacePanelDateField: View {
                     if let day {
                         Button { select(day) } label: {
                             Text(calendar.component(.day, from: day).formatted()).monospacedDigit().frame(maxWidth: .infinity, minHeight: 44)
-                                .foregroundStyle(calendar.isDate(day, inSameDayAs: date) ? BlotColor.onInverse : WorkspaceStyle.ink)
-                                .background(calendar.isDate(day, inSameDayAs: date) ? BlotColor.inverse : .clear, in: Circle())
-                        }.buttonStyle(BlotPlainButtonStyle()).blotFocusRing().accessibilityAddTraits(calendar.isDate(day, inSameDayAs: date) ? .isSelected : []).accessibilityLabel(day.formatted(.dateTime.weekday(.wide).day().month(.wide).year().locale(Locale(identifier: store.language))))
+                                .foregroundStyle(calendar.isDate(day, inSameDayAs: date) ? OriColor.onInverse : WorkspaceStyle.ink)
+                                .background(calendar.isDate(day, inSameDayAs: date) ? OriColor.inverse : .clear, in: Circle())
+                        }.buttonStyle(OriPlainButtonStyle()).oriFocusRing().accessibilityAddTraits(calendar.isDate(day, inSameDayAs: date) ? .isSelected : []).accessibilityLabel(day.formatted(.dateTime.weekday(.wide).day().month(.wide).year().locale(Locale(identifier: store.language))))
                     } else { Color.clear.frame(maxWidth: .infinity, minHeight: 44) }
                 }
             }

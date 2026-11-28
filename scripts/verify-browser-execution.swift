@@ -1,6 +1,6 @@
 import AppKit
-import BlotAppleIntegrations
-import BlotWorkspace
+import OriAppleIntegrations
+import OriWorkspace
 import Foundation
 import WebKit
 import SwiftUI
@@ -25,7 +25,7 @@ struct VerifyBrowserExecution {
         let browser = WorkspaceBrowserController(profileID: UUID(), ephemeral: true)
         _ = try browser.open("http://127.0.0.1:" + CommandLine.arguments.last! + "/second")
         let window = NSWindow(contentRect: CGRect(x: 100, y: 100, width: 1280, height: 720), styleMask: [.titled, .closable, .resizable], backing: .buffered, defer: false)
-        window.title = "Blot — browser divider verification"; window.minSize = NSSize(width: MacBrowserSplitLayout.minimumWidth, height: 480)
+        window.title = "Ori — browser divider verification"; window.minSize = NSSize(width: MacBrowserSplitLayout.minimumWidth, height: 480)
         window.contentView = NSHostingView(rootView: BrowserResizePreview(browser: browser)); previewWindow = window
         window.makeKeyAndOrderFront(nil); NSApp.activate(ignoringOtherApps: true)
     }
@@ -76,7 +76,7 @@ struct VerifyBrowserExecution {
         print("PASS: browser divider bounds preserve at least 336 points for the chat across window sizes and extreme saved widths")
         guard CommandLine.arguments.count == 2 else { throw WorkspaceBrowserError.invalidURL }
         let origin = "http://127.0.0.1:" + CommandLine.arguments[1]
-        let directory = FileManager.default.temporaryDirectory.appendingPathComponent("BlotBrowserVerification-" + UUID().uuidString)
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent("OriBrowserVerification-" + UUID().uuidString)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: directory) }
         let downloadURL = directory.appendingPathComponent("browser-test.txt")
@@ -92,7 +92,7 @@ struct VerifyBrowserExecution {
         let tabID = string(ready["tab_id"]), document = string(ready["document_id"])
         let id = UUID(uuidString: tabID)!
         let window = NSWindow(contentRect: CGRect(x: 0, y: 0, width: 900, height: 650), styleMask: [.titled, .closable], backing: .buffered, defer: false)
-        window.title = "Blot — isolated browser verification"; window.contentView = browser.webView(for: id); window.orderFront(nil)
+        window.title = "Ori — isolated browser verification"; window.contentView = browser.webView(for: id); window.orderFront(nil)
         defer { window.orderOut(nil); window.contentView = nil }
         func snapshot() async throws -> ChatJSON {
             let request = command("browser_snapshot", ["tab_id": .string(tabID)])
@@ -132,7 +132,7 @@ struct VerifyBrowserExecution {
         do { try browser.close(id); preconditionFailure("unsaved form was silently closed") } catch WorkspaceBrowserError.unsavedChanges {}
         try browser.close(id, discard: true)
         print("PASS: real navigation, DOM snapshot, exact element binding, text input, password exclusion and unsaved-form protection")
-        print("PASS: target-blank opens inside Blot; another scope and sensitive screenshots are denied")
+        print("PASS: target-blank opens inside Ori; another scope and sensitive screenshots are denied")
 
         let second = command("browser_open", ["url": .string(origin + "/second")])
         let secondID = fields(value(try await browser.execute(second, binding: browser.prepare(second))))["tab_id"]
@@ -146,7 +146,7 @@ struct VerifyBrowserExecution {
         _ = try browser.open(origin + "/download")
         try await wait { browser.downloads.contains { $0.state == "completed" } }
         let downloaded = try String(contentsOf: downloadURL, encoding: .utf8)
-        precondition(downloaded == "Blot browser download verified\n")
+        precondition(downloaded == "Ori browser download verified\n")
         precondition(!browser.sessionDownloads.isEmpty)
         browser.activateSession(.agent(UUID()))
         precondition(browser.sessionDownloads.isEmpty)

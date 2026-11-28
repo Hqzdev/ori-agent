@@ -1,5 +1,5 @@
-import BlotDesign
-import BlotDomain
+import OriDesign
+import OriDomain
 import SwiftUI
 
 struct WorkspaceBranchAgentPicker: View {
@@ -24,10 +24,10 @@ struct WorkspaceBranchAgentPicker: View {
                                     Text(agent.name).font(.body.weight(.medium))
                                     Text(agent.instructions).font(.caption).foregroundStyle(.secondary).lineLimit(2)
                                 }
-                                Spacer(); BlotIcon(symbol: "arrow.up.right", size: 16).foregroundStyle(.secondary)
+                                Spacer(); OriIcon(symbol: "arrow.up.right", size: 16).foregroundStyle(.secondary)
                             }.padding(12).frame(maxWidth: .infinity, minHeight: 60, alignment: .leading)
                                 .background(WorkspaceStyle.ink.opacity(0.035), in: RoundedRectangle(cornerRadius: 18)).contentShape(RoundedRectangle(cornerRadius: 18))
-                        }.buttonStyle(BlotPlainButtonStyle()).disabled(store.busy)
+                        }.buttonStyle(OriPlainButtonStyle()).disabled(store.busy)
                             .accessibilityLabel("Branch to " + agent.name)
                     }
                 }

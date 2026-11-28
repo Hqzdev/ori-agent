@@ -1,5 +1,5 @@
-import BlotDesign
-import BlotWorkspace
+import OriDesign
+import OriWorkspace
 import SwiftUI
 
 struct WorkspaceFileChangeCard: View {
@@ -17,7 +17,7 @@ struct WorkspaceFileChangeCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 12) {
-                BlotIcon(symbol: "doc.text", size: 23).foregroundStyle(.secondary).frame(width: 42, height: 42)
+                OriIcon(symbol: "doc.text", size: 23).foregroundStyle(.secondary).frame(width: 42, height: 42)
                     .background(WorkspaceStyle.ink.opacity(0.04), in: RoundedRectangle(cornerRadius: 13))
                     .allowsHitTesting(false)
                 VStack(alignment: .leading, spacing: 5) {
@@ -30,8 +30,8 @@ struct WorkspaceFileChangeCard: View {
                 }.frame(maxWidth: .infinity, alignment: .leading).allowsHitTesting(false)
                 if let change, change.canUndo {
                     Button { _Concurrency.Task { await undo() } } label: {
-                        BlotLabel(undone ? (ru ? "Отменено" : "Undone") : (ru ? "Отменить" : "Undo"), symbol: "arrow.uturn.backward")
-                    }.buttonStyle(BlotPlainButtonStyle()).disabled(saving || undone).padding(6)
+                        OriLabel(undone ? (ru ? "Отменено" : "Undone") : (ru ? "Отменить" : "Undo"), symbol: "arrow.uturn.backward")
+                    }.buttonStyle(OriPlainButtonStyle()).disabled(saving || undone).padding(6)
                 }
                 Button(ru ? "Изменения" : "View changes") {
                     #if os(macOS)
@@ -51,7 +51,7 @@ struct WorkspaceFileChangeCard: View {
                 #endif
             } label: {
                 RoundedRectangle(cornerRadius: 18).fill(WorkspaceStyle.canvas).contentShape(RoundedRectangle(cornerRadius: 18))
-                    .blotHover(in: RoundedRectangle(cornerRadius: 18))
+                    .oriHover(in: RoundedRectangle(cornerRadius: 18))
             }.buttonStyle(.plain).disabled(change == nil)
                 .accessibilityLabel((ru ? "Открыть файл " : "Open file ") + title)
                 .accessibilityIdentifier("workspace.chat.file-change.open.\(id)")

@@ -14,7 +14,7 @@
      }
 
 +    /// A connection's explicit agent assignment survives older editors that dropped tool IDs.
-+    private func restoreAssignedAppleTools(for source: BlotV3.Message, projection: WorkspaceProjection, identity: WorkspaceIdentity) async throws {
++    private func restoreAssignedAppleTools(for source: oriV3.Message, projection: WorkspaceProjection, identity: WorkspaceIdentity) async throws {
 +        let group = projection.conversations.first { $0.metadata.id == source.conversationId }
 +        let members = group?.kind == .group
 +            ? Set(projection.participants.filter { $0.conversationId == source.conversationId && $0.kind == .agent && !$0.removed }.map(\.participantId))
@@ -41,8 +41,8 @@
 +        }
 +    }
 +
-     private func responseContext(for message: BlotV3.Message, projection: WorkspaceProjection,
-                                  configuration: BlotV3.AgentConfigurationRevision?) async throws -> [ChatModelMessage] {
+     private func responseContext(for message: oriV3.Message, projection: WorkspaceProjection,
+                                  configuration: oriV3.AgentConfigurationRevision?) async throws -> [ChatModelMessage] {
          var context = try WorkspaceContextBuilder().messages(for: message, projection: projection, configuration: configuration,
              maximumCharacters: message.artifactIds.isEmpty ? 48_000 : 24_000)
 +        if let configuration {

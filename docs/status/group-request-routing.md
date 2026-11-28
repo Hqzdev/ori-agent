@@ -22,6 +22,6 @@ The patch is for the corresponding existing adapter baseline, not a replacement 
 }
 ```
 
-Validation in the open project: iOS and Mac builds, 67 BlotWorkspace tests, 13 Apple adapter tests, and `scripts/verify-group-routing.swift` using the real application pipeline with an isolated SQLite workspace and scripted model. The latter checks greeting, specialist, team document generation, real mentions/replies, pin lifecycle, blocked completion and malformed-router fallback. No live model, signed-in account, simulator or phone installation is needed for that check.
+Validation in the open project: iOS and Mac builds, 67 OriWorkspace tests, 13 Apple adapter tests, and `scripts/verify-group-routing.swift` using the real application pipeline with an isolated SQLite workspace and scripted model. The latter checks greeting, specialist, team document generation, real mentions/replies, pin lifecycle, blocked completion and malformed-router fallback. No live model, signed-in account, simulator or phone installation is needed for that check.
 
 Run the end-to-end check against already-built Mac products: `scripts/check-group-routing.sh /absolute/path/to/Build/Products/Debug`. It does not build, launch, install or use a simulator.

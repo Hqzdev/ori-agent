@@ -1,6 +1,6 @@
-import BlotDesign
-import BlotDomain
-import BlotWorkspace
+import OriDesign
+import OriDomain
+import OriWorkspace
 import SwiftUI
 
 struct WorkspaceTaskExecutionView: View {
@@ -9,7 +9,7 @@ struct WorkspaceTaskExecutionView: View {
     @State private var goal = ""
     @State private var executorID: UUID?
     @State private var projectID: UUID?
-    private var tasks: [BlotV3.Task] {
+    private var tasks: [OriV3.Task] {
         let tasks = (store.snapshot.tasks ?? []).filter { task in
             if let taskID { return task.metadata.id == taskID }
             return task.conversationId == store.selectedConversationID
@@ -45,7 +45,7 @@ struct WorkspaceTaskExecutionView: View {
                     if let revisionID = task.skillRevisionId,
                        let revision = store.snapshot.skillRevisions?.first(where: { $0.metadata.id == revisionID }),
                        let skill = store.snapshot.skills?.first(where: { $0.metadata.id == revision.skillId }) {
-                        BlotLabel(skill.name, symbol: "shippingbox").foregroundStyle(.purple)
+                        OriLabel(skill.name, symbol: "shippingbox").foregroundStyle(.purple)
                         Text(revision.metadata.createdAt, format: .dateTime.day().month().hour().minute().second()).font(.caption).foregroundStyle(.secondary)
                     }
                     if let title = operationTitle(for: task) {
@@ -83,7 +83,7 @@ struct WorkspaceTaskExecutionView: View {
             WorkspaceFeedback()
         }.frame(maxWidth: 780, alignment: .leading).frame(maxWidth: .infinity)
     }
-    private func operationTitle(for task: BlotV3.Task) -> String? {
+    private func operationTitle(for task: OriV3.Task) -> String? {
         let ru = store.language == "ru"
         switch task.goal {
         case "Файлы сессии · workspace_write_file": return ru ? "Сохранение файла" : "Save file"
@@ -95,7 +95,7 @@ struct WorkspaceTaskExecutionView: View {
         default: return nil
         }
     }
-    private func control(_ action: WorkspaceAction, task: BlotV3.Task) {
+    private func control(_ action: WorkspaceAction, task: OriV3.Task) {
         store.selectedRecordID = task.metadata.id
         _Concurrency.Task { await store.perform(action) }
     }

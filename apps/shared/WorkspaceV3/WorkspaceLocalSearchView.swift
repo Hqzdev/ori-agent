@@ -1,10 +1,10 @@
-import BlotDesign
-import BlotDomain
+import OriDesign
+import OriDomain
 import SwiftUI
 
 struct WorkspaceLocalSearchView: View {
     @Environment(WorkspaceStore.self) private var store
-    @State private var messages: [BlotV3.Message] = []
+    @State private var messages: [OriV3.Message] = []
     @State private var failure: String?
 
     var body: some View {

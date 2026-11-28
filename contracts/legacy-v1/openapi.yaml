@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: Blot initial local API
+  title: Ori initial local API
   version: 1.0.0
   description: See backend-api.md for payload fields and evolution rules.
 servers:

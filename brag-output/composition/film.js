@@ -23,7 +23,7 @@ class MascotAnimator {
 class FilmDirector {
   constructor() {
     this.timeline = gsap.timeline({paused:true});
-    this.mascot = new MascotAnimator(window.BLOT_MOTION, window.BLOT_AUDIO);
+    this.mascot = new MascotAnimator(window.ORI_MOTION, window.ORI_AUDIO);
   }
   enter(selector, at, from = {}, duration = 0.5, to = {}) {
     this.timeline.set(selector, {autoAlpha:0}, 0);
@@ -206,7 +206,7 @@ class FilmDirector {
     const playhead={seconds:0};
     this.timeline.to(playhead,{seconds:30,duration:30,ease:'none',onUpdate:()=>this.mascot.draw(playhead.seconds)},0);
     this.mascot.draw(0);
-    window.__timelines['blot-launch']=this.timeline;
+    window.__timelines['ori-launch']=this.timeline;
     return this.timeline;
   }
 }

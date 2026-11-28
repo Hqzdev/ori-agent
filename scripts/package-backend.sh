@@ -27,16 +27,16 @@ JAVA_HOME="$(select_java_home)"
 export JAVA_HOME
 GRADLE_USER_HOME="${GRADLE_USER_HOME:-$PWD/.build/gradle-home}"
 export GRADLE_USER_HOME
-echo '[Blot] Building Java backend'
+echo '[Ori] Building Java backend'
 backend/gradlew --no-daemon -p backend :api:bootJar
 resources="$bundle/Contents/Resources/Backend"
 mkdir -p "$resources"
-cp backend/api/build/libs/blot-backend.jar "$resources/blot-backend.jar"
+cp backend/api/build/libs/ori-backend.jar "$resources/ori-backend.jar"
 python3 scripts/copy-provider-ca.py "$resources/provider-ca.pem"
 scripts/build-native-helpers.sh "$resources"
 mkdir -p "$resources/native"
 # Версия берётся из фактического bootJar, поэтому не дублируется в скрипте.
-python3 - "$resources/blot-backend.jar" "$resources/native/libsqlitejdbc.dylib" <<'PYTHON'
+python3 - "$resources/ori-backend.jar" "$resources/native/libsqlitejdbc.dylib" <<'PYTHON'
 import io, pathlib, sys, zipfile
 with zipfile.ZipFile(sys.argv[1]) as application:
     libraries = [name for name in application.namelist() if name.startswith('BOOT-INF/lib/sqlite-jdbc-') and name.endswith('.jar')]
@@ -53,7 +53,7 @@ if [ ! -x "$runtime/bin/java" ]; then
     "$JAVA_HOME/bin/jlink" --add-modules java.se,jdk.crypto.ec,jdk.unsupported,jdk.management,jdk.zipfs,jdk.charsets \
         --strip-debug --no-header-files --no-man-pages --output "$runtime"
 fi
-echo '[Blot] Embedding Java runtime and native helpers'
+echo '[Ori] Embedding Java runtime and native helpers'
 
 # Подписываем вложенный код отдельно; основной App Sandbox остаётся включённым.
 find "$runtime" -type f \( -name '*.dylib' -o -perm -111 \) | while IFS= read -r binary; do
@@ -73,7 +73,7 @@ for library in "$bundle"/Contents/MacOS/*.dylib; do
     scripts/sign-native.sh "$library"
 done
 scripts/build-native-executor.sh "$bundle" "${BUILT_PRODUCTS_DIR:-$(dirname "$bundle")}"
-scripts/sign-native.sh --entitlements apps/macos/BlotMac/BlotMac.entitlements "$bundle"
+scripts/sign-native.sh --entitlements apps/macos/OriMac/OriMac.entitlements "$bundle"
 codesign --verify --deep --strict "$bundle"
-[ -x "$runtime/bin/java" ] && [ -s "$resources/blot-backend.jar" ] || { echo 'Backend packaging is incomplete.' >&2; exit 1; }
-echo "[Blot] Backend packaged into $bundle"
+[ -x "$runtime/bin/java" ] && [ -s "$resources/ori-backend.jar" ] || { echo 'Backend packaging is incomplete.' >&2; exit 1; }
+echo "[Ori] Backend packaged into $bundle"

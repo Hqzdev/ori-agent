@@ -1,10 +1,10 @@
-import BlotDesign
-import BlotDomain
+import OriDesign
+import OriDomain
 import SwiftUI
 
 /// Both clients use the same editing and deletion flow; the calendar remains platform-specific.
 struct WorkspaceRoutineActions: View {
-    let schedule: BlotV3.Automation
+    let schedule: OriV3.Automation
     @Environment(WorkspaceStore.self) private var store
     @State private var editing = false
     @State private var deleting = false
@@ -29,13 +29,13 @@ struct WorkspaceRoutineActions: View {
 }
 
 struct WorkspaceRoutineEditor: View {
-    let schedule: BlotV3.Automation
+    let schedule: OriV3.Automation
     @Environment(WorkspaceStore.self) private var store
     @WorkspacePresentationDismiss private var dismiss
     @State private var draft: WorkspaceScheduleForm
     @State private var failure: String?
     private var ru: Bool { store.language == "ru" }
-    init(schedule: BlotV3.Automation) {
+    init(schedule: OriV3.Automation) {
         self.schedule = schedule
         var form = WorkspaceScheduleForm()
         form.recordID = schedule.metadata.id; form.version = schedule.metadata.version
@@ -75,7 +75,7 @@ struct WorkspaceRoutineEditor: View {
                             }))
                         }
                     }
-                    WorkspaceChoice(title: store.t("Missed runs"), selection: $draft.missedRunPolicy, options: BlotV3.MissedRunPolicy.allCases.map { .init($0, WorkspaceSchedulePolicyLabel.title($0, russian: ru)) })
+                    WorkspaceChoice(title: store.t("Missed runs"), selection: $draft.missedRunPolicy, options: OriV3.MissedRunPolicy.allCases.map { .init($0, WorkspaceSchedulePolicyLabel.title($0, russian: ru)) })
                     if draft.missedRunPolicy == .catch_up {
                         WorkspaceCounter(title: store.t("Maximum catch-up runs"), value: $draft.maximumCatchUpRuns, range: 1...100)
                     }

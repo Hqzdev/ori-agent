@@ -1,4 +1,4 @@
-# Validation — Blot launch film
+# Validation — Ori launch film
 
 - Final MP4: 1920×1080, H.264, 30 fps, 900 frames, exactly 30.000 seconds.
 - AAC audio: exactly 30.000 seconds, music and local interface SFX, no narration.

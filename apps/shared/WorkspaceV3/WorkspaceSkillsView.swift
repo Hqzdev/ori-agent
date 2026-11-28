@@ -1,11 +1,11 @@
-import BlotDesign
-import BlotDomain
-import BlotWorkspace
+import OriDesign
+import OriDomain
+import OriWorkspace
 import SwiftUI
 
 private struct SkillSelection: Identifiable {
     let id = UUID()
-    let skill: BlotV3.Skill?
+    let skill: OriV3.Skill?
 }
 
 struct WorkspaceSkillsView: View {
@@ -15,7 +15,7 @@ struct WorkspaceSkillsView: View {
     @State private var editor: SkillSelection?
     @State private var runner: SkillSelection?
     private var ru: Bool { store.language == "ru" }
-    private var skills: [BlotV3.Skill] {
+    private var skills: [OriV3.Skill] {
         (store.snapshot.skills ?? []).filter { $0.archived == archived && (search.isEmpty || $0.name.localizedCaseInsensitiveContains(search)) }
             .sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
     }
@@ -26,13 +26,13 @@ struct WorkspaceSkillsView: View {
                 Spacer()
                 WorkspaceTeachButton()
                 WorkspaceSkillMarketplaceButton()
-                Button { editor = .init(skill: nil) } label: { BlotLabel(ru ? "Создать" : "Create", symbol: "plus") }
+                Button { editor = .init(skill: nil) } label: { OriLabel(ru ? "Создать" : "Create", symbol: "plus") }
                     .disabled(store.skillCommands == nil)
             }
             if !archived && (search.isEmpty || "Skill Creator".localizedCaseInsensitiveContains(search)) {
                 WorkspaceCard {
                     HStack {
-                        BlotLabel("Skill Creator", symbol: "sparkle").font(.headline)
+                        OriLabel("Skill Creator", symbol: "sparkle").font(.headline)
                         Spacer()
                         Text(ru ? "Встроенный" : "Built in").font(.caption).foregroundStyle(.secondary)
                     }
@@ -45,7 +45,7 @@ struct WorkspaceSkillsView: View {
             if skills.isEmpty { Text(ru ? "Здесь появятся сохранённые инструкции с параметрами для ваших агентов." : "Saved instructions with parameters for your agents will appear here.").foregroundStyle(.secondary) }
             ForEach(skills, id: \.metadata.id) { skill in
                 WorkspaceCard {
-                    BlotLabel(skill.name, symbol: "shippingbox").font(.headline).foregroundStyle(.purple)
+                    OriLabel(skill.name, symbol: "shippingbox").font(.headline).foregroundStyle(.purple)
                     if let revision = store.snapshot.skillRevisions?.first(where: { $0.metadata.id == skill.activeRevisionId }) {
                         Text(revision.instructions).lineLimit(3).foregroundStyle(.secondary)
                         WorkspaceSkillShareButton(skill: skill, revision: revision)
@@ -65,7 +65,7 @@ struct WorkspaceSkillsView: View {
 }
 
 struct WorkspaceSkillEditor: View {
-    let skill: BlotV3.Skill?
+    let skill: OriV3.Skill?
     @Environment(WorkspaceStore.self) private var store
     @WorkspacePresentationDismiss private var dismiss
     @Environment(\.workspacePanelNavigation) private var panelNavigation
@@ -78,7 +78,7 @@ struct WorkspaceSkillEditor: View {
     @State private var busy = false
     @State private var failure: String?
     private var ru: Bool { store.language == "ru" }
-    private var revisions: [BlotV3.SkillRevision] {
+    private var revisions: [OriV3.SkillRevision] {
         (store.snapshot.skillRevisions ?? []).filter { $0.skillId == skill?.metadata.id }.sorted { $0.metadata.createdAt > $1.metadata.createdAt }
     }
     private var availableTools: [String] {
@@ -89,7 +89,7 @@ struct WorkspaceSkillEditor: View {
             WorkspacePanelForm {
                 Section(ru ? "Инструкция" : "Instructions") {
                     TextField(ru ? "Название" : "Name", text: $name)
-                    TextEditor(text: $instructions).frame(minHeight: 150).blotEditorSurface().accessibilityLabel(ru ? "Инструкция" : "Instructions")
+                    TextEditor(text: $instructions).frame(minHeight: 150).oriEditorSurface().accessibilityLabel(ru ? "Инструкция" : "Instructions")
                     Text(ru ? "Для подстановки используйте {{parameter}}. Значения задаются при запуске." : "Use {{parameter}} for values supplied when running.").font(.caption).foregroundStyle(.secondary)
                 }
                 Section(ru ? "Параметры" : "Parameters") {
@@ -171,7 +171,7 @@ struct WorkspaceSkillEditor: View {
     private func parameterOptions(_ index: Int) -> some View {
         HStack(spacing: 12) {
             Toggle(ru ? "Обязательный" : "Required", isOn: Binding(get: { parameters[index].required }, set: { parameters[index] = .init(name: parameters[index].name, required: $0) }))
-            Button(role: .destructive) { parameters.remove(at: index) } label: { BlotIcon(symbol: "minus.circle") }
+            Button(role: .destructive) { parameters.remove(at: index) } label: { OriIcon(symbol: "minus.circle") }
                 .buttonStyle(.plain).accessibilityLabel(ru ? "Удалить параметр" : "Remove parameter")
         }
     }

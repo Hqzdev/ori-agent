@@ -1,5 +1,5 @@
-import BlotDesign
-import BlotWorkspace
+import OriDesign
+import OriWorkspace
 import SwiftUI
 
 struct WorkspaceSlidesEditor: View {
@@ -25,11 +25,11 @@ struct WorkspaceSlidesEditor: View {
                 }.padding(2)
             }
             VStack(alignment: .leading, spacing: 8) {
-                Button { session.draft.slides.append(.init(title: "", body: "")); session.slide = session.draft.slides.count - 1 } label: { BlotLabel(ru ? "Добавить слайд" : "Add slide", symbol: "plus") }.disabled(session.draft.slides.count >= 30)
+                Button { session.draft.slides.append(.init(title: "", body: "")); session.slide = session.draft.slides.count - 1 } label: { OriLabel(ru ? "Добавить слайд" : "Add slide", symbol: "plus") }.disabled(session.draft.slides.count >= 30)
                 HStack(spacing: 8) {
-                Button { session.draft.slides.swapAt(selected, selected - 1); session.slide = selected - 1 } label: { BlotLabel(ru ? "Левее" : "Move left", symbol: "arrow.left") }.disabled(selected == 0)
-                Button { session.draft.slides.swapAt(selected, selected + 1); session.slide = selected + 1 } label: { BlotLabel(ru ? "Правее" : "Move right", symbol: "arrow.right") }.disabled(selected >= session.draft.slides.count - 1)
-                Button { session.draft.slides.remove(at: selected); session.slide = min(selected, session.draft.slides.count - 1) } label: { BlotLabel(ru ? "Удалить" : "Remove", symbol: "minus") }.disabled(session.draft.slides.count <= 1)
+                Button { session.draft.slides.swapAt(selected, selected - 1); session.slide = selected - 1 } label: { OriLabel(ru ? "Левее" : "Move left", symbol: "arrow.left") }.disabled(selected == 0)
+                Button { session.draft.slides.swapAt(selected, selected + 1); session.slide = selected + 1 } label: { OriLabel(ru ? "Правее" : "Move right", symbol: "arrow.right") }.disabled(selected >= session.draft.slides.count - 1)
+                Button { session.draft.slides.remove(at: selected); session.slide = min(selected, session.draft.slides.count - 1) } label: { OriLabel(ru ? "Удалить" : "Remove", symbol: "minus") }.disabled(session.draft.slides.count <= 1)
                 }
             }.buttonStyle(WorkspaceButtonStyle(.secondary))
             if !session.draft.slides.isEmpty {

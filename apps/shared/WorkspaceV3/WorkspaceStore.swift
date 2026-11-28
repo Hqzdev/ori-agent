@@ -1,6 +1,6 @@
-import BlotAppleIntegrations
-import BlotDomain
-import BlotWorkspace
+import OriAppleIntegrations
+import OriDomain
+import OriWorkspace
 import Foundation
 import Observation
 import OSLog
@@ -19,7 +19,7 @@ final class WorkspaceStore {
     let panelNavigations = WorkspacePanelNavigationRegistry()
     @ObservationIgnored var documentOpeningModes: [UUID: Bool] = [:]
     @ObservationIgnored var documentEdits: [UUID: WorkspaceDocumentEditSession] = [:]
-    var visibleFiles: [BlotV3.Artifact] { snapshot.artifacts.filter { !WorkspaceEditableDocument.isInternalArtifact(name: $0.name) && !WorkspaceFileChange.isInternalArtifact(name: $0.name) } }
+    var visibleFiles: [OriV3.Artifact] { snapshot.artifacts.filter { !WorkspaceEditableDocument.isInternalArtifact(name: $0.name) && !WorkspaceFileChange.isInternalArtifact(name: $0.name) } }
     let voice: VoiceConversationSession
     let voicePreferences: WorkspaceVoicePreferences
     var nativeCommands: (any WorkspaceNativeProviding)? { service as? any WorkspaceNativeProviding }
@@ -123,7 +123,7 @@ final class WorkspaceStore {
     #if os(macOS)
     private var restoredUserProfile: WorkspaceUserProfile?
     #endif
-    @ObservationIgnored private let authenticationLog = Logger(subsystem: "dev.blot.authentication", category: "BrowserHandoff")
+    @ObservationIgnored private let authenticationLog = Logger(subsystem: "dev.ori.authentication", category: "BrowserHandoff")
     private(set) var snapshot = WorkspaceSnapshot() {
         didSet {
             if snapshot.ownerID != oldValue.ownerID { billingOverview = nil; billingLoadFailed = false; billingRequestID = nil; voice.end(); guestBrowser.controller?.shutdown(); guestBrowser.controller = nil; panelNavigations.clear(); documentEdits.removeAll(); documentOpeningModes.removeAll() }
@@ -154,6 +154,9 @@ final class WorkspaceStore {
     let browserSignIn = WorkspaceBrowserSignIn()
     private(set) var busy = false
     private(set) var isRestoringSession: Bool
+    #if os(macOS)
+    private(set) var sessionRestoreFailed = false
+    #endif
     private(set) var history: [WorkspaceRoute] = []
     var route: WorkspaceRoute { didSet { if route != oldValue { voice.end() } } }
     var rootRoute: WorkspaceRoute
@@ -203,7 +206,7 @@ final class WorkspaceStore {
     var messageNavigationTarget: UUID?
     private var previewTaskPaused = false
     var taskPaused: Bool { mode == .preview ? previewTaskPaused : currentTask?.state == .paused }
-    var currentTask: BlotV3.Task? {
+    var currentTask: OriV3.Task? {
         if let selected = (snapshot.tasks ?? []).first(where: { $0.metadata.id == selectedRecordID }) { return selected }
         let tasks = (snapshot.tasks ?? []).filter { $0.conversationId == selectedConversationID }.sorted { $0.metadata.createdAt < $1.metadata.createdAt }
         return tasks.last { ![.completed, .failed, .canceled].contains($0.state) } ?? tasks.last
@@ -317,7 +320,7 @@ final class WorkspaceStore {
                 var calendar = Calendar(identifier: .gregorian)
                 calendar.timeZone = TimeZone(identifier: "Asia/Yekaterinburg")!
                 form.schedule.time = calendar.date(from: DateComponents(year: 2026, month: 11, day: 2, hour: 8, minute: 30))!
-                if mode == .preview { form.account.email = "preview@blot.local" }
+                if mode == .preview { form.account.email = "preview@ori.local" }
                 form.agent.instructions = "Help with interfaces: research references, propose options and check usability."
                 form.schedule.goal = "Build a morning digest: today's meetings, priority tasks and key emails."
             } catch { self.error = "Preview data could not be decoded: \(error.localizedDescription)" }
@@ -332,7 +335,7 @@ final class WorkspaceStore {
         chatContent.update(snapshot, previous: WorkspaceSnapshot())
         messageIndex = WorkspaceMessageIndex(snapshot.messages, activityMessageIDs: chatContent.activityMessageIDs)
     }
-    var currentPinnedMessages: [BlotV3.Message] {
+    var currentPinnedMessages: [OriV3.Message] {
         selectedConversationID.flatMap { chatContent.pinnedMessages[$0] } ?? []
     }
 
@@ -359,14 +362,14 @@ final class WorkspaceStore {
         }
     }
 
-    var currentConversation: BlotV3.Conversation? { selectedConversationID.flatMap { chatContent.conversations[$0] } }
-    var currentMessages: [BlotV3.Message] {
+    var currentConversation: OriV3.Conversation? { selectedConversationID.flatMap { chatContent.conversations[$0] } }
+    var currentMessages: [OriV3.Message] {
         messageIndex.messages(in: selectedConversationID)
     }
-    var currentVisibleMessages: [BlotV3.Message] { messageIndex.visibleMessages(in: selectedConversationID) }
-    func latestVisibleMessage(in conversationID: UUID?) -> BlotV3.Message? { messageIndex.visibleMessages(in: conversationID).last }
+    var currentVisibleMessages: [OriV3.Message] { messageIndex.visibleMessages(in: selectedConversationID) }
+    func latestVisibleMessage(in conversationID: UUID?) -> OriV3.Message? { messageIndex.visibleMessages(in: conversationID).last }
     var currentMessageIDs: [UUID] { messageIndex.ids(in: selectedConversationID) }
-    func message(_ id: UUID) -> BlotV3.Message? { messageIndex.message(id) }
+    func message(_ id: UUID) -> OriV3.Message? { messageIndex.message(id) }
 
     func loadWorkspace() async {
         if let loadingWorkspace { await loadingWorkspace.value; return }
@@ -384,6 +387,10 @@ final class WorkspaceStore {
     private func restoreInitialWorkspace() async {
         guard mode == .live, !loadedWorkspace else { return }
         defer { isRestoringSession = false }
+        #if os(macOS)
+        if sessionRestoreFailed { error = nil }
+        sessionRestoreFailed = false
+        #endif
         loadedWorkspace = true
         do {
             if let saved = try await service.load() {
@@ -395,7 +402,11 @@ final class WorkspaceStore {
             }
         } catch {
             loadedWorkspace = false
+            #if os(macOS)
+            sessionRestoreFailed = true
+            #else
             self.error = WorkspaceFailureCopy.message(error)
+            #endif
         }
     }
 
@@ -775,7 +786,7 @@ final class WorkspaceStore {
         Set(snapshot.conversations.filter { $0.pinned && !$0.archived }.map(\.metadata.id))
     }
 
-    var pinnedConversations: [BlotV3.Conversation] {
+    var pinnedConversations: [OriV3.Conversation] {
         let order = chatInteractions.pinnedOrder
         return snapshot.conversations.filter { $0.pinned && !$0.archived }.sorted {
             let lhs = order.firstIndex(of: $0.metadata.id) ?? Int.max
@@ -784,7 +795,7 @@ final class WorkspaceStore {
         }
     }
 
-    var currentReplyTarget: BlotV3.Message? {
+    var currentReplyTarget: OriV3.Message? {
         guard let id = form.composer.replyToMessageID else { return nil }
         return message(id)
     }
@@ -805,7 +816,7 @@ final class WorkspaceStore {
         return context
     }
 
-    func messageAuthor(_ message: BlotV3.Message) -> String {
+    func messageAuthor(_ message: OriV3.Message) -> String {
         if message.role == .user { return accountDisplayName }
         let agentID = message.authorAgentId ?? snapshot.conversations.first { $0.metadata.id == message.conversationId }?.agentId
         return snapshot.agents.first { $0.metadata.id == agentID }?.name ?? "Ori"
@@ -894,7 +905,7 @@ final class WorkspaceStore {
         #endif
     }
 
-    var selectedFile: BlotV3.Artifact? {
+    var selectedFile: OriV3.Artifact? {
         snapshot.artifacts.first { $0.metadata.id == selectedRecordID }
     }
 
@@ -932,7 +943,7 @@ final class WorkspaceStore {
         chatActivity.cancel(in: conversationID)
     }
 
-    private func enqueueLiveResponse(to message: BlotV3.Message, profile: BlotInferenceProfile? = nil) {
+    private func enqueueLiveResponse(to message: OriV3.Message, profile: OriInferenceProfile? = nil) {
         guard let service = commands, liveResponses[message.conversationId] == nil else { return }
         let generation = sessionGeneration
         liveResponses[message.conversationId] = _Concurrency.Task { [weak self] in
@@ -951,7 +962,7 @@ final class WorkspaceStore {
                 }
             } catch {
                 guard self.sessionGeneration == generation else { return }
-                let log = Logger(subsystem: "dev.blot.model", category: "Response")
+                let log = Logger(subsystem: "dev.ori.model", category: "Response")
                 if let modelError = error as? ChatModelError {
                     log.error("Model response failed: \(String(describing: modelError), privacy: .public)")
                 } else {
@@ -1024,7 +1035,7 @@ final class WorkspaceStore {
         #endif
     }
 
-    func deliveryTitle(_ delivery: BlotV3.DeliveryState) -> String {
+    func deliveryTitle(_ delivery: OriV3.DeliveryState) -> String {
         switch delivery {
         case .saved: t("Saved locally")
         case .waiting_connection: t("Waiting for connection")
@@ -1105,7 +1116,7 @@ final class WorkspaceStore {
             interactions.messages[reaction.messageId, default: .init()].reactedAt = reaction.metadata.updatedAt
         }
         interactions.unreadMessageIDs = [:]
-        var readPositions: [UUID: BlotV3.ConversationReadPosition] = [:]
+        var readPositions: [UUID: OriV3.ConversationReadPosition] = [:]
         for read in snapshot.readPositions ?? [] where read.participantId == ownerID && readPositions[read.conversationId] == nil {
             readPositions[read.conversationId] = read
         }
@@ -1184,12 +1195,12 @@ final class WorkspaceStore {
         } catch { self.error = t("Couldn't save the group. Reopen it and try again."); return false }
     }
 
-    func searchLocalMessages(_ query: String) async throws -> [BlotV3.Message] {
+    func searchLocalMessages(_ query: String) async throws -> [OriV3.Message] {
         guard let service = commands else { throw WorkspaceServiceError.unavailable }
         return try await service.searchMessages(query)
     }
 
-    var unresolvedConflicts: [BlotV3.ConflictingRevision] { (snapshot.conflicts ?? []).filter { !$0.resolved } }
+    var unresolvedConflicts: [OriV3.ConflictingRevision] { (snapshot.conflicts ?? []).filter { !$0.resolved } }
 
     func resolveConflict(_ selectedID: UUID, displayedIDs: Set<UUID>) async -> Bool {
         guard !busy, let service = commands else { return false }
@@ -1421,7 +1432,7 @@ final class WorkspaceStore {
         do {
             let conversation = snapshot.conversations[index]
             let old = conversation.metadata
-            let metadata = try BlotV3.RecordMetadata(id: old.id, ownerId: old.ownerId, workspaceId: old.workspaceId,
+            let metadata = try OriV3.RecordMetadata(id: old.id, ownerId: old.ownerId, workspaceId: old.workspaceId,
                 version: old.version + 1, createdAt: old.createdAt, updatedAt: Date())
             let userMessages = snapshot.messages.filter { $0.conversationId == id && $0.role == .user }
             let agentName = snapshot.agents.first { $0.metadata.id == conversation.agentId }?.name
@@ -1641,7 +1652,7 @@ extension WorkspaceStore {
         do { snapshot = try await service.connectApple(plugin, resources: resources) }
         catch { self.error = error.localizedDescription }
     }
-    func disconnectApple(_ connection: BlotV3.Connection) async {
+    func disconnectApple(_ connection: OriV3.Connection) async {
         guard let service = appleService, !busy else { return }
         busy = true; error = nil
         defer { busy = false }

@@ -9,7 +9,7 @@
   "occurredAt": "2026-10-11T08:00:00Z",
   "type": "run.created",
   "payload": {
-    "goal": "Build Blot",
+    "goal": "Build Ori",
     "status": "DRAFT"
   }
 }

@@ -1,10 +1,10 @@
-diff --git a/apps/macos/BlotMac/Features/Workspace/MacLiveTeamWorkspace.swift b/apps/macos/BlotMac/Features/Workspace/MacLiveTeamWorkspace.swift
---- a/apps/macos/BlotMac/Features/Workspace/MacLiveTeamWorkspace.swift
-+++ b/apps/macos/BlotMac/Features/Workspace/MacLiveTeamWorkspace.swift
+diff --git a/apps/macos/oriMac/Features/Workspace/MacLiveTeamWorkspace.swift b/apps/macos/oriMac/Features/Workspace/MacLiveTeamWorkspace.swift
+--- a/apps/macos/oriMac/Features/Workspace/MacLiveTeamWorkspace.swift
++++ b/apps/macos/oriMac/Features/Workspace/MacLiveTeamWorkspace.swift
 @@ -7,11 +7,9 @@
  struct MacLiveTeamWorkspace: View {
      @Environment(WorkspaceStore.self) private var store
-     @Environment(\.blotReduceMotion) private var reduceMotion
+     @Environment(\.oriReduceMotion) private var reduceMotion
 -    @State private var inspectorVisible = true
      @State private var settingsSearchFocusRequest = 0
      @State private var creating = false
@@ -12,7 +12,7 @@ diff --git a/apps/macos/BlotMac/Features/Workspace/MacLiveTeamWorkspace.swift b/
 -    @State private var inspectorPopover = false
 
      private var isConversation: Bool { [.home, .newChat, .chat].contains(store.route) }
-     private var agent: BlotV3.AgentProfile? {
+     private var agent: oriV3.AgentProfile? {
 @@ -51,7 +49,6 @@
      private func workspace(layout: MacWorkspaceLayout) -> some View {
          let showsBrowser = store.browser?.presented == true && isConversation
@@ -139,7 +139,7 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceBrowserView.swift b/apps/shared/Wo
          }.scrollIndicators(.hidden)
      }
      private var empty: some View {
--        ContentUnavailableView(text("Браузер Blot", "Blot browser"), systemImage: "globe", description: Text(text("Введите адрес сайта. Страница откроется внутри приложения.", "Enter a website address to open it inside the app.")))
+-        ContentUnavailableView(text("Браузер ori", "ori browser"), systemImage: "globe", description: Text(text("Введите адрес сайта. Страница откроется внутри приложения.", "Enter a website address to open it inside the app.")))
 -            .frame(maxWidth: .infinity, maxHeight: .infinity)
 +        WorkspaceBrowserStartPage(controller: controller) { toolNavigation.path = [$0] }
      }
@@ -175,7 +175,7 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceComponents.swift b/apps/shared/Wor
 +            }
 +        } label: {
              HStack {
-                 if store.busy { ProgressView().controlSize(.small).tint(kind == .primary ? BlotColor.onInverse : WorkspaceStyle.ink) }
+                 if store.busy { ProgressView().controlSize(.small).tint(kind == .primary ? oriColor.onInverse : WorkspaceStyle.ink) }
                  Text(store.t(title)).frame(maxWidth: .infinity)
 @@ -79,8 +85,9 @@
      let route: WorkspaceRoute
@@ -203,7 +203,7 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceLocalFileView.swift b/apps/shared/
      @State private var page = 1
      @State private var failure: String?
      private var ru: Bool { store.language == "ru" }
-+    private var file: BlotV3.Artifact? {
++    private var file: oriV3.Artifact? {
 +        if let artifactID { return store.snapshot.artifacts.first { $0.metadata.id == artifactID } }
 +        return store.selectedFile
 +    }
@@ -261,12 +261,12 @@ diff --git a/apps/shared/WorkspaceV3/WorkspaceTeamViews.swift b/apps/shared/Work
 +                    if let openFile { openFile(file.metadata.id) }
 +                    else { store.selectedRecordID = file.metadata.id; store.navigate(.file) }
 +                } label: {
-                     HStack { BlotIcon(symbol: "doc"); Text(file.name); Spacer(); BlotIcon(symbol: "chevron.right") }
+                     HStack { oriIcon(symbol: "doc"); Text(file.name); Spacer(); oriIcon(symbol: "chevron.right") }
                  }.buttonStyle(WorkspaceRowButtonStyle())
                  Divider()
-diff --git a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/AppleAutomation.swift b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/AppleAutomation.swift
---- a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/AppleAutomation.swift
-+++ b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/AppleAutomation.swift
+diff --git a/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/AppleAutomation.swift b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/AppleAutomation.swift
+--- a/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/AppleAutomation.swift
++++ b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/AppleAutomation.swift
 @@ -6,11 +6,16 @@
  /// NSAppleScript is main-thread-only. Model text is passed only as Apple event descriptors.
  @MainActor
@@ -338,9 +338,9 @@ diff --git a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/AppleA
          guard [.mail, .notes].contains(plugin), let script = NSAppleScript(source: plugin == .notes ? Self.notesScript : Self.mailScript) else { throw AppleIntegrationError.unavailable }
          var error: NSDictionary?
          guard script.compileAndReturnError(&error) else { throw AppleIntegrationError.system(error?.description ?? "AppleScript compilation failed") }
-diff --git a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/AppleIntegrationController.swift b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/AppleIntegrationController.swift
---- a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/AppleIntegrationController.swift
-+++ b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/AppleIntegrationController.swift
+diff --git a/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/AppleIntegrationController.swift b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/AppleIntegrationController.swift
+--- a/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/AppleIntegrationController.swift
++++ b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/AppleIntegrationController.swift
 @@ -62,6 +62,7 @@
          case .shortcuts: return shortcuts.resources
          case .mail, .notes:
@@ -365,9 +365,9 @@ diff --git a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/AppleI
              authorized = await automation.authorized(plugin)
              #else
              authorized = plugin == .mail && MFMailComposeViewController.canSendMail()
-diff --git a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/AppleInteractionCenter.swift b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/AppleInteractionCenter.swift
---- a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/AppleInteractionCenter.swift
-+++ b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/AppleInteractionCenter.swift
+diff --git a/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/AppleInteractionCenter.swift b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/AppleInteractionCenter.swift
+--- a/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/AppleInteractionCenter.swift
++++ b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/AppleInteractionCenter.swift
 @@ -45,6 +45,9 @@
              fields: ["recipient": try a.required("recipient"), "subject": a["subject"] ?? "", "body": a["body"] ?? ""]))
      }
@@ -377,10 +377,10 @@ diff --git a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/AppleI
 +        #endif
          let token = UUID()
          #if os(macOS)
-         let scheme = "blot-agent-macos"
-diff --git a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/PluginCatalog.swift b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/PluginCatalog.swift
---- a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/PluginCatalog.swift
-+++ b/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/PluginCatalog.swift
+         let scheme = "ori-agent-macos"
+diff --git a/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/PluginCatalog.swift b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/PluginCatalog.swift
+--- a/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/PluginCatalog.swift
++++ b/packages/oriAppleIntegrations/Sources/oriAppleIntegrations/PluginCatalog.swift
 @@ -136,10 +136,12 @@
  }
 
@@ -390,13 +390,13 @@ diff --git a/packages/BlotAppleIntegrations/Sources/BlotAppleIntegrations/Plugin
      case system(String)
      public var errorDescription: String? {
          switch self {
-+        case .applicationRequired(let name): "Для этой операции требуется запущенное приложение «\(name)». Blot не запускает внешние приложения автоматически."
++        case .applicationRequired(let name): "Для этой операции требуется запущенное приложение «\(name)». ori не запускает внешние приложения автоматически."
          case .permissionDenied: "Нужно разрешение или подключение для этого агента."
          case .unavailable: "Это действие недоступно на данном устройстве."
          case .invalidArguments: "Проверьте параметры действия."
-diff --git a/packages/BlotAppleIntegrations/Tests/BlotAppleIntegrationsTests/AppleIntegrationTests.swift b/packages/BlotAppleIntegrations/Tests/BlotAppleIntegrationsTests/AppleIntegrationTests.swift
---- a/packages/BlotAppleIntegrations/Tests/BlotAppleIntegrationsTests/AppleIntegrationTests.swift
-+++ b/packages/BlotAppleIntegrations/Tests/BlotAppleIntegrationsTests/AppleIntegrationTests.swift
+diff --git a/packages/oriAppleIntegrations/Tests/oriAppleIntegrationsTests/AppleIntegrationTests.swift b/packages/oriAppleIntegrations/Tests/oriAppleIntegrationsTests/AppleIntegrationTests.swift
+--- a/packages/oriAppleIntegrations/Tests/oriAppleIntegrationsTests/AppleIntegrationTests.swift
++++ b/packages/oriAppleIntegrations/Tests/oriAppleIntegrationsTests/AppleIntegrationTests.swift
 @@ -201,7 +201,21 @@
  }
 
@@ -420,9 +420,9 @@ diff --git a/packages/BlotAppleIntegrations/Tests/BlotAppleIntegrationsTests/App
  #endif
 
  @Test func legacyConnectionsDecodeWithoutAppleFields() throws {
-diff --git a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceBrowserTypes.swift b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceBrowserTypes.swift
---- a/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceBrowserTypes.swift
-+++ b/packages/BlotWorkspace/Sources/BlotWorkspace/WorkspaceBrowserTypes.swift
+diff --git a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceBrowserTypes.swift b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceBrowserTypes.swift
+--- a/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceBrowserTypes.swift
++++ b/packages/oriWorkspace/Sources/oriWorkspace/WorkspaceBrowserTypes.swift
 @@ -19,6 +19,22 @@
  }
 
@@ -451,7 +451,7 @@ diff --git a/scripts/verify-browser-model.swift b/scripts/verify-browser-model.s
 +++ b/scripts/verify-browser-model.swift
 @@ -130,7 +130,7 @@
              } else {
-                 precondition(systems.contains("A website tab is open in Blot") || systems.contains("Blot has a built-in browser"))
+                 precondition(systems.contains("A website tab is open in ori") || systems.contains("ori has a built-in browser"))
                  if request.tools.contains(where: { $0.name == "browser_snapshot" }) {
 -                    if systems.contains("ordinary group conversation") { precondition(request.tools.allSatisfy { ["browser_snapshot", "browser_tabs"].contains($0.name) }) }
 +                    if systems.contains("ordinary group conversation") { precondition(request.tools.contains { $0.name == "browser_tabs" }) }
@@ -463,9 +463,9 @@ new file mode 100644
 --- /dev/null
 +++ b/apps/shared/WorkspaceV3/WorkspaceBrowserStartPage.swift
 @@ -0,0 +1,145 @@
-+import BlotAppleIntegrations
-+import BlotDesign
-+import BlotWorkspace
++import oriAppleIntegrations
++import oriDesign
++import oriWorkspace
 +import SwiftUI
 +import Observation
 +
@@ -608,14 +608,14 @@ new file mode 100644
 +        }
 +    }
 +}
-diff --git a/packages/BlotWorkspace/Tests/BlotWorkspaceTests/BrowserAddressTests.swift b/packages/BlotWorkspace/Tests/BlotWorkspaceTests/BrowserAddressTests.swift
+diff --git a/packages/oriWorkspace/Tests/oriWorkspaceTests/BrowserAddressTests.swift b/packages/oriWorkspace/Tests/oriWorkspaceTests/BrowserAddressTests.swift
 new file mode 100644
 --- /dev/null
-+++ b/packages/BlotWorkspace/Tests/BlotWorkspaceTests/BrowserAddressTests.swift
++++ b/packages/oriWorkspace/Tests/oriWorkspaceTests/BrowserAddressTests.swift
 @@ -0,0 +1,20 @@
 +import Foundation
 +import Testing
-+@testable import BlotWorkspace
++@testable import oriWorkspace
 +
 +@Test func browserAddressBarSearchesWordsAndKeepsAddressesInsideTheBrowser() throws {
 +    for query in ["гитхаб", "github", "swift apple", "c++ & swift", "https documentation"] {

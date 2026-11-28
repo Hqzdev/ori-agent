@@ -1,4 +1,4 @@
-import BlotDesign
+import OriDesign
 import SwiftUI
 
 /// A transient Ori action list, independent of system menu and glass styling.
@@ -13,7 +13,7 @@ struct WorkspaceMenu<Actions: View, Label: View>: View {
         Button { presented.toggle() } label: {
             label().frame(minWidth: 44, minHeight: 44).contentShape(RoundedRectangle(cornerRadius: 14))
         }
-            .buttonStyle(BlotPlainButtonStyle()).blotFocusRing()
+            .buttonStyle(OriPlainButtonStyle()).oriFocusRing()
             .popover(isPresented: $presented, arrowEdge: .bottom) {
                 WorkspaceMenuPanel(actions: actions, close: { presented = false })
             }
@@ -21,10 +21,10 @@ struct WorkspaceMenu<Actions: View, Label: View>: View {
     }
 }
 
-extension WorkspaceMenu where Label == BlotLabel {
+extension WorkspaceMenu where Label == OriLabel {
     init(_ title: String, @ViewBuilder actions: @escaping () -> Actions) {
         self.actions = actions
-        self.label = { BlotLabel(title, symbol: "chevron.right") }
+        self.label = { OriLabel(title, symbol: "chevron.right") }
     }
 }
 
@@ -70,13 +70,13 @@ private struct WorkspaceContextActions<Actions: View>: ViewModifier {
 
 private struct WorkspaceMenuActionStyle: PrimitiveButtonStyle {
     let close: () -> Void
-    var size: BlotControlSize = .regular
+    var size: OriControlSize = .regular
     func makeBody(configuration: Configuration) -> some View {
         Button(role: configuration.role) { configuration.trigger(); close() } label: {
             configuration.label.font(.system(size: size == .compact ? 12 : 13))
                 .foregroundStyle(configuration.role == .destructive ? .red : WorkspaceStyle.ink)
                 .frame(maxWidth: .infinity, minHeight: size == .compact ? size.height : 44, alignment: .leading)
-        }.buttonStyle(BlotButtonStyle(.ghost, size: size))
+        }.buttonStyle(OriButtonStyle(.ghost, size: size))
     }
 }
 #endif

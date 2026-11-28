@@ -1,5 +1,5 @@
-import BlotDesign
-import BlotWorkspace
+import OriDesign
+import OriWorkspace
 import SwiftUI
 
 @MainActor protocol WorkspaceReleaseProviding { func releaseService() -> WorkspaceReleaseService }
@@ -17,7 +17,7 @@ struct WorkspaceUpdatesView: View {
     private var build: Int { Int(Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "0") ?? 0 }
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
-            BlotLabel("Ori " + installed + " (" + String(build) + ")", symbol: "arrow.down.circle").font(.title2)
+            OriLabel("Ori " + installed + " (" + String(build) + ")", symbol: "arrow.down.circle").font(.title2)
             WorkspaceChoice(title: ru ? "Канал обновлений" : "Release channel", selection: $channel, options: [.init("stable", "Stable"), .init("beta", "Beta")])
                 .onChange(of: channel) { _, _ in release = nil; checked = nil }
             Button(ru ? "Проверить обновления" : "Check for updates") { check() }.disabled(working || store.releaseCommands == nil)

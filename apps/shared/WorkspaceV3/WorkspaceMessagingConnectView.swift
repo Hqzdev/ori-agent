@@ -1,7 +1,7 @@
-import BlotAppleIntegrations
-import BlotDesign
-import BlotDomain
-import BlotWorkspace
+import OriAppleIntegrations
+import OriDesign
+import OriDomain
+import OriWorkspace
 import SwiftUI
 
 @MainActor protocol WorkspaceMessagingProviding { func messagingService() async throws -> WorkspaceMessagingService }
@@ -36,7 +36,7 @@ struct WorkspaceMessagingConnectView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
-                BlotLabel(provider.name, symbol: "bubble.left.and.bubble.right").font(.title2)
+                OriLabel(provider.name, symbol: "bubble.left.and.bubble.right").font(.title2)
                 Text(ru ? "Используется зарегистрированное публичное OAuth-приложение с PKCE. Client ID не является секретом. Токены остаются в Keychain устройства." : "Uses a registered public OAuth app with PKCE. Client ID is public. Tokens remain in this device’s Keychain.").foregroundStyle(.secondary)
                 ForEach(accounts) { account in VStack(alignment: .leading) { HStack { Text(account.name); Spacer(); Button(store.t("Disconnect"), role: .destructive) { removing = account } }; Text(account.id.uuidString).font(.caption.monospaced()).textSelection(.enabled); Text(account.workspace).font(.caption).textSelection(.enabled) } }
                 TextField("OAuth client ID", text: $clientID)
@@ -56,7 +56,7 @@ struct WorkspaceMessagingConnectView: View {
                 if working { ProgressView() }
             }.padding(24).textFieldStyle(WorkspacePanelTextFieldStyle()).disabled(working)
         }
-        .task { clientID = (Bundle.main.object(forInfoDictionaryKey: "BlotMessagingClientIDs") as? [String: String])?[provider.rawValue] ?? ""; await reload() }
+        .task { clientID = (Bundle.main.object(forInfoDictionaryKey: "OriMessagingClientIDs") as? [String: String])?[provider.rawValue] ?? ""; await reload() }
         .workspaceConfirmationDialog(store.t("Disconnect") + "?", isPresented: Binding(get: { removing != nil }, set: { if !$0 { removing = nil } }), titleVisibility: .visible) {
             Button(store.t("Disconnect"), role: .destructive) { if let removing { perform { try await $0.disconnect(removing.id) } }; removing = nil }
         }

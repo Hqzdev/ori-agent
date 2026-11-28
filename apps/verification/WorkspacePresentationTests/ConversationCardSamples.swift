@@ -1,5 +1,5 @@
-import BlotDomain
-import BlotWorkspace
+import OriDomain
+import OriWorkspace
 import Foundation
 
 /// Isolated UI samples. They never connect to the owner's account or execute external actions.
@@ -20,8 +20,8 @@ enum ConversationCardSamples {
     static func samples() throws -> [Sample] {
         guard let checkout = URL(string: "https://blot-agent.vercel.app/app/pricing"), let pullRequest = URL(string: "https://example.org/pull/42") else { throw WorkspaceStorageError.invalidParameters }
         return [
-            .init(reference: "blot-purchase", content: .purchase(.init(merchant: "Fixture shop", checkoutURL: checkout, currency: "RUB", items: [.init(title: "Book", quantity: 2, unitAmountMinor: 125000)], taxMinor: 0, deliveryMinor: 30000, totalMinor: 280000))),
-            .init(reference: "blot-page", content: .page(.init(id: owner, title: "Weekly project report"))),
+            .init(reference: "ori-purchase", content: .purchase(.init(merchant: "Fixture shop", checkoutURL: checkout, currency: "RUB", items: [.init(title: "Book", quantity: 2, unitAmountMinor: 125000)], taxMinor: 0, deliveryMinor: 30000, totalMinor: 280000))),
+            .init(reference: "ori-page", content: .page(.init(id: owner, title: "Weekly project report"))),
             .init(reference: "09-widget-01", content: .email(draft)),
             .init(reference: "09-widget-02", content: .question(.init(prompt: "What do you want me handling first?", choices: ["Work", "Life / admin", "A specific project"]))),
             .init(reference: "09-widget-03", content: .subscription(.init(checkoutURL: checkout))),
@@ -35,7 +35,7 @@ enum ConversationCardSamples {
             .init(reference: "09-widget-11", content: .mailFailure(.init(draft: draft, detail: "Mail didn't confirm sending. Your draft is saved.", outcomeUnknown: true))),
         ]
     }
-    static func card(_ sample: Sample, index: Int, state: String = "pending", response: WorkspaceCardResponse? = nil) throws -> BlotV3.ConversationCard {
+    static func card(_ sample: Sample, index: Int, state: String = "pending", response: WorkspaceCardResponse? = nil) throws -> OriV3.ConversationCard {
         let id = UUID(uuidString: String(format: "63000000-0000-4000-8000-%012d", 100 + index))!
         let now = Date()
         return try .init(metadata: metadata(id: id), messageId: id, operationId: id, executorDeviceId: device,
@@ -56,7 +56,7 @@ enum ConversationCardSamples {
         store.language = "en"
         return store
     }
-    private static func metadata(id: UUID) throws -> BlotV3.RecordMetadata {
+    private static func metadata(id: UUID) throws -> OriV3.RecordMetadata {
         try .init(id: id, ownerId: owner, workspaceId: owner, version: 1, createdAt: Date(), updatedAt: Date())
     }
 }

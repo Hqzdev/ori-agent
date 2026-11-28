@@ -37,7 +37,7 @@ Email registration asks for a name and email, then a six-digit code. Sign-in ask
 - `components/landing/Sections.jsx` composes the page sections and their local controls.
 - `lib/landing/content.js` contains the landing copy, roles, pricing, FAQ, and navigation destinations.
 - `lib/landing/pet-motion.json` contains 120 recorded SVG poses and observed timestamps, derived from the existing design catalog. This is a recording of the observed animation, not the reference site's complete animation engine.
-- `public/blot/visuals` isolates the source feature illustrations in decorative frames so their imported styles do not affect existing product pages. All assets and fonts are local. Parent viewport visibility pauses the illustration timelines.
+- `public/ori/visuals` isolates the source feature illustrations in decorative frames so their imported styles do not affect existing product pages. All assets and fonts are local. Parent viewport visibility pauses the illustration timelines.
 
 The video and its player are intentionally excluded. The header and footer use the existing Ori logo. The favicon uses the selected mascot vector.
 

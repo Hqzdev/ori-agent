@@ -1,5 +1,5 @@
-import BlotAppleIntegrations
-import BlotWorkspace
+import OriAppleIntegrations
+import OriWorkspace
 import CryptoKit
 import Foundation
 import Observation

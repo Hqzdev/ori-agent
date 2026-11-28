@@ -1,8 +1,8 @@
-import BlotAppleIntegrations
+import OriAppleIntegrations
 #if os(macOS)
 import AppKit
-import BlotDesign
-import BlotWorkspace
+import OriDesign
+import OriWorkspace
 import SwiftUI
 
 /// A document tab owns its draft; switching preview/source never discards edits.
@@ -66,12 +66,12 @@ struct WorkspaceReportEditor: View {
             ScrollView(.horizontal) {
                 HStack(spacing: 8) {
                     HStack(spacing: 8) {
-                        BlotIcon(symbol: "folder", size: 15).foregroundStyle(.secondary)
+                        OriIcon(symbol: "folder", size: 15).foregroundStyle(.secondary)
                         Button(store.t("Files")) {
                             if let panelNavigation { panelNavigation.open(.files) }
                             else { store.navigate(.files) }
                         }.buttonStyle(.plain).foregroundStyle(.secondary)
-                        BlotIcon(symbol: "chevron.right", size: 10).foregroundStyle(.tertiary)
+                        OriIcon(symbol: "chevron.right", size: 10).foregroundStyle(.tertiary)
                         Text(fileName).fontWeight(.medium).lineLimit(1)
                         if session.dirty { Circle().fill(WorkspaceStyle.ink.opacity(0.45)).frame(width: 5, height: 5).accessibilityLabel(ru ? "Есть изменения" : "Unsaved changes") }
                     }.font(.system(size: 13)).padding(.horizontal, 13).frame(height: 36)
@@ -79,16 +79,16 @@ struct WorkspaceReportEditor: View {
                         .overlay(Capsule().strokeBorder(WorkspaceStyle.ink.opacity(0.07)))
                     Spacer(minLength: 12)
                     Button { store.showChanges(.init(kind: .draft, id: session.draft.id)) } label: {
-                        BlotLabel(ru ? "Изменения" : "Show changes", symbol: "square.and.pencil")
+                        OriLabel(ru ? "Изменения" : "Show changes", symbol: "square.and.pencil")
                     }.buttonStyle(WorkspaceButtonStyle(.secondary))
                         .accessibilityIdentifier("workspace.file.show-changes")
                     Button { withAnimation(.easeInOut(duration: 0.18)) { session.editing.toggle() } } label: {
-                        BlotLabel(session.editing ? (ru ? "Документ" : "View document") : (structured ? (ru ? "Редактировать" : "Edit") : (ru ? "Исходник" : "View source")),
+                        OriLabel(session.editing ? (ru ? "Документ" : "View document") : (structured ? (ru ? "Редактировать" : "Edit") : (ru ? "Исходник" : "View source")),
                             symbol: session.editing ? "doc.text" : "doc.text.magnifyingglass")
                     }.buttonStyle(WorkspaceButtonStyle(.secondary)).accessibilityIdentifier("workspace.file.source-mode")
                     if session.editing || session.dirty {
                         Button { _Concurrency.Task { await session.save(using: store) } } label: {
-                            BlotLabel(session.saving ? (ru ? "Сохраняю…" : "Saving…") : (ru ? "Сохранить" : "Save"), symbol: "checkmark")
+                            OriLabel(session.saving ? (ru ? "Сохраняю…" : "Saving…") : (ru ? "Сохранить" : "Save"), symbol: "checkmark")
                         }.buttonStyle(WorkspaceButtonStyle()).disabled(!session.dirty || session.saving)
                             .keyboardShortcut("s", modifiers: .command).accessibilityIdentifier("workspace.file.save")
                     }
@@ -96,16 +96,16 @@ struct WorkspaceReportEditor: View {
                         if let url {
                             Button(ru ? "Открыть в приложении по умолчанию" : "Open in default app") { NSWorkspace.shared.open(url) }
                                 .disabled(session.dirty)
-                            ShareLink(item: url) { BlotLabel(ru ? "Поделиться файлом" : "Share file", symbol: "square.and.arrow.up") }.buttonStyle(MacMenuRowStyle()).disabled(session.dirty)
+                            ShareLink(item: url) { OriLabel(ru ? "Поделиться файлом" : "Share file", symbol: "square.and.arrow.up") }.buttonStyle(MacMenuRowStyle()).disabled(session.dirty)
                         }
                         Button(ru ? "Отменить несохранённые правки" : "Revert unsaved changes") { session.revert() }
                             .disabled(!session.dirty || session.saving)
-                    } label: { BlotLabel(ru ? "Открыть" : "Open", symbol: "arrow.up.right.square") }
+                    } label: { OriLabel(ru ? "Открыть" : "Open", symbol: "arrow.up.right.square") }
                         .fixedSize().padding(.horizontal, 12).frame(height: 36)
                         .background(WorkspaceStyle.surface, in: Capsule())
                         .overlay(Capsule().strokeBorder(WorkspaceStyle.ink.opacity(0.07)))
-                    Button { WorkspaceClipboard.copy(source) } label: { BlotIcon(symbol: "doc.on.doc", size: 17).frame(width: 36, height: 36) }
-                        .buttonStyle(BlotPlainButtonStyle(hoverIn: Circle())).background(WorkspaceStyle.surface, in: Circle())
+                    Button { WorkspaceClipboard.copy(source) } label: { OriIcon(symbol: "doc.on.doc", size: 17).frame(width: 36, height: 36) }
+                        .buttonStyle(OriPlainButtonStyle(hoverIn: Circle())).background(WorkspaceStyle.surface, in: Circle())
                         .accessibilityLabel(ru ? "Скопировать содержимое" : "Copy contents")
                 }.padding(.horizontal, 16).padding(.vertical, 10).frame(minWidth: geometry.size.width)
             }.scrollIndicators(.hidden)

@@ -1,15 +1,15 @@
-import BlotDomain
-import BlotWorkspace
+import OriDomain
+import OriWorkspace
 import Foundation
 
 @main struct VerifyWorkRuns {
     static func main() throws {
         let owner = UUID(), workspace = UUID(), conversation = UUID(), command = UUID(), agent = UUID()
-        func metadata(_ id: UUID = UUID(), seconds: Double = 0) throws -> BlotV3.RecordMetadata {
+        func metadata(_ id: UUID = UUID(), seconds: Double = 0) throws -> OriV3.RecordMetadata {
             try .init(id: id, ownerId: owner, workspaceId: workspace, version: 1,
                 createdAt: Date(timeIntervalSince1970: seconds), updatedAt: Date(timeIntervalSince1970: seconds))
         }
-        func message(_ text: String, user: Bool = false, commandID: UUID? = nil, author: UUID? = nil, delivery: BlotV3.DeliveryState = .completed, seconds: Double = 0) throws -> BlotV3.Message {
+        func message(_ text: String, user: Bool = false, commandID: UUID? = nil, author: UUID? = nil, delivery: OriV3.DeliveryState = .completed, seconds: Double = 0) throws -> OriV3.Message {
             try .init(metadata: metadata(seconds: seconds), conversationId: conversation, role: user ? .user : .assistant,
                 content: text, delivery: delivery, commandId: commandID ?? command, artifactIds: [], authorAgentId: user ? nil : author ?? agent)
         }
@@ -17,7 +17,7 @@ import Foundation
         let progress = try message("Creating a folder")
         let toolOnly = try message("")
         let final = try message("Done: report ready", seconds: 125)
-        func step(_ response: BlotV3.Message, index: Int) throws -> BlotV3.ModelStep {
+        func step(_ response: OriV3.Message, index: Int) throws -> OriV3.ModelStep {
             try .init(metadata: metadata(seconds: Double(index)), conversationId: conversation, sourceMessageId: user.metadata.id,
                 responseMessageId: response.metadata.id, executorDeviceId: owner, originDeviceId: owner, executionMode: .local_owned,
                 stepIndex: index, modelId: "test", budgetTokenLimit: 10000, requestJSON: "{}",

@@ -12,11 +12,11 @@ import { AppHandoff } from "./app-handoff.mjs";
 import { appCallback, attemptQuery, nativeAttempt } from "./browser-session.mjs";
 
 const clientID = "blot-cli";
-const redirectURI = "http://127.0.0.1:49152/oauth/blot";
+const redirectURI = "http://127.0.0.1:49152/oauth/ori";
 const pkce = verifier => createHash("sha256").update(verifier).digest("base64url");
 const codeIs = code => error => error.code === code;
 
-test("CLI PKCE grants one loopback session for the verified Blot owner", async () => {
+test("CLI PKCE grants one loopback session for the verified Ori owner", async () => {
   const postgres = new PGlite();
   const pg = {
     query: (sql, values) => values?.length
@@ -38,8 +38,8 @@ test("CLI PKCE grants one loopback session for the verified Blot owner", async (
     const attempt = { clientID, redirectURI, state: randomToken(),
       codeChallenge: pkce(codeVerifier), intent: "login" };
     assert.deepEqual(nativeAttempt(attemptQuery(attempt)), attempt);
-    for (const redirect of ["http://localhost:49152/oauth/blot", "http://127.0.0.1:80/oauth/blot",
-      "http://127.0.0.1:65536/oauth/blot", "http://127.0.0.1:49152/oauth/blot?next=https://example.org"]) {
+    for (const redirect of ["http://localhost:49152/oauth/ori", "http://127.0.0.1:80/oauth/ori",
+      "http://127.0.0.1:65536/oauth/ori", "http://127.0.0.1:49152/oauth/ori?next=https://example.org"]) {
       assert.throws(() => nativeAttempt(attemptQuery({ ...attempt, redirectURI: redirect })), codeIs("invalid_app_request"));
       await assert.rejects(browser.issue({ ...attempt, redirectURI: redirect }, browserTokens.accessToken),
         codeIs("browser_authorization_invalid"));

@@ -4,7 +4,7 @@
 
 ## Выбранная модель исполнения
 
-8 ноября 2026 владелец выбрал выполнение прямо на Mac и полный CLI для доверенных проектов. Основное приложение сохраняет App Sandbox. Встроенный `BlotWorkspaceExecutor.xpc` выполняется от текущего пользователя со своей конфигурацией доступа, без root, административной установки и login daemon. App Sandbox не выдаётся за изоляцию произвольного кода проекта: запущенные скрипты имеют доступ исполнителя и могут совершать внешние действия.
+8 ноября 2026 владелец выбрал выполнение прямо на Mac и полный CLI для доверенных проектов. Основное приложение сохраняет App Sandbox. Встроенный `OriWorkspaceExecutor.xpc` выполняется от текущего пользователя со своей конфигурацией доступа, без root, административной установки и login daemon. App Sandbox не выдаётся за изоляцию произвольного кода проекта: запущенные скрипты имеют доступ исполнителя и могут совершать внешние действия.
 
 Клиент использует приватный bundled XPC service. На обеих сторонах задаётся code signing requirement фактического приложения/исполнителя; helper дополнительно проверяет UID. Отсутствие корректной подписи не включает обходной путь. Дочерние программы получают только stdin `/dev/null`, отдельные stdout/stderr и явно построенное окружение; прочие file descriptors закрываются при spawn. Закрытие XPC-соединения и выход из аккаунта останавливают исполнитель. Старый Java v2 VM runner остаётся отдельной реализацией; автоматического fallback к нему нет.
 
@@ -43,9 +43,9 @@ Mac показывает живые карточки процессов, ком�
 
 ## Проверка
 
-Финальная проверка 8 ноября 2026: 154 теста BlotWorkspace и 18 Apple integrations прошли; Java application/infrastructure — 44 теста в актуальном Gradle cache; schema validation — 167 фикстур. Настоящий XPC-прототип и три end-to-end сценария native service прошли, как и регрессии MCP (3), групп (10) и очереди задач (5). Debug-сборки Mac и generic physical-device iOS завершились успешно. После сборки с `CODE_SIGNING_ALLOWED=NO` Mac bundle подписан ad hoc повторно; `codesign --verify --deep --strict` прошёл. Свободное место оставалось выше 20 GiB.
+Финальная проверка 8 ноября 2026: 154 теста OriWorkspace и 18 Apple integrations прошли; Java application/infrastructure — 44 теста в актуальном Gradle cache; schema validation — 167 фикстур. Настоящий XPC-прототип и три end-to-end сценария native service прошли, как и регрессии MCP (3), групп (10) и очереди задач (5). Debug-сборки Mac и generic physical-device iOS завершились успешно. После сборки с `CODE_SIGNING_ALLOWED=NO` Mac bundle подписан ad hoc повторно; `codesign --verify --deep --strict` прошёл. Свободное место оставалось выше 20 GiB.
 
-- Полный BlotWorkspace suite: реальные процессы, каналы, таймаут, отмена, четыре процесса, отсутствующий toolchain, дочерний процесс в отдельной группе; файлы и CAS; Git freeze/stale inputs, staged changes и отдельная task-ветка; local bare remote, push и восстановление проверки ссылки; назначения, отказ/отзыв, pause, реплика и proof v1/v2.
+- Полный OriWorkspace suite: реальные процессы, каналы, таймаут, отмена, четыре процесса, отсутствующий toolchain, дочерний процесс в отдельной группе; файлы и CAS; Git freeze/stale inputs, staged changes и отдельная task-ветка; local bare remote, push и восстановление проверки ссылки; назначения, отказ/отзыв, pause, реплика и proof v1/v2.
 - `scripts/check-native-xpc.sh`: sandboxed signed host → code requirement → настоящий bundled XPC → команда и каналы.
 - `scripts/check-native-execution.sh`: реальные LocalWorkspaceService и XPC, детерминированная модель, временный Git-проект, штатный interaction center. Чат и затем project-bound queue task проходят read → write → command → poll/log → frozen diff → approved commit; посторонний staged-файл сохраняется. Проверяются повторное открытие и отзыв.
 - Регрессии MCP, групп и задач; Apple integrations, Java application/infrastructure и 167 контрактных фикстур. Mac и generic physical-device iOS собираются без симуляторов.

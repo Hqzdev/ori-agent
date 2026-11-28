@@ -1,4 +1,4 @@
-import BlotDesign
+import OriDesign
 import SwiftUI
 
 /// Forms share Ori's surfaces and spacing while retaining native text editing and accessibility.
@@ -26,21 +26,21 @@ struct WorkspacePanelForm<Content: View>: View {
 extension View {
     func workspacePanelControls() -> some View {
         self.buttonStyle(WorkspaceButtonStyle(.secondary))
-            .textFieldStyle(BlotTextFieldStyle()).toggleStyle(BlotToggleStyle())
-            .disclosureGroupStyle(BlotDisclosureStyle()).progressViewStyle(BlotProgressStyle())
-            .tint(WorkspaceStyle.ink).environment(\.blotChatChrome, false)
+            .textFieldStyle(OriTextFieldStyle()).toggleStyle(OriToggleStyle())
+            .disclosureGroupStyle(OriDisclosureStyle()).progressViewStyle(OriProgressStyle())
+            .tint(WorkspaceStyle.ink).environment(\.oriChatChrome, false)
     }
 }
 
 struct WorkspacePanelTextFieldStyle: TextFieldStyle {
     func _body(configuration: TextField<Self._Label>) -> some View {
-        configuration.textFieldStyle(BlotTextFieldStyle())
+        configuration.textFieldStyle(OriTextFieldStyle())
     }
 }
 
 struct WorkspacePanelToggleStyle: ToggleStyle {
     func makeBody(configuration: Configuration) -> some View {
-        Toggle(isOn: configuration.$isOn) { configuration.label }.toggleStyle(BlotToggleStyle())
+        Toggle(isOn: configuration.$isOn) { configuration.label }.toggleStyle(OriToggleStyle())
     }
 }
 
@@ -66,12 +66,12 @@ struct WorkspaceChoice<Value: Hashable>: View {
                 HStack(spacing: 10) {
                     Text(options.first { $0.value == selection }?.title ?? "—").multilineTextAlignment(.leading)
                     Spacer(minLength: 4)
-                    BlotIcon(.chevronsUpDown, size: 16).foregroundStyle(WorkspaceStyle.secondary)
+                    OriIcon(.chevronsUpDown, size: 16).foregroundStyle(WorkspaceStyle.secondary)
                 }.padding(12).frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
                     .background(WorkspaceStyle.canvas, in: RoundedRectangle(cornerRadius: 16))
-                    .overlay(RoundedRectangle(cornerRadius: 16).strokeBorder(BlotColor.edge))
+                    .overlay(RoundedRectangle(cornerRadius: 16).strokeBorder(OriColor.edge))
                     .contentShape(RoundedRectangle(cornerRadius: 16))
-            }.buttonStyle(BlotPlainButtonStyle()).blotFocusRing(radius: 16).opacity(enabled ? 1 : 0.45)
+            }.buttonStyle(OriPlainButtonStyle()).oriFocusRing(radius: 16).opacity(enabled ? 1 : 0.45)
                 .accessibilityLabel(title).accessibilityValue(options.first { $0.value == selection }?.title ?? "—")
                 .popover(isPresented: $expanded, arrowEdge: .bottom) {
                     #if os(macOS)
@@ -81,7 +81,7 @@ struct WorkspaceChoice<Value: Hashable>: View {
                                 HStack {
                                     Text(option.title)
                                     Spacer()
-                                    if option.value == selection { BlotIcon(.check, size: 14) }
+                                    if option.value == selection { OriIcon(.check, size: 14) }
                                 }
                             }.buttonStyle(MacMenuRowStyle()).accessibilityAddTraits(option.value == selection ? .isSelected : [])
                         }
@@ -94,11 +94,11 @@ struct WorkspaceChoice<Value: Hashable>: View {
                                     HStack(spacing: 12) {
                                         Text(option.title).multilineTextAlignment(.leading)
                                         Spacer(minLength: 12)
-                                        BlotIcon(.check, size: 16).opacity(option.value == selection ? 1 : 0)
+                                        OriIcon(.check, size: 16).opacity(option.value == selection ? 1 : 0)
                                     }.font(.system(size: 13)).padding(12).frame(minHeight: 44).frame(maxWidth: .infinity, alignment: .leading)
                                         .background(option.value == selection ? WorkspaceStyle.surface : .clear, in: RoundedRectangle(cornerRadius: 10))
                                         .contentShape(RoundedRectangle(cornerRadius: 10))
-                                }.buttonStyle(BlotPlainButtonStyle()).blotFocusRing().accessibilityAddTraits(option.value == selection ? [.isSelected] : [])
+                                }.buttonStyle(OriPlainButtonStyle()).oriFocusRing().accessibilityAddTraits(option.value == selection ? [.isSelected] : [])
                             }
                         }.padding(8)
                     }.frame(idealWidth: 280, maxHeight: 320).background(WorkspaceStyle.canvas).presentationBackground(WorkspaceStyle.canvas).presentationCornerRadius(22).presentationCompactAdaptation(.popover)
@@ -117,9 +117,9 @@ struct WorkspaceCounter: View {
         HStack {
             Text(title).font(.callout)
             Spacer()
-            Button { value = max(range.lowerBound, value - step) } label: { BlotIcon(symbol: "minus", size: 16) }.disabled(value <= range.lowerBound).accessibilityLabel("−\(step)")
+            Button { value = max(range.lowerBound, value - step) } label: { OriIcon(symbol: "minus", size: 16) }.disabled(value <= range.lowerBound).accessibilityLabel("−\(step)")
             Text(value.formatted()).monospacedDigit().frame(minWidth: 24)
-            Button { value = min(range.upperBound, value + step) } label: { BlotIcon(.plus, size: 16) }.disabled(value >= range.upperBound).accessibilityLabel("+\(step)")
+            Button { value = min(range.upperBound, value + step) } label: { OriIcon(.plus, size: 16) }.disabled(value >= range.upperBound).accessibilityLabel("+\(step)")
         }.workspacePanelControls()
     }
 }

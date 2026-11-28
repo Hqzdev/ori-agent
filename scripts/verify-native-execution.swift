@@ -1,6 +1,6 @@
-import BlotAppleIntegrations
-import BlotDomain
-import BlotWorkspace
+import OriAppleIntegrations
+import OriDomain
+import OriWorkspace
 import Foundation
 
 private actor NativeVerificationCredentials: WorkspaceCredentialStore {
@@ -91,7 +91,7 @@ private actor NativeVerificationModel: ChatModel {
         let project = try await native.connect(name: "Native test", root: code, bookmark: nil, agents: [agent], trustedCLI: true)
         try await native.select(projectID: project, conversationID: conversation)
         let sourceID = try await WorkspaceChatService(repository: repository, identity: identity).sendMessage(commandID: UUID(), conversationID: conversation, content: "Change a.txt, verify it and commit the exact change")
-        let source = try await repository.record(BlotV3.Message.self, id: sourceID, workspaceID: identity.workspaceID)!
+        let source = try await repository.record(OriV3.Message.self, id: sourceID, workspaceID: identity.workspaceID)!
         let approvals = _Concurrency.Task { @MainActor in
             while !_Concurrency.Task.isCancelled {
                 if let pending = service.appleIntegrations.interactions.pending {

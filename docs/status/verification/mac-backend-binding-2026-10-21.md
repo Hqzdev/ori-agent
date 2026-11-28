@@ -21,7 +21,7 @@
 
 ## Состояние и надёжность
 
-`LiveWorkspace`, `WorkspaceRecords`, `WorkspaceCommands` и `WorkspaceGraph` находятся в `packages/BlotAPI`. SwiftUI читает подтверждённые сервером записи. Сетевой клиент передаётся через конструктор. Источник не хранит второй независимый набор статусов задач.
+`LiveWorkspace`, `WorkspaceRecords`, `WorkspaceCommands` и `WorkspaceGraph` находятся в `packages/OriAPI`. SwiftUI читает подтверждённые сервером записи. Сетевой клиент передаётся через конструктор. Источник не хранит второй независимый набор статусов задач.
 
 Начальная загрузка получает snapshot, затем продолжает SSE от watermark. Из события читается актуальная запись по ID. Старый ответ не заменяет более новую версию. Удаление проекта убирает его дочерние записи из кэша. Смена аккаунта сбрасывает записи, очередь UI, выбранные элементы, навигацию и локальные источники.
 
@@ -31,7 +31,7 @@
 
 - Java: 49 тестов, ошибок и пропусков нет. `spotlessCheck`, strict dependency verification и `:api:bootJar` успешны.
 - Новый настоящий HTTP-сценарий: подключить временный Git-проект → создать запуск → сохранить управляемый план → принять → пауза → продолжение → остановка → создать/изменить навык → создать расписание → вручную запустить → повторить тот же commandId. Повтор оставляет один запуск и одну запись истории. Чужой аккаунт не читает расписание.
-- Swift BlotAPI: 23 теста. Snapshot этого Java HTTP-сценария загружается теми же `WorkspaceRecords`, которые используют экраны Mac.
+- Swift OriAPI: 23 теста. Snapshot этого Java HTTP-сценария загружается теми же `WorkspaceRecords`, которые используют экраны Mac.
 - Проверены реальные переходы клиентского состояния snapshot → SSE → GET записи, обрыв связи, исходный payload при повторе, версия кэша, удаление проекта и смена аккаунта.
 - Граф проверен с двумя сессиями одной роли, назначением, входящим сообщением, ревью и зависимостью. У каждой связи существует запись-источник; чужой запуск не попадает в граф.
 - SSE отдельно проверен с LF/CRLF/CR, комментариями, разделителями, UTF-8, многострочным data, неполным событием и ограничением размера.
@@ -41,9 +41,9 @@
 
 ```sh
 backend/gradlew --offline --no-daemon -p backend --dependency-verification=strict spotlessCheck check :api:bootJar
-BLOT_HTTP_FIXTURES="$PWD/.build/http-fixtures" swift test --package-path packages/BlotAPI
-xcodebuild -quiet -project apps/Blot.xcodeproj -scheme BlotMac -configuration Debug -destination 'platform=macOS,arch=arm64' -derivedDataPath .build/xcode CODE_SIGNING_ALLOWED=NO build
-xcodebuild -quiet -project apps/Blot.xcodeproj -scheme BlotIOS -configuration Debug -destination 'generic/platform=iOS Simulator' -derivedDataPath .build/xcode-ios CODE_SIGNING_ALLOWED=NO build
+BLOT_HTTP_FIXTURES="$PWD/.build/http-fixtures" swift test --package-path packages/OriAPI
+xcodebuild -quiet -project apps/Ori.xcodeproj -scheme OriMac -configuration Debug -destination 'platform=macOS,arch=arm64' -derivedDataPath .build/xcode CODE_SIGNING_ALLOWED=NO build
+xcodebuild -quiet -project apps/Ori.xcodeproj -scheme OriIOS -configuration Debug -destination 'generic/platform=iOS Simulator' -derivedDataPath .build/xcode-ios CODE_SIGNING_ALLOWED=NO build
 ```
 
 [Машиночитаемый результат и SHA-256 исходников/JAR](mac-backend-binding-2026-10-21.json).

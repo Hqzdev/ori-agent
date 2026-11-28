@@ -1,5 +1,5 @@
-import BlotDomain
-import BlotWorkspace
+import OriDomain
+import OriWorkspace
 import CryptoKit
 import Foundation
 import OSLog
@@ -23,7 +23,7 @@ final class WorkspaceAccountApplicationService: WorkspaceDevicePairingProviding,
     private let session: WorkspaceCloudSession
     private let credentials: WorkspaceKeychain
     private let directory: URL
-    private let authenticationLog = Logger(subsystem: "dev.blot.authentication", category: "AccountSession")
+    private let authenticationLog = Logger(subsystem: "dev.ori.authentication", category: "AccountSession")
     private var erasingAccount = false
     private var local: LocalWorkspaceService?
     private var localDirectory: URL?
@@ -47,7 +47,7 @@ final class WorkspaceAccountApplicationService: WorkspaceDevicePairingProviding,
     func refreshSubscriptionCard(_ id: UUID) async throws {
         guard let local else { throw WorkspaceServiceError.unavailable }
         let identity = try await local.context()
-        guard let card = try await local.repository.record(BlotV3.ConversationCard.self, id: id, workspaceID: identity.workspaceID),
+        guard let card = try await local.repository.record(OriV3.ConversationCard.self, id: id, workspaceID: identity.workspaceID),
               card.metadata.ownerId == identity.ownerID, card.kind == "subscription",
               let url = URL(string: "https://blot-agent.vercel.app/app/api/billing/card-status?cardId=" + id.uuidString) else { throw WorkspaceServiceError.unavailable }
         var request = URLRequest(url: url); request.timeoutInterval = 20
@@ -244,7 +244,7 @@ final class WorkspaceAccountApplicationService: WorkspaceDevicePairingProviding,
             // Offline access remains available; the worker retries when connectivity returns.
             await backup.refresh()
             let deviceAuthority = try await WorkspaceDeviceAuthority.open(identity: identity, credentials: credentials)
-            let model = BlotAccountChatModel(authorization: session)
+            let model = OriAccountChatModel(authorization: session)
             let modelCredentials = WorkspaceModelCredentialStore(accountNamespace: identity.ownerID.uuidString + ":" + identity.deviceID.uuidString)
             let service = try LocalWorkspaceService(databaseURL: database, repository: repository, identity: identity,
                 maximumOutputTokens: installation.gigaChat.outputTokens, runTokenBudget: installation.gigaChat.runTokenBudget, contextWindowTokens: installation.gigaChat.contextTokens, deviceAuthority: deviceAuthority, mcpCredentials: credentials,

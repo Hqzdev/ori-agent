@@ -1,5 +1,5 @@
-import BlotDesign
-import BlotWorkspace
+import OriDesign
+import OriWorkspace
 import SwiftUI
 
 @MainActor protocol WorkspacePasswordProviding { func passwordService() async throws -> WorkspacePasswordConnect }
@@ -29,7 +29,7 @@ struct WorkspacePasswordConnectView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
-                BlotLabel("1Password", symbol: "key.fill").font(.title2)
+                OriLabel("1Password", symbol: "key.fill").font(.title2)
                 Text(ru ? "Подключение через ваш 1Password Connect Server. Выберите разрешённые хранилища, затем импортируйте нужные логины в Vault этого устройства." : "Connect to your 1Password Connect Server. Choose allowed vaults, then import selected logins into this device’s Vault.").foregroundStyle(.secondary)
                 if connected {
                     WorkspaceChoice(title: ru ? "Хранилище" : "Vault", selection: $vaultID, options: vaults.map { .init($0.id, $0.name) })

@@ -1,6 +1,6 @@
-import BlotAppleIntegrations
-import BlotDesign
-import BlotWorkspace
+import OriAppleIntegrations
+import OriDesign
+import OriWorkspace
 import SwiftUI
 
 struct WorkspaceDocumentEditor: View {
@@ -60,7 +60,7 @@ struct WorkspaceDocumentEditor: View {
         HStack(spacing: 8) {
             Button(ru ? "Отменить правки" : "Revert") { session.revert() }.buttonStyle(WorkspaceButtonStyle(.secondary)).disabled(!session.dirty)
             Button { _Concurrency.Task { await session.save(using: store) } } label: {
-                BlotLabel(session.saving ? (ru ? "Сохраняю…" : "Saving…") : (ru ? "Сохранить" : "Save"), symbol: "checkmark")
+                OriLabel(session.saving ? (ru ? "Сохраняю…" : "Saving…") : (ru ? "Сохранить" : "Save"), symbol: "checkmark")
             }.buttonStyle(WorkspaceButtonStyle()).disabled(!session.dirty).keyboardShortcut("s", modifiers: .command)
         }
     }

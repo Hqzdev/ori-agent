@@ -1,6 +1,6 @@
-import BlotAppleIntegrations
-import BlotDomain
-import BlotWorkspace
+import OriAppleIntegrations
+import OriDomain
+import OriWorkspace
 import Foundation
 
 /// Owns one authenticated account's local database and its command services.
@@ -38,7 +38,7 @@ final class LocalWorkspaceService: WorkspaceDevicePairingCommands, WorkspaceDevi
     let makeNativeExecutor: @Sendable () -> any NativeExecuting
     let mcpCredentials: any WorkspaceCredentialStore
     private let deviceAuthority: WorkspaceDeviceAuthority?
-    private var delegationAuthorization: (@Sendable (BlotV3.Task) async throws -> Void)? {
+    private var delegationAuthorization: (@Sendable (OriV3.Task) async throws -> Void)? {
         guard let deviceAuthority, let identity else { return nil }
         let delegation = WorkspaceTaskDelegation(repository: repository, identity: identity, authority: deviceAuthority)
         return { try await delegation.authorize($0) }
@@ -225,7 +225,7 @@ final class LocalWorkspaceService: WorkspaceDevicePairingCommands, WorkspaceDevi
         return try await currentSnapshot()
     }
 
-    func updateConversation(_ chat: BlotV3.Conversation, title: String? = nil, pinned: Bool? = nil,
+    func updateConversation(_ chat: OriV3.Conversation, title: String? = nil, pinned: Bool? = nil,
                             archived: Bool? = nil, deleting: Bool = false) async throws -> WorkspaceSnapshot {
         let identity = try await context()
         let service = WorkspaceConversationService(repository: repository, identity: identity)
@@ -375,9 +375,9 @@ final class LocalWorkspaceService: WorkspaceDevicePairingCommands, WorkspaceDevi
     }
     func resolveAppleInvocation(_ id: UUID, succeeded: Bool) async throws -> WorkspaceSnapshot {
         let identity = try await context()
-        guard let invocation = try await repository.record(BlotV3.ToolInvocation.self, id: id, workspaceID: identity.workspaceID),
+        guard let invocation = try await repository.record(OriV3.ToolInvocation.self, id: id, workspaceID: identity.workspaceID),
               invocation.state == .unknown, invocation.execution.executorDeviceId == identity.deviceID,
-              let action = try await repository.record(BlotV3.PreparedAction.self, id: invocation.preparedActionId, workspaceID: identity.workspaceID),
+              let action = try await repository.record(OriV3.PreparedAction.self, id: invocation.preparedActionId, workspaceID: identity.workspaceID),
               action.toolId.hasPrefix("apple_") else { throw WorkspaceStorageError.permissionDenied }
         try await WorkspacePermissionService(repository: repository, identity: identity).finish(commandID: UUID(), invocationID: id,
             state: succeeded ? .succeeded : .failed, result: "{\"state\":\"verified_by_user\",\"succeeded\":\(succeeded)}")
@@ -388,14 +388,14 @@ final class LocalWorkspaceService: WorkspaceDevicePairingCommands, WorkspaceDevi
         appleIntegrations.changed()
         return try await snapshot(identity)
     }
-    func disconnectApple(_ connection: BlotV3.Connection) async throws -> WorkspaceSnapshot {
+    func disconnectApple(_ connection: OriV3.Connection) async throws -> WorkspaceSnapshot {
         let identity = try await context()
         try await WorkspaceConnectionService(repository: repository, identity: identity).disconnect(connection.metadata.id)
         appleIntegrations.changed()
         return try await snapshot(identity)
     }
 
-    func responses(to message: BlotV3.Message, profile: BlotInferenceProfile? = nil) async throws -> AsyncThrowingStream<BlotV3.Message, Error> {
+    func responses(to message: OriV3.Message, profile: OriInferenceProfile? = nil) async throws -> AsyncThrowingStream<OriV3.Message, Error> {
         guard responseWorkers[message.conversationId] == nil, !taskConversations.contains(message.conversationId),
               startingResponses.insert(message.conversationId).inserted else { throw WorkspaceStorageError.permissionDenied }
         defer {
@@ -412,8 +412,8 @@ final class LocalWorkspaceService: WorkspaceDevicePairingCommands, WorkspaceDevi
         let modelID = configuration?.modelId ?? "gigachat"
         let resolve: @MainActor (String) throws -> any ChatModel = { [makeModel] id in
             guard let profile else { return try makeModel(id) }
-            guard let provider = try makeModel("gigachat") as? any BlotSelectableModel else { throw ChatModelError.invalidConfiguration }
-            return BlotInferenceModel(provider: provider, profile: profile)
+            guard let provider = try makeModel("gigachat") as? any OriSelectableModel else { throw ChatModelError.invalidConfiguration }
+            return OriInferenceModel(provider: provider, profile: profile)
         }
         let model = try resolve(modelID)
         let recorder = WorkspaceResponseRecorder(repository: repository, identity: identity)
@@ -471,7 +471,7 @@ final class LocalWorkspaceService: WorkspaceDevicePairingCommands, WorkspaceDevi
                     continuation.finish()
                 } catch {
                     if !generating {
-                        let state: BlotV3.DeliveryState = _Concurrency.Task.isCancelled ? .canceled : .interrupted
+                        let state: OriV3.DeliveryState = _Concurrency.Task.isCancelled ? .canceled : .interrupted
                         if let saved = try? await recorder.finish(responseID, delivery: state) { continuation.yield(saved) }
                     }
                     continuation.finish(throwing: error)
@@ -487,7 +487,7 @@ final class LocalWorkspaceService: WorkspaceDevicePairingCommands, WorkspaceDevi
     }
     private func executeTask(_ taskID: UUID) async throws {
         let identity = try await context()
-        guard let task = try await repository.record(BlotV3.Task.self, id: taskID, workspaceID: identity.workspaceID),
+        guard let task = try await repository.record(OriV3.Task.self, id: taskID, workspaceID: identity.workspaceID),
               canRunTask(in: task.conversationId) else { return }
         taskConversations.insert(task.conversationId)
         defer {
@@ -514,8 +514,8 @@ final class LocalWorkspaceService: WorkspaceDevicePairingCommands, WorkspaceDevi
     private func makeTaskModel(_ id: String) throws -> any ChatModel { try makeModel(id) }
     private func setScheduleActivity(_ enabled: Bool) { scheduleHost.setEnabled(enabled) }
 
-    private func responseContext(for message: BlotV3.Message, projection: WorkspaceProjection,
-                                 configuration: BlotV3.AgentConfigurationRevision?) async throws -> [ChatModelMessage] {
+    private func responseContext(for message: OriV3.Message, projection: WorkspaceProjection,
+                                 configuration: OriV3.AgentConfigurationRevision?) async throws -> [ChatModelMessage] {
         var context = try WorkspaceContextBuilder().messages(for: message, projection: projection, configuration: configuration,
             maximumCharacters: message.artifactIds.isEmpty ? 48_000 : 24_000)
         if automaticSessionFiles {
@@ -579,7 +579,7 @@ final class LocalWorkspaceService: WorkspaceDevicePairingCommands, WorkspaceDevi
         return try await snapshot(identity)
     }
 
-    func deleteMemory(_ memory: BlotV3.MemoryEntry) async throws -> WorkspaceSnapshot {
+    func deleteMemory(_ memory: OriV3.MemoryEntry) async throws -> WorkspaceSnapshot {
         let identity = try await context()
         try await WorkspaceMemoryService(repository: repository, identity: identity).revise(commandID: UUID(),
             memoryID: memory.metadata.id, expectedVersion: memory.metadata.version, deleting: true)
@@ -618,7 +618,7 @@ final class LocalWorkspaceService: WorkspaceDevicePairingCommands, WorkspaceDevi
         _ = try await WorkspaceScheduleService(repository: repository, identity: identity).runManually(commandID: UUID(), scheduleID: id, now: scheduleClock.now())
         return try await snapshot(identity)
     }
-    func searchMessages(_ query: String) async throws -> [BlotV3.Message] {
+    func searchMessages(_ query: String) async throws -> [OriV3.Message] {
         try await repository.searchMessages(query, workspaceID: context().workspaceID)
     }
     func requireDeviceAuthority() throws -> WorkspaceDeviceAuthority {
@@ -682,7 +682,7 @@ final class LocalWorkspaceService: WorkspaceDevicePairingCommands, WorkspaceDevi
         return try await currentSnapshot()
     }
 
-    func export(_ message: BlotV3.Message, format: WorkspaceExportFormat) async throws -> WorkspaceSnapshot {
+    func export(_ message: OriV3.Message, format: WorkspaceExportFormat) async throws -> WorkspaceSnapshot {
         let writer = WorkspaceDocumentWriter()
         let title = "Response " + String(message.metadata.id.uuidString.prefix(8))
         let data: Data
@@ -707,10 +707,10 @@ final class LocalWorkspaceService: WorkspaceDevicePairingCommands, WorkspaceDevi
         try await WorkspaceSkillService(repository: repository, identity: context()).save(commandID: UUID(), skillID: id,
             expectedVersion: version, name: name, instructions: instructions, parameters: parameters, toolIDs: WorkspaceSkillToolCatalog.includingDiscovery(tools))
     }
-    func archiveSkill(_ skill: BlotV3.Skill, archived: Bool) async throws {
+    func archiveSkill(_ skill: OriV3.Skill, archived: Bool) async throws {
         try await WorkspaceSkillService(repository: repository, identity: context()).setArchived(commandID: UUID(), skillID: skill.metadata.id, expectedVersion: skill.metadata.version, archived: archived)
     }
-    func activateSkill(_ skill: BlotV3.Skill, revisionID: UUID) async throws {
+    func activateSkill(_ skill: OriV3.Skill, revisionID: UUID) async throws {
         try await WorkspaceSkillService(repository: repository, identity: context()).activate(commandID: UUID(), skillID: skill.metadata.id, expectedVersion: skill.metadata.version, revisionID: revisionID)
     }
     func assignSkill(_ skillID: UUID, agentID: UUID, assigned: Bool, version: Int) async throws {
@@ -752,7 +752,7 @@ final class LocalWorkspaceService: WorkspaceDevicePairingCommands, WorkspaceDevi
         result.mcpConnections = records.mcpConnections
         result.localConnectedPluginIDs = (try? await mcpService().access().filter(\.enabled).compactMap(\.pluginID)) ?? []
         if (try? await passwordService().connected()) == true { result.localConnectedPluginIDs?.append("1password") }
-        result.projects = try await repository.records(BlotV3.Project.self, workspaceID: identity.workspaceID)
+        result.projects = try await repository.records(OriV3.Project.self, workspaceID: identity.workspaceID)
         result.cards = records.cards
         result.toolInvocations = records.invocations; result.preparedActions = records.actions
         result.participants = records.participants; result.reactions = records.reactions; result.readPositions = records.readPositions

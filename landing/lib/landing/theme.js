@@ -1,4 +1,4 @@
-export const THEME_STORAGE_KEY = "blot-theme";
+export const THEME_STORAGE_KEY = "ori-theme";
 
 export function readThemePreference() {
   try {

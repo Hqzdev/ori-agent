@@ -44,11 +44,11 @@
   ],
   "groups": [
     {
-      "name": "Blot",
+      "name": "Ori",
       "layers": [
         {
-          "name": "Blot",
-          "image-name": "Blot.svg",
+          "name": "Ori",
+          "image-name": "Ori.svg",
           "fill-specializations": [
             {
               "value": {

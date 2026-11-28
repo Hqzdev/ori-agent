@@ -1,4 +1,4 @@
-import BlotDomain
+import OriDomain
 import Foundation
 import XCTest
 

@@ -1,6 +1,6 @@
-import BlotDesign
-import BlotDomain
-import BlotWorkspace
+import OriDesign
+import OriDomain
+import OriWorkspace
 import Foundation
 import QuickLook
 import SwiftUI
@@ -16,7 +16,7 @@ struct WorkspaceLocalFileView: View {
     @State private var page = 1
     @State private var failure: String?
     private var ru: Bool { store.language == "ru" }
-    private var file: BlotV3.Artifact? {
+    private var file: OriV3.Artifact? {
         if let artifactID { return store.snapshot.artifacts.first { $0.metadata.id == artifactID } }
         return store.selectedFile
     }
@@ -84,8 +84,8 @@ struct WorkspaceLocalFileView: View {
         VStack(alignment: .leading, spacing: 20) {
             #if os(macOS)
             HStack(spacing: 8) {
-                BlotLabel(store.t("Files"), symbol: "folder").foregroundStyle(.secondary)
-                BlotIcon(symbol: "chevron.right", size: 12).foregroundStyle(.tertiary)
+                OriLabel(store.t("Files"), symbol: "folder").foregroundStyle(.secondary)
+                OriIcon(symbol: "chevron.right", size: 12).foregroundStyle(.tertiary)
                 Text(file?.name ?? store.t("Files")).lineLimit(2).textSelection(.enabled)
             }.font(.callout).frame(maxWidth: .infinity, alignment: .leading)
             #endif
@@ -111,7 +111,7 @@ struct WorkspaceLocalFileView: View {
                 } else if let table {
                     WorkspaceTablePreview(rows: table)
                 } else if let read {
-                    if read.usedOCR { BlotLabel(ru ? "Текст распознан на устройстве" : "Text recognized on this device", symbol: "text.viewfinder").font(.caption).foregroundStyle(.secondary) }
+                    if read.usedOCR { OriLabel(ru ? "Текст распознан на устройстве" : "Text recognized on this device", symbol: "text.viewfinder").font(.caption).foregroundStyle(.secondary) }
                     WorkspaceMessageBody(text: read.content, markdown: file?.mediaType == "text/markdown", agents: [], skills: [])
                         .textSelection(.enabled).frame(maxWidth: .infinity, alignment: .leading)
                     if read.truncated && read.content.count >= 48_000 {

@@ -1,4 +1,4 @@
-import BlotDesign
+import OriDesign
 import SwiftUI
 
 extension EnvironmentValues {
@@ -98,7 +98,7 @@ struct WorkspacePanelFormHeader<Actions: View>: View {
                     HStack { Spacer(minLength: 0); HStack(spacing: 8, content: actions).fixedSize() }
                 }
             }.padding(14)
-            BlotDivider()
+            OriDivider()
         }.background(WorkspaceStyle.canvas).workspacePanelControls()
     }
 }

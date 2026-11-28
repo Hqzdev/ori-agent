@@ -1,7 +1,7 @@
-import BlotAppleIntegrations
-import BlotDomain
-import BlotDesign
-import BlotWorkspace
+import OriAppleIntegrations
+import OriDomain
+import OriDesign
+import OriWorkspace
 import SwiftUI
 
 @MainActor protocol WorkspaceGoogleProviding { func googleService() async throws -> WorkspaceGoogleService }
@@ -37,12 +37,12 @@ struct WorkspaceGoogleConnectView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                BlotLabel(plugin.name, symbol: "person.crop.circle.badge.checkmark").font(.title2)
+                OriLabel(plugin.name, symbol: "person.crop.circle.badge.checkmark").font(.title2)
                 Text(ru ? "Вход через Google. Токены хранятся в Keychain этого устройства. Подключение доступно всем агентам на этом устройстве. Отправка писем и изменения показываются на подтверждение в чате." : "Sign in with Google. Tokens stay in this device’s Keychain. The connection is available to all agents on this device. Sending email and making changes are reviewed in chat.").foregroundStyle(.secondary)
                 ForEach(accounts) { account in
                     WorkspaceCard {
                         Text(account.email).font(.headline)
-                        if verified.contains(account.id) { BlotLabel(ru ? "Google API доступен" : "Google API verified", symbol: "checkmark.circle").font(.caption).foregroundStyle(.green) }
+                        if verified.contains(account.id) { OriLabel(ru ? "Google API доступен" : "Google API verified", symbol: "checkmark.circle").font(.caption).foregroundStyle(.green) }
                         Button(ru ? "Проверить доступ" : "Check access") { perform { service in
                             try await service.verifyAccount(account.id); verified.insert(account.id)
                         } }
