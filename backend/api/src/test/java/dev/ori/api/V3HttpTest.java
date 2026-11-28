@@ -76,7 +76,7 @@ class V3HttpTest {
       UUID workspace = UUID.fromString(compatibility.path("workspaceId").asText());
       var profile =
           json.readTree(
-              Path.of(System.getProperty("blot.fixtures"))
+              Path.of(System.getProperty("ori.fixtures"))
                   .getParent()
                   .resolve("v3/AgentProfile.json")
                   .toFile());
