@@ -145,7 +145,8 @@ final class CloudServiceTest {
     failCode(
         "browser_authorization_invalid",
         () -> browser.issue(actor(verified), "blot-ios", "https://attacker.example/", challenge));
-    var code = browser.issue(actor(verified), "blot-ios", "blot-agent-ios:/oauth/account", challenge);
+    var code =
+        browser.issue(actor(verified), "blot-ios", "blot-agent-ios:/oauth/account", challenge);
     failCode(
         "browser_authorization_invalid",
         () ->
@@ -154,7 +155,8 @@ final class CloudServiceTest {
     failCode(
         "browser_authorization_invalid",
         () ->
-            browser.exchange(code.code(), verifier, "blot-macos", "blot-agent-macos:/oauth/account"));
+            browser.exchange(
+                code.code(), verifier, "blot-macos", "blot-agent-macos:/oauth/account"));
     var nativeSession =
         browser.exchange(code.code(), verifier, "blot-ios", "blot-agent-ios:/oauth/account");
     assertEquals(verified.ownerID(), nativeSession.ownerID());
@@ -169,7 +171,8 @@ final class CloudServiceTest {
     failCode(
         "browser_authorization_invalid",
         () ->
-            browser.exchange(expired.code(), verifier, "blot-ios", "blot-agent-ios:/oauth/account"));
+            browser.exchange(
+                expired.code(), verifier, "blot-ios", "blot-agent-ios:/oauth/account"));
   }
 
   @Test
